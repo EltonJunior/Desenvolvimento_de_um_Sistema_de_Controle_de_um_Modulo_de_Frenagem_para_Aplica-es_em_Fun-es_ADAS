@@ -1,0 +1,57 @@
+% !TeX root = ../documento.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%   Atencao! A lista nao ordena automaticamente   %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{simbolos} 
+\itemsep -1pt
+	\item[$ xe $] posição do veículo controlado [m] — indica a posição longitudinal do veículo controlado
+	\item[$ x\ell $] posição do veículo à frente [m] — posição do veículo líder
+	\item[$ ve $] velocidade do veículo seguinte [m/s] — velocidade do veículo controlado
+	\item[$ v\ell $] velocidade do veículo à frente [m/s] — velocidade do veículo líder
+	\item[$ d $] distância relativa [m] — distância entre os dois veículos
+	\item[$ Facc $] força aplicada pelo motor ou freio [N] — força resultante de aceleração ou frenagem
+	\item[$ m $] massa do veículo [kg]
+	\item[$ cr $] coeficiente de resistência ao movimento [N·s/m] — representa forças dissipativas (atrito, arrasto)
+	\item[$ pw,des $] pressão de frenagem desejada
+	\item[$ Tb,des $] torque de frenagem desejado
+	\item[$ Kb $] ganho agregado do sistema de freio
+	\item[$ pmc,des $] pressão no cilindro mestre
+	\item[$ pd,des $] pressão no booster
+	\item[$ Amc $] área do cilindro mestre
+	\item[$ Ad $] área do booster
+	\item[$ S $] distância segura
+	\item[$\Delta$] distância mínima de segurança
+	\item[$ tgap $] tempo de seguimento
+	\item[$ v $] velocidade do veículo
+	\item[$ a\textsubscript{des} $] aceleração desejada
+	\item[$ amin $] aceleração mínima permitida
+	\item[$ amax $] aceleração máxima permitida
+	\item[$ u $] força de controle
+	\item[$ x $] vetor de estados
+	\item[$ w $] velocidade do veículo líder (entrada externa)
+	\item[$ A, B, E $] matrizes do modelo em espaço de estados
+	\item[$ Q, R $] matrizes de ponderação do LQR
+	\item[$ K $] ganho do controlador LQR
+	\item[$ L $] ganho do observador de Luenberger
+	\item[$ e $] erro de estimação
+	\item[$\gamma$] parâmetro de desempenho do controle $H_\infty$
+	\item[$ P_{\mathrm{ref}} $] pressão de referência manométrica (relativa a $P_{ret}$) [Pa]
+	\item[$ A_c $] área efetiva agregada do conjunto de freio (relação força longitudinal equivalente--pressão) [m$^2$]
+	\item[$ P_{sup} $] pressão no suprimento/manifold [Pa]
+	\item[$ P_w $] pressão no canal/roda [Pa]
+	\item[$ P_{ret} $] pressão de retorno (reservatório) [Pa]
+	\item[$ Q_{pump} $] vazão da bomba hidráulica [m$^3$/s]
+	\item[$ Q_{in} $] vazão pela válvula de entrada [m$^3$/s]
+	\item[$ Q_{out} $] vazão pela válvula de saída [m$^3$/s]
+	\item[$ \omega_p $] velocidade angular da bomba [rad/s]
+	\item[$ u_{in} $] comando da válvula de entrada (on/off ou PWM normalizado) [--]
+	\item[$ u_{out} $] comando da válvula de saída (on/off ou PWM normalizado) [--]
+	\item[$ \beta $] módulo volumétrico efetivo do fluido [Pa]
+	\item[$ \rho $] densidade do fluido [kg/m$^3$]
+	\item[$ V_{sup} $] volume equivalente do suprimento [m$^3$]
+	\item[$ V_w $] volume equivalente do canal/roda [m$^3$]
+	\item[$ R_w $] raio efetivo da roda [m]
+	\item[$ K_{br} $] ganho agregado torque--pressão do freio (por roda) [N·m/Pa]
+	\item[$ T_s $] período de amostragem [s]
+\end{simbolos}

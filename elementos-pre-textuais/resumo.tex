@@ -1,0 +1,11 @@
+% !TeX root = ../documento.tex
+\begin{comment}
+Revisado Nat 26/7
+\end{comment}
+Considerando os avanços em estratégias de controle e o desenvolvimento de sistemas eletrônicos embarcados, o aprimoramento dos sistemas de segurança veicular, especialmente em \gls{ADAS}, tornou-se fundamental para a robustez e a previsibilidade dos veículos modernos. Persistem desafios relacionados à interoperabilidade, ao desempenho sob condições variáveis, à precisão e ao tempo de resposta dos sistemas de frenagem, em particular quando o módulo eletro-hidráulico (unidade \gls{ABS}/\gls{ESC}) passa a atuar como \textbf{atuador de frenagem ativa} para funções longitudinais (por exemplo, \gls{ACC} e \gls{AEB}).
+
+Neste contexto, este trabalho propõe e valida, em simulação, uma metodologia de \textbf{controle digital do regulador de pressão hidráulica por roda}, tratando a referência de pressão como proveniente de um controlador de nível superior (por exemplo, um \gls{ACC}). A validação é conduzida em ambiente MATLAB/Simulink, a partir de um modelo hidráulico não linear concentrado (duas pressões), linearização local para projeto e síntese de um controlador discreto em espaço de estados (LQI) com observador de Luenberger, incorporando saturações e lógica discreta de válvulas.
+
+Como suporte à implementação e à integração futura, foi desenvolvida uma plataforma eletrônica baseada em componentes comerciais e microcontrolador Infineon \gls{AURIX_TC375}. Assim, os resultados de simulação, aliados ao desenvolvimento do protótipo, indicam a viabilidade da abordagem proposta e apontam potencial de aplicação em infraestruturas como \gls{ABS}, \gls{ESC}, \gls{TCS}, \gls{ACC}, \gls{AEB}, \gls{EBD} e \gls{ADAS}.
+
+\palavraschave{Controle de Freio Veicular, Controle de Pressão Hidráulica, Controle Digital, ADAS, MATLAB/Simulink, TC375}

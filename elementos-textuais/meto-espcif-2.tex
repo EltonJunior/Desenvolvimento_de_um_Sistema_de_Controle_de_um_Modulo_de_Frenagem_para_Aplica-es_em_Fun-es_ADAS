@@ -1,0 +1,205 @@
+% !TeX root = ../documento.tex
+\chapter{Metodologia Específica: Modelagem e Controle Digital da Pressão Hidráulica em Aplicações ACC}
+\label{cap:controle}
+
+O Controle de Cruzeiro Adaptativo (ACC) constitui uma tecnologia relevante nos veículos modernos, especialmente em contextos de direção assistida e autônoma. Sua função é ajustar automaticamente a velocidade do veículo para manter uma distância segura em relação ao veículo à frente, utilizando aceleração e frenagem conforme necessário.
+
+No contexto de ACC, o sistema de frenagem deixa de operar apenas por atuação do condutor e passa a responder a comandos automáticos. Dessa forma, a modulação da pressão hidráulica precisa ser previsível, estável e compatível com restrições de implementação embarcada.
+
+Neste capítulo, apresenta-se a modelagem matemática da planta hidráulica utilizada nas simulações, bem como a estratégia de controle digital adotada. A validação é realizada em ambiente MATLAB/Simulink, com sinais de referência de aceleração provenientes de um modelo de ACC (gerador de referência), convertidos em pressão desejada. O foco do capítulo é o subsistema hidráulico (bomba e válvulas) e o controle da pressão.
+
+\section{Arquitetura e hipótese de modelagem}
+\label{sec:controle-arquitetura}
+
+A arquitetura considerada pode ser descrita como uma cadeia em dois níveis: (i) um gerador de referência de desaceleração longitudinal $a_{\text{des}}(t)$ (por exemplo, um ACC de alto nível), e (ii) um controlador de baixo nível responsável por modular a pressão hidráulica $P(t)$ por meio de sinais PWM aplicados à bomba hidráulica e às válvulas do modulador.
+
+Adota-se um modelo concentrado (\textit{lumped parameter}) para o circuito hidráulico associado a uma câmara de volume equivalente $V$, preenchida por fluido compressível com módulo de compressibilidade $\beta$. A variável de estado principal do modelo é a pressão hidráulica $P(t)$ no circuito, sendo governada pelo balanço de vazões e pela compressibilidade do fluido.
+
+\section{Modelagem não linear da planta hidráulica}
+\label{sec:controle-modelo-nao-linear}
+
+A dinâmica da pressão no circuito hidráulico é modelada a partir da equação da continuidade para fluido compressível:
+
+\begin{equation}
+\dot{P}(t) = \frac{\beta}{V}\left(Q_{\text{in}}(t) - Q_{\text{out}}(t)\right),
+\label{eq:pressao_continuidade}
+\end{equation}
+
+onde $Q_{\text{in}}(t)$ representa a vazão equivalente de entrada (associada principalmente à bomba) e $Q_{\text{out}}(t)$ representa a vazão de saída (associada à válvula de alívio/descarga).
+
+\subsection{Vazão de entrada (bomba)}
+\label{subsec:controle-vazao-bomba}
+
+Assumindo uma representação simplificada para a bomba, considera-se que a vazão injetada no circuito é proporcional ao sinal de controle normalizado $u_p(t)$ (associado ao PWM ou comando equivalente), com $0 \le u_p(t) \le 1$:
+
+\begin{equation}
+Q_{\text{in}}(t) = k_p \, u_p(t),
+\label{eq:vazao_bomba}
+\end{equation}
+
+onde $k_p$ é uma constante equivalente da bomba (m$^3$/s).
+
+\subsection{Vazão de saída (válvula de alívio)}
+\label{subsec:controle-vazao-valvula}
+
+A vazão através da válvula de saída é modelada pela lei do orifício, assumindo escoamento em regime quase-estacionário e pressão de jusante desprezível em relação à pressão do circuito:
+
+\begin{equation}
+Q_{\text{out}}(t) = C_d \, A(u_s(t)) \, \sqrt{\frac{2\,P(t)}{\rho}},
+\label{eq:vazao_saida_orificio}
+\end{equation}
+
+onde $C_d$ é o coeficiente de descarga, $\rho$ é a densidade do fluido e $A(u_s)$ é a área efetiva de abertura, proporcional ao comando normalizado $u_s(t)$ (associado ao PWM/abertura equivalente), com $0 \le u_s(t) \le 1$:
+
+\begin{equation}
+A(u_s(t)) = A_{\max}\, u_s(t).
+\label{eq:area_valvula}
+\end{equation}
+
+Substituindo \eqref{eq:vazao_bomba}--\eqref{eq:area_valvula} em \eqref{eq:pressao_continuidade}, obtém-se a equação diferencial não linear que descreve a dinâmica da pressão:
+
+\begin{equation}
+\dot{P}(t) =
+\frac{\beta}{V}\left(
+k_p\,u_p(t) - C_d\,A_{\max}\,u_s(t)\sqrt{\frac{2\,P(t)}{\rho}}
+\right).
+\label{eq:pressao_nao_linear}
+\end{equation}
+
+A não linearidade é introduzida pelo termo $\sqrt{P(t)}$, típico de modelos hidráulicos baseados em orifício.
+
+\section{Linearização e modelo em pequenas variações}
+\label{sec:controle-linearizacao}
+
+Para permitir o uso de técnicas de controle linear (como LQR e observador de Luenberger), o sistema é linearizado em torno de um ponto de operação $(P_0, u_{p0}, u_{s0})$.
+
+Definindo as variações pequenas:
+\[
+\Delta P(t)=P(t)-P_0, \quad
+\Delta u_p(t)=u_p(t)-u_{p0}, \quad
+\Delta u_s(t)=u_s(t)-u_{s0},
+\]
+a linearização de primeira ordem de \eqref{eq:pressao_nao_linear} resulta em:
+
+\begin{equation}
+\Delta\dot{P}(t) = A\,\Delta P(t) + B_p\,\Delta u_p(t) + B_s\,\Delta u_s(t),
+\label{eq:linearizacao_geral}
+\end{equation}
+
+com os coeficientes obtidos por derivadas parciais:
+
+\begin{align}
+A &=
+\left.\frac{\partial \dot{P}}{\partial P}\right|_{(P_0,u_{p0},u_{s0})}
+= -\frac{\beta}{V}\, C_d\,A_{\max}\,u_{s0}\,
+\sqrt{\frac{2}{\rho}}\,
+\frac{1}{2\sqrt{P_0}},
+\label{eq:coef_A}
+\\[4pt]
+B_p &=
+\left.\frac{\partial \dot{P}}{\partial u_p}\right|_{(P_0,u_{p0},u_{s0})}
+= \frac{\beta}{V}\,k_p,
+\label{eq:coef_Bp}
+\\[4pt]
+B_s &=
+\left.\frac{\partial \dot{P}}{\partial u_s}\right|_{(P_0,u_{p0},u_{s0})}
+= -\frac{\beta}{V}\,C_d\,A_{\max}\,
+\sqrt{\frac{2P_0}{\rho}}.
+\label{eq:coef_Bs}
+\end{align}
+
+Assim, um modelo em espaço de estados (SISO no estado e MIMO na entrada) pode ser escrito como:
+\begin{equation}
+\dot{x}(t) = A x(t) + B u(t), \quad y(t) = C x(t),
+\label{eq:ss_linear}
+\end{equation}
+onde $x(t)=\Delta P(t)$, $u(t) = \begin{bmatrix}\Delta u_p(t) & \Delta u_s(t)\end{bmatrix}^T$,
+$B=\begin{bmatrix}B_p & B_s\end{bmatrix}$ e $C=1$.
+
+\subsection{Funções de transferência equivalentes}
+\label{subsec:controle-fts}
+
+A partir de \eqref{eq:linearizacao_geral}, com condições iniciais nulas, obtêm-se as funções de transferência entre as entradas e a variação de pressão:
+\begin{equation}
+\frac{\Delta P(s)}{\Delta u_p(s)} = \frac{B_p}{s - A},
+\qquad
+\frac{\Delta P(s)}{\Delta u_s(s)} = \frac{B_s}{s - A}.
+\label{eq:fts}
+\end{equation}
+
+O sinal de $B_s$ é negativo, refletindo o comportamento físico esperado: o aumento de abertura da válvula de descarga reduz a pressão no circuito.
+
+\section{Parâmetros utilizados nas simulações}
+\label{sec:controle-parametros}
+
+Nas simulações, foram adotados parâmetros físicos ajustados (em unidades SI), conforme:
+
+\begin{align*}
+\beta &= 1\times 10^9 \ \text{Pa}, &
+V &= 1\times 10^{-3} \ \text{m}^3, &
+k_p &= 1.6\times 10^{-4} \ \text{m}^3/\text{s}, \\
+C_d &= 0.7, &
+A_{\max} &= 2\times 10^{-5} \ \text{m}^2, &
+\rho &= 800 \ \text{kg}/\text{m}^3,\\
+P_0 &= 2\times 10^{5} \ \text{Pa}, &
+u_{s0} &= 0.5. &&
+\end{align*}
+
+Ressalta-se que a conversão de pressão para bar é realizada apenas para fins de interpretação física e apresentação gráfica, mantendo-se o modelo em unidades SI.
+
+\section{Controle digital: LQR e rastreamento de referência}
+\label{sec:controle-lqr}
+
+O objetivo do controle de baixo nível é fazer com que a pressão hidráulica acompanhe uma referência $P_{\text{ref}}(t)$ derivada do ACC, respeitando limitações do atuador e mantendo estabilidade.
+
+Como o modelo linear é obtido em torno de um ponto de operação, a estratégia adotada é composta por:
+\begin{enumerate}
+\item Definição de um ponto de operação associado à referência (ou atualização em torno de um ponto nominal), obtendo-se o modelo em pequenas variações;
+\item Regulação das variações $\Delta P(t)$ por LQR.
+\end{enumerate}
+
+O controlador LQR é projetado para minimizar a função de custo quadrática:
+
+\begin{equation}
+J = \int_{0}^{\infty}\left(x(t)^TQx(t) + u(t)^TRu(t)\right)\,dt,
+\label{eq:lqr_cost}
+\end{equation}
+
+onde $Q \succeq 0$ pondera o erro no estado (pressão) e $R \succ 0$ pondera o esforço de controle (comandos na bomba e válvula). A lei de controle é dada por:
+
+\begin{equation}
+u(t) = -Kx(t).
+\label{eq:lqr_law}
+\end{equation}
+
+Na implementação digital, o modelo contínuo é discretizado (por exemplo, via retenção de ordem zero), e o ganho pode ser obtido por \texttt{dlqr} no MATLAB. Os valores iniciais de $Q$ e $R$ são ajustados para equilibrar resposta rápida (maior $Q$) e menor esforço de controle (maior $R$), conforme o comportamento desejado nas simulações.
+
+\section{Observador de Luenberger}
+\label{sec:controle-observador}
+
+Em situações onde a medição direta da pressão é ruidosa ou indisponível, utiliza-se um observador de Luenberger para estimar o estado $x(t)=\Delta P(t)$:
+
+\begin{equation}
+\dot{\hat{x}}(t) = A\hat{x}(t) + Bu(t) + L\left(y(t) - \hat{y}(t)\right),
+\qquad \hat{y}(t)=C\hat{x}(t),
+\label{eq:luenberger}
+\end{equation}
+
+onde $L$ é escolhido de forma a garantir convergência rápida da estimativa $\hat{x}(t)$ para $x(t)$, mitigando o impacto de ruído de medição.
+
+\section{Geração de referência: de desaceleração para pressão}
+\label{sec:controle-ref}
+
+O sinal de referência $P_{\text{ref}}(t)$ é gerado a partir da aceleração desejada $a_{\text{des}}(t)$ proveniente do modelo de ACC. Neste trabalho, utiliza-se uma relação de conversão entre desaceleração e pressão (ganho equivalente do conjunto freio-veículo), permitindo obter um perfil de pressão compatível com os cenários de simulação. O valor de $P_{\text{ref}}(t)$ é então comparado com a pressão medida ou estimada, e o erro é utilizado na malha de controle.
+
+\section{Sinais analisados e consistência física}
+\label{sec:controle-sinais}
+
+Além da pressão $P(t)$, são analisados sinais internos do modelo para verificação de consistência física e causalidade:
+\begin{itemize}
+\item $\dot{P}(t)$, evidenciando diretamente o balanço de vazões;
+\item $Q_{\text{in}}(t)$ (bomba) e $Q_{\text{out}}(t)$ (válvula), relacionando comandos e resposta do sistema;
+\item sinais PWM (ou comandos normalizados) aplicados aos atuadores.
+\end{itemize}
+
+Esses sinais suportam a interpretação dos resultados e a validação do modelo em torno do comportamento esperado para pressurização e alívio de pressão em sistemas hidráulicos automotivos.

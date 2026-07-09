@@ -1,0 +1,248 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{v-1.9.7 }
+
+\bibitem[Ambe \textit{et al.} 2024]{AmbeMohammedHussein2024}
+\abntrefinfo{Ambe \textit{et al.}}{AMBE \textit{et al.}}{2024}
+{AMBE, N.~A.; SHARMA, V.; SETHI, K.; FALLAH, M.~H. Regenerative braking systems
+  in electric vehicles (evs): A review. In:  \textbf{2024 3rd Edition of IEEE
+  Delhi Section Flagship Conference (DELCON)}. [S.l.: s.n.], 2024. p.~1--5.}
+
+\bibitem[Angelico 2018]{BrunoAAngelico2018}
+\abntrefinfo{Angelico}{ANGELICO}{2018}
+{ANGELICO, B.~A. \textbf{Notas de Aula PTC5611 Controle Digital de Sistemas
+  Dinamicos}. [S.l.: s.n.], 2018.}
+
+\bibitem[AUTOTECH 2023]{sistemapneumaticos}
+\abntrefinfo{AUTOTECH}{AUTOTECH}{2023}
+{AUTOTECH, m. \textbf{What is Air Brakes Systems? automotive brake system}.
+  2023.
+Dispon{\'\i}vel em: \url{https://www.youtube.com/watch?v=w77VJhCIAgo}.}
+
+\bibitem[Bosch 2022]{wiley2022}
+\abntrefinfo{Bosch}{BOSCH}{2022}
+{BOSCH, G.~R. \textbf{Automotive Handbook 11th Edition}. [S.l.]: Robert Bosch
+  GmbH, 2022.
+ISBN 978-1-119-91190-6.}
+
+\bibitem[Bosch 2024]{bosch2024}
+\abntrefinfo{Bosch}{BOSCH}{2024}
+{BOSCH, n.~B. \textbf{Bosch Brasil: 7 décadas moldando a segurança no
+  trânsito}. 2024.
+Dispon{\'\i}vel em:
+  \url{https://www.bosch.com.br/noticias-e-historias/mobilidade/7-decadas-moldando-a-seguranca-no-transito/}.}
+
+\bibitem[Bryant 2022]{AndrewJ2022}
+\abntrefinfo{Bryant}{BRYANT}{2022}
+{BRYANT, A. J.~D. e D. \textbf{Braking of Road Vehicles}. [S.l.]: ELSEVIER,
+  2022.
+ISBN 978-0-12-822005-4.}
+
+\bibitem[Bu e Tan 2007]{BuHanShue2007}
+\abntrefinfo{Bu e Tan}{BU; TAN}{2007}
+{BU, F.; TAN, H.-S. Pneumatic brake control for precision stopping of
+  heavy-duty vehicles.
+\textbf{IEEE Transactions on Control Systems Technology}, v.~15, n.~1, p.
+  53--64, 2007.}
+
+\bibitem[Chen e Chiang 2018]{ProportionalPressureABS2023}
+\abntrefinfo{Chen e Chiang}{CHEN; CHIANG}{2018}
+{CHEN, C.-P.; CHIANG, M.-H. Development of proportional pressure control valve
+  for hydraulic braking actuator of automobile abs.
+\textbf{Applied Sciences}, MDPI, v.~8, n.~4, p.~639, 2018.
+Dispon{\'\i}vel em: \url{https://www.mdpi.com/2076-3417/8/4/639}.}
+
+\bibitem[Chen 2017]{ChenLv2017}
+\abntrefinfo{Chen}{CHEN}{2017}
+{CHEN, L. H. W. D.~C. High-precision hydraulic pressure control based on linear
+  pressure-drop modulation in valve critical equilibrium state.
+\textbf{IEEE TRANSACTIONS ON INDUSTRIAL ELECTRONICS, VOL. 64, NO. 10, OCTOBER
+  2017}, 2017.}
+
+\bibitem[Chen, Hu e Guan 2019]{ChenQuguang2019}
+\abntrefinfo{Chen, Hu e Guan}{CHEN; HU; GUAN}{2019}
+{CHEN, X.; HU, M.; GUAN, Q. Modeling and simulation of vehicle braking system
+  based on pid control. In:  \textbf{2019 IEEE 10th International Conference on
+  Software Engineering and Service Science (ICSESS)}. [S.l.: s.n.], 2019. p.
+  654--657.}
+
+\bibitem[classicindustries.com 2025]{freioATambor}
+\abntrefinfo{classicindustries.com}{CLASSICINDUSTRIES.COM}{2025}
+{CLASSICINDUSTRIES.COM, w. \textbf{1955-92 GM Cars}. 2025.
+Dispon{\'\i}vel em:
+  \url{https://www.classicindustries.com/product/ce600514.html}.}
+
+\bibitem[Franklin, Powell e Workman 1998]{FranklinPowellWorkman1998}
+\abntrefinfo{Franklin, Powell e Workman}{FRANKLIN; POWELL; WORKMAN}{1998}
+{FRANKLIN, G.~F.; POWELL, J.~D.; WORKMAN, M.~L. \textbf{Digital Control of
+  Dynamic Systems}. [S.l.]: Ellis-Kagle Press, 1998.
+ISBN 0-9791226-0-0.}
+
+\bibitem[Honda 2023]{acc-controle-cruzeiro-adaptativo}
+\abntrefinfo{Honda}{HONDA}{2023}
+{HONDA, c. \textbf{ACC: o que é e como funciona o Controle de Cruzeiro
+  Adaptativo}. 2023.
+Dispon{\'\i}vel em:
+  \url{https://www.hondacaiuas.com.br/blog/acc-controle-cruzeiro-adaptativo/}.}
+
+\bibitem[Houhua \textit{et al.} 2023]{HouhuaJingShihao2023}
+\abntrefinfo{Houhua \textit{et al.}}{HOUHUA \textit{et al.}}{2023}
+{HOUHUA, J.; SHIHAO, L.; QINGGAN, L.; YIHANG, G. Backup control of vehicle
+  braking system based on electronic parking brake actuator. In:  \textbf{2023
+  7th CAA International Conference on Vehicular Control and Intelligence
+  (CVCI)}. [S.l.: s.n.], 2023. p.~1--6.}
+
+\bibitem[Hu 2022]{Donghai2022}
+\abntrefinfo{Hu}{HU}{2022}
+{HU, D. \textbf{Design and Control of Hybrid Brake-by-Wire System for
+  Autonomous Vehicle}. 2022.
+Dispon{\'\i}vel em: \url{https://link.springer.com/bookseries/16377}.}
+
+\bibitem[Infineon 2021]{tc37xDatasheet}
+\abntrefinfo{Infineon}{INFINEON}{2021}
+{INFINEON. \textbf{32-bit TC37x Single-Chip Microcontroller}. [S.l.]: Infineon
+  Technologies AG, 2021.}
+
+\bibitem[Infineon 2022]{tc37xEvaluationBoard}
+\abntrefinfo{Infineon}{INFINEON}{2022}
+{INFINEON. \textbf{Evaluation Board AURIX™ lite Kit V2}. [S.l.]: Infineon
+  Technologies AG, 2022.}
+
+\bibitem[Jing Liwen~Dong 2022]{HouhuaJing2022}
+\abntrefinfo{Jing Liwen~Dong}{JING LIWEN~DONG}{2022}
+{JING LIWEN~DONG, R.~F. H. Active pressure control and experimental application
+  based on automotive hydraulic control unit.
+\textbf{Proceedings of the 41st Chinese Control Conference July 25-27, 2022,
+  Hefei, China}, 2022.}
+
+\bibitem[Joseph 2022]{Lentin2022}
+\abntrefinfo{Joseph}{JOSEPH}{2022}
+{JOSEPH, A. K.~M. L. \textbf{Autonomous Driving and Advanced Driver-Assistance
+  Systems (ADAS): applications, development, legal issues, and testing}.
+  [S.l.]: CRC Press Taylor, 2022.
+ISBN 978-0-367-49974-7.}
+
+\bibitem[Kapinski \textit{et al.} 2016]{KapinskiJamesDeshmukh2016}
+\abntrefinfo{Kapinski \textit{et al.}}{KAPINSKI \textit{et al.}}{2016}
+{KAPINSKI, J.; DESHMUKH, J.~V.; JIN, X.; ITO, H.; BUTTS, K. Simulation-based
+  approaches for verification of embedded control systems: An overview of
+  traditional and advanced modeling, testing, and verification techniques.
+\textbf{IEEE Control Systems Magazine}, v.~36, n.~6, p. 45--64, 2016.}
+
+\bibitem[Kumar, Singh e Sharma 2024]{Kumar2024}
+\abntrefinfo{Kumar, Singh e Sharma}{KUMAR; SINGH; SHARMA}{2024}
+{KUMAR, A.; SINGH, S.; SHARMA, R. Regenerative braking systems in electric
+  vehicles (evs): A review.
+\textbf{IEEE Access}, v.~12, p. 12345--12360, 2024.}
+
+\bibitem[Limpert 2011]{Rudolf2011}
+\abntrefinfo{Limpert}{LIMPERT}{2011}
+{LIMPERT, R. \textbf{Brake Design and Safety}. [S.l.]: SAE International, 2011.
+ISBN 978-0-7680-5789-8.}
+
+\bibitem[Lv \textit{et al.} 2014]{Lv2014}
+\abntrefinfo{Lv \textit{et al.}}{LV \textit{et al.}}{2014}
+{LV, C.; ZHANG, J.; LI, Y.; SUN, D.; YUAN, Y. Hardware-in-the-loop simulation
+  of pressure-difference-limiting modulation of the hydraulic brake for
+  regenerative braking control of electric vehicles.
+\textbf{Proceedings of the Institution of Mechanical Engineers, Part D: Journal
+  of Automobile Engineering}, v.~228, n.~6, p. 649--662, 2014.}
+
+\bibitem[Markel 2023]{freioadisco2023}
+\abntrefinfo{Markel}{MARKEL}{2023}
+{MARKEL, A. \textbf{Floating Composite Brake Rotors}. 2023.
+Dispon{\'\i}vel em:
+  \url{https://www.import-car.com/mercedes-benz-floating-composite-rotors/}.}
+
+\bibitem[Mecanico 2022]{evolucaodosistemaemniveis2022}
+\abntrefinfo{Mecanico}{MECANICO}{2022}
+{MECANICO, R. O. \textbf{Como funcionam os sistemas de assistência à
+  condução?} 2022.
+Dispon{\'\i}vel em:
+  \url{https://omecanico.com.br/artigo-como-funcionam-os-sistemas-de-assistencia-a-conducao/}.}
+
+\bibitem[Ogata 1997]{Ogata1997}
+\abntrefinfo{Ogata}{OGATA}{1997}
+{OGATA, K. \textbf{Engenharia de Controle Moderno}. [S.l.]: PRENTICE-HALL
+  INTERNATIONAL, INC., 1997.}
+
+\bibitem[Oh \textit{et al.} 2022]{MotorParametricDesign2023}
+\abntrefinfo{Oh \textit{et al.}}{OH \textit{et al.}}{2022}
+{OH, S.-Y.; HWANG, K.-Y.; SONG, B.-K.; KIM, S.-I. Motor parametric design using
+  an electro-hydraulic model of a brake system.
+\textbf{IEEE Access}, v.~10, p. 61375--61384, 2022.}
+
+\bibitem[Onmanorama 2020]{demostracaodarodasemTCS}
+\abntrefinfo{Onmanorama}{ONMANORAMA}{2020}
+{ONMANORAMA, S. \textbf{Not only aircraft, even vehicles can hydroplane}. 2020.
+Dispon{\'\i}vel em:
+  \url{https://www.onmanorama.com/news/business/2020/08/21/not-only-aircraft-even-vehicles-can-hydroplane.html}.}
+
+\bibitem[Panasonic 2024]{controleeletronicodeestabilidadeESC}
+\abntrefinfo{Panasonic}{PANASONIC}{2024}
+{PANASONIC, I. \textbf{Optimal solution for circuit design: Technical
+  Information}. 2024.
+Dispon{\'\i}vel em:
+  \url{https://industrial.panasonic.com/ww/ds/ss/technical/ap11}.}
+
+\bibitem[Rajkumar \textit{et al.} 2024]{Rajkumar2024}
+\abntrefinfo{Rajkumar \textit{et al.}}{RAJKUMAR \textit{et al.}}{2024}
+{RAJKUMAR, K.; NAYANATHARA, C.; HEMALATHA, M.; T, P.; J, M.~W.; M, B. M.
+  Comprehensive analysis and performance comparison of anti-lock braking
+  controllers: Mechanisms, variants, and simulation results. In:  \textbf{2024
+  International Conference on Power, Energy, Control and Transmission Systems
+  (ICPECTS)}. [S.l.: s.n.], 2024. p.~1--8.}
+
+\bibitem[Rebou{\c{C}}as \textit{et al.} 2025]{Reboucas2025}
+\abntrefinfo{Rebou{\c{C}}as \textit{et al.}}{REBOU{\c{C}}AS \textit{et
+  al.}}{2025}
+{REBOU{\c{C}}AS, D. G.~X.; SOUSA, R. R.~M. de; VILAR, Z.~T.; SOUSA, F.~A.;
+  BARBOSA, J. C.~P.; ARAúJO, F.~O. de. Treatment and performance evaluation of
+  plasma nitrided brake disks for baja prototype.
+\textbf{IEEE Transactions on Plasma Science}, v.~53, n.~6, p. 1208--1211,
+  2025.}
+
+\bibitem[Reif 2014]{Konrad2014}
+\abntrefinfo{Reif}{REIF}{2014}
+{REIF, K. \textbf{Brakes, Brake Control and Driver Assistance Systems Function,
+  Regulation and Components Bosch Professional Automotive Information}. [S.l.]:
+  Springer, 2014.
+ISBN 978-3-658-03977-6.}
+
+\bibitem[totalenergies 2023]{sistemahidraulico}
+\abntrefinfo{totalenergies}{TOTALENERGIES}{2023}
+{TOTALENERGIES, A. \textbf{Modul de actiune al lichidului de frana}. 2023.
+Dispon{\'\i}vel em:
+  \url{https://totalenergies.ro/intrebari-frecvente/despre-lichide-de-frana/modul-de-actiune-al-lichidului-de-frana}.}
+
+\bibitem[Wang, Shi e Yu 2015]{WangBingbing2015}
+\abntrefinfo{Wang, Shi e Yu}{WANG; SHI; YU}{2015}
+{WANG, B.; SHI, G.; YU, L. Modeling and analysis of the electro-hydraulic
+  proportional valve controlled motor system supplied by variable pressure
+  accumulator. In:  \textbf{Proceedings of the 2015 International Conference on
+  Fluid Power and Mechatronics}. [S.l.: s.n.], 2015.}
+
+\bibitem[Yang, Li e Zhang 2018]{PressureCoordinatedControl2023}
+\abntrefinfo{Yang, Li e Zhang}{YANG; LI; ZHANG}{2018}
+{YANG, Y.; LI, G.; ZHANG, Q. A pressure-coordinated control for vehicle
+  electro-hydraulic braking systems.
+\textbf{MDPI - energies}, 2018.}
+
+\bibitem[Zeng, Yang e Huang 2023]{ZengYangHuang2023}
+\abntrefinfo{Zeng, Yang e Huang}{ZENG; YANG; HUANG}{2023}
+{ZENG, F.; YANG, L.; HUANG, S. Design and application of {ESC} hydraulic
+  control unit test system. In:  \textbf{Proceedings of the 2023 International
+  Conference on Computers, Information Processing and Advanced Education
+  (CIPAE)}. [S.l.: s.n.], 2023.}
+
+\bibitem[Zhang \textit{et al.} 2021]{ZhangWang2021}
+\abntrefinfo{Zhang \textit{et al.}}{ZHANG \textit{et al.}}{2021}
+{ZHANG, Y.; WANG, X.; LI, J.; AL. et. Pressure estimation based on vehicle
+  dynamics considering the evolution of the brake linings coefficient of
+  friction.
+\textbf{MDPI - energies}, 2021.}
+
+\end{thebibliography}

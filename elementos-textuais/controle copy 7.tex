@@ -1,0 +1,440 @@
+\chapter{Metodologia específica: controle do sistema hidráulico não linear}
+\label{cap:controle}
+
+Este capítulo apresenta a metodologia adotada para o projeto e a avaliação, em simulação, de uma estratégia de controle digital de pressão de freio que utiliza o módulo hidráulico de uma unidade ABS/ESC como atuador de pressão do freio de serviço. O estudo é desenvolvido em ambiente simulado, com possibilidade de extensão para ensaios em bancada, considerando um canal/roda (modelo concentrado em duas pressões) e implementação digital em tempo discreto, com faixas de pressão típicas de freio e período de amostragem compatível com ECUs automotivas.
+
+O tema é o controle de pressão no circuito hidráulico de freio para seguimento de uma referência proveniente de um controlador longitudinal de nível superior, como um ACC.
+
+O problema de pesquisa é formulado da seguinte maneira: como projetar e implementar um controlador digital em espaço de estados que permita ao módulo hidráulico ABS/ESC rastrear perfis de pressão $P_{\mathrm{ref}}(t)$ por roda, garantindo desempenho dinâmico adequado e esforço de atuação compatível com as limitações físicas do sistema?
+
+A hipótese considerada é que um controlador LQ em tempo discreto (LQI) com observador de Luenberger, sintetizado a partir da linearização local de um modelo não linear em duas pressões, é capaz de rastrear referências de pressão por roda com erro estacionário nulo e dinâmica satisfatória, desde que: (i) o ponto de operação satisfaça $\Delta P>0$ nas válvulas, (ii) as saturações sejam parametrizadas de forma fisicamente consistente e (iii) o período de amostragem seja compatível com a banda do atuador.
+
+O objetivo geral é demonstrar, em simulação, que o módulo hidráulico ABS/ESC pode atuar como atuador principal de pressão do freio de serviço, acompanhando $P_{\mathrm{ref}}(t)$ derivado de requisitos de desaceleração.
+
+Os objetivos específicos são:
+\begin{enumerate}
+    \item Modelar o subsistema hidráulico por um modelo não linear em duas pressões ($P_{sup},P_w$) e realizar uma validação qualitativa em malha aberta.
+    \item Linearizar o modelo em torno de um ponto de operação $(x_0,u_0)$ fisicamente consistente, obtendo as matrizes $(A,B,C,D)$.
+    \item Discretizar o sistema e projetar um controlador LQI MIMO (válvulas de entrada e saída) com observador de Luenberger.
+    \item Avaliar o seguimento de $P_{\mathrm{ref}}(t)$ e o esforço de controle sob saturações físicas de pressão e dos atuadores.
+\end{enumerate}
+
+
+%====================================================================
+%====================================================================
+%====================================================================
+%====================================================================
+\section{Da desaceleração à referência de pressão por roda}
+\label{sec:mapeamento-aref-pressao}
+Admite-se que um controlador longitudinal de nível superior fornece a desaceleração desejada $a_{\mathrm{ego}}(t)$. A referência de pressão no canal modelado é então calculada por um mapeamento quase estático:
+
+\begin{equation}
+    F_{\mathrm{freno},w}(t) = \kappa\, m\,\big|a_{\mathrm{ego}}(t)\big|,
+    \qquad
+    P_{\mathrm{ref}}(t) = \frac{F_{\mathrm{freno},w}(t)}{A_{cal}},
+    \label{eq:mapeamento_aref_pressao}
+\end{equation}
+
+em que $m$ é a massa do veículo, $A_{cal}$ é a área efetiva do pistão do cáliper do canal modelado e $\kappa\in(0,1]$ representa o fator de repartição longitudinal/lateral que converte a força total de frenagem na força na roda de interesse. Em alternativa, pode-se empregar uma massa equivalente por roda $m_{\mathrm{eq}}$, com $\kappa=1$. Nas simulações realizadas, $P_{\mathrm{ref}}(t)$ é sempre especificada por roda.
+
+%====================================================================
+%====================================================================
+%====================================================================
+%====================================================================
+\section{Modelo hidráulico não linear de duas pressões}
+\label{sec:controle-4-1}
+A planta controlada é o módulo hidráulico da unidade ABS/ESC, empregado como atuador de pressão do freio de serviço. A literatura indica a utilidade de modelos concentrados para descrever a relação entre comandos de válvulas, pressão no cilindro da roda e força de frenagem, tanto para projeto de controladores quanto para validação \emph{hardware-in-the-loop} \cite{HouhuaJing2022,PressureCoordinatedControl2023,ZengYangHuang2023,MotorParametricDesign2023}.
+
+Neste trabalho, adota-se um modelo em duas pressões, $P_{sup}$ (suprimento/manifold) e $P_w$ (canal/roda), em linha com \citeonline{HouhuaJing2022,ZengYangHuang2023,Lv2014}.
+
+Para fins de projeto, definem-se os vetores de estado e comando como:
+\begin{equation}
+    x(t) =
+    \begin{bmatrix}
+        P_{sup}(t) \\[2pt]
+        P_{w}(t)
+    \end{bmatrix},
+    \qquad
+    u(t) =
+    \begin{bmatrix}
+        \omega_p(t) \\[2pt]
+        u_{in}(t)   \\[2pt]
+        u_{out}(t)
+    \end{bmatrix}.
+    \label{eq:vect-estados-hidraulico}
+\end{equation}
+
+
+%====================================================================
+%====================================================================
+%====================================================================
+%====================================================================
+\subsection{Estratégias de acionamento das válvulas}
+\label{sec:controle-4-1-1}
+
+O módulo hidráulico é composto por uma bomba de deslocamento variável, válvulas de entrada (pressurização) e de saída (alívio) para cada canal/roda, e um suprimento de fluido. As válvulas podem ser do tipo on/off (solenóides) ou proporcionais (HSV/USV), o que abre diferentes possibilidades de estratégia de acionamento.
+
+Na literatura, destacam-se duas abordagens usuais:
+\begin{itemize}
+    \item \textbf{Modulação quase linear de queda de pressão}: válvulas on/off operam em torno de um ponto de equilíbrio no qual a queda de pressão varia aproximadamente de forma linear com a corrente/condutância, permitindo o uso de relações vazão–comando simplificadas para projeto \cite{ChenLv2017}.
+    \item \textbf{PWM em válvulas HSV/USV}: o ciclo de trabalho governa a taxa de pressurização/alívio, solução compatível com arquiteturas embarcadas e eficaz para rastreamento dinâmico de pressão \cite{HouhuaJing2022}.
+\end{itemize}
+
+Neste trabalho, o modelo matemático adota válvulas on/off, e $u_{in}$ e $u_{out}$ representam comandos binários (aberto/fechado) equivalentes à fração de tempo em condução em torno de um ponto de operação.
+
+%====================================================================
+%====================================================================
+%====================================================================
+%====================================================================
+\subsection{Dinâmica e leis de vazão}
+\label{sec:controle-modelo-hidraulico-2p}
+
+Adota-se uma representação \emph{lumped-parameter} com duas regiões compressíveis: (i) suprimento, $P_{sup}$, volume $V_{sup}$ e retorno $P_{ret}$; (ii) canal de roda, $P_w$, volume $V_w$.
+
+A partir da equação de continuidade para fluido compressível, obtém-se:
+
+\begin{equation}
+    \dot{P}_{sup} = \frac{\beta}{V_{sup}}\Big(Q_{pump} - Q_{in} - Q_{\text{leak},sup}\Big),
+    \quad
+    \dot{P}_{w} = \frac{\beta}{V_{w}}\Big(Q_{in} - Q_{out} - Q_{\text{leak},w}\Big),
+    \label{eq:din_press}
+\end{equation}
+
+em que $\beta$ é o módulo volumétrico efetivo e as vazões são modeladas a seguir.
+
+A vazão da bomba hidráulica é descrita por
+\begin{equation}
+    Q_{pump} = K_b\,\omega_p - K_{lb}\big(P_{sup}-P_{ret}\big),
+    \label{eq:qpump_2p}
+\end{equation}
+em que $K_b$ agrega deslocamento e eficiência volumétrica, e $K_{lb}$ representa o vazamento interno para o retorno \cite{MotorParametricDesign2023,WangBingbing2015}.
+
+As válvulas de entrada e de saída são modeladas por uma lei de orifício, derivada da equação de Bernoulli (forma de Torricelli) e corrigida por um coeficiente de descarga $C_d$:
+
+\begin{equation}
+    Q = C_d,A_{ef},\sqrt{\frac{2,\Delta P}{\rho}},
+    \label{eq:lei-orificio}
+\end{equation}
+
+\begin{equation}
+    Q_{in} = C_{d,in}\,A_{in}(u_{in})\sqrt{\frac{2\,\big(P_{sup}-P_w\big)_{+}}{\rho}},
+    \qquad
+    Q_{out} = C_{d,out}\,A_{out}(u_{out})\sqrt{\frac{2\,\big(P_{w}-P_{ret}\big)_{+}}{\rho}},
+    \label{eq:qin_qout}
+\end{equation}
+em que $(\cdot)_{+}=\max(\cdot,0)$.
+
+com $A_{in}(u_{in}) = A_{in,\max}\,u_{in}$, $A_{out}(u_{out}) = A_{out,\max}\,u_{out}$ e $u_{in},u_{out}\in[0,1]$ \cite{ProportionalPressureABS2023,Lv2014,ChenLv2017}.
+
+Os vazamentos internos no suprimento e no canal de roda são representados por termos proporcionais à diferença de pressão em relação ao retorno:
+\begin{equation}
+    Q_{\text{leak},sup} = K_{ls},\big(P_{sup}-P_{ret}\big),
+    \qquad
+    Q_{\text{leak},w} = K_{lw},\big(P_{w}-P_{ret}\big).
+    \label{eq:leaks}
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%====================================================================
+%====================================================================
+%====================================================================
+%====================================================================
+\subsection{Simulação em malha aberta e validação do modelo hidráulico}
+\label{sec:controle-validacao-2p}
+NOTA PARA MIM "ESTE CAPITULO EU NAO ESTOU GOSTANDO E DEVE SER ALTERADO".
+
+O modelo 2P foi implementado em MATLAB/Simulink, com o subsistema hidráulico encapsulado em um bloco \texttt{MATLAB Function} e o ensaio automatizado por meio de um \textit{script} em MATLAB, de forma a reproduzir cenários típicos de pressurização, retenção e alívio descritos na literatura \cite{ZengYangHuang2023,Lv2014,HouhuaJing2022}. A arquitetura geral da simulação, incluindo o modelo hidráulico, os sinais de comando $(\omega_p,u_{in},u_{out})$ e os blocos de registro de dados, é ilustrada nas Figuras~\ref{fig:bloco_matlab_function_2p} e \ref{fig:simulink_ensaio_2p}. O código do bloco hidráulico 2P e o script do ensaio em malha aberta são apresentados no Apêndice~\ref{ap:scripts-matlab} (Códigos~\ref{cod:bloco_hidraulico_2p} e \ref{cod:ensaio_integrado_malha_aberta}).
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.90\textwidth]{figuras/image_matlab_function_bloco_hidraulico_2p.png}
+    \Caption{\label{fig:bloco_matlab_function_2p} Implementação do subsistema hidráulico em um bloco \texttt{MATLAB Function} no Simulink.}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figuras/ensaio_malha_aberta_integrado.png}
+    \Caption{\label{fig:simulink_ensaio_2p} Esquema da simulação em malha aberta do modelo hidráulico 2P em MATLAB/Simulink, com \textit{script} MATLAB gerando o ensaio.}
+\end{figure}
+
+O ensaio em malha aberta é organizado em três fases consecutivas: (A) \textit{pressurização}, com degrau em $\omega_p$, $u_{in}=1$ e $u_{out}=0$; (B) \textit{retenção}, com $\omega_p=0$ e $u_{in}=u_{out}=0$; e (C) \textit{alívio}, com $\omega_p=0$, $u_{in}=0$ e degrau em $u_{out}$. As pressões são reportadas como \emph{gauge} em bar,
+\begin{equation}
+    P_{g}(t) = \frac{P(t)-P_{ret}}{10^5}\ \text{[bar]},
+    \label{eq:pressao_gauge_bar_reescrita}
+\end{equation}
+o que permite comparar diretamente as curvas simuladas com faixas típicas de operação de unidades ESC/ABS.
+
+Para aproximar o modelo das ordens de grandeza observadas em unidades comerciais (8--13 MPa no suprimento e variações rápidas de $P_w$) \cite{ZengYangHuang2023,HouhuaJing2022}, adotou-se um conjunto de parâmetros considerado “realista”, reduzindo $V_{sup}$ e $V_w$ e aumentando a capacidade da bomba. A Tabela~\ref{tab:parametros_hidraulico_realista_reescrita} resume os principais valores utilizados.
+
+\begin{table}[htbp]
+    \Caption{\label{tab:parametros_hidraulico_realista_reescrita} Parâmetros ajustados para faixa de pressão realista do modelo 2P}
+    \UNIFORtab{}{
+        \begin{tabular}{ l | l | l | l }
+            \hline
+            Parâmetro                          & Símbolo        & Valor adotado           & Unidade      \\
+            \hline
+            Densidade do fluido                & $\rho$         & 850                     & kg/m$^3$     \\
+            Módulo volumétrico efetivo         & $\beta$        & $1{,}5 \times 10^9$     & Pa           \\
+            Pressão de retorno                 & $P_{ret}$      & $1{,}0 \times 10^5$     & Pa           \\
+            Volume equivalente do suprimento   & $V_{sup}$      & $6{,}0 \times 10^{-5}$  & m$^3$        \\
+            Volume equivalente do canal/roda   & $V_{w}$        & $1{,}0 \times 10^{-5}$  & m$^3$        \\
+            Coeficiente de descarga (orifício) & $C_d$          & 0{,}62                  & ---          \\
+            Área máx. da válvula de entrada    & $A_{in,\max}$  & $3{,}0 \times 10^{-7}$  & m$^2$        \\
+            Área máx. da válvula de saída      & $A_{out,\max}$ & $3{,}0 \times 10^{-7}$  & m$^2$        \\
+            Vazamento interno da bomba         & $K_{lb}$       & $1{,}0 \times 10^{-11}$ & (m$^3$/s)/Pa \\
+            \hline
+        \end{tabular}
+    }{\Fonte{Com base em \cite{ZengYangHuang2023,ProportionalPressureABS2023,Lv2014,ChenLv2017}.}}
+\end{table}
+
+A validação em malha aberta é realizada em duas etapas: em um \emph{caso base}, inspecionam-se causalidade, sinais de vazão e efeito das saturações, verificando se o comportamento qualitativo é coerente com a física de pressurização, retenção e alívio; em seguida, em um \emph{caso realista}, os volumes e os parâmetros da bomba são ajustados segundo a Tabela~\ref{tab:parametros_hidraulico_realista_reescrita}, de modo a reproduzir ordens de grandeza de pressão e vazão reportadas na literatura. Os resultados dessas simulações são apresentados e discutidos na Seção~\ref{sec:resultados-simulacao}.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%====================================================================
+%====================================================================
+%====================================================================
+%====================================================================
+\section{Linearização do modelo não linear}
+\label{sec:controle-linearizacao-2p}
+
+
+
+\subsection{Definição do ponto de operação}
+\label{sec:definicao-ponto-operacao}
+Adota-se um ponto de operação $(x_0,u_0)$ correspondente a regime de frenagem, com $P_{sup,0}>P_{w,0}>P_{ret}$ e $u_{in,0},u_{out,0}\in(0,1)$, de forma a garantir $\Delta P>0$ nas raízes quadradas das leis de vazão. Os valores numéricos empregados nas simulações são apresentados no Apêndice~\ref{ap:ponto-operacao}.
+\subsection{Jacobianos e forma linear aproximada}
+\label{sec:derivacao-matrizes-jacobianas}
+A partir de \eqref{eq:din_press}–\eqref{eq:leaks}, escreve-se $\dot{x}=f(x,u)$. As jacobianas
+\[
+    A=\left.\frac{\partial f}{\partial x}\right|_{x_0,u_0},
+    \qquad
+    B=\left.\frac{\partial f}{\partial u}\right|_{x_0,u_0}
+\]
+são obtidas simbolicamente no MATLAB (\texttt{jacobian}), impondo $\Delta P>0$ no ponto de operação. Dessa forma, $A$ e $B$ são matrizes reais. Reportam-se apenas os autovalores de $A$ (localizados no semiplano esquerdo), indicando estabilidade local. As matrizes numéricas completas são apresentadas no Apêndice~\ref{ap:matrizes-lin}.
+\subsection{Não linearidades e região de validade}
+A lei de orifício implica ganho incremental $\partial Q/\partial \Delta P \propto 1/\sqrt{\Delta P}$, de modo que o ganho efetivo do sistema varia com o ponto de operação. A linearização (expansão de Taylor de primeira ordem) é, portanto, uma aproximação local; desvios significativos em relação ao ponto escolhido podem alterar margens de estabilidade e desempenho. Ainda assim, nas simulações realizadas, observou-se estabilidade prática e rastreamento aceitável na faixa operacional considerada.
+%====================================================================
+\section{Formulação em espaço de estados}
+\label{sec:controle-formulacao-espaço-estados}
+A representação linearizada é dada por
+\[
+    \dot{x} = A\,x + B\,u, \qquad y = C\,x,
+\]
+com $x=[P_{sup}\ \ P_w]^\top$, $u=[\omega_p\ \ u_{in}\ \ u_{out}]^\top$ e $y=P_w$. Considerando que a bomba tende a operar em torno de um valor nominal $\omega_{p,0}$ durante frenagens de serviço, adota-se um vetor de controle reduzido,
+\[
+    u_c =
+    \begin{bmatrix}
+        u_{in} \\[2pt]
+        u_{out}
+    \end{bmatrix},
+    \qquad
+    \dot{x} = A\,x + B_c\,u_c, \quad y=C\,x,
+\]
+em que $B_c$ contém as colunas de $B$ associadas a $u_{in}$ e $u_{out}$. O problema de controle consiste em rastrear $P_{w,\text{ref}}(t)$ com erro de regime pequeno, dinâmica compatível com o sistema e esforço de controle moderado.
+%====================================================================
+\section{Projeto do controlador LQR}
+\label{sec:controle-lqr-luenberger}
+Com o modelo contínuo,
+\[
+    \dot{x}=A\,x + B_c\,u_c,\qquad y=C\,x,
+\]
+adota-se uma lei de controle por realimentação de estados:
+\[
+    u_c = -K\,(x-x_{\text{ref}}),
+\]
+em que $K$ minimiza a funcional de custo
+\[
+    J=\int_0^\infty \big(x^\top Q\,x + u_c^\top R\,u_c\big)\,dt,
+\]
+com $Q\succeq 0$ e $R\succ 0$. A síntese é realizada no MATLAB por meio do comando \texttt{lqr(A,B\_c,Q,R)}.
+%--------------------------------------------------------------------
+\section{Projeto do observador de Luenberger}
+\label{sec:projeto-observador-luenberger}
+Para estimação de estados, utiliza-se um observador de Luenberger:
+\[
+    \dot{\hat{x}} = A\,\hat{x} + B_c\,u_c + L\,(y-\hat{y}),
+    \qquad \hat{y}=C\,\hat{x}.
+\]
+Definindo o erro $e=x-\hat{x}$, obtém-se $\dot{e}=(A-LC)e$. O ganho $L$ é calculado por alocação de polos (\texttt{place} em $(A^\top,C^\top)$), de forma que os polos do observador sejam mais rápidos do que os da malha fechada do controlador.
+%====================================================================
+\section{Discretização do sistema}
+\label{sec:discretizacao-sistema}
+\subsection{Modelo discreto}
+\label{sec:modelo-discreto}
+A discretização por retenção de ordem zero (ZOH), com período de amostragem $T_s$, resulta em
+\[
+    x(k+1)=A_d\,x(k)+B_d\,u(k),\qquad y(k)=C_d\,x(k),
+\]
+com $T_s=10^{-4}$~s no presente estudo. As matrizes discretas são obtidas por \texttt{c2d}.
+\subsection{LQR discreto}
+\label{sec:projeto-lqr-discreto}
+No domínio discreto, o LQR minimiza
+\[
+    J=\sum_{k=0}^{\infty} \big(x^\top Q\,x + u^\top R\,u\big),
+\]
+fornecendo a lei $u(k)=-K_d x(k)$ via \texttt{dlqr(A\_d,B\_d,Q,R)}. Para seguimento de referência, é adicionada ação integral, resultando em um controlador LQI.
+%====================================================================
+\section{Projeto do controlador LQI discreto}
+\label{sec:controle-lqi-discreto}
+\subsection{Sistema aumentado com ação integral (MIMO)}
+\label{sec:lqi-mimo}
+Para $x\in\mathbb{R}^2$, $u=[u_{in}\ \ u_{out}]^\top\in\mathbb{R}^2$ e $y=P_w$, define-se o integrador do erro:
+\[
+    z(k+1)=z(k)+T_s\big(r(k)-y(k)\big).
+\]
+O sistema aumentado é dado por
+\[
+    x_{aug}(k+1)=
+    \underbrace{\begin{bmatrix}
+            A_d     & 0 \\
+            C_d T_s & 1
+        \end{bmatrix}}_{A_a}
+    x_{aug}(k)
+    +
+    \underbrace{\begin{bmatrix}
+            B_d \\
+            0_{1\times 2}
+        \end{bmatrix}}_{B_a}
+    u(k)
+    +
+    \begin{bmatrix}
+        0_{2\times 1} \\
+        T_s
+    \end{bmatrix}r(k),
+\]
+com $x_{aug}=[x^\top\ \ z]^\top\in\mathbb{R}^3$ e $B_a\in\mathbb{R}^{3\times 2}$. A lei LQI assume a forma
+\[
+    u(k)=-K_x\,x(k)-K_i\,z(k).
+\]
+em que $K_x\in\mathbb{R}^{2\times 2}$ e $K_i\in\mathbb{R}^{2\times 1}$ são obtidos a partir da solução da equação de Riccati discreta:
+\[
+    J=\sum_{k=0}^{\infty}\big(x_{aug}^\top Q_a x_{aug}+u^\top R\,u\big),\qquad
+    Q_a\succeq 0,\ R=\mathrm{diag}(r_{in},r_{out})\succ 0.
+\]
+\subsection{Escolha de pesos e saturações}
+Um exemplo de pesos é
+\[
+    Q_a=\mathrm{diag}(10^{-12},\ 10^{-10},\ 10^{4}),\qquad
+    R=\mathrm{diag}(r_{in},r_{out}).
+\]
+O integrador recebe peso elevado para garantir eliminação de erro de regime ($e_\infty$), enquanto os pesos dos estados evitam problemas de escalonamento decorrentes das magnitudes de pressão em Pa. A parametrização das saturações deve ser física; limites artificiais podem induzir \emph{windup}. Com limites coerentes (pressões máximas e intervalos de $u_{in},u_{out}$), observou-se seguimento adequado sem saturação permanente.
+A dinâmica em malha fechada do sistema aumentado é
+\[
+    x_{aug}(k+1)=
+    \begin{bmatrix}
+        A_d - B_d K_x & - B_d K_i \\
+        C_d T_s       & 1
+    \end{bmatrix}
+    x_{aug}(k),
+\]
+cujas raízes devem estar estritamente dentro do círculo unitário.
+
+%====================================================================
+\section{Implementação no modelo não linear em Simulink}
+\label{sec:implementacao-simulink}
+\subsection{Estrutura do controlador}
+\label{sec:estrutura-controlador-simulink}
+O modelo é executado em passo fixo com $T_s=10^{-4}$~s. A referência $P_{w,\text{ref}}(t)$ é alimentada por meio de um bloco \texttt{timeseries}. Os ganhos $K_x$, $K_i$ e $L_d$ são carregados do \texttt{workspace}. A arquitetura emprega o observador de Luenberger discreto, a lei LQI e blocos de saturação ajustados às limitações do sistema (pressões e atuadores). O \textit{script} MATLAB completo utilizado para sintetizar os ganhos e executar o modelo Simulink é apresentado no Apêndice~\ref{ap:scripts-matlab} (Código~\ref{cod:script_controle_lqi_luenberger}). O código do bloco \texttt{MATLAB Function} do controlador (LQI + observador) e a lógica discreta de válvulas são fornecidos no mesmo apêndice (Códigos~\ref{cod:matlab_function_lqi_observer} e \ref{cod:matlab_function_valvulas_onoff}).
+
+\begin{figure}[htbp]
+    \centering
+    \IfFileExists{figuras/simulink_freio_lqi_integrado.png}{%
+        \includegraphics[width=0.92\textwidth]{figuras/simulink_freio_lqi_integrado.png}%
+    }{%
+        \fbox{\parbox{0.92\textwidth}{\centering\vspace{8mm}
+                \textbf{Figura pendente:} salvar a captura do modelo Simulink integrado como\\
+                \texttt{figuras/simulink\_freio\_lqi\_integrado.png}.\vspace{8mm}}}%
+    }
+    \Caption{\label{fig:simulink_freio_lqi_integrado} Modelo Simulink integrado para validação do controle digital de pressão (referência, controlador LQI+observador, lógica das válvulas e planta não linear).}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \IfFileExists{figuras/image_matlab_function_lqi_observer.png}{%
+        \includegraphics[width=0.85\textwidth]{figuras/image_matlab_function_lqi_observer.png}%
+    }{%
+        \fbox{\parbox{0.85\textwidth}{\centering\vspace{8mm}
+                \textbf{Figura pendente:} salvar a captura do bloco \texttt{MATLAB Function} do controlador como\\
+                \texttt{figuras/image\_matlab\_function\_lqi\_observer.png}.\vspace{8mm}}}%
+    }
+    \Caption{\label{fig:bloco_matlab_function_lqi_observer} Implementação do controlador discreto (LQI + observador de Luenberger) em um bloco \texttt{MATLAB Function} no Simulink.}
+\end{figure}
+\subsection{Integração com a planta hidráulica}
+\label{sec:integracao-planta-hidraulica}
+A planta não linear, descrita por \eqref{eq:din_press}–\eqref{eq:leaks}, é implementada em um bloco \texttt{MATLAB Function}. São impostas as restrições $\omega_p\ge 0$, $u_{in},u_{out}\in[0,1]$ e $P\ge P_{ret}$. Esse arranjo permite avaliar a robustez do LQI frente às não linearidades associadas a $\sqrt{\Delta P}$, à compressibilidade do fluido e às limitações físicas do atuador.
+%====================================================================
+\section{Resultados de simulação}
+\label{sec:resultados-simulacao}
+\subsection{Resposta ao sinal de referência}
+\label{sec:resposta-sinal-referencia}
+A referência de pressão $P_w$ foi definida em patamares (em bar, posteriormente convertidos para Pa): $0\rightarrow 50\rightarrow 30\rightarrow 80\rightarrow 20\rightarrow 100$. As respostas obtidas indicam tempos de acomodação compatíveis, sobressinal moderado e eliminação do erro estacionário na faixa operacional considerada.
+
+\begin{figure}[htbp]
+    \centering
+    \IfFileExists{figuras/simulacao_comandos_e_pressao.png}{%
+        \includegraphics[width=0.92\textwidth]{figuras/simulacao_comandos_e_pressao.png}%
+    }{%
+        \fbox{\parbox{0.92\textwidth}{\centering\vspace{8mm}
+                \textbf{Figura pendente:} exportar a figura do MATLAB como\\
+                \texttt{figuras/simulacao\_comandos\_e\_pressao.png}.\vspace{8mm}}}%
+    }
+    \Caption{\label{fig:simulacao_comandos_e_pressao} Sinais de comando e resposta de pressão do sistema sob controle LQI+observador, para o perfil de referência em patamares.}
+\end{figure}
+\subsection{Influência das saturações}
+\label{sec:influencia-saturacoes}
+As saturações introduzem uma não linearidade do tipo função limite. Quando os limites de pressão ou de comando são excessivamente restritivos, o sistema tende a operar saturado, o que prejudica o seguimento de referência e pode induzir acúmulo integral (\emph{windup}). Após a redefinição de limites físicos mais realistas (por exemplo, $P_{sup}^{\max}$ e $P_{w}^{\max}$ compatíveis com a literatura e $u_{in},u_{out}\in[0,1]$), o seguimento tornou-se adequado.
+\subsection{Interpretação física das limitações energéticas}
+\label{sec:interpretacao-limitacoes-energeticas}
+Durante transientes, $P_{sup}$ pode se elevar para acumular energia hidráulica suficiente para atender a evolução desejada de $P_w$. A ação integral aumenta o esforço de controle enquanto persistir o erro. Desde que as restrições físicas sejam respeitadas, esse comportamento é coerente com a dinâmica energética do sistema hidráulico.
+\subsection{Métricas de desempenho}
+\label{sec:avaliacao-quantitativa-desempenho}
+A avaliação quantitativa foi baseada em métricas usuais de sistemas de controle: erro quadrático médio (RMS),
+\[
+    e_{RMS}=\sqrt{\frac{1}{T}\int_0^T e^2(t)\,dt},\qquad e(t)=r(t)-y(t),
+\]
+tempos de subida e de acomodação, sobressinal $M_p$, erro estacionário $e_\infty$ e esforço máximo de controle ($\max |u_{in}|$, $\max |u_{out}|$). Observou-se $e_\infty\approx 0$ para degraus dentro da faixa operacional, com esforços de controle compatíveis com a capacidade de atuação.
+
+\begin{figure}[htbp]
+    \centering
+    \IfFileExists{figuras/metricas_desempenho.png}{%
+        \includegraphics[width=0.92\textwidth]{figuras/metricas_desempenho.png}%
+    }{%
+        \fbox{\parbox{0.92\textwidth}{\centering\vspace{8mm}
+                \textbf{Figura pendente:} exportar a figura do MATLAB como\\
+                \texttt{figuras/metricas\_desempenho.png}.\vspace{8mm}}}%
+    }
+    \Caption{\label{fig:metricas_desempenho} Resumo das métricas de desempenho (erro RMS, sobressinal, tempos de subida e acomodação, erro estacionário e esforços máximos) calculadas a partir dos sinais registrados no Simulink para o perfil de referência em patamares.}
+\end{figure}
+%====================================================================
+\section{Considerações sobre robustez e limitações}
+\label{sec:consideracoes-robustez-limitacoes}
+A estabilidade garantida pelo LQI refere-se ao modelo linearizado e, portanto, é essencialmente local. Deslocamentos significativos do ponto de operação ou incertezas paramétricas relevantes podem degradar o desempenho e alterar margens de robustez. Extensões naturais incluem: (i) implementação sistemática de \emph{anti-windup}; (ii) projeto de controladores robustos a incertezas paramétricas; e (iii) aplicação de estratégias de \emph{gain scheduling} com múltiplas linearizações ao longo da faixa operacional.

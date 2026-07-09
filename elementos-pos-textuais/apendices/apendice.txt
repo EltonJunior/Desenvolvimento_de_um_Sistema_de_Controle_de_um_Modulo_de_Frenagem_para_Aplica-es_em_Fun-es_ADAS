@@ -1,0 +1,241 @@
+
+% \includepdf[pages=-]{lib/ABS_Valve_Board.pdf} 
+
+% \includepdf[pages=-]{lib/PDB_Image.pdf} 
+
+\begin{lstlisting}[caption={Simula a resposta da pressao hidraulica}, label={cod:evolucao_pressao}, language=Matlab] 
+% Parametros fisicos 
+k_w = 20000; 
+A_w = 0.002; 
+C_d = 0.7; 
+rho = 850; 
+p_m = 10e6; 
+alpha = 1e-6;
+
+% Tempo de simulacao 
+dt = 0.001; 
+t_end = 2; 
+t = 0:dt:t_end;
+
+% PWM simulados 
+PWM_values = [0.2, 0.4, 0.6, 0.8];
+
+% Simulacao para cada PWM 
+for u = PWM_values 
+    A_j = alpha * u; 
+    for i = 2:length(t) delta_p = max(p_m - p_w(i-1), 0); 
+    dp_w = (k_w / A_w^2) * C_d * A_j * sqrt(2 * delta_p / rho); 
+    p_w(i) = p_w(i-1) + dp_w * dt; 
+    end 
+    plot(t, p_w); hold on; 
+end 
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Simula a resposta da pressao hidraulica}, label={cod:pressao_hidraulica}, language=Matlab]
+function [p_w, PWM_bomba, PWM_HSV, PWM_USV] = controle_hidraulico(a_des, dt)
+% Controle hidraulico com logica separada para valvulas
+%#codegen
+
+% Parametros fisicos
+k_w = 20000; A_w = 0.002; C_d = 0.7; rho = 850;
+p_m = 10e6; alpha = 1e-6;
+
+% Conversao aceleracao -> pressao
+m = 1500; A_c = 0.002;
+F_acc = m * a_des;
+P_ref = abs(F_acc) / A_c;
+
+% PWM proporcional (limitado entre 0 e 1)
+k_b = 0.5;
+PWM_base = min(max(k_b * P_ref / 1e6, 0), 1);
+A_j = alpha * PWM_base;
+
+% Estado interno da pressao (p_w)
+persistent p_w_prev
+if isempty(p_w_prev)
+    p_w_prev = 0;
+end
+
+% Dinamica da pressao
+delta_p = max(p_m - p_w_prev, 0);
+dp_w = (k_w / A_w^2) * C_d * A_j * sqrt(2 * delta_p / rho);
+p_w = p_w_prev + dp_w * dt;
+p_w_prev = p_w;
+
+% Logica de controle das valvulas
+if a_des > 0
+    PWM_HSV = PWM_base;
+    PWM_USV = 0;
+elseif a_des < 0
+    PWM_HSV = 0;
+    PWM_USV = PWM_base;
+else
+    PWM_HSV = 0;
+    PWM_USV = 0;
+end
+
+% PWM da bomba (pode ser fixo ou proporcional)
+PWM_bomba = 0.5;
+end
+\end{lstlisting}
+
+
+\begin{lstlisting}[caption={Implementação do controle LQR adaptativo para pressão}, label={cod:lqr_adaptativo}, language=Matlab] 
+function PWM = lqr_pressao_adaptativo(p_w, p_w_ref, p_m, alpha, k_w, A_w, C_d, rho) % Calculo dinamico do modelo linearizado e controle LQR
+
+% Derivadas parciais para linearizacao 
+delta_p = max(p_m - p_w, 1); % evitar divisao por zero 
+a = - (k_w / A_w^2) * C_d * alpha * sqrt(1 / (2 * rho * delta_p)); 
+b = (k_w / A_w^2) * C_d * alpha * sqrt(2 * delta_p / rho);
+
+% Ajuste adaptativo de Q e R 
+erro = abs(p_w_ref - p_w); 
+Q = 1 + 10 * erro; % penaliza mais quando o erro e grande 
+R = 0.01 + 0.1 * (p_w / p_m); % penaliza PWM alto
+
+% Solucao da equacao de Riccati 
+P = care(a, b, Q, R); K = inv(R) * b' * P;
+
+% Controle LQR 
+e = p_w - p_w_ref; 
+PWM = -K * e;
+
+% Saturacao 
+PWM = min(max(PWM, 0), 1); 
+\end{lstlisting}
+
+
+\begin{lstlisting}[caption={Simula a Resposta da Pressão Hidráulica}, label={cod:observador_luenberger}, language=Matlab]
+function x_hat = observador_luenberger(u, y)
+% Observador de Luenberger para pressao hidraulica
+
+% Parametros do modelo linearizado
+a = -0.2;
+b = 1.5e5;
+c = 1;
+L = 4.8; % ganho do observador
+
+% Estado persistente
+persistent x_hat_prev
+if isempty(x_hat_prev)
+    x_hat_prev = 0;
+end
+
+% Estimativa da saida
+y_hat = c * x_hat_prev;
+
+% Atualizacao do estado estimado
+dx_hat = a * x_hat_prev + b * u + L * (y - y_hat);
+x_hat = x_hat_prev + dx_hat * 0.01; % passo de tempo fixo
+
+% Atualiza memoria
+x_hat_prev = x_hat;
+\end{lstlisting}
+
+
+\begin{lstlisting}[caption={Simula a Resposta da Pressão Hidráulica}, label={cod:controle_integrado}, language=Matlab]
+function [PWM, p_w_hat, erro_est] = controle_integrado(p_w, y, p_w_ref, ...
+    p_m, alpha, k_w, A_w, C_d, rho)
+
+% === Linearizacao do modelo hidraulico ===
+delta_p = max(p_m - p_w, 1); % evitar divisao por zero
+a = - (k_w / A_w^2) * C_d * alpha * sqrt(1 / (2 * rho * delta_p));
+b = (k_w / A_w^2) * C_d * alpha * sqrt(2 * delta_p / rho);
+c = 1;
+
+% === Ajuste adaptativo de Q e R ===
+erro = abs(p_w_ref - p_w);
+Q = 1 + 10 * erro;
+R = 0.01 + 0.1 * (p_w / p_m);
+
+% === Controle LQR ===
+P = care(a, b, Q, R);
+K = inv(R) * b' * P;
+u = -K * (p_w - p_w_ref);
+
+% Saturacao do PWM
+PWM = min(max(u, 0), 1);
+
+% === Observador de Luenberger ===
+persistent p_w_hat_prev
+if isempty(p_w_hat_prev)
+    p_w_hat_prev = 0;
+end
+
+y_hat = c * p_w_hat_prev;
+L = 4.8; % ganho do observador
+dp_hat = a * p_w_hat_prev + b * PWM + L * (y - y_hat);
+p_w_hat = p_w_hat_prev + dp_hat * 0.01; % passo de tempo fixo
+p_w_hat_prev = p_w_hat;
+
+% === Saida ===
+erro_est = p_w - p_w_hat;
+\end{lstlisting}
+
+
+
+\begin{lstlisting}[caption={Simula a Resposta da Pressão Hidráulica}, label={cod:controle_robusto}, language=Matlab]
+function [PWM_bomba, PWM_HSV, PWM_USV, p_w_hat, erro_est] = controle_robusto_simulink( ...
+    p_w, y, p_w_ref, p_m_nominal, m, A_c, alpha, k_w, A_w, C_d, rho, usar_observador, dt)
+% Controle LQR com variacao parametrica (robusto) e observador opcional
+% Compativel com Simulink
+
+% === Variacao da pressao da bomba ===
+variacao_pm = 0.1; % (+/-)10%
+p_m = p_m_nominal * (1 + variacao_pm * (2*rand - 1));
+
+% === Linearizacao da planta hidraulica ===
+delta_p = max(p_m - p_w, 1);
+a = - (k_w / A_w^2) * C_d * alpha * sqrt(1 / (2 * rho * delta_p));
+b =  (k_w / A_w^2) * C_d * alpha * sqrt(2 * delta_p / rho);
+c = 1;
+
+% === Conversao de aceleracao desejada ===
+a_des = (p_w_ref * A_c) / m;
+
+% === Ajuste de Q e R ===
+erro = abs(p_w_ref - p_w);
+Q = 1 + 10 * erro;
+R = 0.01 + 0.1 * (p_w / max(p_m,1));
+
+% === Solucao analitica da equacao de Riccati (SISO) ===
+disc = sqrt(4*a^2 + 4*(b^2 * Q)/R);
+P = (R / (2 * b^2)) * (-2*a + disc);
+K = (b * P) / R;
+
+% === Observador de Luenberger (opcional) ===
+persistent p_w_hat_prev
+if isempty(p_w_hat_prev)
+    p_w_hat_prev = 0;
+end
+
+if usar_observador
+    y_hat = c * p_w_hat_prev;
+    L = 4.8;
+    % PWM_HSV e a entrada efetiva do sistema
+    % Mas como ainda nao temos `u`, estimamos com `p_w` atual:
+    u_aprox = -K * (p_w - p_w_ref);
+    PWM_HSV_aprox = min(max(u_aprox, 0), 1);
+    dp_hat = a * p_w_hat_prev + b * PWM_HSV_aprox + L * (y - y_hat);
+    p_w_hat = p_w_hat_prev + dp_hat * dt;
+    p_w_hat_prev = p_w_hat;
+    x_ctrl = p_w_hat;
+else
+    x_ctrl = p_w;
+    p_w_hat = NaN;
+end
+
+% === Controle LQR final ===
+u = -K * (x_ctrl - p_w_ref);
+
+% === Separacao de atuadores ===
+PWM_HSV    = min(max(u, 0), 1);
+PWM_USV    = min(max(-u, 0), 1);
+PWM_bomba  = 0.5;
+
+% === Erro de estimativa (para analise) ===
+erro_est = p_w - p_w_hat;
+end
+
+
+\end{lstlisting}

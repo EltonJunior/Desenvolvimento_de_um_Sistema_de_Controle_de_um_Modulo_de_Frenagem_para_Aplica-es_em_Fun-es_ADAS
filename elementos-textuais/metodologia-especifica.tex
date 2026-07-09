@@ -1,0 +1,12 @@
+% !TeX root = ../documento.tex
+
+% Conteúdo extraído de elementos-textuais/metodologia.tex para manter o arquivo principal mais enxuto.
+
+\section{Procedimento metodológico e métricas de avaliação}
+\label{sec:metodologia-procedimento}
+
+O procedimento adotado neste trabalho segue o fluxo: (i) modelagem do subsistema hidráulico de freio, (ii) linearização em torno de um ponto de operação, (iii) projeto do controlador (LQI) e do observador (Luenberger), (iv) implementação digital no ambiente MATLAB/Simulink e (v) validação por simulação em malha aberta e em malha fechada.
+
+Para evitar que o texto principal assuma a forma de um “manual de MATLAB”, a descrição do uso de \textit{scripts} é feita de maneira conceitual: no corpo do texto, explicita-se o papel do \textit{script} na organização do ensaio (definição do horizonte de simulação, parametrização do modelo, geração de comandos/referências e registro de sinais); já o detalhe de implementação (funções, variáveis e trechos de código) é apresentado no apêndice de códigos.
+
+As métricas de avaliação foram escolhidas para refletir tanto desempenho de seguimento quanto esforço de atuação: tempo de subida e de acomodação da pressão, sobressinal, erro de regime permanente e erro RMS. Complementarmente, registra-se o esforço máximo de controle (por exemplo, máximos de $u_{in}$ e $u_{out}$) para verificar compatibilidade com as saturações físicas impostas no modelo. A apresentação dos resultados (curvas, métricas e discussão) é concentrada no Capítulo~\ref{chap:resultados}, de modo que a metodologia permaneça claramente separada dos achados.

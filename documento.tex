@@ -1,0 +1,216 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Customizações do abnTeX2 (http://abnTeX2.googlecode.com)           %%
+%% para a Universidade de Fortaleza						              %%
+%%                                                                    %%
+%% This work may be distributed and/or modified under the             %%
+%% conditions of the LaTeX Project Public License, either version 1.3 %%
+%% of this license or (at your option) any later version.             %%
+%% The latest version of this license is in                           %%
+%%   http://www.latex-project.org/lppl.txt                            %%
+%% and version 1.3 or later is part of all distributions of LaTeX     %%
+%% version 2005/12/01 or later.                                       %%
+%%                                                                    %%
+%% This work has the LPPL maintenance status `maintained'.            %%
+%%                                                                    %%
+%% The Current Maintainer of this work is Bruno Lopes                 %%
+%%                                                                    %%
+%% Project available on: https://github.com/bruno-unifor/unifortex2   %%
+%%                                                                    %%
+%% Further information about abnTeX2                                  %%
+%% are available on http://abntex2.googlecode.com/                    %%
+%%                                                                    %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[
+	a4paper,          % Tamanho da folha A4
+	12pt,             % Tamanho da fonte 12pt
+	chapter=TITLE,    % Todos os capitulos devem ter caixa alta
+	section=TITLE,    % Todas as secoes devem ter caixa alta
+	subsection=TITLE, % Todas as sub-secoes devem ter caixa alta
+	subsubsection=TITLE, % Todas as sub-sub-secoes devem ter caixa alta
+	oneside,          % Usada para impressao em apenas uma face do papel
+	english,          % Hifenizacoes em ingles
+	spanish,          % Hifenizacoes em espanhol
+	brazil            % Ultimo idioma eh o idioma padrao do documento
+]{abntex2}
+
+\input{preambulo}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%          Configuracoes do uniforTeX2            %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Opcoes disponiveis
+
+%\trabalhoacademico{tccgraduacao}
+%\trabalhoacademico{tccespecializacao}
+\trabalhoacademico{dissertacao}
+%\trabalhoacademico{tese}
+
+% Define se o trabalho eh uma qualificacao
+% Coloque 'nao' para versao final do trabalho
+
+%\ehqualificacao{nao}
+
+% Remove as bordas vermelhas e verdes do PDF gerado
+% Coloque 'sim' pare remover
+
+\removerbordasdohyperlink{sim}
+
+% Adiciona a cor Azul a todos os hyperlinks
+
+\cordohyperlink{nao}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%          Informação sobre a IES                 %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ies{Universidade De São Paulo}
+\iessigla{USP}
+\centro{Escola Politécnica da Universidade De São Paulo}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%        Informação para TCC de Graduacao         %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\graduacaoem{Engenharia de Sistemas Eletrônicos}
+\habilitacao{bacharel} % Pode colocar tambem 'licenciada'
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%         Informação para Dissertacao             %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\programamestrado{Programa de Pós-Graduação em Engenharia Elétrica}
+\nomedomestrado{Mestrado Acadêmico em Sistemas Eletrônicos}
+\mestreem{Engenharia de Sistemas Eletrônicos}
+\areadeconcentracaomestrado{Departamento de Engenharia de Sistemas Eletrônicos}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%               Informação para Tese              %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\programadoutorado{Programa de Pós-Graduação em Engenharia Elétrica}
+\nomedodoutorado{Doutorado em Saúde Coletiva}
+\doutorem{Saúde Coletiva}
+\areadeconcentracaodoutorado{Saúde Coletiva}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  Informação relacionadas ao trabalho     %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\autor{Elton Inacio Alves Junior}
+\titulo{Controle Digital de Pressão Hidráulica em um Módulo de Frenagem para Aplicações em Funções ADAS}
+\data{2026}
+\local{São Paulo -- SP}
+
+% Exemplo: \dataaprovacao{01 de Janeiro de 2012}
+\dataaprovacao{20 de Junho de 2026}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%     Informação sobre o Orientador       %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\orientador{Prof. Dr. João Francisco Justo Filho}
+\orientadories{Universidade De São Paulo - USP}
+\orientadorcentro{Departamento de Engenharia de Sistemas Eletrônicos}
+\orientadorfeminino{nao} % Coloque 'sim' se for do sexo feminino
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%      Informação sobre o Co-orientador   %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Deixe o nome do coorientador em branco para remover do documento
+
+\coorientador{Prof. Dr. Armando Antônio Maria Laganá}
+\coorientadories{Universidade De São Paulo - USP}
+\coorientadorcentro{Departamento de Engenharia de Sistemas Eletrônicos}
+\coorientadorfeminino{nao} % Coloque 'sim' se for do sexo feminino
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%      Informação sobre a banca           %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Atenção! Deixe o nome do membro da banca para remover da folha de aprovacao
+
+% Exemplo de uso:
+% \membrodabancadois{Prof. Dr. Fulano de Tal}
+% \membrodabancadoisies{Universidade Estadual do Ceará - UECE}
+
+\membrodabancadois{Prof. Dr. Leopoldo Rideki Yoshioka}
+\membrodabancadoiscentro{Faculdade de Filosofia Dom Aureliano Matos – FAFIDAM}
+\membrodabancadoisies{Universidade De São Paulo - USP}
+
+\membrodabancatres{Prof. Dr. Éverton Lins de Oliveira}
+\membrodabancatrescentro{Centro de Ciências e Tecnologia - CCT}
+\membrodabancatresies{Universidade De São Paulo - USP}
+
+\membrodabancaquatro{Prof. Dr. Mateus Mussi Brugnolli}
+\membrodabancaquatrocentro{Centro de Ciências e Tecnologia - CCT}
+\membrodabancaquatroies{Universidade De São Paulo - USP}
+
+\membrodabancacinco{Membro da Banca Cinco}
+\membrodabancacincocentro{Teste}
+\membrodabancacincoies{Universidade do Membro da Banca Cinco - SIGLA}
+
+\membrodabancaseis{Membro da Banca Seis}
+\membrodabancaseiscentro{}
+\membrodabancaseisies{Universidade do Membro da Banca Seis - SIGLA}
+
+
+\usepackage{url}
+\usepackage{lscape}
+
+
+\begin{document}
+
+% Elementos pré-textuais
+\imprimircapa
+\imprimirfolhaderosto{}
+\imprimirfichacatalografica{elementos-pre-textuais/fig_ficha_catalografica}
+%\imprimirerrata{elementos-pre-textuais/errata}
+\imprimirfolhadeaprovacao
+\imprimirfolhadeavaliacao{}
+\imprimirdedicatoria{elementos-pre-textuais/dedicatoria}
+\imprimiragradecimentos{elementos-pre-textuais/agradecimentos}
+\imprimirepigrafe{elementos-pre-textuais/epigrafe}
+\imprimirresumo{elementos-pre-textuais/resumo}
+\imprimirabstract{elementos-pre-textuais/abstract}
+\imprimirlistadeilustracoes
+\imprimirlistadetabelas
+%\imprimirlistadequadros
+\imprimirlistadealgoritmos
+\imprimirlistadecodigosfonte
+\imprimirlistadeabreviaturasesiglas
+\imprimirlistadesimbolos{elementos-pre-textuais/lista-de-simbolos}
+\imprimirsumario
+
+%Elementos \textbf{textuais}
+\textual
+\input{elementos-textuais/introducao}
+% %%\input{elementos-textuais/fundamentacao-teorica}
+\input{elementos-textuais/o-estado-da-arte}
+% %%\input{elementos-textuais/trabalhos-relacionados}
+\input{elementos-textuais/metodologia}
+\input{elementos-textuais/controle}
+\input{elementos-textuais/resultados}
+\input{elementos-textuais/conclusao}
+
+
+%Elementos pós-textuais    
+\bibliography{elementos-pos-textuais/referencias}
+%\imprimirglossario
+\imprimirapendices
+\input{elementos-pos-textuais/apendices/apendice}
+
+%% Adicione aqui os apendices do seu trabalho
+%% \input{elementos-pos-textuais/apendices/historico-de-mudancas}
+%% \input{elementos-pos-textuais/apendices/lorem-ipsum}
+%% \input{elementos-pos-textuais/apendices/termo-de-fiel-depositario}
+\imprimiranexos
+%% 	Adicione aqui os anexos do seu trabalho
+%% 	\input{elementos-pos-textuais/anexos/exemplo-de-anexo}
+%% 	\input{elementos-pos-textuais/anexos/dinamica-das-classes-sociais}
+%% \imprimirindice
+
+\end{document}

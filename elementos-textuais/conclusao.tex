@@ -1,0 +1,29 @@
+% !TeX root = ../documento.tex
+\chapter{Conclusões}
+\label{chap:conclusoes}
+
+Este projeto apresenta o desenvolvimento e a validação, em ambiente de simulação, de uma metodologia de controle digital aplicada ao \textbf{regulador de pressão hidráulica} de um módulo de frenagem eletro-hidráulico (unidade ABS/ESC), com motivação em funções ADAS de controle longitudinal (por exemplo, ACC/AEB). O trabalho abrange desde a modelagem do subsistema hidráulico, passando pela implementação de estratégias de controle e estimação de estados, até a análise de desempenho por meio de simulações em MATLAB/Simulink.
+
+Este estudo pode oferecer contribuições à comunidade acadêmica, especialmente na transposição de conceitos teóricos de controle para um contexto aplicado, com ênfase na viabilidade de implementação em hardware automotivo. 
+
+Já a modelagem do subsistema hidráulico, baseada em equações diferenciais não lineares e posteriormente linearizada, permite a aplicação de técnicas em espaço de estados, como controle LQ em tempo discreto com integrador (LQI) e observador de Luenberger.
+
+A arquitetura proposta demonstrou, em simulação, a capacidade de rastrear uma referência de pressão hidráulica por roda. Nesta dissertação, a referência é tratada como um sinal externo ao regulador (potencialmente oriundo de um controlador longitudinal), o que permite isolar e discutir de forma objetiva a dinâmica e as limitações do atuador hidráulico.
+
+A cadeia conceitual de geração de referência (por exemplo, a partir de um controlador longitudinal), mapeamento para pressão, controlador LQI, observador e planta hidráulica permitiu avaliar, em simulação, tanto o seguimento de referência quanto a influência de saturações e de efeitos não lineares do modelo (por exemplo, dependência com $\Delta P$ nas leis de vazão). Quando aplicável, a análise também considera ruído de medição e variações paramétricas nos ensaios descritos.
+
+Como síntese das principais contribuições (Seção~\ref{sec:introducao-contribuicoes}), este trabalho:
+\begin{itemize}
+	\item consolidou um modelo hidráulico não linear concentrado (2P) com parametrização compatível com faixas típicas de pressão e com validação qualitativa em malha aberta;
+	\item apresentou um fluxo de projeto em tempo discreto para seguimento de pressão (linearização local, discretização e síntese LQI), explicitando saturações e o tratamento de \textit{windup};
+	\item incorporou estimação de estados via observador de Luenberger discreto, buscando compatibilidade com instrumentação limitada;
+	\item organizou a validação por simulação com \textit{scripts} e métricas, reforçando rastreabilidade entre hipótese, procedimento e evidência.
+\end{itemize}
+
+Além da validação em simulação, foi desenvolvido um protótipo de placa eletrônica como suporte à futura migração do controlador para execução embarcada e integração com um conjunto físico de frenagem.
+
+No entanto, é importante destacar que todas as validações foram realizadas exclusivamente em ambiente simulado. Não houve, no escopo deste trabalho até a sua apresentação, a implementação prática do controle digital no microcontrolador AURIX TC375 ou em qualquer outro hardware embarcado.
+
+A escolha do AURIX TC375 foi motivada por suas características técnicas e aderência a requisitos de segurança funcional automotiva, mas a aplicação efetiva do controle digital neste microcontrolador permanece como uma etapa futura. Assim, as conclusões aqui apresentadas devem ser interpretadas à luz das limitações do ambiente de simulação e da ausência de validação do controlador em malha fechada com atuadores/sensores reais do conjunto de freio.
+
+Em síntese, este projeto estabelece uma base conceitual e metodológica para o desenvolvimento de sistemas de frenagem inteligentes, alinhados às tendências de direção autônoma e veículos conectados. Os resultados obtidos sugerem que é possível, ao menos em simulação, projetar e validar um regulador digital de pressão compatível com a integração a funções ADAS longitudinais. Contudo, etapas adicionais de validação prática e aprimoramento (implementação embarcada, temporização, instrumentação e ensaios em bancada) são necessárias para aplicações industriais e para consolidar a transferência tecnológica ao ambiente automotivo real.

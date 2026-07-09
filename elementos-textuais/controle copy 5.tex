@@ -1,0 +1,293 @@
+% !TeX root = ../documento.tex
+\chapter{Método específico: controle do sistema hidráulico não linear}
+\label{cap:controle}
+
+Este capítulo descreve o método para projetar e avaliar uma estratégia de controle digital de pressão de freio utilizando o módulo hidráulico ABS/ESC como atuador de pressão do freio de serviço. O estudo é simulado, em um canal/roda como um modelo concentrado em duas pressões e tempo discreto, com faixas de pressão típicas de serviço e período de amostragem compatível com ECUs automotivas.
+
+Controle de pressão em circuito hidráulico de freio para seguimento de referência proveniente de controlador longitudinal (p.\,ex., ACC).
+
+Projetar e implementar um controlador digital em espaço de estados que permita ao módulo ABS/ESC rastrear perfis de pressão $P_{\mathrm{ref}}(t)$ por roda, com desempenho e esforço compatíveis com as restrições físicas do atuador hidráulico.
+
+Um controlador LQ discreto com ação integral (LQI) e observador de Luenberger, sintetizado a partir da linearização local de um modelo não linear em duas pressões, é capaz de rastrear $P_{\mathrm{ref}}(t)$ com erro estacionário nulo e dinâmica adequada, desde que: (i) o ponto de operação atenda $\Delta P>0$ nas válvulas; (ii) as saturações sejam fisicamente parametrizadas; e (iii) o período de amostragem seja compatível com a banda do atuador.
+
+Demonstrar, em simulação, o uso do módulo hidráulico ABS/ESC como atuador principal de pressão para o freio de serviço, acompanhando $P_{\mathrm{ref}}(t)$ derivado de requisitos de desaceleração.
+
+(i) Modelar o subsistema por um modelo não linear em duas pressões $(P_{sup},P_w)$ e validar qualitativamente em malha aberta; (ii) linearizar o modelo em torno de $(x_0,u_0)$ e obter $(A,B,C,D)$; (iii) discretizar e projetar um LQI MIMO \big($u=[u_{in},u_{out}]^\top$\big) com observador de Luenberger; (iv) avaliar seguimento de referência e esforço de controle sob limites físicos.
+
+Embora haja ampla literatura em frenagem ativa e controle longitudinal, é menos frequente o acoplamento explícito da dinâmica hidráulica da HCU ao projeto de controladores de pressão em arquitetura digital, incluindo pressurização e alívio \cite{HouhuaJing2022,PressureCoordinatedControl2023}. O uso da infraestrutura hidráulica do ABS/ESC como atuador principal de pressão pode reduzir complexidade e custo de integração, desde que o controle trate as não linearidades e as saturações.
+
+(i) Modelagem 2P e validação em malha aberta; (ii) definição de $(x_0,u_0)$ e linearização; (iii) discretização e síntese LQI + observador; (iv) integração no modelo não linear em Simulink e avaliação com referência por patamares.
+
+Rastreamento de $P_{w,\mathrm{ref}}$ com erro estacionário nulo em patamares, tempos de acomodação compatíveis e comandos $u_{in},u_{out}$ dentro de limites físicos.
+
+A estabilidade garantida refere-se ao modelo linearizado (validade local). O desempenho pode degradar fora da vizinhança de operação, diante de grandes variações paramétricas. Tais limites são declarados como parte do escopo do capítulo.
+
+%====================================================================
+\section{Da desaceleração à referência de pressão por roda}
+\label{sec:mapeamento-aref-pressao}
+
+Assume-se uma desaceleração desejada $a_{\mathrm{ego}}(t)$ fornecida por um nível superior de controle longitudinal. A referência de pressão no canal modelado é obtida por mapeamento quase-estático:
+\begin{equation}
+    F_{\mathrm{freno},w}(t) = \kappa\, m\,|a_{\mathrm{ego}}(t)|,
+    \qquad
+    P_{\mathrm{ref}}(t) = \frac{F_{\mathrm{freno},w}(t)}{A_{cal}},
+    \label{eq:mapeamento_aref_pressao}
+\end{equation}
+em que $m$ é a massa do veículo, $A_{cal}$ é a área efetiva do pistão do cáliper do \emph{canal modelado} e $\kappa\in(0,1]$ converte a força total de frenagem para a roda de interesse (alternativamente, pode-se empregar $m_{\mathrm{eq}}$ por roda).
+
+%====================================================================
+\section{Modelo hidráulico não linear de duas pressões}
+\label{sec:modelo2p}
+
+A planta é o módulo hidráulico ABS/ESC, utilizado como atuador de pressão do freio de serviço. Modelos concentrados são adequados ao projeto/validação de controladores de pressão \cite{HouhuaJing2022,PressureCoordinatedControl2023,ZengYangHuang2023,MotorParametricDesign2023}. Adota-se um modelo em duas pressões $(P_{sup},P_w)$ \cite{HouhuaJing2022,ZengYangHuang2023,Lv2014}.
+
+\paragraph{Estados e entradas.}
+\begin{equation}
+    x(t)=\begin{bmatrix} P_{sup}(t)\\[2pt] P_{w}(t)\end{bmatrix},\qquad
+    u(t)=\begin{bmatrix}\omega_p(t)\\[2pt]u_{in}(t)\\[2pt]u_{out}(t)\end{bmatrix}.
+    \label{eq:vect-estados-hidraulico}
+\end{equation}
+
+\subsection{Dinâmica e leis de vazão}
+\label{sec:dinamica-2p}
+
+Regiões compressíveis: (i) suprimento ($P_{sup}$, volume $V_{sup}$, retorno $P_{ret}$); (ii) canal/roda ($P_w$, volume $V_w$). Pela continuidade:
+\begin{equation}
+    \dot{P}_{sup} = \frac{\beta}{V_{sup}}\!\left(Q_{pump} - Q_{in} - Q_{\text{leak},sup}\right),\quad
+    \dot{P}_{w}   = \frac{\beta}{V_{w}}\!\left(Q_{in} - Q_{out} - Q_{\text{leak},w}\right),
+    \label{eq:din_press}
+\end{equation}
+com módulo volumétrico efetivo $\beta$.
+
+\paragraph{Bomba.}
+\begin{equation}
+    Q_{pump} = K_b\,\omega_p - K_{lb}\big(P_{sup}-P_{ret}\big),
+    \label{eq:qpump_2p}
+\end{equation}
+sendo $K_b$ ganho volumétrico efetivo e $K_{lb}$ vazamento interno para o retorno \cite{MotorParametricDesign2023,WangBingbing2015}.
+
+\paragraph{Válvulas.}
+Lei de orifício com $C_d$:
+\begin{equation}
+    Q = C_d\,A_{ef}\,\sqrt{\frac{2\,\Delta P}{\rho}},
+    \label{eq:lei-orificio}
+\end{equation}
+\begin{equation}
+    Q_{in}=C_{d,in}A_{in}(u_{in})\sqrt{\frac{2\,(P_{sup}-P_w)_{+}}{\rho}},\quad
+    Q_{out}=C_{d,out}A_{out}(u_{out})\sqrt{\frac{2\,(P_w-P_{ret})_{+}}{\rho}},
+    \label{eq:qin_qout}
+\end{equation}
+com $A_{in}(u_{in})=A_{in,\max}u_{in}$, $A_{out}(u_{out})=A_{out,\max}u_{out}$, $u_{in},u_{out}\in[0,1]$ \cite{ProportionalPressureABS2023,Lv2014,ChenLv2017}.
+
+\paragraph{Vazamentos.}
+\begin{equation}
+    Q_{\text{leak},sup}=K_{ls}\,(P_{sup}-P_{ret}),\qquad
+    Q_{\text{leak},w}  =K_{lw}\,(P_{w}-P_{ret}).
+    \label{eq:leaks}
+\end{equation}
+
+\subsection{Estratégias de acionamento das válvulas}
+\label{sec:pwm-estrategias}
+
+Considera-se (i) operação quase-linear em torno de ponto de equilíbrio para válvulas on/off \cite{ChenLv2017}; e (ii) modulação PWM de HSV/USV para governar taxas de pressurização e alívio \cite{HouhuaJing2022}. Nesta formulação, $u_{in}$ e $u_{out}$ representam grau de abertura ou ciclo médio.
+
+%====================================================================
+\section{Ensaio em malha aberta e validação qualitativa}
+\label{sec:ensaio-malha-aberta}
+
+Implementou-se o modelo 2P em MATLAB/Simulink (\emph{MATLAB Function}). Ensaio integrado: (A) \emph{pressurização} ($\omega_p$ em degrau, $u_{in}=1$, $u_{out}=0$), (B) \emph{retenção} ($\omega_p=0$, $u_{in}=u_{out}=0$), (C) \emph{alívio} ($\omega_p=0$, $u_{in}=0$, $u_{out}$ em degrau). Pressão \emph{gauge}:
+\begin{equation}
+    P_g(t)=\frac{P(t)-P_{ret}}{10^5}\;\;[\mathrm{bar}].
+    \label{eq:pressao_gauge_bar}
+\end{equation}
+As respostas são coerentes com pressurização/retencão/alívio descritas na literatura \cite{ZengYangHuang2023,Lv2014,HouhuaJing2022}.
+
+%====================================================================
+\section{Ajuste de parâmetros para faixas realistas}
+\label{sec:controle-ajuste-parametros-realistas}
+
+Para reproduzir ordens de grandeza de HCUs ESC/ABS (suprimento 8–13 MPa; variações rápidas em $P_w$) \cite{ZengYangHuang2023,DesignESCUnitTestSystem2018,HouhuaJing2022}, adotou-se conjunto ``realista'' reduzindo $V_{sup},V_w$ e elevando capacidade de bomba, preservando vazões na faixa de válvulas automotivas \cite{ProportionalPressureABS2023,ChenLv2017,MotorParametricDesign2023}.
+
+\begin{table}[htbp]
+\Caption{\label{tab:parametros_hidraulico_realista} Parâmetros ajustados para faixa de pressão realista}
+\UNIFORtab{}{
+    \begin{tabular}{ l | l | l | l }
+        \hline Parâmetro & Símbolo & Valor adotado & Unidade \\ \hline
+        Densidade do fluido & $\rho$ & 850 & kg/m³ \\
+        Módulo volumétrico efetivo & $\beta$ & $1{,}5 \times 10^9$ & Pa \\
+        Pressão de retorno & $P_{ret}$ & $1{,}0 \times 10^5$ & Pa \\
+        Volume do suprimento & $V_{sup}$ & $5{,}0 \times 10^{-7}$ & m³ \\
+        Volume do canal/roda & $V_{w}$ & $5{,}0 \times 10^{-8}$ & m³ \\
+        Coeficiente de descarga & $C_d$ & 0{,}62 & — \\
+        Área máx. (entrada) & $A_{in,\max}$ & $1{,}0 \times 10^{-7}$ & m² \\
+        Área máx. (saída) & $A_{out,\max}$ & $1{,}0 \times 10^{-7}$ & m² \\
+        Vazamento interno (bomba) & $K_{lb}$ & $1{,}0 \times 10^{-11}$ & (m³/s)/Pa \\
+    \end{tabular}
+}{\Fonte{Com base em \cite{ZengYangHuang2023,ProportionalPressureABS2023,Lv2014,ChenLv2017}.}}
+\end{table}
+
+Com esses parâmetros, $P_w$ situa-se em 50–60 bar e $Q_{pump}$ em torno de 60 mL/s, valores compatíveis com HCUs automotivas.
+
+%====================================================================
+\section{Síntese da validação}
+\label{sec:controle-sintese-validacao}
+
+A validação em duas etapas mostrou: (i) \emph{caso base} — coerência estrutural (causalidade, saturações e sinais de vazão); (ii) \emph{caso realista} — ordens de grandeza de pressão e vazão consistentes com a literatura. O modelo 2P é adequado como planta para síntese em espaço de estados.
+
+%====================================================================
+\section{Linearização do modelo não linear}
+\label{sec:controle-linearizacao-2p}
+
+\subsection{Ponto de operação}
+\label{sec:definicao-ponto-operacao}
+
+Adota-se $(x_0,u_0)$ em regime de frenagem com $P_{sup,0}>P_{w,0}>P_{ret}$, $u_{in,0},u_{out,0}\in(0,1)$, assegurando $\Delta P>0$ nas raízes. Os valores numéricos são listados no Apêndice~\ref{ap:ponto-operacao}.
+
+\subsection{Jacobianos e forma linear aproximada}
+\label{sec:derivacao-matrizes-jacobianas}
+
+Define-se $\dot{x}=f(x,u)$ a partir de \eqref{eq:din_press}–\eqref{eq:leaks}. As jacobianas
+\[
+A=\left.\frac{\partial f}{\partial x}\right|_{x_0,u_0},\qquad
+B=\left.\frac{\partial f}{\partial u}\right|_{x_0,u_0}
+\]
+são avaliadas simbolicamente no MATLAB (\texttt{jacobian}), impondo $\Delta P>0$; assim, $A,B$ são \textbf{reais}. Reportam-se apenas autovalores de $A$ (semiplano esquerdo), indicando \textbf{estabilidade local}. As matrizes numéricas constam no Apêndice~\ref{ap:matrizes-lin}.
+
+\subsection{Não linearidades e região de validade}
+
+A lei de orifício implica ganho incremental $\partial Q/\partial \Delta P \propto 1/\sqrt{\Delta P}$; o ganho efetivo varia com o ponto de operação. A linearização (Taylor de primeira ordem) é \textbf{local}. Nas simulações, observou-se estabilidade prática e rastreamento adequado na faixa operacional.
+
+%====================================================================
+\section{Formulação em espaço de estados}
+\label{sec:controle-formulacao-espaço-estados}
+
+A representação linearizada é
+\[
+\dot{x}=A\,x+B\,u,\qquad y=C\,x,
+\]
+com $x=[P_{sup}\; P_w]^\top$, $u=[\omega_p\; u_{in}\; u_{out}]^\top$, $y=P_w$. Considera-se a bomba em torno de $\omega_{p,0}$ e adota-se controle reduzido
+\[
+u_c=\begin{bmatrix}u_{in}\\ u_{out}\end{bmatrix},\quad
+\dot{x}=A\,x+B_c\,u_c,\quad y=C\,x,
+\]
+em que $B_c$ contém as colunas de $B$ associadas a $u_{in}$ e $u_{out}$.
+
+%====================================================================
+\section{Projeto do controlador LQR}
+\label{sec:controle-lqr-luenberger}
+
+Para o contínuo $\dot{x}=A\,x+B_c\,u_c$, $y=C\,x$, usa-se
+\[
+u_c=-K\,(x-x_{\mathrm{ref}}),
+\]
+com $K$ que minimiza $J=\int_0^\infty (x^\top Q x+u_c^\top R u_c)\,dt$, $Q\succeq 0$, $R\succ 0$ (\texttt{lqr(A,B\_c,Q,R)}).
+
+%====================================================================
+\section{Projeto do observador de Luenberger}
+\label{sec:projeto-observador-luenberger}
+
+\[
+\dot{\hat{x}}=A\,\hat{x}+B_c\,u_c+L\,(y-\hat{y}),\qquad \hat{y}=C\,\hat{x}.
+\]
+Com $e=x-\hat{x}$, tem-se $\dot{e}=(A-LC)e$. Escolhe-se $L$ por alocação de polos (\texttt{place} em $(A^\top,C^\top)$), com polos do observador mais rápidos que os da malha fechada do controlador.
+
+%====================================================================
+\section{Discretização}
+\label{sec:discretizacao-sistema}
+
+\subsection{Modelo discreto}
+\label{sec:modelo-discreto}
+
+Discretização ZOH com $T_s=10^{-4}$\,s:
+\[
+x(k+1)=A_d x(k)+B_d u(k),\qquad y(k)=C_d x(k),
+\]
+obtido via \texttt{c2d}.
+
+\subsection{LQR discreto}
+\label{sec:projeto-lqr-discreto}
+
+Minimiza-se $J=\sum_{k=0}^\infty (x^\top Qx+u^\top Ru)$, produzindo $u(k)=-K_d x(k)$ (\texttt{dlqr}). Para seguimento, adiciona-se ação integral (LQI).
+
+%====================================================================
+\section{Controlador LQI discreto (MIMO)}
+\label{sec:controle-lqi-discreto}
+
+\subsection{Sistema aumentado com ação integral}
+\label{sec:lqi-mimo}
+
+Para $x\in\mathbb{R}^2$, $u=[u_{in}\;u_{out}]^\top\in\mathbb{R}^2$, $y=P_w$:
+\[
+z(k+1)=z(k)+T_s(r(k)-y(k)).
+\]
+Sistema aumentado:
+\[
+x_{aug}(k+1)=
+\underbrace{\begin{bmatrix}A_d&0\\-C_d T_s&1\end{bmatrix}}_{A_a}\!
+x_{aug}(k)+
+\underbrace{\begin{bmatrix}B_d\\ 0_{1\times 2}\end{bmatrix}}_{B_a}\!u(k)+
+\begin{bmatrix}0_{2\times 1}\\ T_s\end{bmatrix}r(k),
+\]
+$x_{aug}=[x^\top\; z]^\top\in\mathbb{R}^3$, $B_a\in\mathbb{R}^{3\times 2}$. Lei LQI:
+\[
+u(k)=-K_x x(k)-K_i z(k),
+\]
+$K_x\in\mathbb{R}^{2\times 2}$, $K_i\in\mathbb{R}^{2\times 1}$, via Riccati discreta com $Q_a\succeq 0$, $R=\mathrm{diag}(r_{in},r_{out})\succ 0$.
+
+\subsection{Escolha de pesos e saturações}
+
+Exemplo (ajustável): $Q_a=\mathrm{diag}(10^{-12},\,10^{-10},\,10^{4})$, $R=\mathrm{diag}(r_{in},r_{out})$. O peso do integrador zera $e_\infty$. Saturações devem ser \emph{físicas}; limites artificiais induzem \emph{windup}. A malha fechada aumentada
+\[
+x_{aug}(k+1)=
+\begin{bmatrix}A_d - B_d K_x & - B_d K_i \\ - C_d T_s & 1\end{bmatrix}
+x_{aug}(k)
+\]
+deve ter autovalores dentro do círculo unitário.
+
+%====================================================================
+\section{Implementação no modelo não linear em Simulink}
+\label{sec:implementacao-simulink}
+
+\subsection{Estrutura do controlador}
+\label{sec:estrutura-controlador-simulink}
+
+Simulação em passo fixo ($T_s=10^{-4}$\,s). Referência $P_{w,\mathrm{ref}}(t)$ via \texttt{timeseries}. Ganhos $K_x,K_i,L_d$ no \emph{workspace}. Estrutura: observador (Luenberger) com $(A_d,B_d,C_d,L_d)$, lei LQI e saturações coerentes (pressões e atuadores).
+
+\subsection{Integração com a planta hidráulica}
+\label{sec:integracao-planta-hidraulica}
+
+A planta não linear (\eqref{eq:din_press}–\eqref{eq:leaks}) é implementada em \emph{MATLAB Function}. Impõem-se $\omega_p\ge0$, $u_{in},u_{out}\in[0,1]$ e $P\ge P_{ret}$. Avalia-se robustez do LQI frente às não linearidades $\propto\sqrt{\Delta P}$, compressibilidade e limites físicos.
+
+%====================================================================
+\section{Resultados de simulação}
+\label{sec:resultados-simulacao}
+
+\subsection{Resposta ao sinal de referência}
+\label{sec:resposta-sinal-referencia}
+
+Referência por patamares em bar (convertida a Pa): $0\!\to\!50\!\to\!30\!\to\!80\!\to\!20\!\to\!100$. Observam-se tempos de acomodação compatíveis, sobressinal moderado e $e_\infty\!\approx\!0$.
+
+\subsection{Influência das saturações}
+\label{sec:influencia-saturacoes}
+
+Saturações alteram a estrutura da malha (função limite). Limites excessivamente restritivos podem impedir rastreamento e induzir acúmulo integral. Com limites físicos coerentes, o seguimento é adequado.
+
+\subsection{Interpretação física das limitações energéticas}
+\label{sec:interpretacao-limitacoes-energeticas}
+
+Em transientes, $P_{sup}$ pode crescer para armazenar energia hidráulica suficiente ao atendimento de $P_w$; a ação integral eleva o esforço enquanto houver erro, respeitados os limites físicos.
+
+\subsection{Métricas de desempenho}
+\label{sec:avaliacao-quantitativa-desempenho}
+
+Foram usadas: erro RMS,
+\[
+e_{RMS}=\sqrt{\frac{1}{T}\int_0^T e^2(t)\,dt},\qquad e(t)=r(t)-y(t),
+\]
+tempos de subida/acomodação, sobressinal $M_p$, erro estacionário $e_\infty$, esforço máximo ($\max|u_{in}|$, $\max|u_{out}|$). Observou-se $e_\infty\!\approx\!0$ para degraus na faixa operacional e esforços dentro da capacidade de válvulas.
+
+%====================================================================
+\section{Considerações sobre robustez e limitações}
+\label{sec:consideracoes-robustez-limitacoes}
+
+A estabilidade garantida pelo LQI é \textbf{local} (modelo linearizado). Variações paramétricas significativas ou operação distante do ponto linearizado podem degradar o desempenho. Extensões futuras incluem: (i) \emph{anti-windup}; (ii) controle robusto a incertezas; (iii) \emph{gain scheduling} com múltiplas linearizações. A clareza sobre \emph{limitações} e a verificação objetiva de objetivos são parte da boa prática de escrita científica em Computação. [1](https://aumovio-my.sharepoint.com/personal/uidq5744_automotive-wan_com).pdf)
