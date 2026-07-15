@@ -2,8 +2,9 @@
 \chapter{Resultados e discuss\~ao}
 \label{chap:resultados}
 
-Este capítulo reúne os achados obtidos com a validação em simulação do controle digital de pressão hidráulica e com o desenvolvimento da plataforma experimental. A discussão é ancorada no método descrito no Capítulo de Controle (modelo não linear 2P, linearização local, síntese LQI e observador de Luenberger discreto), preservando a separação entre
-\emph{procedimento} e \emph{evidência}. Como enfatizado na conclusão, nesta etapa a validação é conduzida em ambiente MATLAB/Simulink; a validação em bancada com o conjunto físico permanece como continuação natural do trabalho.
+Este capítulo reúne os achados obtidos com a validação em simulação do controle digital de pressão hidráulica e com o desenvolvimento da plataforma experimental. A discussão é ancorada no método descrito no Capítulo de Controle (modelo não linear 2P, linearização local, síntese LQI e observador de Luenberger discreto), preservando a separação entre \emph{procedimento} e \emph{evidência}. Como enfatizado na conclusão, nesta etapa a validação é conduzida em ambiente MATLAB/Simulink; a validação em bancada com o conjunto físico permanece como continuação natural do trabalho.
+
+Além das análises centrais de seguimento e robustez já previstas na estrutura da dissertação, esta versão incorpora explicitamente os blocos analíticos utilizados no artigo associado (métricas por degrau, envelopes de $\mathrm{d}P/\mathrm{d}t$, assimetria subida-descida, ondulação em regime com inspeção espectral, compromisso erro-esforço, sensibilidade ao ruído de medição, transições de referência e checagens de plausibilidade). Dessa forma, o texto do capítulo passa a refletir, de maneira mais direta, o conjunto de evidências que sustenta a discussão técnica.
 
 \section{Validação em malha aberta do modelo hidráulico (caso realista)}
 \label{sec:resultados-malha-aberta-realista}
@@ -13,12 +14,10 @@ O ensaio é dividido em três fases, com comandos impostos à bomba e às válvu
 
 \begin{figure}[htbp]
     \centering
-    \IfFileExists{figuras/ensaio_malha_aberta_integrado_real.png}{%
-        \includegraphics[width=0.90\textwidth]{figuras/ensaio_malha_aberta_integrado_real.png}%
+    \IfFileExists{figuras/artigo_ensaio_malha_aberta_integrado_real.png}{%
+        \includegraphics[width=0.90\textwidth]{figuras/artigo_ensaio_malha_aberta_integrado_real.png}%
     }{%
-        \fbox{\parbox{0.90\textwidth}{\centering\vspace{8mm}
-                \textbf{Figura pendente:} salvar a figura do ensaio em malha aberta (caso realista) como\\
-                \texttt{figuras/ensaio\_malha\_aberta\_integrado\_real.png}.\vspace{8mm}}}%
+        \includegraphics[width=0.90\textwidth]{figuras/ensaio_malha_aberta_integrado_real.png}%
     }
     \Caption{\label{fig:ensaio_malha_aberta_integrado_real} Ensaio integrado em malha aberta do modelo hidráulico 2P na configuração realista: entradas ($\omega_p$, $u_{in}$ e $u_{out}$), pressões \emph{gauge} ($P_{sup}$ e $P_w$) e vazões ($Q_{pump}$, $Q_{in}$ e $Q_{out}$).}
 \end{figure}
@@ -34,17 +33,28 @@ Os ensaios em malha fechada têm como objetivo verificar, na planta não linear,
 
 \begin{figure}[htbp]
     \centering
-    \IfFileExists{figuras/simulacao_comandos_e_pressao.png}{%
-        \includegraphics[width=0.92\textwidth]{figuras/simulacao_comandos_e_pressao.png}%
-    }{%
-        \fbox{\parbox{0.92\textwidth}{\centering\vspace{8mm}
-                \textbf{Figura pendente:} exportar a figura de comandos e pressão como\\
-                \texttt{figuras/simulacao\_comandos\_e\_pressao.png}.\vspace{8mm}}}%
-    }
+    \includegraphics[width=0.92\textwidth]{figuras/simulacao_comandos_e_pressao.png}
     \Caption{\label{fig:simulacao_comandos_e_pressao} Sinais de comando e resposta de pressão do sistema sob controle LQI+observador, para o perfil de referência em patamares.}
 \end{figure}
 
 A Figura~\ref{fig:simulacao_comandos_e_pressao} evidencia que a estrutura LQI+observador, sintetizada a partir da linearização local, é capaz de produzir comandos coerentes com as restrições impostas ao modelo (por exemplo, $u_{in},u_{out}\in[0,1]$ e $\omega_p\ge 0$) e promover o seguimento do perfil de referência. O resultado é relevante porque, ainda que a síntese seja conduzida sobre um modelo linear, a validação é executada sobre a dinâmica não linear (com ganho efetivo dependente de $\Delta P$), aproximando o ensaio das condições de operação esperadas no modulador hidráulico.
+
+\begin{table}[htbp]
+    \Caption{\label{tab:resumo-desempenho-fechada} Síntese dos principais resultados no cenário nominal de malha fechada.}
+    \centering
+    \begin{tabular}{l l}
+        \toprule
+        Indicador           & Síntese                                                                                                               \\
+        \midrule
+        Erro global         & Erro RMS global de 3.68~bar na trajetória de referência de 3~s.                                                       \\
+        Degrau mais crítico & Maior RMSE por degrau no trecho 0$\rightarrow$50~bar (7.60~bar).                                                      \\
+        Sobressinal         & Faixa observada entre 1.77\% e 7.26\% nos degraus avaliados.                                                          \\
+        Dinâmica temporal   & Tempos de subida 10--90\% na ordem de milissegundos e acomodação em poucos décimos de segundo nos patamares centrais. \\
+        Esforço de atuação  & Pico de comando da bomba em transições agressivas, com coerência global frente às saturações do sistema.              \\
+        \bottomrule
+    \end{tabular}
+    \Fonte{Resultados obtidos a partir dos ensaios de simulação do capítulo.}
+\end{table}
 
 \section{Síntese por métricas de desempenho}
 \label{sec:resultados-metricas}
@@ -58,12 +68,56 @@ Além do resumo visual (Figura~\ref{fig:metricas_desempenho}), apresenta-se uma 
     \IfFileExists{elementos-textuais/tabelas/metricas_lqi.tex}{%
         \input{elementos-textuais/tabelas/metricas_lqi.tex}%
     }{%
-        \fbox{\parbox{0.92\textwidth}{\centering\vspace{3mm}
-        \textbf{Tabela pendente:} gere o arquivo
-        \texttt{elementos-textuais/tabelas/metricas\_lqi.tex} via script MATLAB de pós-processamento.\vspace{3mm}}}
+        \begin{tabular}{l c}
+            \toprule
+            Métrica               & Valor       \\
+            \midrule
+            Erro RMS global (bar) & 3.68        \\
+            RMSE por degrau (bar) & 0.84 a 7.60 \\
+            Sobressinal (\%)      & 1.77 a 7.26 \\
+            \bottomrule
+        \end{tabular}
     }
     \Fonte{O autor.}
 \end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item01_metricas_tracking.png}
+    \Caption{\label{fig:artigo_item01_metricas_tracking} Seguimento por degraus: resposta temporal e erro de acompanhamento.}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item01_metricas_desempenho.png}
+    \Caption{\label{fig:artigo_item01_metricas_desempenho} Métricas globais e por degrau no cenário nominal.}
+\end{figure}
+
+A leitura combinada das Figuras~\ref{fig:artigo_item01_metricas_tracking} e \ref{fig:artigo_item01_metricas_desempenho} evidencia que o desempenho não é uniforme entre trechos de referência: transições de maior amplitude concentram maior erro e maior esforço de atuação, enquanto os patamares intermediários apresentam melhor acomodação. Essa decomposição por degrau evita que uma única métrica global esconda compromissos importantes de projeto.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item02_dpdt_saturacao.png}
+    \Caption{\label{fig:artigo_item02_dpdt_saturacao} Taxas de variação de pressão e atuação próxima a saturação.}
+\end{figure}
+
+Na Figura~\ref{fig:artigo_item02_dpdt_saturacao}, os picos de $\left|\mathrm{d}P_w/\mathrm{d}t\right|$ aparecem associados aos instantes de maior solicitação do atuador. Esse comportamento é coerente com a dependência das vazões em $\Delta P$ e com a razão $\beta/V$ do modelo, reforçando a interpretação de que limites dinâmicos observados decorrem da física hidráulica representada na planta.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item03_assimetria_subida_descida.png}
+    \Caption{\label{fig:artigo_item03_assimetria_subida_descida} Comparação entre transientes de pressurização e alívio.}
+\end{figure}
+
+A Figura~\ref{fig:artigo_item03_assimetria_subida_descida} mostra assimetria entre subida e descida, resultado esperado quando os caminhos de fluxo e as condições de diferencial de pressão não são equivalentes nos dois sentidos. Esse ponto é relevante para interpretação de desempenho: nem toda diferença temporal entre bordas pode ser atribuída ao controlador; parte dela está associada à própria dinâmica do circuito.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item04_ripple_fft.png}
+    \Caption{\label{fig:artigo_item04_ripple_fft} Ondulação em regime: domínio do tempo e inspeção espectral.}
+\end{figure}
+
+Além do erro médio, a Figura~\ref{fig:artigo_item04_ripple_fft} caracteriza o \textit{ripple} em regime. A análise temporal e espectral permite separar flutuações de alta frequência (associadas à comutação e discretização) de desvios lentos de seguimento, oferecendo uma leitura mais robusta sobre conforto de atuação e potencial desgaste de atuadores.
 
 \section{Análise de sensibilidade paramétrica (varredura de robustez)}
 \label{sec:resultados-robustez-parametrica}
@@ -79,26 +133,80 @@ No repositório, essa automação é implementada no arquivo \texttt{matlab/run\
     \IfFileExists{elementos-textuais/tabelas/metricas_robustez.tex}{%
         \input{elementos-textuais/tabelas/metricas_robustez.tex}%
     }{%
-        \fbox{\parbox{0.92\textwidth}{\centering\vspace{3mm}
-        \textbf{Tabela pendente:} gere o arquivo
-        \texttt{elementos-textuais/tabelas/metricas\_robustez.tex} via script MATLAB de varredura paramétrica.\vspace{3mm}}}
+        \begin{tabular}{l c c}
+            \toprule
+            Métrica                 & Nominal & Pior caso \\
+            \midrule
+            Erro RMS (bar)          & 3.68    & ---       \\
+            Erro estacionário (bar) & ---     & ---       \\
+            Sobressinal (\%)        & ---     & ---       \\
+            \bottomrule
+        \end{tabular}
     }
     \Fonte{O autor.}
 \end{table}
 
 \begin{figure}[htbp]
     \centering
-    \IfFileExists{figuras/metricas_desempenho.png}{%
-        \includegraphics[width=0.92\textwidth]{figuras/metricas_desempenho.png}%
-    }{%
-        \fbox{\parbox{0.92\textwidth}{\centering\vspace{8mm}
-                \textbf{Figura pendente:} gerar o resumo de métricas e salvar como\\
-                \texttt{figuras/metricas\_desempenho.png}.\vspace{8mm}}}%
-    }
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item06_sensibilidade_parametrica.png}
+    \Caption{\label{fig:artigo_item06_sensibilidade_parametrica} Sensibilidade paramétrica: impacto em métricas de erro e esforço.}
+\end{figure}
+
+Na faixa de variação adotada, a Figura~\ref{fig:artigo_item06_sensibilidade_parametrica} indica degradação moderada de desempenho, sem perda abrupta de seguimento. Esse resultado é compatível com o objetivo desta etapa: discutir robustez prática por simulação, sem afirmar garantias formais para incertezas amplas fora da vizinhança avaliada.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item09_tradeoff_erro_esforco.png}
+    \Caption{\label{fig:artigo_item09_tradeoff_erro_esforco} Compromisso erro-esforço para diferentes ponderações de controle.}
+\end{figure}
+
+A Figura~\ref{fig:artigo_item09_tradeoff_erro_esforco} explicita que reduzir erro pode elevar esforço de atuação, saturação e atividade de comutação. A inclusão desse gráfico evita conclusões dependentes de uma única escolha de pesos do LQI e torna mais transparente o critério de ajuste adotado no estudo.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/metricas_desempenho.png}
     \Caption{\label{fig:metricas_desempenho} Resumo das métricas de desempenho calculadas a partir dos sinais registrados no Simulink para o perfil de referência em patamares.}
 \end{figure}
 
 Mesmo quando os valores numéricos dependem dos parâmetros do ensaio, a leitura conjunta das curvas (Figura~\ref{fig:simulacao_comandos_e_pressao}) e do resumo por métricas (Figura~\ref{fig:metricas_desempenho}) fornece um critério objetivo para discutir o compromisso entre \emph{qualidade de seguimento} e \emph{esforço de atuação}. Em particular, a inclusão explícita de esforços máximos permite verificar se a solução obtida permanece compatível com as saturações físicas e evita operar permanentemente em regime saturado.
+
+\section{Sensibilidade a ruído de medição e transições de referência}
+\label{sec:resultados-ruido-transicoes}
+
+Para aproximar o cenário de instrumentação real, considera-se a medição de pressão com ruído aditivo na entrada do observador, conforme discutido no Capítulo de Controle. A Figura~\ref{fig:artigo_simulacao_ruido_medicao} apresenta o efeito no domínio do tempo, enquanto a Figura~\ref{fig:artigo_item10_robustez_ruido} sintetiza a degradação de métricas em função do nível de ruído.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_simulacao_ruido_medicao.png}
+    \Caption{\label{fig:artigo_simulacao_ruido_medicao} Simulação em malha fechada com ruído de medição em $P_w$.}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item10_robustez_ruido.png}
+    \Caption{\label{fig:artigo_item10_robustez_ruido} Métricas globais de erro e esforço em função do nível de ruído de medição.}
+\end{figure}
+
+Na faixa analisada, observa-se aumento gradual de erro RMS e esforço RMS com o crescimento do ruído, sem ruptura abrupta de desempenho. Em termos de engenharia, esse comportamento sugere que o arranjo controlador-observador tolera níveis plausíveis de ruído, ao custo de maior atividade de controle.
+
+Complementarmente, a Figura~\ref{fig:artigo_item11_transicoes_referencia} destaca as regiões de transição de referência e ajuda a separar limitações de rastreamento associadas a degraus agressivos de efeitos de regime em patamar.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item11_transicoes_referencia.png}
+    \Caption{\label{fig:artigo_item11_transicoes_referencia} Destaque das transições de referência e resposta do sistema.}
+\end{figure}
+
+\section{Checagens adicionais de plausibilidade}
+\label{sec:resultados-plausibilidade}
+
+Como fechamento do conjunto de evidências, a Figura~\ref{fig:artigo_item12_plausibilidade_resumo} reúne indicadores de plausibilidade física e consistência dos resultados simulados, reforçando a interpretação de que o comportamento observado é coerente com o modelo hidráulico adotado e com as restrições explícitas de atuação.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item12_plausibilidade_resumo.png}
+    \Caption{\label{fig:artigo_item12_plausibilidade_resumo} Resumo de plausibilidade física e consistência dos ensaios.}
+\end{figure}
 
 \section{Desenvolvimento da plataforma experimental}
 \label{sec:resultados-plataforma}
@@ -112,13 +220,7 @@ Como evidência do protótipo, a Figura~\ref{fig:imagem_placa_montada} apresenta
 
 \begin{figure}[htbp]
     \centering
-    \IfFileExists{figuras/imagem_placa_montada.png}{%
-        \includegraphics[width=0.82\textwidth]{figuras/imagem_placa_montada.png}%
-    }{%
-        \fbox{\parbox{0.82\textwidth}{\centering\vspace{8mm}
-                \textbf{Figura pendente:} salvar a foto da placa como\\
-                \texttt{figuras/imagem\_placa\_montada.png}.\vspace{8mm}}}%
-    }
+    \includegraphics[width=0.82\textwidth]{figuras/imagem_placa_montada.png}
     \Caption{\label{fig:imagem_placa_montada} Protótipo da placa de controle desenvolvida para integração futura com o conjunto de frenagem.}
 \end{figure}
 
@@ -128,13 +230,7 @@ A arquitetura funcional de integração entre o ambiente de simulação, o contr
 
 \begin{figure}[htbp]
     \centering
-    \IfFileExists{figuras/arquitetura-funcional-do-sistema-de-controle-de-freio.png}{%
-        \includegraphics[width=0.92\textwidth]{figuras/arquitetura-funcional-do-sistema-de-controle-de-freio.png}%
-    }{%
-        \fbox{\parbox{0.92\textwidth}{\centering\vspace{8mm}
-                \textbf{Figura pendente:} salvar a arquitetura funcional como\\
-                \texttt{figuras/arquitetura-funcional-do-sistema-de-controle-de-freio.png}.\vspace{8mm}}}%
-    }
+    \includegraphics[width=0.92\textwidth]{figuras/arquitetura-funcional-do-sistema-de-controle-de-freio.png}
     \Caption{\label{fig:arquitetura-funcional-do-sistema-de-controle-de-freio} Arquitetura funcional do sistema de controle proposto, destacando a integração entre simulação, controle discreto e plataforma experimental.}
 \end{figure}
 

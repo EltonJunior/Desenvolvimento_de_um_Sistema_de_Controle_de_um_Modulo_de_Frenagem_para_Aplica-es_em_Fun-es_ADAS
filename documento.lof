@@ -1,30 +1,41 @@
 \babel@toc {brazil}{}\relax 
-\contentsline {figure}{\numberline {1}{\ignorespaces Trajetória da automação dos veículos nas últimas décadas.}}{27}{figure.caption.13}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Freio a Disco.}}{29}{figure.caption.14}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Freio a Tambor.}}{30}{figure.caption.15}%
-\contentsline {figure}{\numberline {4}{\ignorespaces Sistemas Hidráulicos.}}{31}{figure.caption.16}%
-\contentsline {figure}{\numberline {5}{\ignorespaces Sistemas Pneumáticos.}}{31}{figure.caption.17}%
-\contentsline {figure}{\numberline {6}{\ignorespaces Controle Eletrônico de Estabilidade (ESC).}}{33}{figure.caption.18}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Demostração da roda sem (TCS).}}{34}{figure.caption.19}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Controle de Cruzeiro Adaptativo (ACC).}}{34}{figure.caption.20}%
-\contentsline {figure}{\numberline {9}{\ignorespaces Sistema de Freio}}{49}{figure.caption.21}%
-\contentsline {figure}{\numberline {10}{\ignorespaces Princípio do Bloco Hidráulico com Válvulas Solenoides}}{50}{figure.caption.22}%
-\contentsline {figure}{\numberline {11}{\ignorespaces Modelo Hidráulico com Conjunto de Freio Automotivo.}}{51}{figure.caption.23}%
-\contentsline {figure}{\numberline {12}{\ignorespaces Diagrama de Sensor Passivo e Sinal Gerado.}}{52}{figure.caption.24}%
-\contentsline {figure}{\numberline {13}{\ignorespaces Diagrama de Sensor Ativo e Sinal Gerado.}}{53}{figure.caption.25}%
-\contentsline {figure}{\numberline {14}{\ignorespaces Sensor de Pressão no Bloco do Sistema de Freio.}}{54}{figure.caption.26}%
-\contentsline {figure}{\numberline {15}{\ignorespaces Diagrama em Bloco da Placa Proposta.}}{54}{figure.caption.27}%
-\contentsline {figure}{\numberline {16}{\ignorespaces Implementação do subsistema hidráulico em um bloco \texttt {MATLAB Function} no Simulink.}}{64}{figure.caption.28}%
-\contentsline {figure}{\numberline {17}{\ignorespaces Esquema da simulação em malha aberta do modelo hidráulico 2P em MATLAB/Simulink, com \textit {script} MATLAB gerando o ensaio.}}{64}{figure.caption.29}%
-\contentsline {figure}{\numberline {18}{\ignorespaces Modelo Simulink integrado para validação do controle digital de pressão (referência, controlador LQI+observador, lógica das válvulas e planta não linear).}}{71}{figure.caption.31}%
-\contentsline {figure}{\numberline {19}{\ignorespaces Implementação do controlador discreto (LQI + observador de Luenberger) em um bloco \texttt {MATLAB Function} no Simulink.}}{71}{figure.caption.32}%
-\contentsline {figure}{\numberline {20}{\ignorespaces Ensaio integrado em malha aberta do modelo hidráulico 2P na configuração realista: entradas ($\omega _p$, $u_{in}$ e $u_{out}$), pressões \emph {gauge} ($P_{sup}$ e $P_w$) e vazões ($Q_{pump}$, $Q_{in}$ e $Q_{out}$).}}{74}{figure.caption.33}%
-\contentsline {figure}{\numberline {21}{\ignorespaces Sinais de comando e resposta de pressão do sistema sob controle LQI+observador, para o perfil de referência em patamares.}}{75}{figure.caption.34}%
-\contentsline {figure}{\numberline {22}{\ignorespaces Resumo das métricas de desempenho calculadas a partir dos sinais registrados no Simulink para o perfil de referência em patamares.}}{77}{figure.caption.37}%
-\contentsline {figure}{\numberline {23}{\ignorespaces Protótipo da placa de controle desenvolvida para integração futura com o conjunto de frenagem.}}{78}{figure.caption.38}%
-\contentsline {figure}{\numberline {24}{\ignorespaces Arquitetura funcional do sistema de controle proposto, destacando a integração entre simulação, controle discreto e plataforma experimental.}}{79}{figure.caption.39}%
-\contentsline {figure}{\numberline {25}{\ignorespaces Circuito Sensor de Roda Proposto.}}{86}{figure.caption.42}%
-\contentsline {figure}{\numberline {26}{\ignorespaces Simulação do Circuito Sensor de Roda Proposto.}}{87}{figure.caption.43}%
-\contentsline {figure}{\numberline {27}{\ignorespaces Circuito de Controle das Válvulas Solenoides.}}{87}{figure.caption.44}%
-\contentsline {figure}{\numberline {28}{\ignorespaces Circuito de Controle da Bomba de Pressão.}}{88}{figure.caption.45}%
-\contentsline {figure}{\numberline {29}{\ignorespaces Circuito de Leitura do Sensor de Pressão.}}{89}{figure.caption.46}%
+\contentsline {figure}{\numberline {1}{\ignorespaces Trajetória da automação dos veículos nas últimas décadas.}}{28}{figure.caption.13}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Freio a Disco.}}{30}{figure.caption.14}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Freio a Tambor.}}{31}{figure.caption.15}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Sistemas Hidráulicos.}}{32}{figure.caption.16}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Sistemas Pneumáticos.}}{32}{figure.caption.17}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Controle Eletrônico de Estabilidade (ESC).}}{34}{figure.caption.18}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Demostração da roda sem (TCS).}}{35}{figure.caption.19}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Controle de Cruzeiro Adaptativo (ACC).}}{35}{figure.caption.20}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Sistema de Freio}}{50}{figure.caption.21}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Princípio do Bloco Hidráulico com Válvulas Solenoides}}{51}{figure.caption.22}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Modelo Hidráulico com Conjunto de Freio Automotivo.}}{52}{figure.caption.23}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Diagrama de Sensor Passivo e Sinal Gerado.}}{53}{figure.caption.24}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Diagrama de Sensor Ativo e Sinal Gerado.}}{54}{figure.caption.25}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Sensor de Pressão no Bloco do Sistema de Freio.}}{55}{figure.caption.26}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Diagrama em Bloco da Placa Proposta.}}{55}{figure.caption.27}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Implementação do subsistema hidráulico em um bloco \texttt {MATLAB Function} no Simulink.}}{65}{figure.caption.28}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Esquema da simulação em malha aberta do modelo hidráulico 2P em MATLAB/Simulink, com \textit {script} MATLAB gerando o ensaio.}}{65}{figure.caption.29}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Modelo Simulink integrado para validação do controle digital de pressão (referência, controlador LQI+observador, lógica das válvulas e planta não linear).}}{72}{figure.caption.31}%
+\contentsline {figure}{\numberline {19}{\ignorespaces Implementação do controlador discreto (LQI + observador de Luenberger) em um bloco \texttt {MATLAB Function} no Simulink.}}{72}{figure.caption.32}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Ensaio integrado em malha aberta do modelo hidráulico 2P na configuração realista: entradas ($\omega _p$, $u_{in}$ e $u_{out}$), pressões \emph {gauge} ($P_{sup}$ e $P_w$) e vazões ($Q_{pump}$, $Q_{in}$ e $Q_{out}$).}}{75}{figure.caption.33}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Sinais de comando e resposta de pressão do sistema sob controle LQI+observador, para o perfil de referência em patamares.}}{76}{figure.caption.34}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Seguimento por degraus: resposta temporal e erro de acompanhamento.}}{78}{figure.caption.37}%
+\contentsline {figure}{\numberline {23}{\ignorespaces Métricas globais e por degrau no cenário nominal.}}{78}{figure.caption.38}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Taxas de variação de pressão e atuação próxima a saturação.}}{79}{figure.caption.39}%
+\contentsline {figure}{\numberline {25}{\ignorespaces Comparação entre transientes de pressurização e alívio.}}{79}{figure.caption.40}%
+\contentsline {figure}{\numberline {26}{\ignorespaces Ondulação em regime: domínio do tempo e inspeção espectral.}}{80}{figure.caption.41}%
+\contentsline {figure}{\numberline {27}{\ignorespaces Sensibilidade paramétrica: impacto em métricas de erro e esforço.}}{81}{figure.caption.43}%
+\contentsline {figure}{\numberline {28}{\ignorespaces Compromisso erro-esforço para diferentes ponderações de controle.}}{82}{figure.caption.44}%
+\contentsline {figure}{\numberline {29}{\ignorespaces Resumo das métricas de desempenho calculadas a partir dos sinais registrados no Simulink para o perfil de referência em patamares.}}{83}{figure.caption.45}%
+\contentsline {figure}{\numberline {30}{\ignorespaces Simulação em malha fechada com ruído de medição em $P_w$.}}{84}{figure.caption.46}%
+\contentsline {figure}{\numberline {31}{\ignorespaces Métricas globais de erro e esforço em função do nível de ruído de medição.}}{84}{figure.caption.47}%
+\contentsline {figure}{\numberline {32}{\ignorespaces Destaque das transições de referência e resposta do sistema.}}{85}{figure.caption.48}%
+\contentsline {figure}{\numberline {33}{\ignorespaces Resumo de plausibilidade física e consistência dos ensaios.}}{86}{figure.caption.49}%
+\contentsline {figure}{\numberline {34}{\ignorespaces Protótipo da placa de controle desenvolvida para integração futura com o conjunto de frenagem.}}{87}{figure.caption.50}%
+\contentsline {figure}{\numberline {35}{\ignorespaces Arquitetura funcional do sistema de controle proposto, destacando a integração entre simulação, controle discreto e plataforma experimental.}}{87}{figure.caption.51}%
+\contentsline {figure}{\numberline {36}{\ignorespaces Circuito Sensor de Roda Proposto.}}{95}{figure.caption.54}%
+\contentsline {figure}{\numberline {37}{\ignorespaces Simulação do Circuito Sensor de Roda Proposto.}}{96}{figure.caption.55}%
+\contentsline {figure}{\numberline {38}{\ignorespaces Circuito de Controle das Válvulas Solenoides.}}{96}{figure.caption.56}%
+\contentsline {figure}{\numberline {39}{\ignorespaces Circuito de Controle da Bomba de Pressão.}}{97}{figure.caption.57}%
+\contentsline {figure}{\numberline {40}{\ignorespaces Circuito de Leitura do Sensor de Pressão.}}{98}{figure.caption.58}%

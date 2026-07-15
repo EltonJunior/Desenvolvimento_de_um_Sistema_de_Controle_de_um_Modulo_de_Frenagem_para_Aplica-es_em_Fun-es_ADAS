@@ -17,7 +17,7 @@ Reallocating 'wiz_functions' (item size: 4) to 9000 items.
 Database file #1: abntex2-options.bib
 Database file #2: elementos-pos-textuais/referencias.bib
 Warning--entry type for "bosch2024" isn't style-file defined
---line 370 of file elementos-pos-textuais/referencias.bib
+--line 739 of file elementos-pos-textuais/referencias.bib
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'glb_str_end' (item size: 4) to 20 items.
 Reallocating 'glb_str_ptr' (item size: 4) to 20 items.

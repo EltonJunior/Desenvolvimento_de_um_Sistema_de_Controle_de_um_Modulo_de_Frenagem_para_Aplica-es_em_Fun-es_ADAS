@@ -8,112 +8,114 @@
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {1}\MakeTextUppercase []{Introdução}}{21}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Considerações Iniciais}{21}{section.1.1}%
-\contentsline {section}{\numberline {1.2} Objetivos }{22}{section.1.2}%
-\contentsline {section}{\numberline {1.3} Justificativa }{23}{section.1.3}%
-\contentsline {section}{\numberline {1.4} Motivação }{23}{section.1.4}%
-\contentsline {section}{\numberline {1.5}Contribuições e critério de novidade}{24}{section.1.5}%
+\contentsline {chapter}{\chapternumberline {1}\MakeTextUppercase []{Introdução}}{22}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Considerações Iniciais}{22}{section.1.1}%
+\contentsline {section}{\numberline {1.2} Objetivos }{23}{section.1.2}%
+\contentsline {section}{\numberline {1.3} Justificativa }{24}{section.1.3}%
+\contentsline {section}{\numberline {1.4} Motivação }{24}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Contribuições e critério de novidade}{25}{section.1.5}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {2}\MakeTextUppercase []{O Estado da Arte}}{26}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Histórico dos Sistemas de Freio}{26}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Evolução dos Sistemas de Freio ao Longo do Tempo}{26}{subsection.2.1.1}%
-\contentsline {subsection}{\numberline {2.1.2}Principais Marcos e Inovações Tecnológicas}{26}{subsection.2.1.2}%
-\contentsline {section}{\numberline {2.2}Classificação dos Sistemas de Freio}{27}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Tipos de Sistemas de Freio}{29}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Freios a disco e a tambor}{29}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Sistemas de Freio Hidráulico e Pneumático}{30}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}Tecnologias Modernas}{32}{subsection.2.3.3}%
-\contentsline {section}{\numberline {2.4}Componentes dos Sistemas de Freio}{35}{section.2.4}%
-\contentsline {subsection}{\numberline {2.4.1}Descrição, Função e Importância dos principais componentes }{35}{subsection.2.4.1}%
-\contentsline {subsection}{\numberline {2.4.2}Princípios de Funcionamento}{36}{subsection.2.4.2}%
-\contentsline {section}{\numberline {2.5}Revisão de estudos experimentais e teóricos sobre a eficiência e desempenho dos sistemas de freio}{37}{section.2.5}%
-\contentsline {section}{\numberline {2.6}Análise de dados de testes em simulações de frenagem}{38}{section.2.6}%
-\contentsline {section}{\numberline {2.7}Desafios e Limitações dos Sistemas de Freio Modernos}{39}{section.2.7}%
-\contentsline {section}{\numberline {2.8}Síntese crítica e posicionamento do trabalho}{39}{section.2.8}%
-\contentsline {subsection}{\numberline {2.8.1}Problemas Comuns Enfrentados pelos Sistemas de Freio}{41}{subsection.2.8.1}%
-\contentsline {subsection}{\numberline {2.8.2}Barreiras tecnológicas e áreas que demandam aprimoramentos}{42}{subsection.2.8.2}%
-\contentsline {section}{\numberline {2.9}Tendências futuras e o impacto na segurança veicular}{42}{section.2.9}%
-\contentsline {subsection}{\numberline {2.9.1}Impacto das novas tecnologias na segurança veicular}{43}{subsection.2.9.1}%
+\contentsline {chapter}{\chapternumberline {2}\MakeTextUppercase []{O Estado da Arte}}{27}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Histórico dos Sistemas de Freio}{27}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Evolução dos Sistemas de Freio ao Longo do Tempo}{27}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Principais Marcos e Inovações Tecnológicas}{27}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}Classificação dos Sistemas de Freio}{28}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Tipos de Sistemas de Freio}{30}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Freios a disco e a tambor}{30}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Sistemas de Freio Hidráulico e Pneumático}{31}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Tecnologias Modernas}{33}{subsection.2.3.3}%
+\contentsline {section}{\numberline {2.4}Componentes dos Sistemas de Freio}{36}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Descrição, Função e Importância dos principais componentes }{36}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Princípios de Funcionamento}{37}{subsection.2.4.2}%
+\contentsline {section}{\numberline {2.5}Revisão de estudos experimentais e teóricos sobre a eficiência e desempenho dos sistemas de freio}{38}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Análise de dados de testes em simulações de frenagem}{39}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Desafios e Limitações dos Sistemas de Freio Modernos}{40}{section.2.7}%
+\contentsline {section}{\numberline {2.8}Síntese crítica e posicionamento do trabalho}{40}{section.2.8}%
+\contentsline {subsection}{\numberline {2.8.1}Problemas Comuns Enfrentados pelos Sistemas de Freio}{42}{subsection.2.8.1}%
+\contentsline {subsection}{\numberline {2.8.2}Barreiras tecnológicas e áreas que demandam aprimoramentos}{43}{subsection.2.8.2}%
+\contentsline {section}{\numberline {2.9}Tendências futuras e o impacto na segurança veicular}{43}{section.2.9}%
+\contentsline {subsection}{\numberline {2.9.1}Impacto das novas tecnologias na segurança veicular}{44}{subsection.2.9.1}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {3}\MakeTextUppercase []{Metodologia}}{45}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Procedimento metodológico e métricas de avaliação}{45}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Tipo e Abordagem da Pesquisa}{46}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Justificativa das Escolhas Metodológicas}{46}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Aplicação em ADAS}{46}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Integração com ADAS}{47}{subsection.3.4.1}%
-\contentsline {section}{\numberline {3.5}Descrição do Sistema de Freio}{48}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Válvulas Solenoide}{49}{subsection.3.5.1}%
-\contentsline {subsection}{\numberline {3.5.2}Motor da Bomba de Pressão}{51}{subsection.3.5.2}%
-\contentsline {subsection}{\numberline {3.5.3}Sensor da Roda}{52}{subsection.3.5.3}%
-\contentsline {subsubsection}{\numberline {3.5.3.1}Sensor da Roda Modelo Passivo}{52}{subsubsection.3.5.3.1}%
-\contentsline {subsubsection}{\numberline {3.5.3.2}Sensor da Roda Modelo Ativo}{52}{subsubsection.3.5.3.2}%
-\contentsline {section}{\numberline {3.6}Sensor de Pressão de Óleo}{53}{section.3.6}%
-\contentsline {section}{\numberline {3.7}Desenvolvimento da Placa de Controle}{53}{section.3.7}%
-\contentsline {subsection}{\numberline {3.7.1}Circuitos Propostos}{55}{subsection.3.7.1}%
-\contentsline {subsection}{\numberline {3.7.2}Microcontrolador}{55}{subsection.3.7.2}%
-\contentsline {subsection}{\numberline {3.7.3}Protocolo de Comunicação CAN}{56}{subsection.3.7.3}%
-\contentsline {section}{\numberline {3.8}Demonstração do Funcionamento}{57}{section.3.8}%
-\contentsline {section}{\numberline {3.9}Descrição dos Instrumentos e Procedimentos}{57}{section.3.9}%
-\contentsline {section}{\numberline {3.10}Critérios de Validação}{57}{section.3.10}%
-\contentsline {section}{\numberline {3.11}Simulações: Parâmetros, Modelos e Ferramentas}{57}{section.3.11}%
-\contentsline {section}{\numberline {3.12}Desenho Experimental, Amostragem e Análise Estatística}{58}{section.3.12}%
-\contentsline {section}{\numberline {3.13}Limitações e Possíveis Vieses}{58}{section.3.13}%
+\contentsline {chapter}{\chapternumberline {3}\MakeTextUppercase []{Metodologia}}{46}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Procedimento metodológico e métricas de avaliação}{46}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Tipo e Abordagem da Pesquisa}{47}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Justificativa das Escolhas Metodológicas}{47}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Aplicação em ADAS}{47}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Integração com ADAS}{48}{subsection.3.4.1}%
+\contentsline {section}{\numberline {3.5}Descrição do Sistema de Freio}{49}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Válvulas Solenoide}{50}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Motor da Bomba de Pressão}{52}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}Sensor da Roda}{53}{subsection.3.5.3}%
+\contentsline {subsubsection}{\numberline {3.5.3.1}Sensor da Roda Modelo Passivo}{53}{subsubsection.3.5.3.1}%
+\contentsline {subsubsection}{\numberline {3.5.3.2}Sensor da Roda Modelo Ativo}{53}{subsubsection.3.5.3.2}%
+\contentsline {section}{\numberline {3.6}Sensor de Pressão de Óleo}{54}{section.3.6}%
+\contentsline {section}{\numberline {3.7}Desenvolvimento da Placa de Controle}{54}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}Circuitos Propostos}{56}{subsection.3.7.1}%
+\contentsline {subsection}{\numberline {3.7.2}Microcontrolador}{56}{subsection.3.7.2}%
+\contentsline {subsection}{\numberline {3.7.3}Protocolo de Comunicação CAN}{57}{subsection.3.7.3}%
+\contentsline {section}{\numberline {3.8}Demonstração do Funcionamento}{58}{section.3.8}%
+\contentsline {section}{\numberline {3.9}Descrição dos Instrumentos e Procedimentos}{58}{section.3.9}%
+\contentsline {section}{\numberline {3.10}Critérios de Validação}{58}{section.3.10}%
+\contentsline {section}{\numberline {3.11}Simulações: Parâmetros, Modelos e Ferramentas}{58}{section.3.11}%
+\contentsline {section}{\numberline {3.12}Desenho Experimental, Amostragem e Análise Estatística}{59}{section.3.12}%
+\contentsline {section}{\numberline {3.13}Limitações e Possíveis Vieses}{59}{section.3.13}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {4}\MakeTextUppercase []{Metodologia específica: controle do sistema hidráulico não linear}}{59}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Da desaceleração à referência de pressão por roda}{60}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Modelo hidráulico não linear de duas pressões}{61}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Estratégias de acionamento das válvulas}{61}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Dinâmica e leis de vazão}{62}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Simulação em malha aberta e validação do modelo hidráulico}{63}{subsection.4.2.3}%
-\contentsline {section}{\numberline {4.3}Linearização do modelo não linear}{66}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Definição do ponto de operação}{66}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Jacobianos e forma linear aproximada}{66}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}Não linearidades e região de validade}{66}{subsection.4.3.3}%
-\contentsline {section}{\numberline {4.4}Formulação em espaço de estados}{67}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Projeto do controlador discreto (LQI) para a bomba hidráulica}{67}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Projeto do observador de Luenberger}{67}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Discretização do sistema}{68}{section.4.7}%
-\contentsline {subsection}{\numberline {4.7.1}Modelo discreto}{68}{subsection.4.7.1}%
-\contentsline {subsection}{\numberline {4.7.2}LQR discreto}{68}{subsection.4.7.2}%
-\contentsline {section}{\numberline {4.8}Projeto do controlador LQI discreto}{68}{section.4.8}%
-\contentsline {subsection}{\numberline {4.8.1}Sistema aumentado com ação integral}{68}{subsection.4.8.1}%
-\contentsline {subsection}{\numberline {4.8.2}Escolha de pesos e saturações}{69}{subsection.4.8.2}%
-\contentsline {section}{\numberline {4.9}Implementação no modelo não linear em Simulink}{70}{section.4.9}%
-\contentsline {subsection}{\numberline {4.9.1}Estrutura do controlador}{70}{subsection.4.9.1}%
-\contentsline {subsection}{\numberline {4.9.2}Integração com a planta hidráulica}{70}{subsection.4.9.2}%
-\contentsline {section}{\numberline {4.10}Procedimentos de simulação e métricas de avaliação}{71}{section.4.10}%
+\contentsline {chapter}{\chapternumberline {4}\MakeTextUppercase []{Metodologia específica: controle do sistema hidráulico não linear}}{60}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Da desaceleração à referência de pressão por roda}{61}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Modelo hidráulico não linear de duas pressões}{62}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Estratégias de acionamento das válvulas}{62}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Dinâmica e leis de vazão}{63}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Simulação em malha aberta e validação do modelo hidráulico}{64}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Linearização do modelo não linear}{67}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Definição do ponto de operação}{67}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Jacobianos e forma linear aproximada}{67}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Não linearidades e região de validade}{67}{subsection.4.3.3}%
+\contentsline {section}{\numberline {4.4}Formulação em espaço de estados}{68}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Projeto do controlador discreto (LQI) para a bomba hidráulica}{68}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Projeto do observador de Luenberger}{68}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Discretização do sistema}{69}{section.4.7}%
+\contentsline {subsection}{\numberline {4.7.1}Modelo discreto}{69}{subsection.4.7.1}%
+\contentsline {subsection}{\numberline {4.7.2}LQR discreto}{69}{subsection.4.7.2}%
+\contentsline {section}{\numberline {4.8}Projeto do controlador LQI discreto}{69}{section.4.8}%
+\contentsline {subsection}{\numberline {4.8.1}Sistema aumentado com ação integral}{69}{subsection.4.8.1}%
+\contentsline {subsection}{\numberline {4.8.2}Escolha de pesos e saturações}{70}{subsection.4.8.2}%
+\contentsline {section}{\numberline {4.9}Implementação no modelo não linear em Simulink}{71}{section.4.9}%
+\contentsline {subsection}{\numberline {4.9.1}Estrutura do controlador}{71}{subsection.4.9.1}%
+\contentsline {subsection}{\numberline {4.9.2}Integração com a planta hidráulica}{71}{subsection.4.9.2}%
+\contentsline {section}{\numberline {4.10}Procedimentos de simulação e métricas de avaliação}{72}{section.4.10}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {5}\MakeTextUppercase []{Resultados e discuss\~ao}}{73}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Validação em malha aberta do modelo hidráulico (caso realista)}{73}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Resultados de simulação em malha fechada}{74}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Síntese por métricas de desempenho}{75}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Análise de sensibilidade paramétrica (varredura de robustez)}{76}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Desenvolvimento da plataforma experimental}{77}{section.5.5}%
-\contentsline {subsection}{\numberline {5.5.1}Impress\~ao e montagem da placa}{78}{subsection.5.5.1}%
-\contentsline {subsection}{\numberline {5.5.2}Arquitetura de integraç\~ao}{78}{subsection.5.5.2}%
-\contentsline {section}{\numberline {5.6}Limita\c {c}\~oes e trabalhos futuros}{79}{section.5.6}%
+\contentsline {chapter}{\chapternumberline {5}\MakeTextUppercase []{Resultados e discuss\~ao}}{74}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Validação em malha aberta do modelo hidráulico (caso realista)}{74}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Resultados de simulação em malha fechada}{75}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Síntese por métricas de desempenho}{76}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Análise de sensibilidade paramétrica (varredura de robustez)}{80}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Sensibilidade a ruído de medição e transições de referência}{83}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Checagens adicionais de plausibilidade}{83}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Desenvolvimento da plataforma experimental}{85}{section.5.7}%
+\contentsline {subsection}{\numberline {5.7.1}Impress\~ao e montagem da placa}{86}{subsection.5.7.1}%
+\contentsline {subsection}{\numberline {5.7.2}Arquitetura de integraç\~ao}{86}{subsection.5.7.2}%
+\contentsline {section}{\numberline {5.8}Limita\c {c}\~oes e trabalhos futuros}{88}{section.5.8}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {6}\MakeTextUppercase []{Conclusões}}{80}{chapter.6}%
+\contentsline {chapter}{\chapternumberline {6}\MakeTextUppercase []{Conclusões}}{89}{chapter.6}%
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
-\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{82}{section*.41}%
-\contentsline {chapter}{AP\^ENDICES}{85}{section*.41}%
+\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{91}{section*.53}%
+\contentsline {chapter}{AP\^ENDICES}{94}{section*.53}%
 \renewcommand *{\cftappendixname }{AP\^ENDICE \space }
 \renewcommand *{\cftappendixname }{\normalfont AP\^ENDICE \space }
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \cftinsert {A}
-\contentsline {appendix}{\chapternumberline {A}Circuitos Propostos da Plataforma de Controle}{86}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Circuito Comparador para o Sensor de Velocidade}{86}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Circuito de Acionamento das Válvulas Solenoides}{86}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Circuito de Controle do Motor da Bomba}{87}{section.A.3}%
-\contentsline {section}{\numberline {A.4}Circuito de Leitura do Sensor de Pressão}{88}{section.A.4}%
-\contentsline {section}{\numberline {A.5}Scripts MATLAB e Simulink Utilizados}{89}{section.A.5}%
-\contentsline {section}{\numberline {A.6}Ponto de operação utilizado na linearização}{111}{section.A.6}%
-\contentsline {section}{\numberline {A.7}Matrizes linearizadas (A, B, C, D)}{111}{section.A.7}%
+\contentsline {appendix}{\chapternumberline {A}Circuitos Propostos da Plataforma de Controle}{95}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Circuito Comparador para o Sensor de Velocidade}{95}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Circuito de Acionamento das Válvulas Solenoides}{95}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Circuito de Controle do Motor da Bomba}{96}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Circuito de Leitura do Sensor de Pressão}{97}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Scripts MATLAB e Simulink Utilizados}{98}{section.A.5}%
+\contentsline {section}{\numberline {A.6}Ponto de operação utilizado na linearização}{120}{section.A.6}%
+\contentsline {section}{\numberline {A.7}Matrizes linearizadas (A, B, C, D)}{120}{section.A.7}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \cftinsert {A}
-\contentsline {appendix}{\chapternumberline {B}Códigos MATLAB utilizados nas simulações}{112}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Mapeamento simples de desaceleração para referência de pressão}{112}{section.B.1}%
-\contentsline {chapter}{ANEXOS}{113}{lstnumber.B.7.7}%
+\contentsline {appendix}{\chapternumberline {B}Códigos MATLAB utilizados nas simulações}{121}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Mapeamento simples de desaceleração para referência de pressão}{121}{section.B.1}%
+\contentsline {chapter}{ANEXOS}{122}{lstnumber.B.7.7}%
