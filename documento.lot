@@ -1,6 +1,15 @@
 \babel@toc {brazil}{}\relax 
-\contentsline {table}{\numberline {1}{\ignorespaces Parâmetros ajustados para faixa de pressão realista do modelo 2P}}{66}{table.caption.30}%
-\contentsline {table}{\numberline {2}{\ignorespaces Síntese dos principais resultados no cenário nominal de malha fechada.}}{77}{table.caption.35}%
-\contentsline {table}{\numberline {3}{\ignorespaces Métricas numéricas do seguimento de referência de pressão na simulação em malha fechada (LQI+observador).}}{77}{table.caption.36}%
-\contentsline {table}{\numberline {4}{\ignorespaces Síntese de robustez por varredura paramétrica: comparação entre o caso nominal e o pior caso observado no conjunto de variações.}}{81}{table.caption.42}%
-\contentsline {table}{\numberline {5}{\ignorespaces Ponto de operação $(x_0,u_0)$ adotado na linearização local}}{120}{table.caption.59}%
+\contentsline {table}{\numberline {1}{\ignorespaces Parâmetros ajustados para faixa de pressão realista do modelo 2P}}{71}{table.caption.35}%
+\contentsline {table}{\numberline {2}{\ignorespaces Métricas do cenário nominal de simulação em malha fechada.}}{86}{table.caption.41}%
+\contentsline {table}{\numberline {3}{\ignorespaces Resumo dos ensaios \texttt {OLTEST} documentados.}}{94}{table.caption.53}%
+\contentsline {table}{\numberline {4}{\ignorespaces Resultados dos ensaios \texttt {PLID} durante a retenção.}}{95}{table.caption.54}%
+\contentsline {table}{\numberline {5}{\ignorespaces Referência de posição do LAC para a faixa de 50 a 100 psi.}}{96}{table.caption.56}%
+\contentsline {table}{\numberline {6}{\ignorespaces Estados funcionais derivados para as válvulas do canal analisado.}}{97}{table.caption.58}%
+\contentsline {table}{\numberline {7}{\ignorespaces Condições de aquisição e estimativas utilizadas na interpretação dos ensaios.}}{98}{table.caption.59}%
+\contentsline {table}{\numberline {8}{\ignorespaces Resultados do ensaio \texttt {CLSTEP B}.}}{101}{table.caption.61}%
+\contentsline {table}{\numberline {9}{\ignorespaces Pontos da curva experimental $P_w=g(x)$ e origem dos valores.}}{102}{table.caption.62}%
+\contentsline {table}{\numberline {10}{\ignorespaces Métricas dos segmentos executados no ensaio \texttt {PPMULTI}.}}{104}{table.caption.67}%
+\contentsline {table}{\numberline {11}{\ignorespaces Repetibilidade preliminar dos ensaios \texttt {PLID}.}}{107}{table.caption.69}%
+\contentsline {table}{\numberline {12}{\ignorespaces Quadro para a comparação experimental entre os modos \texttt {CLSTEP A} e \texttt {CLSTEP B}.}}{108}{table.caption.70}%
+\contentsline {table}{\numberline {13}{\ignorespaces Dispersão observada no degrau de 100 psi dos ensaios \texttt {CLMULTI}.}}{108}{table.caption.71}%
+\contentsline {table}{\numberline {14}{\ignorespaces Ponto de operação $(x_0,u_0)$ adotado na linearização local}}{142}{table.caption.79}%

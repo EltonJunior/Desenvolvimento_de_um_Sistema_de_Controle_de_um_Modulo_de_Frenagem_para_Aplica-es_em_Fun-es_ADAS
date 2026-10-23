@@ -35,6 +35,13 @@ ISBN 978-1-119-91190-6.}
 Dispon{\'\i}vel em:
   \url{https://www.bosch.com.br/noticias-e-historias/mobilidade/7-decadas-moldando-a-seguranca-no-transito/}.}
 
+\bibitem[Breuer e Bill 2008]{breuer2008brake}
+\abntrefinfo{Breuer e Bill}{BREUER; BILL}{2008}
+{BREUER, B.; BILL, K. (Ed.). \textbf{Brake Technology Handbook}. Warrendale:
+  SAE International, 2008. See especially Chapter 4: Hydraulic Brake System
+  Components and Wheel Brakes -- Caliper Elasticity and Fluid Consumption.
+ISBN 978-0-7680-1787-8.}
+
 \bibitem[Bryant 2022]{AndrewJ2022}
 \abntrefinfo{Bryant}{BRYANT}{2022}
 {BRYANT, A. J.~D. e D. \textbf{Braking of Road Vehicles}. [S.l.]: ELSEVIER,
@@ -74,6 +81,15 @@ Dispon{\'\i}vel em: \url{https://www.mdpi.com/2076-3417/8/4/639}.}
 {CLASSICINDUSTRIES.COM, w. \textbf{1955-92 GM Cars}. 2025.
 Dispon{\'\i}vel em:
   \url{https://www.classicindustries.com/product/ce600514.html}.}
+
+\bibitem[FEIGEL \textit{et al.} 2017]{Feigel2016}
+\abntrefinfo{FEIGEL \textit{et al.}}{FEIGEL \textit{et al.}}{2017}
+{FEIGEL, H.-J.; BÖHM, J.; KÖBE, A.; DRUMM, S. Future brake systems and
+  technologies -- mk c1® -- continental's brake system for future vehicle
+  concepts. In:  PFEFFER, P. D. P.~E. (Ed.). \textbf{7th International Munich
+  Chassis Symposium 2016}. Wiesbaden: Springer Fachmedien Wiesbaden, 2017. p.
+  717--723.
+ISBN 978-3-658-14219-3.}
 
 \bibitem[Franklin, Powell e Workman 1998]{FranklinPowellWorkman1998}
 \abntrefinfo{Franklin, Powell e Workman}{FRANKLIN; POWELL; WORKMAN}{1998}
@@ -118,6 +134,12 @@ Dispon{\'\i}vel em: \url{https://link.springer.com/bookseries/16377}.}
 \textbf{Proceedings of the 41st Chinese Control Conference July 25-27, 2022,
   Hefei, China}, 2022.}
 
+\bibitem[Jonner \textit{et al.} 1996]{jonner1996electrohydraulic}
+\abntrefinfo{Jonner \textit{et al.}}{JONNER \textit{et al.}}{1996}
+{JONNER, W.-D.; WINNER, H.; DREILICH, L.; SCHUNCK, E. \textbf{Electrohydraulic
+  Brake System - The First Approach to Brake-by-Wire Technology}.
+Warrendale, PA, 1996.}
+
 \bibitem[Joseph 2022]{Lentin2022}
 \abntrefinfo{Joseph}{JOSEPH}{2022}
 {JOSEPH, A. K.~M. L. \textbf{Autonomous Driving and Advanced Driver-Assistance
@@ -142,6 +164,14 @@ ISBN 978-0-367-49974-7.}
 \abntrefinfo{Limpert}{LIMPERT}{2011}
 {LIMPERT, R. \textbf{Brake Design and Safety}. [S.l.]: SAE International, 2011.
 ISBN 978-0-7680-5789-8.}
+
+\bibitem[Linhoff \textit{et al.} 2026]{Linhoff2026}
+\abntrefinfo{Linhoff \textit{et al.}}{LINHOFF \textit{et al.}}{2026}
+{LINHOFF, P.; DRUMM, S.~A.; ULLRICH, T.; SCHMID, B. Electronic brake systems.
+In:  \underline{\ \ \ \ \ \ \ \ }. \textbf{Handbook Assisted and Automated
+  Driving}. Wiesbaden: Springer Fachmedien Wiesbaden, 2026. p. 469--487.
+ISBN 978-3-658-45276-6.
+Dispon{\'\i}vel em: \url{https://doi.org/10.1007/978-3-658-45276-6\_25}.}
 
 \bibitem[Lv \textit{et al.} 2014]{Lv2014}
 \abntrefinfo{Lv \textit{et al.}}{LV \textit{et al.}}{2014}
@@ -224,6 +254,14 @@ Dispon{\'\i}vel em:
   proportional valve controlled motor system supplied by variable pressure
   accumulator. In:  \textbf{Proceedings of the 2015 International Conference on
   Fluid Power and Mechatronics}. [S.l.: s.n.], 2015.}
+
+\bibitem[Xiong \textit{et al.} 2021]{xiong2021piston}
+\abntrefinfo{Xiong \textit{et al.}}{XIONG \textit{et al.}}{2021}
+{XIONG, L.; HAN, Y.; YANG, S.; ZHANG, P. Piston position-based hydraulic
+  pressure estimation and control for integrated brake systems.
+\textbf{Mechanical Systems and Signal Processing}, Elsevier, v.~153, p. 107519,
+  2021.
+ISSN 0888-3270.}
 
 \bibitem[Yang, Li e Zhang 2018]{PressureCoordinatedControl2023}
 \abntrefinfo{Yang, Li e Zhang}{YANG; LI; ZHANG}{2018}

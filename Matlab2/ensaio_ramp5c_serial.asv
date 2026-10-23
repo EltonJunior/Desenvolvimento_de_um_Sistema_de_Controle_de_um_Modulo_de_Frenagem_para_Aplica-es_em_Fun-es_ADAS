@@ -1,0 +1,201 @@
+% ensaio_ramp5c_serial.m — Coleta e plot do RAMP5C (5 rampas, velocidades diferentes)
+% Baseado no ensaio_oltest_serial.m / ensaio_ramptest_serial.m
+
+clear; close all; clc;
+
+% Configuração
+portName     = "COM18";
+baudRate     = 115200;
+% Duracao total estimada: 5 curvas × (idle+rampa+hold+release+settle)
+% = 5 × (0.5 + [1,2,3,4,5] + 1.0 + 3.0 + 5.0) = ~72.5 s (worst case)
+Tstop        = 80.0;
+readTimeoutS = Tstop + 5.0;
+
+% Cores para cada curva
+curveColors = {'b','r','k','m',[0 0.6 0]};
+curveLabels = {'1s','2s','3s','4s','5s'};
+
+% Abre serial
+s = serialport(portName, baudRate);
+configureTerminator(s, "CR/LF");
+s.Timeout = 0.2;
+flush(s);
+cleanupObj = onCleanup(@() clear('s')); %#ok<NASGU>
+
+% Buffers
+log.t_ms = []; log.curve = []; log.phase = [];
+log.posCmd = []; log.uIn = []; log.uOut = [];
+log.pw = []; log.pos = []; log.status = []; log.valveMode = [];
+
+fprintf("Disparando RAMP5C...\n");
+writeline(s, "RAMP5C");
+
+% Leitura
+deadline = tic; finished = false;
+while toc(deadline) < readTimeoutS
+    try
+        line = readline(s);
+    catch
+        continue;
+    end
+    p = parseR5CLine(line);
+    if ~isempty(p)
+        log.t_ms(end+1)      = p.t_ms; %#ok<*SAGROW>
+        log.curve(end+1)     = p.curve;
+        log.phase(end+1)     = p.phase;
+        log.posCmd(end+1)    = p.posCmd;
+        log.uIn(end+1)       = p.uIn;
+        log.uOut(end+1)      = p.uOut;
+        log.pw(end+1)        = p.pw;
+        log.pos(end+1)       = p.pos;
+        log.status(end+1)    = p.status;
+        log.valveMode(end+1) = p.valveMode;
+    else
+        fprintf("%s\n", line);
+        if contains(line, "RAMP5C concluido") || contains(line, "RAMP5C falha")
+            finished = true;
+            break;
+        end
+    end
+end
+clear s cleanupObj;
+
+if ~finished
+    warning("RAMP5C nao confirmou conclusao em %.1fs; plotando assim mesmo.", readTimeoutS);
+end
+fprintf("Amostras recebidas: %d\n", numel(log.t_ms));
+
+printAndExportSamples(log);
+plotResults(log, curveColors, curveLabels);
+
+% ---------------------------- Funções locais -----------------------------
+
+function p = parseR5CLine(line)
+% Aceita: [R5C],t_ms,curve,phase,pos_cmd,u_in,u_out,pw_psi,pos_mm,status,valve_mode
+    p = [];
+    if ~startsWith(line, "[R5C],")
+        return;
+    end
+    parts = strsplit(strtrim(extractAfter(line, "[R5C],")), ",");
+    if numel(parts) < 9, return; end
+    toF = @(s) sscanf(strtrim(s), '%f', 1);
+    toU = @(s) uint8(sscanf(strtrim(s), '%u', 1));
+    p.t_ms     = toF(parts{1});
+    p.curve    = toF(parts{2});
+    p.phase    = toF(parts{3});
+    p.posCmd   = toF(parts{4});
+    p.uIn      = toU(parts{5});
+    p.uOut     = toU(parts{6});
+    p.pw       = toF(parts{7});
+    p.pos      = toF(parts{8});
+    p.status   = toU(parts{9});
+    p.valveMode = uint8(255);
+    if numel(parts) >= 10
+        vm = toU(parts{10});
+        if ~isempty(vm), p.valveMode = vm; end
+    end
+end
+
+function printAndExportSamples(log)
+    T = table(log.t_ms', log.curve', log.phase', log.posCmd', ...
+              log.uIn', log.uOut', log.pw', log.pos', log.status', log.valveMode', ...
+        'VariableNames', {'t_ms','curve','phase','pos_cmd','u_in','u_out','pw_psi','pos_mm','status','valve_mode'});
+
+    fprintf("\n--- Amostras (primeiras 50) ---\n");
+    disp(T(1:min(50,height(T)),:));
+    fprintf("... total: %d amostras\n", height(T));
+
+    scriptDir = fileparts(mfilename('fullpath'));
+    dataDir = fullfile(scriptDir, 'dados');
+    if ~exist(dataDir, 'dir'), mkdir(dataDir); end
+    csvPath = fullfile(dataDir, sprintf('ensaio_ramp5c_serial_%s.csv', datestr(now, 'yyyymmdd_HHMMSS')));
+    writetable(T, csvPath);
+    fprintf("Amostras exportadas em: %s\n", csvPath);
+
+    for c = 1:5
+        idxC = log.curve == c;
+        if ~any(idxC), continue; end
+        [maxPw, im] = max(log.pw(idxC));
+        tC = log.t_ms(idxC);
+        posC = log.pos(idxC);
+        fprintf("Curva %d: Pmax=%.1f PSI @ pos=%.2f mm (t=%.0f ms)\n", ...
+                c, maxPw, posC(im), tC(im));
+    end
+end
+
+function plotResults(log, curveColors, curveLabels)
+
+    set(groot,'defaultLineLineWidth',1.6);
+    set(groot,'defaultAxesFontSize',12);
+    set(groot,'defaultAxesFontName','Times New Roman');
+    set(groot,'defaultFigureRenderer','painters');
+
+    t = log.t_ms / 1000;
+
+    % ── Figura 1: Temporal (pos_cmd, pos_real, pressao) ──
+    fig1 = figure('Color','w','Position',[50 50 1400 900]);
+    tiledlayout(3,1,'TileSpacing','compact','Padding','compact');
+
+    nexttile;
+    plot(t, log.posCmd, 'k'); hold on;
+    plot(t, log.pos, 'b');
+    grid on; ylabel('Posicao (mm)', 'FontSize', 16);
+    title('RAMP5C — Posicao Comandada vs Real', 'FontSize', 18);
+    legend('pos_{cmd}','pos_{real}','Location','best','FontSize',12);
+
+    nexttile;
+    plot(t, log.pw, 'r');
+    grid on; ylabel('P_w (psi)', 'FontSize', 16);
+    title('Pressao', 'FontSize', 18);
+
+    nexttile;
+    plot(t, log.curve, 'k', 'LineWidth', 1);
+    grid on; ylabel('Curva #', 'FontSize', 16);
+    xlabel('Tempo (s)', 'FontSize', 16);
+    title('Indice da Curva', 'FontSize', 18);
+    ylim([0 6]);
+
+    % ── Figura 2: Curva estática P vs Pos — 5 curvas sobrepostas ──
+    fig2 = figure('Color','w','Position',[100 100 900 700]);
+    hold on; grid on;
+    legendEntries = {};
+
+    % Phase 2 = BrakeUartTest_R5C_Ramp
+    for c = 1:5
+        idxRamp = (log.curve == c) & (log.phase == 2);
+        if ~any(idxRamp), continue; end
+        plot(log.pos(idxRamp), log.pw(idxRamp), '.', ...
+             'Color', curveColors{c}, 'MarkerSize', 8);
+        legendEntries{end+1} = sprintf('Rampa %s', curveLabels{c}); %#ok<AGROW>
+    end
+
+    fig3 = figure('Color','w','Position',[120 120 900 700]); 
+    hold on; grid on; 
+    legendEntries2 = {}; 
+    for c = 1:5 
+        idxRamp = (log.curve == c) & (log.phase == 2); 
+        if ~any(idxRamp), continue; end 
+        plot(log.posCmd(idxRamp), log.pw(idxRamp), '.', ... 
+            'Color', curveColors{c}, 'MarkerSize', 8); 
+        legendEntries2{end+1} = sprintf('Rampa %s', curveLabels{c}); 
+    end 
+    xlabel('Posicao Ref (mm)', 'FontSize', 18); 
+    ylabel('P_w (psi)', 'FontSize', 18); 
+    title('Curva Estatica: Referencia x Pressao (5 velocidades)', 'FontSize', 18); legend(legendEntries2, 'Location', 'northwest', 'FontSize', 14);
+
+    xlabel('Posicao LAC (mm)', 'FontSize', 18);
+    ylabel('P_w (psi)', 'FontSize', 18);
+    title('Curva Estatica: Posicao x Pressao (5 velocidades)', 'FontSize', 18);
+    legend(legendEntries, 'Location', 'northwest', 'FontSize', 14);
+
+    % Export
+    scriptDir = fileparts(mfilename('fullpath'));
+    outDir = fullfile(scriptDir, 'figuras');
+    if ~exist(outDir, 'dir'), mkdir(outDir); end
+    ts = datestr(now, 'yyyymmdd_HHMMSS');
+    exportgraphics(fig1, fullfile(outDir, sprintf('ensaio_ramp5c_temporal_%s.pdf', ts)), 'ContentType','vector');
+    exportgraphics(fig1, fullfile(outDir, sprintf('ensaio_ramp5c_temporal_%s.png', ts)), 'Resolution', 1200);
+    exportgraphics(fig2, fullfile(outDir, sprintf('ensaio_ramp5c_curvas_%s.pdf', ts)), 'ContentType','vector');
+    exportgraphics(fig2, fullfile(outDir, sprintf('ensaio_ramp5c_curvas_%s.png', ts)), 'Resolution', 1200);
+    disp('OK: figuras exportadas em:'); disp(outDir);
+end

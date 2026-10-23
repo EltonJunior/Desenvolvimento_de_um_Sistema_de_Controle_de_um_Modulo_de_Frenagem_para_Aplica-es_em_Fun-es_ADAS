@@ -14,8 +14,18 @@ A escolha dos componentes eletrônicos e do microcontrolador, como os circuitos 
 
 Este capítulo está organizado para apresentar, inicialmente, a modelagem matemática do sistema de frenagem automotivo, destacando os principais elementos dinâmicos envolvidos. Em seguida, são descritos os modelos implementados no ambiente Matlab/Simulink e as estratégias de controle digital adotadas. Por fim, são apresentados os cenários de simulação e os critérios utilizados para a validação dos resultados, evidenciando a relação entre o modelo teórico, sua implementação computacional e a análise do desempenho do sistema.
 
-% ADD 01/29/2026 (movido para arquivo separado)
-\input{elementos-textuais/metodologia-especifica}
+% ADD 01/29/2026 (movido para arquivo separado) 
+\section{Procedimento metodológico e métricas de avaliação}
+\label{sec:metodologia-procedimento}
+
+O procedimento adotado neste trabalho segue o fluxo: (i) modelagem do subsistema hidráulico de freio, (ii) linearização em torno de um ponto de operação, (iii) projeto do controlador (LQI) e do observador (Luenberger), (iv) implementação digital no ambiente MATLAB/Simulink e (v) validação por simulação em malha aberta e em malha fechada.
+
+\textcolor{red}{Complementarmente ao fluxo computacional, a metodologia incorpora uma etapa experimental realizada em bancada com um módulo eletro-hidráulico integrado bomba hidráulica de deslocamento linear (\textit{Linear Actuator Concept} -- LAC), compreendendo: (vi) ensaios em malha aberta com varredura de comandos PWM e degraus de atuação (\texttt{PWMSWEEP} e \texttt{OLTEST}) para levantamento da resposta eletromecânica do atuador linear; (vii) identificação da curva de compressibilidade efetiva e mapeamento dos pares deslocamento--pressão nos modos de pressurização dinâmica e equilíbrio em retenção (\texttt{PLID}); e (viii) ensaios de seguimento de perfis compostos com comutação de válvulas (\texttt{CLMULTI}), fornecendo subsídios empíricos para calibração de tabelas de correspondência e parametrização do modelo.}
+
+
+Para evitar que o texto principal assuma a forma de um “manual de MATLAB”, a descrição do uso de \textit{scripts} é feita de maneira conceitual: no corpo do texto, explicita-se o papel do \textit{script} na organização do ensaio (definição do horizonte de simulação, parametrização do modelo, geração de comandos/referências e registro de sinais); já o detalhe de implementação (funções, variáveis e trechos de código) é apresentado no apêndice de códigos.
+
+As métricas de avaliação foram escolhidas para refletir tanto desempenho de seguimento quanto esforço de atuação: tempo de subida e de acomodação da pressão, sobressinal, erro de regime permanente e erro RMS. Complementarmente, registra-se o esforço máximo de controle (por exemplo, máximos de $u_{in}$ e $u_{out}$) para verificar compatibilidade com as saturações físicas impostas no modelo. A apresentação dos resultados (curvas, métricas e discussão) é concentrada no Capítulo~\ref{chap:resultados-final}, de modo que a metodologia permaneça claramente separada dos achados.
 % END ADD
 
 \section{Tipo e Abordagem da Pesquisa}
@@ -100,6 +110,32 @@ O processo de modulação hidráulica em unidades ABS/ESC pode ser descrito, de 
 
 No \textbf{ABS clássico} (frenagem comandada pelo condutor), a pressão base é gerada no cilindro mestre e a unidade hidráulica atua modulando-a por roda, tipicamente com recirculação para recomposição de pressão. Já em \textbf{frenagem ativa} (ESC/ADAS), a unidade eletro-hidráulica pode assumir o papel de atuador principal de pressão, impondo perfis de pressão por roda a partir de uma referência gerada eletronicamente. Esse é o modo de interesse deste trabalho.
 
+\textcolor{red}{Na arquitetura integrada do módulo atuador linear para deslocamento de fluido, a matriz de válvulas solenoides desempenha papéis de isolamento de segurança, comutação de circuitos e modulação individual de pressão nas rodas. Diferentemente dos arranjos convencionais restritos a válvulas de admissão e escape por canal, o bloco hidráulico físico incorpora válvulas especializadas que viabilizam o desacoplamento do pedal e o direcionamento determinístico de vazão do atuador linear:
+\begin{itemize}
+    \item \textbf{Válvula de Alimentação de Pressão (PFV -- \textit{Pressure Feed Valve}):} do tipo normalmente fechada (NF). Quando energizada na condição de frenagem ativa autônoma (\textit{NBrake}), estabelece a comunicação direta entre a câmara primária do atuador linear e as galerias de admissão dos freios de roda;
+    \item \textbf{Válvula de Corte do Cilindro Mestre (MCV -- \textit{Master Cylinder Cut Valve}):} do tipo normalmente aberta (NA). É energizada durante intervenções autônomas para desacoplar hidraulicamente o pedal do circuito de roda;
+    \item \textbf{Válvulas de Roda (IRL/ORL, IFL/OFL, IFR/OFR, IRR/ORR):} compreendem quatro válvulas de admissão analógicas proporcionalizáveis normalmente abertas (Inlet, NA) e quatro válvulas de alívio digital normalmente fechadas (Outlet, NF), permitindo as fases de aumento, retenção e redução rápida de pressão por canal.
+\end{itemize}}
+
+\textcolor{red}{\begin{figure}[htbp]
+    \centering
+    \caption{Bloco hidráulico integrado do módulo de frenagem: matriz de válvulas e conexões hidráulicas dos canais de roda.}
+    \label{fig:bloco-valvulas-lac}
+    \IfFileExists{figuras/bloco_valvulas_lac.png}{%
+        \includegraphics[width=0.80\textwidth]{figuras/bloco_valvulas_lac.png}%
+    }{%
+        \IfFileExists{figuras/bloco_valvulas_lac.jpg}{%
+            \includegraphics[width=0.80\textwidth]{figuras/bloco_valvulas_lac.jpg}%
+        }{%
+            \fbox{\parbox{0.80\textwidth}{\centering\vspace{8mm}
+                    \textbf{Figura pendente:} salvar a fotografia do bloco de válvulas como\\
+                    \texttt{figuras/bloco\_valvulas\_lac.png} (ou \texttt{.jpg}).\vspace{8mm}}}%
+        }%
+    }
+    \fonte{O Autor.}
+\end{figure}}
+
+
 \subsection{Motor da Bomba de Pressão}
 \label{sec:metodologia-4-2}
 A função do conjunto motor+bomba é fornecer vazão ao suprimento e permitir a recomposição/geração de pressão hidráulica necessária para a modulação por canal. Em ABS/ESC, esse conjunto pode operar tanto para recirculação (recomposição durante modulação) quanto, em arquiteturas de frenagem ativa, como fonte primária de pressão para impor perfis de pressão por roda.
@@ -109,6 +145,29 @@ A função do conjunto motor+bomba é fornecer vazão ao suprimento e permitir a
 A bomba utilizada em sistemas ABS ou de controle de estabilidade (ESC/ESP) tipicamente não é do tipo engrenagem, mas sim uma bomba de pistão alternativo acionada por um motor elétrico, normalmente do tipo BLDC (\textit{Brushless Direct Current}). Esse motor aciona um mecanismo excêntrico que movimenta o pistão da bomba, permitindo recircular o fluido e restabelecer a pressão no circuito.
 
 O elemento responsável por armazenar fluido sob pressão — frequentemente um acumulador hidráulico, que pode ser do tipo pistão ou diafragma — não deve ser confundido com a bomba. Quando o sistema ABS ou ESC/ESP detecta uma potencial perda de tração, ou iminência de travamento da roda, a bomba pode ser acionada para recompor a pressão rapidamente, contribuindo para o desempenho de frenagem e a estabilidade do veículo.
+
+\textcolor{red}{Cabe contrastar essa arquitetura com a solução adotada no módulo físico avaliado na bancada experimental deste trabalho (módulo atuador linear de êmbolo para deslocamento de fluido). Enquanto sistemas ABS/ESC convencionais utilizam bombas de pistões alternativos acionadas por excêntrico para recomposição de pressão por recirculação (conforme considerado no modelo concentrado de duas pressões no Capítulo~\ref{cap:controle}), módulos integrados modernos empregam um atuador linear (\textit{Linear Actuator Concept} -- LAC). Nesse arranjo, um motor elétrico sem escovas aciona um mecanismo de fuso que translada diretamente o pistão primário do cilindro mestre. Desse modo, o volume de fluido deslocado para os canais de freio é proporcional ao deslocamento linear do atuador ($x_{\mathrm{LAC}}$), permitindo tanto a pressurização ativa direta sem auxílio de vácuo quanto o controle de pressão indireto por meio do posicionamento mecânico de alta precisão \cite{xiong2021piston, jonner1996electrohydraulic}.}
+
+\textcolor{red}{Em contraste com os motores de corrente contínua com escovas tradicionalmente aplicados em bombas de excêntrico, o módulo atuador linear de êmbolo emprega um motor síncrono de ímãs permanentes sem escovas (\textit{Brushless Direct Current} -- BLDC) de alto desempenho acoplado a um mecanismo de fuso mecânico de esferas e sensor de posição angular integrado. Essa arquitetura mecatrônica foi projetada para suportar pressões operacionais de até 190~bar (aproximadamente 2755~psi) com volume líquido deslocável de 15{,}3~$\text{cm}^3$ (classe M), atuando sobre um êmbolo de diâmetro nominal $\varnothing 19{,}05\text{ mm}$ e monitorada por sensor de pressão piezoelétrico de alta precisão com escala de fundo de até 275~bar. A conversão do movimento rotativo em translação axial direta confere ao conjunto capacidade de resposta de alta dinâmica com elevada densidade de potência e reduzido nível de ruído acústico, eliminando a pulsação hidráulica característica dos êmbolos radiais alternativos.}
+
+\textcolor{red}{\begin{figure}[htbp]
+    \centering
+    \caption{Conjunto motor elétrico BLDC e mecanismo de acionamento linear do atuador de êmbolo.}
+    \label{fig:motor-lac-atuador}
+    \IfFileExists{figuras/motor_lac_atuador.png}{%
+        \includegraphics[width=0.75\textwidth]{figuras/motor_lac_atuador.png}%
+    }{%
+        \IfFileExists{figuras/motor_lac_atuador.jpg}{%
+            \includegraphics[width=0.75\textwidth]{figuras/motor_lac_atuador.jpg}%
+        }{%
+            \fbox{\parbox{0.75\textwidth}{\centering\vspace{8mm}
+                    \textbf{Figura pendente:} salvar a fotografia do motor como\\
+                    \texttt{figuras/motor\_lac\_atuador.png} (ou \texttt{.jpg}).\vspace{8mm}}}%
+        }%
+    }
+    \fonte{O Autor.}
+\end{figure}}
+
 
 
 \subsection{Sensor da Roda}
@@ -303,7 +362,42 @@ A partir de todos os detalhes apresentados, é possível notar que o controle é
 \label{sec:metodologia-7}
 Foram realizados testes em simulação para demonstrar o comportamento do sistema e verificar a viabilidade da estratégia de controle no ambiente MATLAB/Simulink. Em paralelo, foi desenvolvido um protótipo de placa eletrônica com foco em viabilizar a futura migração do controlador para execução embarcada e ensaios em bancada.
 
-No escopo deste trabalho, não é apresentada a validação prática do controle em um conjunto físico de freio; essa etapa permanece como continuação natural, conforme discutido no Capítulo~\ref{chap:resultados}.
+\textcolor{red}{No escopo experimental deste trabalho, a validação no conjunto físico de freio concentrou-se na caracterização em malha aberta, na identificação dos parâmetros dinâmicos do atuador linear e no levantamento da curva estática e dinâmica de pressão versus deslocamento na bancada do atuador linear de êmbolo para deslocamento de fluido (protocolos \texttt{OLTEST} e \texttt{PLID}), além da verificação da interface de acionamento da placa eletrônica dedicada. A execução embarcada em tempo real da malha fechada completa de pressão na roda sob controle LQI é mantida como etapa de continuidade tecnológica, sendo detalhada conceitualmente e respaldada pelos dados empíricos apresentados no Capítulo~\ref{chap:resultados-final}.}
+
+{\color{red}
+\subsection{Montagem e Arquitetura da Bancada Experimental Físico-Mecatrônica}
+\label{sec:metodologia-bancada-fisica}
+
+Para a validação empírica dos modelos mecatrônicos e das estratégias de controle digital propostas, foi estruturada uma bancada experimental dedicada que integra o módulo hidráulico de deslocamento linear a um circuito real de frenagem veicular. O conjunto físico é composto por:
+\begin{enumerate}
+    \item \textbf{Módulo Eletro-Hidráulico Integrado:} unidade compreendendo o atuador linear (LAC) acionado pelo motor BLDC, fuso mecânico, câmara volumétrica de $15{,}3\text{ cm}^3$ e bloco com matriz de solenoides eletromagnéticas;
+    \item \textbf{Circuito Hidráulico de Carga:} tubulações de aço e mangueiras flexíveis originais interligadas a um conjunto real de freio a disco (pinça de freio com pastilhas de atrito e cáliper fixo montado em suporte estrutural);
+    \item \textbf{Cadeia de Instrumentação e Transdução:} sensor piezoelétrico piezorresistivo com faixa de 0 a 500~psi acoplado na linha da roda traseira esquerda (canal RL), além do sensor angular magnético acoplado ao eixo do motor BLDC para contagem de pulsos e conversão linear com resolução mecânica nominal de $0{,}01\text{ mm}$;
+    \item \textbf{Plataforma Eletrônica Desenvolvida e Microcontrolador AURIX TC375:} placa de circuito impresso projetada neste trabalho contendo os circuitos integrados inteligentes de acionamento (NXP MC34SB0800 para estágio de potência de solenoides e estágio dedicado para motor BLDC), acoplada à placa de avaliação AURIX TC375 Lite Kit V2, responsável pela execução determinística em tempo real da malha de controle a $1{,}0\text{ ms}$;
+    \item \textbf{Fonte de Alimentação e Barramentos de Teste:} fontes de tensão contínua estabilizadas com capacidade de fornecer correntes transitórias de até 40~A para suportar picos de torque na partida rápida do motor BLDC em degraus de pressão.
+\end{enumerate}
+
+A Figura~\ref{fig:bancada-experimental-completa} ilustra a integração física de todos os módulos na bancada experimental desenvolvida.
+\par}
+
+\textcolor{red}{\begin{figure}[htbp]
+    \centering
+    \caption{Bancada experimental completa para ensaios mecatrônicos do módulo hidráulico de deslocamento linear.}
+    \label{fig:bancada-experimental-completa}
+    \IfFileExists{figuras/bancada_experimental_completa.png}{%
+        \includegraphics[width=0.88\textwidth]{figuras/bancada_experimental_completa.png}%
+    }{%
+        \IfFileExists{figuras/bancada_experimental_completa.jpg}{%
+            \includegraphics[width=0.88\textwidth]{figuras/bancada_experimental_completa.jpg}%
+        }{%
+            \fbox{\parbox{0.88\textwidth}{\centering\vspace{8mm}
+                    \textbf{Figura pendente:} salvar a fotografia do sistema completo montado como\\
+                    \texttt{figuras/bancada\_experimental\_completa.png} (ou \texttt{.jpg}).\vspace{8mm}}}%
+        }%
+    }
+    \fonte{O Autor.}
+\end{figure}}
+
 
 \section{Descrição dos Instrumentos e Procedimentos}
 \label{sec:metodologia-8}
@@ -311,7 +405,7 @@ Os instrumentos e ferramentas utilizados incluem o ambiente MATLAB/Simulink para
 
 \section{Critérios de Validação}
 \label{sec:metodologia-9}
-A validação do sistema é conduzida por meio da análise de métricas de desempenho (por exemplo, tempo de subida e de acomodação, sobressinal, erro RMS e erro estacionário), além de inspeção das saturações e do esforço de atuação dos comandos. Essas métricas são calculadas a partir dos sinais registrados no Simulink, conforme detalhado no Capítulo~\ref{chap:resultados}.
+A validação do sistema é conduzida por meio da análise de métricas de desempenho (por exemplo, tempo de subida e de acomodação, sobressinal, erro RMS e erro estacionário), além de inspeção das saturações e do esforço de atuação dos comandos. Essas métricas são calculadas a partir dos sinais registrados no Simulink, conforme detalhado no Capítulo~\ref{chap:resultados-final}.
 
 Quando aplicável, discute-se a coerência de ordens de grandeza (pressão e vazão) em relação a faixas reportadas na literatura. A conformidade com normas e procedimentos de homologação e a comparação quantitativa com \emph{benchmarks} experimentais ficam fora do escopo deste trabalho.
 

@@ -50,6 +50,9 @@ Além disso, alternativas modernas incluem sistemas eletro-hidráulicos, que uti
 
 Ainda relacionado aos sistemas eletro-hidráulicos, estudos recentes também demonstram a relevância do projeto paramétrico de motores integrados a sistemas de freio eletro-hidráulicos em veículos elétricos, evidenciando ganhos em eficiência e resposta dinâmica \cite{MotorParametricDesign2023}. Adicionalmente, estratégias de controle coordenado de pressão têm sido propostas para aprimorar a precisão e robustez desses sistemas, conforme discutido em \citeonline{PressureCoordinatedControl2023}. A literatura técnica explora a potencial aplicação dessas alternativas, destacando a necessidade de análises experimentais e validações em ambientes reais para avaliar sua eficiência e confiabilidade.
 
+\textcolor{red}{No escopo dos sistemas eletro-hidráulicos modernos, observa-se uma transição relevante entre as unidades convencionais de controle de estabilidade (comumente estruturadas em arranjos \textit{two-box}, dependentes de bomba excêntrica de recirculação e servofreio a vácuo) e as arquiteturas integradas do tipo \textit{one-box}. Nessas plataformas compactas, a geração primária de pressão é desacoplada do pedal e executada por um atuador linear elétrico (\textit{Linear Actuator Concept} -- LAC), no qual um motor sem escovas aciona um fuso mecânico que desloca diretamente o pistão hidráulico. Essa configuração permite dinâmicas de pressurização com gradientes elevados (superiores a 100~bar em menos de 150~ms), reduz o ruído acústico e viabiliza a modulação contínua do volume de fluido injetado no circuito, sendo amplamente adotada em veículos eletrificados e em funções autônomas de frenagem \cite{Feigel2016, Linhoff2026}.}
+
+
 Portanto, a classificação dos sistemas de freio apresentada neste capítulo busca contribuir para a compreensão das diferentes tecnologias disponíveis e, possíveis soluções que podem ser exploradas em contextos acadêmicos e industriais. A análise das configurações e princípios de funcionamento dos sistemas de freio é fundamental para validar modelos matemáticos e estratégias de controle, bem como para identificar limitações e oportunidades de investigação na área de sistemas automotivos.
 
 
@@ -158,6 +161,7 @@ Além do ABS, outras tecnologias complementares têm sido amplamente exploradas 
 
 
 \end{itemize}
+
 
 \section{Componentes dos Sistemas de Freio}
 \label{sec:o-estado-da-arte-2-4}
@@ -270,7 +274,10 @@ Quando o foco migra de ``regular pressão'' para ``\textbf{integrar com ADAS}'',
 
 É nesse ponto que este trabalho se posiciona. Em vez de tentar abranger, no mesmo escopo, dinâmica longitudinal completa, modelo de pneu e controle de \textit{slip}, adota-se um recorte de engenharia e pesquisa: \textbf{isolar o atuador hidráulico e demonstrar um fluxo reprodutível de modelagem e projeto discreto para rastreamento de pressão}, incluindo (i) modelo não linear 2P, (ii) linearização local para síntese em espaço de estados, (iii) LQI discreto com observador de Luenberger, (iv) lógica discreta de válvulas com histerese e (v) validação na planta não linear em Simulink.
 
-Essa escolha permite uma comparação mais honesta: o resultado principal não é um ``ACC completo'', mas sim a demonstração de que o \textbf{elo final} (o regulador de pressão) pode ser projetado e validado de forma consistente com a implementação embarcada, com métricas objetivas e rastreabilidade entre hipótese, procedimento e evidência. Ao mesmo tempo, a literatura consultada deixa claro que a etapa experimental em bancada é a continuação natural para consolidar o valor de transferência tecnológica do método, motivo pelo qual limitações e trabalhos futuros são explicitados no Capítulo~\ref{chap:resultados} e nas conclusões.
+\textcolor{red}{Adicionalmente, este trabalho estende a discussão ao confrontar o controle direto de pressão com a estratégia de controle indireto via posicionamento do atuador linear, frequentemente necessária em módulos integrados nos quais a malha de acionamento do motor elétrico é fechada em posição mecânica (via \textit{encoder}), enquanto a pressão hidráulica atua como variável dependente. A literatura aponta que a relação entre o deslocamento linear do êmbolo e a pressão na roda apresenta acentuada não linearidade decorrente da folga inicial das pastilhas, da compressibilidade do fluido de freio e da elasticidade estrutural da pinça. Dessa forma, além do projeto de controle no espaço de estados, torna-se indispensável identificar experimentalmente o mapeamento estático e dinâmico entre deslocamento e pressão, permitindo estabelecer referências de posição que reflitam com precisão as demandas de frenagem requeridas pelo nível ADAS \cite{breuer2008brake}.}
+
+
+Essa escolha permite uma comparação mais honesta: o resultado principal não é um ``ACC completo'', mas sim a demonstração de que o \textbf{elo final} (o regulador de pressão) pode ser projetado e validado de forma consistente com a implementação embarcada, com métricas objetivas e rastreabilidade entre hipótese, procedimento e evidência. Ao mesmo tempo, a literatura consultada deixa claro que a etapa experimental em bancada é a continuação natural para consolidar o valor de transferência tecnológica do método, motivo pelo qual limitações e trabalhos futuros são explicitados no Capítulo~\ref{chap:resultados-final} e nas conclusões.
 
 %################################################################
 %################################################################

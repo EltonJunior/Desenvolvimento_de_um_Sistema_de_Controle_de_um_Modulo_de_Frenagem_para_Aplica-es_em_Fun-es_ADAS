@@ -1,0 +1,56 @@
+{
+  "limits": {
+    "max_pages": 20
+  },
+  "repo_notes": "Projeto de Mestrado USP Poli / Continental AG: Desenvolvimento de Controle Digital de Press\u00e3o Hidr\u00e1ulica em M\u00f3dulo de Frenagem para Fun\u00e7\u00f5es ADAS. O reposit\u00f3rio abriga modelos de simula\u00e7\u00e3o num\u00e9rica em MATLAB/Simulink (modelo hidr\u00e1ulico n\u00e3o linear 2-press\u00f5es, s\u00edntese LQI e observador de Luenberger em matlab/), ferramentas e su\u00edte completa de ensaios em bancada real acoplada via serial UART/AURIX TC2xx/TC3xx (em Matlab2/), scripts de telemetria e identifica\u00e7\u00e3o param\u00e9trica (tau, K_vel), encoders/decoders seriais e artefatos de documenta\u00e7\u00e3o acad\u00eamica e artigos t\u00e9cnicos. Regra fundamental de arquitetura f\u00edsica: a press\u00e3o n\u00e3o fecha malha diretamente no ensaio f\u00edsico; o controle de press\u00e3o \u00e9 indireto via servoposicionamento do pist\u00e3o/atuador (LAC), garantindo estabilidade e supress\u00e3o de ciclo limite de v\u00e1lvulas.",
+  "pages": [
+    {
+      "parent": null,
+      "purpose": "Vis\u00e3o geral do projeto de mestrado: controle digital e indireto de press\u00e3o hidr\u00e1ulica em atuador de frenagem para fun\u00e7\u00f5es ADAS.",
+      "title": "Overview",
+      "concept_id": "overview"
+    },
+    {
+      "concept_id": "architecture/system-architecture",
+      "title": "System Architecture",
+      "purpose": "Arquitetura do sistema do m\u00f3dulo de freio: hardware AURIX, atuador linear (LAC), bloco hidr\u00e1ulico 2P e interface serial.",
+      "parent": "Overview"
+    },
+    {
+      "title": "Control Strategy",
+      "parent": "Overview",
+      "concept_id": "architecture/control-strategy",
+      "purpose": "Estrat\u00e9gias de controle: controle indireto por posi\u00e7\u00e3o (CLMULTI/LQR/Luenberger) versus controle direto LQI em press\u00e3o (2P)."
+    },
+    {
+      "concept_id": "architecture/data-flow",
+      "title": "Data Flow & Telemetry",
+      "purpose": "Fluxo de comunica\u00e7\u00e3o serial em tempo real entre PC/MATLAB e firmware embarcado AURIX (protocolo ECHO/LIVE/PLID/CLMULTI).",
+      "parent": "Overview"
+    },
+    {
+      "parent": "Overview",
+      "purpose": "Scripts de modelagem anal\u00edtica, lineariza\u00e7\u00e3o e s\u00edntese de controle em simula\u00e7\u00e3o (LQI discreto e observador 2P).",
+      "title": "Matlab Simulation & Synthesis",
+      "concept_id": "modules/matlab-simulation"
+    },
+    {
+      "purpose": "Su\u00edte de ensaios experimentais em bancada real (PLID, CLMULTI, CLSTEP, sweep de PWM e identifica\u00e7\u00e3o de par\u00e2metros).",
+      "parent": "Overview",
+      "concept_id": "modules/matlab2-bench-tests",
+      "title": "Bench Testing & Identification"
+    },
+    {
+      "purpose": "M\u00f3dulos MATLAB System Object para codifica\u00e7\u00e3o e decodifica\u00e7\u00e3o do protocolo UART do AURIX.",
+      "parent": "Bench Testing & Identification",
+      "title": "Serial Communication & Codec",
+      "concept_id": "modules/serial-interface"
+    },
+    {
+      "title": "Experimental Validation & Robustness",
+      "parent": "Overview",
+      "concept_id": "architecture/experimental-validation",
+      "purpose": "Metodologia de valida\u00e7\u00e3o experimental, identifica\u00e7\u00e3o param\u00e9trica (tau e K_vel) e robustez param\u00e9trica."
+    }
+  ]
+}

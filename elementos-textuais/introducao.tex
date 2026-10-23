@@ -4,7 +4,7 @@
 
 \section{Considerações Iniciais}
 \label{chap:introducao-1}
-
+ 
 O sistema de freio se apresenta como uma tecnologia fundamental ao veículo; onde, de acordo com \citeonline{Rudolf2011}, podemos atribuir como suas principais funções: a desaceleração do veículo, até a completa parada, manutenção da velocidade constante durante uma descida ou até mesmo manter o veículo estacionado, quando ele estiver completamente parado.
 
 A trajetória do desenvolvimento dos sistemas de freios é bastante longa, e remonta desde a antiguidade quando os freios de madeira foram adotados em sistema rudimentar, até as aplicações dos últimos dois séculos (que o mundo experimentou forte industrialização) como o freio a tambor, a ar comprimido, freio a disco, freio hidráulico e os mais recentes: freio de ABS (Anti-lock Braking System) e freio regenerativo. \cite{Konrad2014}
@@ -37,6 +37,9 @@ Como objetivos específicos, destacam-se:
     \item projetar um controlador digital em espaço de estados (LQI) para regulação/rastreamento da pressão;
     \item implementar um observador de Luenberger para estimação do estado em condições de ruído;
     \item validar a resposta do sistema por simulação, analisando pressão, sinais PWM e robustez frente a variações paramétricas.
+    \item \textcolor{red}{caracterizar experimentalmente, em bancada com módulo físico de bomba hidráulica de deslocamento linear, a relação entre o deslocamento do atuador linear (LAC) e a pressão hidráulica gerada na roda;}
+    \item \textcolor{red}{executar ensaios de integração em bancada para validação funcional dos modos de pressurização, retenção e alívio, avaliando a viabilidade do controle indireto de pressão via posicionamento mecânico.}
+
 \end{itemize}
 % END ADD
 
@@ -67,10 +70,12 @@ Esta dissertação tem um recorte deliberado: validar, em simulação, um \textb
 
 Como contribuições, destacam-se:
 \begin{itemize}
-    \item \textbf{Modelo hidráulico concentrado 2P com parametrização compatível com faixas de pressão automotivas}: modelagem não linear em duas pressões ($P_{sup}$ e $P_w$) e ajuste de parâmetros para reproduzir ordens de grandeza realistas, com validação qualitativa em malha aberta (Capítulo~\ref{cap:controle}, Seção~\ref{sec:controle-validacao-2p} e Capítulo~\ref{chap:resultados}, Seção~\ref{sec:resultados-malha-aberta-realista}).
+    \item \textbf{Modelo hidráulico concentrado 2P com parametrização compatível com faixas de pressão automotivas}: modelagem não linear em duas pressões ($P_{sup}$ e $P_w$) e ajuste de parâmetros para reproduzir ordens de grandeza realistas, com validação qualitativa em malha aberta (Capítulo~\ref{cap:controle}, Seção~\ref{sec:controle-validacao-2p} e Capítulo~\ref{chap:resultados-final}, Seção~\ref{sec:resultado-final-malha-aberta}).
     \item \textbf{Fluxo completo de projeto em tempo discreto para seguimento de pressão com restrições físicas}: linearização local, discretização ZOH e síntese LQI, com saturações fisicamente coerentes e tratamento de \textit{windup} do integrador (Capítulo~\ref{cap:controle}, Seções~\ref{sec:controle-linearizacao-2p} a \ref{sec:controle-lqi-discreto} e Apêndice~\ref{ap:scripts-matlab}).
     \item \textbf{Estrutura de estimação de estados compatível com instrumentação limitada}: observador de Luenberger discreto acoplado ao regulador, visando robustez frente a ruído de medição e viabilidade de implementação embarcada (Capítulo~\ref{cap:controle}, Seção~\ref{sec:projeto-observador-luenberger}).
-    \item \textbf{Evidência reprodutível via automação de ensaios}: organização de \textit{scripts} MATLAB para executar simulações, registrar sinais e calcular métricas (Apêndice~\ref{ap:scripts-matlab}), permitindo rastreabilidade entre hipótese, procedimento e resultados (Capítulo~\ref{chap:resultados}, Seções~\ref{sec:resultados-malha-fechada} e \ref{sec:resultados-metricas}).
+    \item \textbf{Evidência reprodutível via automação de ensaios}: organização de \textit{scripts} MATLAB para executar simulações, registrar sinais e calcular métricas (Apêndice~\ref{ap:scripts-matlab}), permitindo rastreabilidade entre hipótese, procedimento e resultados (Capítulo~\ref{chap:resultados-final}, Seções~\ref{sec:resultado-final-malha-fechada} e \ref{tab:resultado-final-metricas-nominal}).
+    \item \textcolor{red}{\textbf{Evidência experimental da relação posição--pressão em módulo eletro-hidráulico integrado atuador linear de êmbolo para deslocamento de fluido}: caracterização em bancada dos regimes de pressurização, retenção e alívio com atuador linear (LAC), distinguindo o comportamento dinâmico de cruzamento da acomodação estática em \textit{hold} (ensaios \texttt{OLTEST} e \texttt{PLID}), servindo de base para calibração de tabelas de correspondência (\textit{lookup tables}) e estratégias de controle indireto (Capítulo~\ref{chap:resultados-final}, Seção~\ref{sec:resultado-final-oltest}).}
+
 \end{itemize}
 
 O \textbf{critério de novidade} adotado neste trabalho não é a proposição de um novo método de controle ``do zero'', mas sim a \textbf{consolidação} de um encadeamento metodológico, com recorte coerente e evidência reprodutível, para o problema de \textbf{controle de pressão em frenagem ativa} com viés de implementação discreta: um modelo não linear suficientemente simples para projeto, linearização local para síntese em espaço de estados, observador, saturações e validação sobre a planta não linear em Simulink. Esse tipo de integração é particularmente relevante quando se busca reduzir a distância entre a formulação em controle e a futura migração para execução embarcada.

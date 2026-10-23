@@ -24,6 +24,11 @@
       "name": "bibtex",
       "command": "bibtex",
       "args": ["%DOCFILE%"]
+    },
+    {
+      "name": "makeglossaries",
+      "command": "makeglossaries",
+      "args": ["%DOCFILE%"]
     }
   ],
   "latex-workshop.latex.recipes": [
@@ -32,9 +37,9 @@
       "tools": ["pdflatex"]
     },
     {
-      "name": "pdflatex -> bibtex -> pdflatex*2",
-      "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]
+      "name": "pdflatex -> bibtex -> makeglossaries -> pdflatex*2",
+      "tools": ["pdflatex", "bibtex", "makeglossaries", "pdflatex", "pdflatex"]
     }
   ],
-  "latex-workshop.latex.recipe.default": "pdflatex -> bibtex -> pdflatex*2"
+  "latex-workshop.latex.recipe.default": "pdflatex -> bibtex -> makeglossaries -> pdflatex*2"
 }

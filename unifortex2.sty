@@ -1294,11 +1294,9 @@
 %%    Lista de Abreviaturas e Siglas   %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Largura da lista de abreviaturas
-\setlength{\glsdescwidth}{\linewidth}
-
+% O estilo list dispensa a tabela com colunas de largura fixa.
 \newcommand{\imprimirlistadeabreviaturasesiglas}{ %
-	\printglossary[type=\acronymtype,style=long,nonumberlist,title={Lista de Abreviaturas e Siglas\vspace{-0.3cm}}] %
+	\printglossary[type=\acronymtype,style=list,nonumberlist,title={Lista de Abreviaturas e Siglas\vspace{-0.3cm}}] %
 	\pagebreak %
 }
 
@@ -1525,5 +1523,4 @@
 \renewcommand\cftsubsubsectionpagefont{\normalfont}
 % Altera a fonte da seção quinária
 \renewcommand\cftparagraphpagefont{\normalfont}
-
 

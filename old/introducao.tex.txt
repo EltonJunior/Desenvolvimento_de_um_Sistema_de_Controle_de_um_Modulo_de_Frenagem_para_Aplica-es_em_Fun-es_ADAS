@@ -1,0 +1,76 @@
+% !TeX root = ../documento.tex
+\chapter{Introdução}
+\label{cap:introducao}
+
+\section{Considerações Iniciais}
+\label{chap:introducao-1}
+
+O sistema de freio se apresenta como uma tecnologia fundamental ao veículo; onde, de acordo com \citeonline{Rudolf2011}, podemos atribuir como suas principais funções: a desaceleração do veículo, até a completa parada, manutenção da velocidade constante durante uma descida ou até mesmo manter o veículo estacionado, quando ele estiver completamente parado.
+
+A trajetória do desenvolvimento dos sistemas de freios é bastante longa, e remonta desde a antiguidade quando os freios de madeira foram adotados em sistema rudimentar, até as aplicações dos últimos dois séculos (que o mundo experimentou forte industrialização) como o freio a tambor, a ar comprimido, freio a disco, freio hidráulico e os mais recentes: freio de ABS (Anti-lock Braking System) e freio regenerativo. \cite{Konrad2014}
+
+Com o avanço tecnológico, a eletrônica embarcada também tem se aperfeiçoado, e com isso também contribuindo para sistemas de frenagem nos veículos cada vez mais seguros e eficientes; entretanto, embora os sensores que monitoram a velocidade e frenagem que se interligam estejam cada vez mais precisos e sofisticados, ainda podem sofrer atrasos na comunicação, principalmente em decorrência dessa complexa interação e sincronização que deve ocorrer entre os diversos sistemas (interoperabilidade), afetando seu desempenho, precisão e até mesmo tempo de resposta.
+
+Adicionalmente, quando analisamos os diversos fatores que afetam a segurança veicular, são muitos os aspectos que devem ser considerados, tais como: trânsito, as condições mecânicas do veículo, o ambiente (como, por exemplo, o gelo, chuva, ou qualquer outro fenômeno natural que possa interferir na dirigibilidade), a superfície das estradas, e até mesmo características inerentes ao condutor em si no que diz respeito às condições e capacidade de condução, habilidade de direção, estado físico e mental, bem como reação rápida. \cite[p.~265]{Konrad2014}.
+
+Desse modo, a implementação do Controle de Cruzeiro Adaptativo (ACC) caracterizada pela capacidade de manter a velocidade do veículo constante sem a necessidade de atuação contínua do condutor sobre o pedal do acelerador é relevante, pois incorpora funcionalidades adicionais e integra o conjunto de tecnologias que compõem o Sistema Avançado de Assistência ao Condutor (ADAS).
+% ADD 01/29/2026
+Do ponto de vista de pesquisa, este trabalho aborda o seguinte problema: como modelar e controlar, de forma computacionalmente viável para implementação embarcada, a dinâmica de geração e alívio de pressão hidráulica em um módulo de frenagem, de modo a permitir sua integração com funções ADAS (como ACC), mesmo na presença de ruído de sensores e variações de parâmetros. A lacuna explorada está na consolidação, em um único fluxo metodológico, de (i) um modelo dinâmico do subsistema hidráulico, (ii) um controlador digital de baixo nível e (iii) uma arquitetura de plataforma eletrônica voltada à integração automotiva.
+
+Ressalta-se que o foco está na \textbf{frenagem ativa} e na regulação/rastreamento de pressão como função de baixo nível do módulo eletro-hidráulico (atuador), e não no projeto de um controlador completo de \textit{slip} roda--pista (ABS no sentido estrito), que demandaria a inclusão explícita da dinâmica longitudinal do veículo, do pneu e da lógica de supervisão associada.
+% END ADD
+
+\section{ Objetivos }
+\label{sec:introducao-2}
+Esta pesquisa tem como objetivo contribuir para o estudo e validação, em ambiente de simulação, de uma metodologia de controle digital aplicada ao sistema de freio veicular, com foco em aplicações de Controle de Cruzeiro Adaptativo (ACC) no contexto dos sistemas avançados de assistência ao condutor (ADAS). Para isso, utiliza-se o ambiente Matlab/Simulink para a implementação e avaliação dos algoritmos de controle e desenvolve-se uma plataforma eletrônica dedicada (componentes comerciais e microcontrolador AURIX TC375) como suporte à futura migração para execução embarcada e ensaios em bancada.
+
+O trabalho contempla a integração de sensores e atuadores, o desenvolvimento de estratégias de controle para acionamento das válvulas solenoides e motor, e a avaliação do desempenho do sistema em situações de frenagem simuladas em MATLAB/Simulink. Espera-se que os resultados obtidos possam oferecer subsídios para futuras pesquisas e aplicações, especialmente na exploração de técnicas de controle digital em sistemas automotivos.
+
+Levando em consideração a demanda contínua por soluções de segurança para melhorar a estabilidade e o controle do veículo, o estudo prevê o desenvolvimento de uma placa integrante do mecanismo de freio veicular capaz de executar a modulação digital da pressão de frenagem a partir de referências geradas por funções ADAS (por exemplo, em aplicações de controle longitudinal).
+
+Assim, ao longo deste projeto de mestrado serão apresentados: um breve histórico sobre o desenvolvimento dos sistemas de freio, as principais estruturas e componentes envolvidos, o processo de desenvolvimento da plataforma de controle, integração com os sistemas ADAS e os procedimentos de teste e validação.
+% ADD 01/29/2026
+Como objetivos específicos, destacam-se:
+\begin{itemize}
+    \item modelar a dinâmica da pressão hidráulica a partir do balanço de vazões e compressibilidade do fluido;
+    \item obter um modelo linearizado em torno de um ponto de operação para projeto de controle;
+    \item projetar um controlador digital em espaço de estados (LQI) para regulação/rastreamento da pressão;
+    \item implementar um observador de Luenberger para estimação do estado em condições de ruído;
+    \item validar a resposta do sistema por simulação, analisando pressão, sinais PWM e robustez frente a variações paramétricas.
+\end{itemize}
+% END ADD
+
+\section{ Justificativa }
+\label{sec:introducao-3}
+
+Estruturas de freio são essenciais para o funcionamento e segurança dos veículos, sendo relevantes para a estabilidade e o controle, especialmente em sistemas como ADAS, \gls{ESC}, \gls{TCS}, \gls{ACC} e \gls{AEB}. O aprimoramento e sincronização desses sistemas diante dos desafios de integração e complexidade justificam a necessidade de análises e validações de metodologias de controle continuamente.
+
+Este projeto apresenta uma abordagem metodológica que combina validação em simulação e o desenvolvimento de uma plataforma eletrônica dedicada como suporte à integração futura, permitindo estruturar indicadores relevantes para o desempenho do sistema de freio e reduzir riscos na transição para validação experimental. Os resultados podem servir como referência para projetos futuros, especialmente relacionados a infraestruturas como ABS, ESC/ESP, TCS, ACC, AEB, ADAS e veículos autônomos.
+
+De modo geral, busca-se contribuir para o avanço do conhecimento na área de controle digital aplicado aos sistemas de freio, oferecendo uma análise adicional que possa apoiar o desenvolvimento de pesquisas relacionadas ao tema.
+
+\section{ Motivação }
+\label{sec:introducao-4}
+
+O avanço dos sistemas avançados de assistência ao condutor (ADAS) tem ampliado a necessidade por estratégias de controle cada vez mais precisas, previsíveis e seguras, especialmente no que se refere à modulação da pressão de frenagem. Embora existam diversos estudos focados em modelagem teórica e estratégias de controle para subsistemas hidráulicos, ainda há uma lacuna significativa entre a teoria e a implementação prática em plataformas eletrônicas reais. Em particular, poucos trabalhos abordam de forma integrada a modelagem, simulação e a preparação para validação experimental de um sistema de frenagem acionado digitalmente em aplicações de Controle de Cruzeiro Adaptativo (ACC).
+
+Essa lacuna motiva a presente pesquisa, que busca compreender e implementar uma metodologia de controle digital capaz de modular a pressão hidráulica de forma precisa, considerando as limitações físicas dos atuadores, as não linearidades presentes no sistema e a necessidade de integração com um controlador de alto nível. A utilização de MATLAB/Simulink como ambiente de simulação e do microcontrolador AURIX TC375 como plataforma embarcada permite estruturar a migração do controlador para execução embarcada e reduzir a distância entre a modelagem computacional e a futura avaliação em um conjunto físico.
+
+Além da relevância técnica, este tema possui forte motivação pessoal e profissional. Minha trajetória acadêmica — desde a formação técnica em elétrica e eletrônica até a graduação em Engenharia Elétrica — esteve sempre associada ao estudo de sistemas eletromecânicos e ao interesse pela área automotiva. Profissionalmente, atuo diretamente no desenvolvimento, teste e validação de sistemas embarcados, sensores e atuadores aplicados ao setor automotivo, o que reforça a necessidade de aprofundar meus conhecimentos sobre técnicas de controle, modelagem dinâmica e integração entre hardware e software.
+
+Portanto, esta pesquisa representa não apenas a oportunidade de contribuir tecnicamente para a área de controle digital aplicado a sistemas de freio, mas também um passo importante no aprimoramento das minhas competências profissionais, alinhando a experiência industrial com o rigor metodológico da pesquisa acadêmica.
+
+\section{Contribuições e critério de novidade}
+\label{sec:introducao-contribuicoes}
+
+Esta dissertação tem um recorte deliberado: validar, em simulação, um \textbf{regulador digital de pressão hidráulica por roda} (baixo nível), concebido para ser integrável a funções ADAS longitudinais (por exemplo, \gls{ACC}/\gls{AEB}). Dentro desse recorte, as contribuições são organizadas como entregáveis verificáveis no próprio texto.
+
+Como contribuições, destacam-se:
+\begin{itemize}
+    \item \textbf{Modelo hidráulico concentrado 2P com parametrização compatível com faixas de pressão automotivas}: modelagem não linear em duas pressões ($P_{sup}$ e $P_w$) e ajuste de parâmetros para reproduzir ordens de grandeza realistas, com validação qualitativa em malha aberta (Capítulo~\ref{cap:controle}, Seção~\ref{sec:controle-validacao-2p} e Capítulo~\ref{chap:resultados}, Seção~\ref{sec:resultados-malha-aberta-realista}).
+    \item \textbf{Fluxo completo de projeto em tempo discreto para seguimento de pressão com restrições físicas}: linearização local, discretização ZOH e síntese LQI, com saturações fisicamente coerentes e tratamento de \textit{windup} do integrador (Capítulo~\ref{cap:controle}, Seções~\ref{sec:controle-linearizacao-2p} a \ref{sec:controle-lqi-discreto} e Apêndice~\ref{ap:scripts-matlab}).
+    \item \textbf{Estrutura de estimação de estados compatível com instrumentação limitada}: observador de Luenberger discreto acoplado ao regulador, visando robustez frente a ruído de medição e viabilidade de implementação embarcada (Capítulo~\ref{cap:controle}, Seção~\ref{sec:projeto-observador-luenberger}).
+    \item \textbf{Evidência reprodutível via automação de ensaios}: organização de \textit{scripts} MATLAB para executar simulações, registrar sinais e calcular métricas (Apêndice~\ref{ap:scripts-matlab}), permitindo rastreabilidade entre hipótese, procedimento e resultados (Capítulo~\ref{chap:resultados}, Seções~\ref{sec:resultados-malha-fechada} e \ref{sec:resultados-metricas}).
+\end{itemize}
+
+O \textbf{critério de novidade} adotado neste trabalho não é a proposição de um novo método de controle ``do zero'', mas sim a \textbf{consolidação} de um encadeamento metodológico, com recorte coerente e evidência reprodutível, para o problema de \textbf{controle de pressão em frenagem ativa} com viés de implementação discreta: um modelo não linear suficientemente simples para projeto, linearização local para síntese em espaço de estados, observador, saturações e validação sobre a planta não linear em Simulink. Esse tipo de integração é particularmente relevante quando se busca reduzir a distância entre a formulação em controle e a futura migração para execução embarcada.

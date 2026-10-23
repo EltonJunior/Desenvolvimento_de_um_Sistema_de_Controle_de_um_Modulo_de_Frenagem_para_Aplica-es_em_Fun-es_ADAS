@@ -20,7 +20,7 @@ Os objetivos específicos são:
     \item Avaliar o seguimento de $P_{\mathrm{ref}}(t)$ e o esforço de controle sob saturações físicas de pressão e dos atuadores.
 \end{enumerate}
 
-O capítulo está organizado da seguinte forma: inicialmente define-se como a referência de pressão $P_{\mathrm{ref}}(t)$ é especificada nos ensaios (incluindo um mapeamento simples a partir de desaceleração, quando aplicável) (Seção~\ref{sec:mapeamento-aref-pressao}) e descreve-se o modelo hidráulico não linear 2P (Seção~\ref{sec:controle-4-1}); em seguida, apresenta-se a linearização e a formulação em espaço de estados (Seções~\ref{sec:controle-linearizacao-2p} e \ref{sec:controle-formulacao-espaço-estados}); por fim, descrevem-se a síntese do controlador/observador, a discretização e a implementação em Simulink (Seções~\ref{sec:controle-lqr-luenberger} a \ref{sec:implementacao-simulink}). Os procedimentos de simulação e as métricas adotadas são resumidos na Seção~\ref{sec:procedimentos-simulacao-controle}, e os resultados são apresentados e discutidos no Capítulo~\ref{chap:resultados}.
+O capítulo está organizado da seguinte forma: inicialmente define-se como a referência de pressão $P_{\mathrm{ref}}(t)$ é especificada nos ensaios (incluindo um mapeamento simples a partir de desaceleração, quando aplicável) (Seção~\ref{sec:mapeamento-aref-pressao}) e descreve-se o modelo hidráulico não linear 2P (Seção~\ref{sec:controle-4-1}); em seguida, apresenta-se a linearização e a formulação em espaço de estados (Seções~\ref{sec:controle-linearizacao-2p} e \ref{sec:controle-formulacao-espaço-estados}); por fim, descrevem-se a síntese do controlador/observador, a discretização e a implementação em Simulink (Seções~\ref{sec:controle-lqr-luenberger} a \ref{sec:implementacao-simulink}). Os procedimentos de simulação e as métricas adotadas são resumidos na Seção~\ref{sec:procedimentos-simulacao-controle}, e os resultados são apresentados e discutidos no Capítulo~\ref{chap:resultados-final}.
 
 
 %====================================================================
@@ -226,23 +226,7 @@ o que resulta em $\omega_{p,\max}\approx 131$~rad/s (valor utilizado na implemen
     }{\Fonte{Com base em \cite{ZengYangHuang2023,ProportionalPressureABS2023,Lv2014,ChenLv2017}.}}
 \end{table}
 
-A validação em malha aberta é realizada em duas etapas: em um \emph{caso base}, inspecionam-se causalidade, sinais de vazão e efeito das saturações, verificando se o comportamento qualitativo é coerente com a física de pressurização, retenção e alívio; em seguida, em um \emph{caso realista}, os volumes e os parâmetros da bomba são ajustados segundo a Tabela~\ref{tab:parametros_hidraulico_realista_reescrita}, de modo a reproduzir ordens de grandeza de pressão e vazão reportadas na literatura. Os resultados do caso realista e a discussão correspondente são apresentados na Seção~\ref{sec:resultados-malha-aberta-realista} (Figura~\ref{fig:ensaio_malha_aberta_integrado_real}).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+A validação em malha aberta é realizada em duas etapas: em um \emph{caso base}, inspecionam-se causalidade, sinais de vazão e efeito das saturações, verificando se o comportamento qualitativo é coerente com a física de pressurização, retenção e alívio; em seguida, em um \emph{caso realista}, os volumes e os parâmetros da bomba são ajustados segundo a Tabela~\ref{tab:parametros_hidraulico_realista_reescrita}, de modo a reproduzir ordens de grandeza de pressão e vazão reportadas na literatura. Os resultados do caso realista e a discussão correspondente são apresentados na Seção~\ref{sec:resultado-final-malha-aberta} (Figura~\ref{fig:resultado-final-malha-aberta}).
 
 
 
@@ -272,7 +256,7 @@ são obtidas impondo $\Delta P>0$ no ponto de operação. A linearização de pr
 \]
 Como o modelo de projeto considera $u=\omega_p$ (com $u_{in}$ fixado no ponto e $u_{out}=0$), $B\in\mathbb{R}^{2\times 1}$ é uma matriz-coluna. Dessa forma, $A$ e $B$ são matrizes reais. Reportam-se apenas os autovalores de $A$ (localizados no semiplano esquerdo), indicando estabilidade local. As matrizes numéricas completas são apresentadas no Apêndice~\ref{ap:matrizes-lin}.
 \subsection{Não linearidades e região de validade}
-A lei de orifício implica ganho incremental $\partial Q/\partial \Delta P \propto 1/\sqrt{\Delta P}$, de modo que o ganho efetivo do sistema varia com o ponto de operação. A linearização (expansão de Taylor de primeira ordem) é, portanto, uma aproximação local; desvios significativos em relação ao ponto escolhido podem alterar margens de estabilidade e desempenho \cite{FranklinPowellWorkman1998}. A validação em malha fechada é conduzida sobre um perfil de referência definido em patamares e é apresentada nas Seções~\ref{sec:resultados-malha-fechada} e \ref{sec:resultados-metricas}, com sumarização por métricas usuais de desempenho.
+A lei de orifício implica ganho incremental $\partial Q/\partial \Delta P \propto 1/\sqrt{\Delta P}$, de modo que o ganho efetivo do sistema varia com o ponto de operação. A linearização (expansão de Taylor de primeira ordem) é, portanto, uma aproximação local; desvios significativos em relação ao ponto escolhido podem alterar margens de estabilidade e desempenho \cite{FranklinPowellWorkman1998}. A validação em malha fechada é conduzida sobre um perfil de referência definido em patamares e é apresentada nas Seções~\ref{sec:resultado-final-malha-fechada} e \ref{chap:resultados-final}, com sumarização por métricas usuais de desempenho.
 %====================================================================
 \section{Formulação em espaço de estados}
 \label{sec:controle-formulacao-espaço-estados}
@@ -364,7 +348,7 @@ Um exemplo de pesos é
     Q_a=\mathrm{diag}(10^{-12},\ 10^{-10},\ 10^{4}),\qquad
     R=r_{\omega}.
 \]
-O integrador recebe peso elevado para garantir eliminação de erro de regime ($e_\infty$), enquanto os pesos dos estados evitam problemas de escalonamento decorrentes das magnitudes de pressão em Pa. A parametrização das saturações deve ser física; limites artificiais podem induzir \emph{windup}. A partir dos ensaios apresentados no Capítulo~\ref{chap:resultados}, verifica-se que limites coerentes (pressões máximas, saturação de $\omega_p$ e histerese na lógica das válvulas) permitem o seguimento do perfil de referência sem operação permanentemente saturada.
+O integrador recebe peso elevado para garantir eliminação de erro de regime ($e_\infty$), enquanto os pesos dos estados evitam problemas de escalonamento decorrentes das magnitudes de pressão em Pa. A parametrização das saturações deve ser física; limites artificiais podem induzir \emph{windup}. A partir dos ensaios apresentados no Capítulo~\ref{chap:resultados-final}, verifica-se que limites coerentes (pressões máximas, saturação de $\omega_p$ e histerese na lógica das válvulas) permitem o seguimento do perfil de referência sem operação permanentemente saturada.
 A saturação de $\omega_p$ é parametrizada de forma coerente com um limite de pressão de suprimento $P_{sup,\max}$ via \eqref{eq:ordem_grandeza_psup}. Além disso, para evitar \emph{windup} do integrador sob saturação (situação típica quando a referência exige pressurização além da capacidade física do atuador), emprega-se anti-windup por integração condicional na implementação discreta do controlador. Esses detalhes de implementação são apresentados no Apêndice~\ref{ap:scripts-matlab} (Código~\ref{cod:matlab_function_lqi_observer}).
 A dinâmica em malha fechada do sistema aumentado é
 \[
@@ -409,6 +393,7 @@ Do ponto de vista de implementação, a interface de sinais adotada no modelo em
     }
     \Caption{\label{fig:bloco_matlab_function_lqi_observer} Implementação do controlador discreto (LQI + observador de Luenberger) em um bloco \texttt{MATLAB Function} no Simulink.}
 \end{figure}
+
 \subsection{Integração com a planta hidráulica}
 \label{sec:integracao-planta-hidraulica}
 A planta não linear, descrita por \eqref{eq:din_press}–\eqref{eq:leaks}, é implementada em um bloco \texttt{MATLAB Function}. São impostas as restrições $\omega_p\ge 0$, $u_{in},u_{out}\in[0,1]$ e $P\ge P_{ret}$. Esse arranjo permite avaliar a robustez do LQI frente às não linearidades associadas a $\sqrt{\Delta P}$, à compressibilidade do fluido e às limitações físicas do atuador.
@@ -421,4 +406,147 @@ Na validação em malha fechada, o perfil de referência $P_{w,\text{ref}}(t)$ �
 
 Para manter consistência com a análise em pressão \emph{gauge} adotada neste capítulo, os patamares acima são interpretados como pressão manométrica em bar (relativa a $P_{ret}$) e convertidos para pascal na parametrização do ensaio.
 
-As métricas utilizadas seguem práticas usuais em controle: erro quadrático médio (RMS), tempos de subida e de acomodação, sobressinal $M_p$, erro estacionário $e_\infty$ e esforços máximos de controle ($\max |u_{in}|$ e $\max |u_{out}|$). A apresentação e a discussão dos resultados (curvas e métricas) são realizadas no Capítulo~\ref{chap:resultados}.
+As métricas utilizadas seguem práticas usuais em controle: erro quadrático médio (RMS), tempos de subida e de acomodação, sobressinal $M_p$, erro estacionário $e_\infty$ e esforços máximos de controle ($\max |u_{in}|$ e $\max |u_{out}|$). A apresentação e a discussão dos resultados (curvas e métricas) são realizadas no Capítulo~\ref{chap:resultados-final}.
+
+
+%====================================================================
+\section{Transição de planta e controle por deslocamento linear}
+\label{sec:transicao-planta-deslocamento-linear}
+
+O projeto de controle formulado nas seções precedentes fundamentou-se em uma planta estruturada no modelo concentrado de duas pressões ($P_{sup}$ e $P_w$), no qual a pressurização da linha depende da vazão fornecida por uma bomba hidráulica de pistões acionada por excêntrico, associada à comutação modulada de válvulas solenoides. Essa formulação representou a dinâmica clássica das unidades convencionais de ABS/ESC \cite{Konrad2014}, sendo exaustivamente avaliada nas simulações em ambiente MATLAB/Simulink apresentadas na Seção~\ref{sec:procedimentos-simulacao-controle} (cujos resultados e curvas de resposta são detalhados no Capítulo~\ref{chap:resultados-final}).
+
+Entretanto, durante a fase de montagem física da bancada e consolidação da arquitetura experimental, optou-se pela transição para um módulo de atuação baseado em deslocamento linear (\textit{Linear Actuator Concept} -- LAC) antes da realização de ensaios com a bomba de recirculação. Essa decisão de projeto fundamentou-se em duas constatações centrais:
+\begin{enumerate}
+    \item \textbf{Alinhamento com o estado da arte em veículos modernos:} Conforme documentado na literatura técnica \cite{Feigel2016, xiong2021piston}, a indústria automotiva tem migrado das unidades \textit{two-box} com recirculação contínua para módulos integrados \textit{one-box}. Nesses sistemas, a geração primária de pressão é executada pelo deslocamento forçado de um êmbolo acionado por motor elétrico e fuso mecânico, assegurando gradientes de pressurização mais compatíveis com as exigências de frenagem ativa autônoma sem auxílio de servofreio a vácuo.
+    \item \textbf{Foco na bancada experimental desenvolvida:} Em vez de despender ciclos de ensaio físico sobre a topologia de recirculação contínua — cujo comportamento já havia sido simulado numericamente —, concentrou-se o esforço de validação física na implementação do módulo atuador linear de êmbolo operando em conjunto com a placa eletrônica e o microcontrolador AURIX TC375 projetados neste trabalho.
+\end{enumerate}
+
+Dessa forma, os ensaios físicos conduzidos na bancada e discutidos a seguir concentram-se integralmente no controle do atuador linear de êmbolo, permitindo confrontar a teoria de controle com a resposta do conjunto hidráulico e mecânico implementado, incluindo a interação entre o pistão, a câmara hidráulica e o sistema de acionamento elétrico.
+
+\subsection{Modelagem analítica do atuador linear de êmbolo}
+\label{sec:modelagem-deslocamento-linear}
+
+A dinâmica mecânica do atuador linear de deslocamento é governada pelo acoplamento entre o torque do motor elétrico, a conversão cinemática do fuso e a força antagônica provocada pela pressão hidráulica resistente atuando na área da seção transversal do pistão ($A_p$). O deslocamento linear do êmbolo, denotado por $x_{\mathrm{LAC}}(t)$, correlaciona-se com a posição angular do eixo do motor elétrico $\theta_m(t)$ por meio do passo do fuso $p_s$ (em m/rad):
+\begin{equation}
+    x_{\mathrm{LAC}}(t) = p_s \theta_m(t).
+    \label{eq:fuso_relacao}
+\end{equation}
+
+Considerando a massa linear equivalente do conjunto móvel $m_{eq}$, o coeficiente de atrito viscoso equivalente $b_{eq}$ e a força contrária devida à pressão gerada na câmara $P(t)$, a equação dinâmica do movimento é expressa por:
+\begin{equation}
+    m_{eq} \ddot{x}_{\mathrm{LAC}}(t) + b_{eq} \dot{x}_{\mathrm{LAC}}(t) = F_m(t) - A_p P(t),
+    \label{eq:dinamica_newton_lac}
+\end{equation}
+onde $F_m(t)$ representa a força motriz axial resultante transmitida pelo fuso. A taxa temporal de pressurização no circuito hidráulico fechado relaciona-se diretamente com o fluxo volumétrico induzido pelo êmbolo \cite{xiong2021piston}:
+\begin{equation}
+    \dot{P}(t) = \frac{\beta_{\mathrm{eff}}(P)}{V(t)} \left( A_p \dot{x}_{\mathrm{LAC}}(t) - Q_{valv}(t) \right),
+    \label{eq:derivada_pressao_lac}
+\end{equation}
+sendo $\beta_{\mathrm{eff}}(P)$ o módulo de compressibilidade volumétrica efetivo do sistema (que engloba a compressibilidade do óleo de freio DOT4 e a deformação volumétrica elástica da pinça e tubulações flexíveis), $V(t) = V_0 - A_p x_{\mathrm{LAC}}(t)$ o volume interno instantâneo e $Q_{valv}(t)$ a vazão volumétrica de alívio por comutação de válvulas solenoides.
+
+A relação estática entre a posição linear do êmbolo $x_{\mathrm{LAC}}$ e a pressão hidráulica na roda $P$ (curva $p-V$) manifesta expressiva não linearidade \cite{breuer2008brake, xiong2021piston}. Nos estágios iniciais de deslocamento ($x_{\mathrm{LAC}} < x_0$), o avanço do êmbolo restringe-se a preencher a folga mecânica entre as pastilhas e o disco de freio (\textit{pad clearance}), gerando elevação insignificante de pressão. Uma vez estabelecido o contato firme das pastilhas, a taxa $dP/dx_{\mathrm{LAC}}$ eleva-se rapidamente com inclinação acentuada, passando a ser governada pela rigidez elástica da carcaça da pinça de freio \cite{breuer2008brake}.
+
+\subsection{Representação em espaço de estados e discretização ZOH}
+\label{sec:espaco-estados-lac}
+
+A linearização da dinâmica do atuador em torno de um ponto de operação estático nominal $(\bar{x}_{\mathrm{LAC}}, \bar{v}_{\mathrm{LAC}}, \bar{P})$, representativo de uma demanda intermediária de pressão ADAS, conduz à formulação em espaço de estados em tempo contínuo. Definindo o vetor de estados de desvio como $x(t) = [\Delta x_{\mathrm{LAC}}(t),\, \Delta \dot{x}_{\mathrm{LAC}}(t),\, \Delta P(t)]^T$ e o sinal de controle como a força motriz incremental $u(t) = \Delta F_m(t)$, obtém-se:
+\begin{equation}
+    \dot{x}(t) = A x(t) + B u(t), \quad y(t) = C x(t),
+    \label{eq:estados_continuo_lac}
+\end{equation}
+com as matrizes dinâmicas definidas por:
+\begin{equation}
+    A = \begin{bmatrix}
+        0 & 1 & 0 \\
+        0 & -\frac{b_{eq}}{m_{eq}} & -\frac{A_p}{m_{eq}} \\
+        0 & \left.\frac{\beta_{\mathrm{eff}} A_p}{V_0}\right|_{\bar{P}} & -\left.\frac{1}{\tau_h}\right|_{\bar{P}}
+    \end{bmatrix}, \quad
+    B = \begin{bmatrix}
+        0 \\
+        \frac{1}{m_{eq}} \\
+        0
+    \end{bmatrix}, \quad
+    C = \begin{bmatrix}
+        1 & 0 & 0 \\
+        0 & 0 & 1
+    \end{bmatrix},
+    \label{eq:matrizes_continuas_lac}
+\end{equation}
+sendo $\tau_h$ uma constante de tempo empírica que modela o amortecimento das perdas de carga localizadas no escoamento do fluido.
+
+Visando à execução em microcontrolador automotivo operando com taxa periódica síncrona com período $T_s = 1{,}0\text{ ms}$, o modelo contínuo é convertido para o domínio discreto utilizando retenção de ordem zero (\textit{Zero-Order Hold} -- ZOH) \cite{FranklinPowellWorkman1998, BrunoAAngelico2018}:
+\begin{equation}
+    A_d = e^{A T_s}, \quad B_d = \int_0^{T_s} e^{A \tau} d\tau B, \quad C_d = C.
+    \label{eq:discretizacao_zoh}
+\end{equation}
+
+\subsection{Estrutura do regulador LQI e observador de Luenberger discreto}
+\label{sec:sintese-lqi-luenberger-lac}
+
+Para eliminar erro de regime estacionário diante das perturbações de carga e da não linearidade intrínseca da curva $p-V$, adiciona-se ao vetor de estados um integrador numérico do erro de rastreamento de pressão $v(k)$:
+\begin{equation}
+    v(k+1) = v(k) + \left( P_{\mathrm{ref}}(k) - P(k) \right).
+    \label{eq:integrador_erro_lac}
+\end{equation}
+
+O modelo estendido resultante $x_a(k) = [x(k)^T \quad v(k)]^T$ assume a forma matricial:
+\begin{equation}
+    x_a(k+1) = \begin{bmatrix} A_d & \mathbf{0}_{3\times 1} \\ -C_{d,P} & 1 \end{bmatrix} x_a(k) + \begin{bmatrix} B_d \\ 0 \end{bmatrix} u(k) + \begin{bmatrix} \mathbf{0}_{3\times 1} \\ 1 \end{bmatrix} P_{\mathrm{ref}}(k),
+    \label{eq:planta_aumentada_lac}
+\end{equation}
+na qual $C_{d,P} = [0 \quad 0 \quad 1]$ seleciona o estado associado à pressão hidráulica medida.
+
+O regulador quadrático linear com ação integral (LQI) é sintetizado minimizando a função de custo discreta:
+\begin{equation}
+    J = \sum_{k=0}^{\infty} \left( x_a^T(k) Q_a x_a(k) + u^T(k) R_u u(k) \right),
+    \label{eq:custo_lqi_lac}
+\end{equation}
+com ponderações diagonais $Q_a \ge 0$ e $R_u > 0$. A solução da equação algébrica de Riccati discreta fornece o vetor de ganhos ótimos $K = [K_x \quad K_i]$, resultando no sinal de controle:
+\begin{equation}
+    u(k) = -K_x \hat{x}(k) + K_i v(k),
+    \label{eq:lei_controle_lqi_lac}
+\end{equation}
+ao qual se aplica um esquema de saturação anti-windup no integrador $v(k)$, protegendo o fuso contra fins de curso mecânico.
+
+A estimação do estado de velocidade linear $\dot{x}_{\mathrm{LAC}}(k)$, não medido por sensor direto, é conduzida por um observador de Luenberger em tempo discreto:
+\begin{equation}
+    \hat{x}(k+1) = A_d \hat{x}(k) + B_d u(k) + L \left( y(k) - C_d \hat{x}(k) \right).
+    \label{eq:observador_luenberger_lac}
+\end{equation}
+O ganho do observador $L$ é alocado de modo que os autovalores da matriz $(A_d - L C_d)$ convirjam significativamente mais rápido que a dinâmica de malha fechada do regulador LQI, satisfazendo o princípio da separação \cite{Ogata1997}.
+
+\subsection{Restrição de comunicação USB e migração para execução determinística embarcada}
+\label{sec:restricao-usb-arquitetura}
+
+Durante as fases iniciais de validação experimental, investigou-se a viabilidade de operar a malha de controle em tempo real via enlace USB conectando o ambiente computacional MATLAB/Simulink à bancada física. No entanto, a execução revelou um obstáculo operacional crítico: a latência estocástica e a oscilação de atraso (\textit{jitter}) inerentes à pilha de comunicação USB do sistema operacional inviabilizaram a sustentação de passos de controle determinísticos de $1{,}0\text{ ms}$.
+
+Além do compromisso com a taxa de amostragem, os circuitos integrados de acionamento inteligente (com destaque para o driver NXP MC34SB0800, responsável pelo estágio de potência das válvulas solenoides) exigem envio cíclico estrito de mensagens via barramento SPI (\textit{watchdog} de comunicação). Qualquer atraso esporádico decorrente do empacotamento USB resultava no desarme imediato por segurança do CI de potência, interrompendo a pressurização.
+
+Em virtude desse comportamento, estabeleceu-se uma divisão estrita de responsabilidades entre as plataformas:
+\begin{enumerate}
+    \item \textbf{Ambiente MATLAB:} Utilizado unicamente fora de linha (\textit{offline}) para a modelagem estática, identificação experimental da curva $p-V$, resolução da equação de Riccati e geração dos vetores de ganho ($K, L$).
+    \item \textbf{Firmware embarcado no AURIX TC375:} A malha fechada de controle discreto (recursão das equações do LQI, observador de Luenberger, máquina de estados das válvulas e limites operacionais) foi integralmente programada em linguagem C e executada de modo determinístico no microcontrolador AURIX TC375 \cite{tc37xDatasheet, tc37xEvaluationBoard}, suportado pela placa eletrônica desenvolvida neste trabalho.
+    \item \textbf{Segregação de telemetria:} A interface serial USB foi convertida para tráfego assíncrono passivo com taxa reduzida (amostragem de registro a cada $5\text{ ms}$), garantindo que a transmissão de telemetria não interfira no temporizador de interrupção periódica de $1{,}0\text{ ms}$ responsável pelo processamento do laço de controle.
+    \item \textbf{Criação de tabelas/imagens de correspondência e calibração:} As tabelas de correspondência entre deslocamento do atuador e pressão hidráulica, bem como os parâmetros de controle, são enviados a partir do AURIX TC375 para um script python ou matlab que processa os dados, gera as imagens características e tabelas de calibração utilizadas na implementação do firmware embarcado.
+\end{enumerate}
+
+\subsection{Validação experimental na bancada física}
+\label{sec:validacao-experimental-bancada}
+
+A validação da arquitetura embarcada na bancada física foi realizada submetendo o módulo com atuador linear de êmbolo a perfis de pressão em degraus e rampas, com monitoramento simultâneo da pressão na roda ($P_{\mathrm{real}}$), da referência demandada ($P_{\mathrm{ref}}$), do avanço mecânico do êmbolo ($x_{\mathrm{LAC}}$) e do acionamento digital das válvulas solenoides ($u_{in}, u_{out}$).
+
+\begin{figure}[htbp]
+    \centering
+    \IfFileExists{figuras/serial_log_20261019_104841_plot.png}{%
+        \includegraphics[width=0.88\textwidth]{figuras/serial_log_20261019_104841_plot.png}%
+    }{%
+        \fbox{\parbox{0.88\textwidth}{\centering\vspace{8mm}
+                \textbf{Figura pendente:} salvar a captura do serial log como\\
+                \texttt{figuras/serial\_log\_20261019\_104841\_plot.png}.\vspace{8mm}}}%
+    }
+    \Caption{\label{fig:curva_do_test_na_planta_com_aurix_placa} Resposta temporal em malha fechada do controle de pressão operando nativamente no microcontrolador AURIX TC375: rastreamento de $P_{\mathrm{ref}}$, pressão medida $P_{\mathrm{real}}$, deslocamento linear do atuador de êmbolo $x_{\mathrm{LAC}}$ e chaveamento das válvulas de admissão e escape.}
+\end{figure}
+
+O comportamento temporal exibido na Figura~\ref{fig:curva_do_test_na_planta_com_aurix_placa} evidencia que a ação combinada do deslocamento linear com a modulação discreta das válvulas assegura tempo de resposta compatível com os requisitos de frenagem autônoma, atingindo os patamares de pressão sem sobressinal destrutivo e mitigando a não linearidade de assentamento das pastilhas por intermédio da ação integral do regulador.
+
+

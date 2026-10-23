@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VIO Wiki</title>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<style>
+* { box-sizing: border-box; }
+.mermaid-figure {
+  margin: 14px 0;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  text-align: center;
+  cursor: zoom-in;
+  overflow-x: auto;
+}
+.mermaid-figure svg { max-width: 100%; height: auto; overflow: visible; }
+/* Mermaid paints node/edge labels as HTML inside <foreignObject> and stamps a
+   FIXED width/height on that box, measured while the diagram still sits in its
+   off-screen copy. A foreignObject CLIPS whatever overflows it, so the page's
+   own typography (#detail-body line-height: 1.55) inflated the labels after
+   measurement and sliced the bottom off every second line. Pin the metrics on
+   the mermaid SVG itself — the id prefix matches both the measuring copy and
+   the inserted diagram, so measured height and painted height always agree. */
+svg[id^="mmd-"] foreignObject { overflow: visible; }
+svg[id^="mmd-"] foreignObject > div {
+  line-height: 1.35;
+  text-align: center;
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+svg[id^="mmd-"] foreignObject span,
+svg[id^="mmd-"] foreignObject p {
+  line-height: inherit;
+  margin: 0;
+  padding: 0;
+}
+pre.mermaid-error {
+  border-left: 3px solid #ef4444;
+  background: #fef2f2;
+}
+#mermaid-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(15, 23, 42, 0.82);
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+  padding: 32px;
+}
+.mermaid-lightbox-inner {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 92vw;
+  height: 90vh;
+  max-width: 92vw;
+  max-height: 90vh;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mermaid-lightbox-inner svg {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: 100%;
+}
+html, body { max-width: 100%; overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-size: 14px;
+  color: #0f172a;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 10px 16px;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+.title strong { font-size: 16px; margin-right: 8px; }
+.muted { color: #64748b; font-size: 12px; }
+.controls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.controls input, .controls select, .controls button {
+  font-size: 13px;
+  padding: 5px 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  background: #fff;
+}
+.controls input { width: 220px; max-width: 40vw; }
+.controls button { cursor: pointer; background: #f1f5f9; }
+.controls button:hover { background: #e2e8f0; }
+
+main {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;   /* never let panes spill under the window edge */
+}
+
+/* ── Link tree (left, resizable + collapsible) ── */
+#tree {
+  flex: 0 0 240px;
+  width: 240px;
+  min-width: 150px;
+  max-width: 480px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #fff;
+  border-right: 1px solid #e2e8f0;
+  padding: 8px 0;
+}
+body.tree-hidden #tree,
+body.tree-hidden #tree-gutter { display: none; }
+/* Resize gutter between the tree and the content */
+#tree-gutter {
+  flex: 0 0 6px;
+  cursor: col-resize;
+  background: #e2e8f0;
+}
+#tree-gutter:hover, #tree-gutter.dragging { background: #94a3b8; }
+.tree-head {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #94a3b8;
+  padding: 4px 14px 8px;
+}
+/* Tree header bar: collapse toggle (icon) on the LEFT of the "Pages" title */
+.tree-head-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px;
+}
+.tree-toggle {
+  flex: 0 0 auto; border: 1px solid #e2e8f0; background: #fff;
+  border-radius: 5px; cursor: pointer; font-size: 13px; line-height: 1;
+  padding: 3px 7px; color: #475569;
+}
+.tree-toggle:hover { background: #f1f5f9; }
+.tree-head-title { font-size: 11px; font-weight: 700; letter-spacing: .5px; }
+
+/* Reopen buttons — shown only when a pane is collapsed. Thin, docked strips. */
+.pane-reopen {
+  flex: 0 0 26px; align-self: stretch; border: none; cursor: pointer;
+  background: #f1f5f9; color: #475569; font-size: 11px; font-weight: 700;
+  letter-spacing: .04em; padding: 0; border-right: 1px solid #e2e8f0;
+  writing-mode: vertical-rl; text-orientation: mixed;
+}
+.pane-reopen.pane-reopen-right { border-right: none; border-left: 1px solid #e2e8f0; }
+.pane-reopen:hover { background: #e2e8f0; }
+.pane-reopen[hidden] { display: none; }
+#tree-list, #tree-list ul { list-style: none; margin: 0; padding: 0; }
+#tree-list ul { margin-left: 12px; }
+.tree-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tree-item:hover { background: #f1f5f9; }
+.tree-item.active {
+  background: #eff6ff;
+  border-left-color: #2563eb;
+  color: #1d4ed8;
+  font-weight: 600;
+}
+.tree-dot {
+  flex: 0 0 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #94a3b8;
+}
+
+/* ── Detail (middle) ── */
+#detail {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 18px 22px;
+  background: #fff;
+  min-width: 0;   /* allow the middle pane to shrink so the graph stays in view */
+}
+/* Resize gutter between detail (middle) and graph (right) */
+#gutter {
+  flex: 0 0 6px;
+  cursor: col-resize;
+  background: #e2e8f0;
+  position: relative;
+}
+#gutter:hover, #gutter.dragging { background: #94a3b8; }
+/* ── Graph pane (right) ── */
+#graph-pane {
+  flex: 1 1 46%;
+  min-width: 0;
+  max-width: 70%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-left: 1px solid #e2e8f0;
+}
+.graph-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+  flex-shrink: 0;
+}
+.graph-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #94a3b8;
+  flex: 1;
+}
+.graph-toolbar button {
+  font-size: 12px;
+  padding: 4px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+}
+.graph-toolbar button:hover { background: #e2e8f0; }
+#graph {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  max-width: 100%;
+  position: relative;
+  overflow: hidden;   /* clip the cytoscape canvas; it auto-fits via ResizeObserver */
+}
+/* Graph hidden state: collapse the pane + its gutter, content takes the room */
+body.graph-hidden #graph-pane,
+body.graph-hidden #gutter { display: none; }
+
+/* ── Narrow viewport (embedded in a thin sidebar) ──
+   Stack the panes vertically so nothing spills under the window edge and we
+   never need a horizontal scrollbar. The drag-gutter (a vertical col-resizer)
+   stops making sense when stacked, so hide it; panes get sensible heights. */
+/* Stacked layout: triggered EITHER by the iframe's own narrow viewport, OR by
+   the host (VIO wiki sidebar) adding `body.vio-stacked` so it switches at the
+   exact same width as the native pane. Both selectors share one rule set. */
+@media (max-width: 520px) {
+  main { flex-direction: column; overflow-y: auto; overflow-x: hidden; min-width: 0; }
+  /* Force-override any JS-persisted inline px widths from drag-resize, which
+     would otherwise spill past the narrow viewport and create a bottom
+     horizontal scrollbar. Heights come from JS-persisted inline flex-basis
+     (set by the row-resizers below); these are the initial fallbacks. */
+  #tree {
+    flex: 0 0 auto; width: 100% !important; max-width: none !important;
+    min-width: 0 !important; height: 26vh; min-height: 90px; border-right: none;
+    border-bottom: none; overflow: auto;
+  }
+  #detail { flex: 1 1 auto !important; min-height: 160px; min-width: 0 !important; }
+  #graph-pane {
+    flex: 0 0 auto; width: 100% !important; max-width: none !important;
+    min-width: 0 !important; height: 40vh; min-height: 120px; border-left: none;
+    border-top: none;
+  }
+  .graph-toolbar { flex-wrap: wrap; }
+  /* Repurpose the two col-resizers as horizontal row-resizers when stacked. */
+  #tree-gutter, #gutter {
+    display: block !important; flex: 0 0 6px; width: 100% !important;
+    height: 6px; cursor: row-resize;
+  }
+}
+/* Host-driven stack (VIO wiki sidebar adds body.vio-stacked at the same width
+   the native pane stacks). Mirrors the media-query rules above exactly. */
+body.vio-stacked main { flex-direction: column; overflow-y: auto; overflow-x: hidden; min-width: 0; }
+body.vio-stacked #tree {
+  flex: 0 0 auto; width: 100% !important; max-width: none !important;
+  min-width: 0 !important; height: 26vh; min-height: 90px; border-right: none;
+  border-bottom: none; overflow: auto;
+}
+body.vio-stacked #detail { flex: 1 1 auto !important; min-height: 160px; min-width: 0 !important; }
+body.vio-stacked #graph-pane {
+  flex: 0 0 auto; width: 100% !important; max-width: none !important;
+  min-width: 0 !important; height: 40vh; min-height: 120px; border-left: none;
+  border-top: none;
+}
+body.vio-stacked .graph-toolbar { flex-wrap: wrap; }
+body.vio-stacked #tree-gutter, body.vio-stacked #gutter {
+  display: block !important; flex: 0 0 6px; width: 100% !important;
+  height: 6px; cursor: row-resize;
+}
+#detail-empty {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.detail-header { margin-bottom: 12px; }
+.detail-header h1 {
+  font-size: 18px;
+  margin: 4px 0 2px;
+  font-weight: 600;
+}
+.type-chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  background: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+dl.frontmatter {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  row-gap: 4px;
+  column-gap: 12px;
+  margin: 8px 0 12px;
+  font-size: 13px;
+}
+dl.frontmatter dt {
+  color: #64748b;
+  font-weight: 500;
+}
+dl.frontmatter dd { margin: 0; }
+dl.frontmatter a { color: #2563eb; word-break: break-all; }
+
+.tag {
+  display: inline-block;
+  padding: 1px 6px;
+  margin: 0 4px 2px 0;
+  border-radius: 4px;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 11px;
+}
+
+hr { border: none; border-top: 1px solid #e2e8f0; margin: 14px 0; }
+
+#detail-body { font-size: 13px; line-height: 1.55; }
+#detail-body h1 {
+  font-size: 16px; margin: 18px 0 6px;
+  padding-bottom: 4px; border-bottom: 1px solid #e2e8f0;
+}
+#detail-body h2 { font-size: 14px; margin: 14px 0 4px; }
+#detail-body h3 { font-size: 13px; margin: 12px 0 4px; }
+#detail-body p { margin: 6px 0; }
+#detail-body code {
+  background: #f1f5f9;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-family: ui-monospace, "SF Mono", Consolas, monospace;
+}
+#detail-body pre {
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 12px;
+}
+#detail-body pre code { background: transparent; color: inherit; padding: 0; }
+#detail-body ul, #detail-body ol { padding-left: 22px; margin: 6px 0; }
+#detail-body li { margin: 2px 0; }
+#detail-body table { border-collapse: collapse; margin: 8px 0; }
+#detail-body th, #detail-body td {
+  border: 1px solid #e2e8f0; padding: 4px 8px; font-size: 12px;
+}
+#detail-body a.internal { color: #2563eb; cursor: pointer; }
+#detail-body a.external { color: #2563eb; }
+
+/* OKF per-claim footnotes: quiet superscript refs + a "Sources" list. */
+#detail-body sup.fn-ref { font-size: 9px; line-height: 0; margin-left: 1px; }
+#detail-body sup.fn-ref a {
+  color: #64748b; text-decoration: none; cursor: pointer;
+  padding: 0 2px; border-radius: 3px;
+}
+#detail-body sup.fn-ref a:hover { color: #1d4ed8; background: #eff6ff; }
+#detail-body .footnotes {
+  margin-top: 22px; padding-top: 10px; border-top: 1px solid #e2e8f0;
+  font-size: 12px; color: #475569;
+}
+#detail-body .footnotes h2 { font-size: 12px; color: #64748b; margin: 0 0 6px; }
+#detail-body .footnotes ol { padding-left: 18px; margin: 0; }
+#detail-body .footnotes li { margin: 2px 0; }
+#detail-body .footnotes .fn-label { font-weight: 600; color: #334155; }
+#detail-body .footnotes code { font-size: 11px; }
+
+#detail-backlinks { margin-top: 18px; }
+#detail-backlinks h2 { font-size: 13px; color: #64748b; margin-bottom: 6px; }
+#detail-backlinks ul { padding-left: 18px; }
+#detail-backlinks a { color: #2563eb; cursor: pointer; }
+
+</style>
+</head>
+<body>
+<header>
+  <div class="title">
+    <strong id="bundle-name"></strong>
+    <span class="muted">VIO Wiki — OKF bundle</span>
+  </div>
+  <div class="controls">
+    <input id="search" type="search" placeholder="Search title / id / tag">
+    <select id="filter-type">
+      <option value="">All types</option>
+    </select>
+    <select id="layout">
+      <option value="cose">cose (force)</option>
+      <option value="concentric">concentric</option>
+      <option value="breadthfirst">breadth-first</option>
+      <option value="circle">circle</option>
+      <option value="grid">grid</option>
+    </select>
+  </div>
+</header>
+
+<main>
+  <nav id="tree">
+    <div class="tree-head tree-head-bar">
+      <button id="toggle-tree" class="tree-toggle" title="Hide the page tree">&#9776;</button>
+      <span class="tree-head-title">Pages</span>
+    </div>
+    <ul id="tree-list"></ul>
+  </nav>
+  <button id="tree-reopen" class="pane-reopen" title="Show the page tree" hidden>&#9776; Pages</button>
+  <div id="tree-gutter" title="Drag to resize the page tree"></div>
+  <section id="detail">
+    <div id="detail-empty" class="muted">Click a node to see its details.</div>
+    <article id="detail-content" hidden>
+      <header class="detail-header">
+        <span class="type-chip" id="detail-type"></span>
+        <h1 id="detail-title"></h1>
+        <div class="muted" id="detail-id"></div>
+      </header>
+      <dl class="frontmatter">
+        <dt>Description</dt><dd id="detail-description"></dd>
+        <dt>Resource</dt><dd id="detail-resource"></dd>
+        <dt>Tags</dt><dd id="detail-tags"></dd>
+      </dl>
+      <hr>
+      <div id="detail-body"></div>
+      <section id="detail-backlinks" hidden>
+        <h2>Cited by</h2>
+        <ul id="backlinks-list"></ul>
+      </section>
+    </article>
+  </section>
+  <div id="gutter" title="Drag to resize the graph"></div>
+  <section id="graph-pane">
+    <div class="graph-toolbar">
+      <span class="graph-title">Graph</span>
+      <button id="fit-graph" title="Fit / center the graph in this pane">Fit</button>
+      <button id="reset-graph" title="Re-run layout and fit">Reset</button>
+      <button id="toggle-graph" title="Hide the graph view">Hide</button>
+    </div>
+    <div id="graph"></div>
+  </section>
+  <button id="graph-reopen" class="pane-reopen pane-reopen-right" title="Show the graph" hidden>Graph</button>
+</main>
+
+<script>
+window.BUNDLE_NAME = "bundle";
+window.BUNDLE = {"nodes": [{"data": {"id": "architecture/control-strategy", "label": "Control Strategy", "type": "Architecture", "description": "Estrat\u00e9gias de controle: controle indireto por posi\u00e7\u00e3o (CLMULTI/LQR/Luenberger) versus controle direto LQI em press\u00e3o (2P).", "resource": "", "tags": ["control-theory", "lqr", "lqi", "luenberger", "clmulti", "plid"], "color": "#a855f7", "size": 55}}, {"data": {"id": "architecture/data-flow", "label": "Data Flow & Telemetry", "type": "Architecture", "description": "Fluxo de comunica\u00e7\u00e3o serial em tempo real entre PC/MATLAB e firmware embarcado AURIX (protocolo ECHO/LIVE/PLID/CLMULTI).", "resource": "", "tags": ["data-flow", "telemetry", "uart", "serial", "aurix"], "color": "#a855f7", "size": 49}}, {"data": {"id": "architecture/experimental-validation", "label": "Experimental Validation & Robustness", "type": "Architecture", "description": "Metodologia de valida\u00e7\u00e3o experimental, identifica\u00e7\u00e3o param\u00e9trica (tau e K_vel) e robustez param\u00e9trica.", "resource": "", "tags": ["validation", "robustness", "monte-carlo", "hysteresis", "limit-cycle", "bench-test"], "color": "#a855f7", "size": 55}}, {"data": {"id": "architecture/system-architecture", "label": "System Architecture", "type": "Architecture", "description": "Arquitetura do sistema do m\u00f3dulo de freio: hardware AURIX, atuador linear (LAC), bloco hidr\u00e1ulico 2P e interface serial.", "resource": "", "tags": ["architecture", "aurix", "lac", "hydraulics", "hardware"], "color": "#a855f7", "size": 48}}, {"data": {"id": "modules/matlab-simulation", "label": "Matlab Simulation & Synthesis", "type": "Module", "description": "Scripts de modelagem anal\u00edtica, lineariza\u00e7\u00e3o e s\u00edntese de controle em simula\u00e7\u00e3o (LQI discreto e observador 2P).", "resource": "", "tags": ["simulink", "matlab", "lqi", "luenberger", "state-space", "anti-windup"], "color": "#3b82f6", "size": 53}}, {"data": {"id": "modules/matlab2-bench-tests", "label": "Bench Testing & Identification", "type": "Module", "description": "Su\u00edte de ensaios experimentais em bancada real (PLID, CLMULTI, CLSTEP, sweep de PWM e identifica\u00e7\u00e3o de par\u00e2metros).", "resource": "", "tags": ["bench-test", "aurix", "clmulti", "plid", "parameter-identification", "hil"], "color": "#3b82f6", "size": 55}}, {"data": {"id": "modules/serial-interface", "label": "Serial Communication & Codec", "type": "Module", "description": "M\u00f3dulos MATLAB System Object para codifica\u00e7\u00e3o e decodifica\u00e7\u00e3o do protocolo UART do AURIX.", "resource": "", "tags": ["matlab-system", "serial", "codec", "simulink", "uart"], "color": "#3b82f6", "size": 48}}, {"data": {"id": "overview", "label": "Overview", "type": "Repo", "description": "Vis\u00e3o geral do projeto de mestrado: controle digital e indireto de press\u00e3o hidr\u00e1ulica em atuador de frenagem para fun\u00e7\u00f5es ADAS.", "resource": "file:///D:/OneDrive%20-%20Continental%20AG/MestradoUspPoli/Anti-Brake%20System/Overleaf/Mestrado/Desenvolvimento_Controle_Modulo_Frenagem_ADAS", "tags": ["adas", "braking", "hydraulic-control", "lqr", "aurix", "matlab"], "color": "#0ea5e9", "size": 51}}], "edges": [{"data": {"id": "architecture/control-strategy__modules/matlab2-bench-tests", "source": "architecture/control-strategy", "target": "modules/matlab2-bench-tests"}}, {"data": {"id": "architecture/control-strategy__modules/matlab-simulation", "source": "architecture/control-strategy", "target": "modules/matlab-simulation"}}, {"data": {"id": "architecture/control-strategy__architecture/experimental-validation", "source": "architecture/control-strategy", "target": "architecture/experimental-validation"}}, {"data": {"id": "architecture/data-flow__modules/serial-interface", "source": "architecture/data-flow", "target": "modules/serial-interface"}}, {"data": {"id": "architecture/data-flow__modules/matlab2-bench-tests", "source": "architecture/data-flow", "target": "modules/matlab2-bench-tests"}}, {"data": {"id": "architecture/data-flow__architecture/control-strategy", "source": "architecture/data-flow", "target": "architecture/control-strategy"}}, {"data": {"id": "architecture/experimental-validation__modules/matlab2-bench-tests", "source": "architecture/experimental-validation", "target": "modules/matlab2-bench-tests"}}, {"data": {"id": "architecture/experimental-validation__architecture/control-strategy", "source": "architecture/experimental-validation", "target": "architecture/control-strategy"}}, {"data": {"id": "architecture/experimental-validation__modules/matlab-simulation", "source": "architecture/experimental-validation", "target": "modules/matlab-simulation"}}, {"data": {"id": "architecture/system-architecture__modules/matlab-simulation", "source": "architecture/system-architecture", "target": "modules/matlab-simulation"}}, {"data": {"id": "architecture/system-architecture__architecture/data-flow", "source": "architecture/system-architecture", "target": "architecture/data-flow"}}, {"data": {"id": "architecture/system-architecture__architecture/control-strategy", "source": "architecture/system-architecture", "target": "architecture/control-strategy"}}, {"data": {"id": "architecture/system-architecture__modules/matlab2-bench-tests", "source": "architecture/system-architecture", "target": "modules/matlab2-bench-tests"}}, {"data": {"id": "modules/matlab-simulation__architecture/control-strategy", "source": "modules/matlab-simulation", "target": "architecture/control-strategy"}}, {"data": {"id": "modules/matlab-simulation__modules/matlab2-bench-tests", "source": "modules/matlab-simulation", "target": "modules/matlab2-bench-tests"}}, {"data": {"id": "modules/matlab-simulation__architecture/experimental-validation", "source": "modules/matlab-simulation", "target": "architecture/experimental-validation"}}, {"data": {"id": "modules/matlab2-bench-tests__architecture/control-strategy", "source": "modules/matlab2-bench-tests", "target": "architecture/control-strategy"}}, {"data": {"id": "modules/matlab2-bench-tests__modules/serial-interface", "source": "modules/matlab2-bench-tests", "target": "modules/serial-interface"}}, {"data": {"id": "modules/matlab2-bench-tests__architecture/experimental-validation", "source": "modules/matlab2-bench-tests", "target": "architecture/experimental-validation"}}, {"data": {"id": "modules/serial-interface__modules/matlab2-bench-tests", "source": "modules/serial-interface", "target": "modules/matlab2-bench-tests"}}, {"data": {"id": "modules/serial-interface__architecture/data-flow", "source": "modules/serial-interface", "target": "architecture/data-flow"}}, {"data": {"id": "modules/serial-interface__architecture/system-architecture", "source": "modules/serial-interface", "target": "architecture/system-architecture"}}, {"data": {"id": "overview__modules/matlab-simulation", "source": "overview", "target": "modules/matlab-simulation"}}, {"data": {"id": "overview__modules/serial-interface", "source": "overview", "target": "modules/serial-interface"}}, {"data": {"id": "overview__architecture/system-architecture", "source": "overview", "target": "architecture/system-architecture"}}, {"data": {"id": "overview__architecture/control-strategy", "source": "overview", "target": "architecture/control-strategy"}}, {"data": {"id": "overview__architecture/data-flow", "source": "overview", "target": "architecture/data-flow"}}, {"data": {"id": "overview__modules/matlab2-bench-tests", "source": "overview", "target": "modules/matlab2-bench-tests"}}, {"data": {"id": "overview__architecture/experimental-validation", "source": "overview", "target": "architecture/experimental-validation"}}], "bodies": {"architecture/control-strategy": "# Control Strategy\n\nA regula\u00e7\u00e3o de press\u00e3o hidr\u00e1ulica em atuadores de frenagem para ve\u00edculos aut\u00f4nomos e fun\u00e7\u00f5es ADAS apresenta fortes desafios de n\u00e3o linearidade, satura\u00e7\u00e3o de atuadores e histerese elasto-hidr\u00e1ulica.[^resumo] No escopo deste projeto, duas estrat\u00e9gias principais foram desenvolvidas e analisadas: o **Controle Indireto de Press\u00e3o por Posi\u00e7\u00e3o** (validado experimentalmente) e o **Controle Direto \u00d3timo LQI de Press\u00e3o** (avaliado em simula\u00e7\u00e3o).\n\n```mermaid\nflowchart TD\n    subgraph Controle_Indireto [\"Estrat\u00e9gia 1: Controle Indireto por Posi\u00e7\u00e3o (Bancada Real)\"]\n        Pref[\"P_ref (bar / psi)\"] --> LUT[\"Tabela Inversa: x_ref = g\u207b\u00b9(P_ref)\"]\n        LUT --> ErrPos[\"e_pos = x_ref - pos_real\"]\n        ErrPos --> IntPos[\"Integrador Digital: v[n+1] = v[n] + e_pos\"]\n        ObsLuen[\"Observador Luenberger: x\u0302[n+1] = \u03a6\u00b7x\u0302 + \u0393\u00b7u + L\u00b7(y - C\u00b7x\u0302)\"]\n        ObsLuen --> StateFeed[\"u = -K\u00b7x\u0302 + Ki\u00b7v\"]\n        IntPos --> StateFeed\n        StateFeed --> PWM_LAC[\"PWM do Motor LAC\"]\n        PWM_LAC --> LAC_Planta[\"Atuador Linear (LAC)\"]\n        LAC_Planta --> Pw_Real[\"Press\u00e3o Pw Resultante\"]\n    end\n\n    subgraph Controle_Direto [\"Estrat\u00e9gia 2: Controle LQI Direto de Press\u00e3o (Simula\u00e7\u00e3o 2P)\"]\n        Pref_D[\"P_ref\"] --> ErrP[\"e_p = P_ref - P_w\"]\n        ErrP --> IntLQI[\"xi_cand = xi + e_p * Ts\"]\n        Obs2P[\"Observador Discreto: x\u0302 = Ad\u00b7x\u0302 + Bd\u00b7u + Ld\u00b7(Pw - Cd\u00b7x\u0302)\"]\n        Obs2P --> LQI_Law[\"omega_unsat = -Kx\u00b7x\u0302 - Ki\u00b7xi\"]\n        IntLQI --> LQI_Law\n        LQI_Law --> AntiWindup[\"Anti-windup Condicional & Satura\u00e7\u00e3o\"]\n        AntiWindup --> OmegaPump[\"Comando \u03c9_p (Bomba Hidr\u00e1ulica)\"]\n    end\n```\n\n## 1. Controle Indireto de Press\u00e3o via Posi\u00e7\u00e3o (CLMULTI)\n\nDurante o desenvolvimento experimental em bancada f\u00edsica, verificou-se uma regra de projeto mandat\u00f3ria:[^resumo]\n> **PRESS\u00c3O N\u00c3O FECHA A MALHA DE CONTROLE**: O valor medido de press\u00e3o na pin\u00e7a ($P_w$) **n\u00e3o** \u00e9 realimentado diretamente na lei de controle. Ele \u00e9 utilizado estritamente para logging de telemetria, diagn\u00f3stico de seguran\u00e7a e identifica\u00e7\u00e3o da planta.\n\n### Justificativa F\u00edsica e de Engenharia\n- A malha fechada direta em press\u00e3o gera comuta\u00e7\u00f5es excessivas e ciclos limite entre as v\u00e1lvulas solenoides de Apply e Release, degradando a vida \u00fatil e gerando instabilidade por chattering.[^resumo]\n- Em contrapartida, o deslocamento linear do pist\u00e3o do atuador ($x$) \u00e9 uma grandeza continuamente mensur\u00e1vel e suave.\n- A press\u00e3o de roda \u00e9 fun\u00e7\u00e3o un\u00edvoca (embora com histerese) do deslocamento: $P_w = g(x)$.\n\n### Formula\u00e7\u00e3o do Servossistema Digital (Apostila PTC5611)\nA malha de posi\u00e7\u00e3o \u00e9 implementada atrav\u00e9s de um servossistema aumentado com integrador e observador de estados de Luenberger:[^resumo]\n1. **Din\u00e2mica do Integrador**:\n   $$v[n+1] = v[n] + (x_{ref} - y_{pos}[n])$$\n2. **Observador de Luenberger**:\n   $$\\hat{x}[n+1] = \\Phi \\hat{x}[n] + \\Gamma u[n] + L (y_{pos}[n] - C \\hat{x}[n])$$\n3. **Lei de Controle**:\n   $$u[n] = -K \\hat{x}[n] + K_i v[n]$$\n4. **Calibra\u00e7\u00e3o de Refer\u00eancia**: A refer\u00eancia de posi\u00e7\u00e3o $x_{ref} = g^{-1}(P_{ref})$ \u00e9 obtida por uma LUT (*Look-Up Table*) calibrada pelos ensaios em degraus [PLID](../modules/matlab2-bench-tests.md).[^resumo]\n\n---\n\n## 2. Controle LQI Direto de Press\u00e3o (Simula\u00e7\u00e3o 2P)\n\nNo dom\u00ednio de simula\u00e7\u00e3o detalhada em [Matlab Simulation & Synthesis](../modules/matlab-simulation.md), o sistema hidr\u00e1ulico foi sintetizado com uma abordagem de controle \u00f3timo multivari\u00e1vel.[^lqi-run]\n\n### Modelo Linearizado e Sistema Aumentado\nA planta possui dois estados hidr\u00e1ulicos $x = [P_{sup}, P_w]^T$, sendo a rota\u00e7\u00e3o da bomba $\\omega_p$ o sinal de controle ($u$) e $P_w$ a sa\u00edda medida ($y$).[^bloco-2p]\nPara garantir erro nulo em regime permanente, expande-se o espa\u00e7o de estados com um estado integrador:\n$$x_{aug}[n+1] = \\begin{bmatrix} A_d & 0 \\\\ -C_d T_s & 1 \\end{bmatrix} x_{aug}[n] + \\begin{bmatrix} B_d \\\\ 0 \\end{bmatrix} u[n]$$\n\nO ganho \u00f3timo $K_{aug} = [K_x \\;\\; K_i]$ \u00e9 computado via `dlqr` minimizando a fun\u00e7\u00e3o custo:[^lqi-run]\n$$J = \\sum_{n=0}^{\\infty} \\left( x_{aug}^T Q_{aug} x_{aug} + u^T R u \\right)$$\ncom matrizes de pondera\u00e7\u00e3o calibradas: $Q_{aug} = \\text{diag}([10^{-12}, 10^{-10}, 10^4])$ e $R = 10^{-7}$.[^lqi-run]\n\n### Anti-Windup e Satura\u00e7\u00e3o F\u00edsica\nEm sistemas n\u00e3o revers\u00edveis ($\\omega_p \\ge 0$) sujeitos a limites operacionais de press\u00e3o de suprimento ($P_{sup,max}$), o bloco [LQI_Observer_omega.m](../modules/matlab-simulation.md) implementa integra\u00e7\u00e3o condicional (anti-windup por congelamento de integrador) para prevenir o *runaway* de press\u00e3o.[^lqi-obs]\n\n## Conex\u00f5es\n- Para detalhes dos blocos de simula\u00e7\u00e3o Simulink/MATLAB, consulte [Matlab Simulation & Synthesis](../modules/matlab-simulation.md).\n- Para os detalhes dos ensaios CLMULTI e PLID, veja [Bench Testing & Identification](../modules/matlab2-bench-tests.md).\n- Para a an\u00e1lise de robustez das matrizes de ganho, veja [Experimental Validation & Robustness](experimental-validation.md).\n\n[^resumo]: Matlab2/RESUMO_CONTROLE_CLMULTI.md:1-57\n[^lqi-run]: matlab/script_controle_lqi_luenberger_run.m:1-100\n[^bloco-2p]: matlab/Bloco_Hidraulico_2P.m:1-65\n[^lqi-obs]: matlab/LQI_Observer_omega.m:1-80", "architecture/data-flow": "# Data Flow & Telemetry\n\nA integridade temporal da telemetria e o controle determin\u00edstico em bancada dependem de uma arquitetura de troca de mensagens serial ass\u00edncrona robusta entre a esta\u00e7\u00e3o host MATLAB e a placa eletr\u00f4nica automotiva Infineon AURIX.[^clmulti]\n\n```mermaid\nsequenceDiagram\n    autonumber\n    actor Host as Host MATLAB (PC)\n    participant UART as Driver Serial (COM18, 460800 bps)\n    participant AURIX as Firmware AURIX (1 kHz Loop)\n    participant Buffer as Buffer Interno RAM (1 kHz)\n\n    Host->>UART: Envia Comando ASCII (ex: \"CLMULTI\\n\" ou \"PLID\\n\")\n    UART->>AURIX: Interrup\u00e7\u00e3o RX UART\n    Note over AURIX: Inicia m\u00e1quina de ensaio em malha fechada\n    loop Execu\u00e7\u00e3o do Ensaio (ex: 6s)\n        AURIX->>Buffer: Amostra [t, pw, pwHat, pos, pwRef, u] @ 1000 Hz\n        opt Streaming Serial Cont\u00ednuo (200 Hz / a cada 5 ms)\n            AURIX->>UART: [CLMULTI],t,pw,pwHat,pos,pwRef,u\\r\\n\n            UART->>Host: slog.* (Buffer Host)\n        end\n    end\n    AURIX->>UART: [CLMULTI concluido]\\r\\n\n    loop Drenagem em Alta Velocidade do Buffer RAM\n        AURIX->>UART: [CM],t,pw_x100,pwHat_x100,pos_x100,pwRef_x100,u_x100\\r\\n\n        UART->>Host: buf.* (Amostragem exata de 1 kHz)\n    end\n    Note over Host: Exporta tabela CSV e gera figuras temporais\n```\n\n## Modos de Opera\u00e7\u00e3o e Protocolos\n\nA comunica\u00e7\u00e3o ocorre via UART com taxa de transmiss\u00e3o de **460.800 bps** e termina\u00e7\u00e3o `CR/LF`.[^clmulti] Tr\u00eas estruturas principais de pacotes s\u00e3o manipuladas pelos scripts de controle e pelos blocos [Serial Communication & Codec](../modules/serial-interface.md):\n\n### 1. Protocolo de Ensaio CLMULTI\n- **Streaming cont\u00ednuo (tempo real, taxa ~200 Hz)**:[^clmulti]\n  ```text\n  [CLMULTI],t_ms,pw,pwHat,pos,pwRef,u\n  ```\n  Permite o acompanhamento da telemetria em tempo de execu\u00e7\u00e3o na GUI do MATLAB.\n- **Buffer de Alta Fidelidade (1 kHz p\u00f3s-ensaio)**:[^clmulti]\n  ```text\n  [CM],t_ms,pw_x100,pwHat_x100,pos_x100,pwRef_x100,u_x100\n  ```\n  Os valores com sufixo `_x100` s\u00e3o inteiros escalados para economizar largura de banda na UART, divididos por 100 no MATLAB para recuperar o valor real em ponto flutuante ($P_w$ em psi, posi\u00e7\u00e3o em mm e $u$ em $\\%$ de PWM).\n\n### 2. Protocolo de Identifica\u00e7\u00e3o PLID\n- Utilizado para caracteriza\u00e7\u00e3o da rela\u00e7\u00e3o $P_w = g(x)$:[^plid]\n  - Streaming: `[PLID],t_ms,step,phase,pw,pos`\n  - Buffer 1 kHz: `[PB],t_ms,step,phase,pw_x100,pos_x100`\n\n### 3. Protocolos de Controle Interativo em Tempo Real (`ECHO` e `LIVE`)\nCodificados pelo [BrakeSerialEncoder](../modules/serial-interface.md) e decodificados pelo [BrakeSerialDecoder](../modules/serial-interface.md):[^encoder][^decoder]\n- **Modo ECHO**:\n  - Comando enviado: `[ECHO]<omega,u_in,u_out>\\n`\n  - Resposta recebida: `[ECHO],omega,u_in,u_out,pw_psi,pos_mm,status\\r\\n`\n- **Modo LIVE**:\n  - Comando enviado: `OMEGA_P=%.2f,U_IN=%u,U_OUT=%u\\n`\n  - Resposta recebida: `[LIVE],omega,u_in,u_out,pw_psi,pos_mm,status\\r\\n`\n\n## Persist\u00eancia de Dados e Rastreabilidade\nCada execu\u00e7\u00e3o de ensaio serial gera automaticamente arquivos CSV versionados na pasta `Matlab2/dados/` no formato `ensaio_<tipo>_buf1khz_YYYYMMDD_HHMMSS.csv`.[^clmulti] Esses registros formam a base emp\u00edrica consumida pelas rotinas de identifica\u00e7\u00e3o param\u00e9trica ([identify_tau_gain_from_csv.m](../modules/matlab2-bench-tests.md)).\n\n## Conex\u00f5es\n- Para detalhes dos blocos decodificadores/codificadores Simulink, consulte [Serial Communication & Codec](../modules/serial-interface.md).\n- Para a rotina de ensaios e an\u00e1lise dos CSVs, veja [Bench Testing & Identification](../modules/matlab2-bench-tests.md).\n- Para a arquitetura de controle associada, consulte [Control Strategy](control-strategy.md).\n\n[^clmulti]: Matlab2/ensaio_clmulti_serial.m:1-100\n[^plid]: Matlab2/ensaio_plid_serial.m:1-100\n[^encoder]: Matlab2/BrakeSerialEncoder.m:1-47\n[^decoder]: Matlab2/BrakeSerialDecoder.m:1-64", "architecture/experimental-validation": "# Experimental Validation & Robustness\n\nA valida\u00e7\u00e3o de um sistema cr\u00edtico de frenagem automotiva para aplica\u00e7\u00f5es ADAS requer a comprova\u00e7\u00e3o de estabilidade, precis\u00e3o de seguimento de trajet\u00f3ria e robustez param\u00e9trica frente ao envelhecimento dos componentes, varia\u00e7\u00f5es de temperatura e dispers\u00e3o de fabrica\u00e7\u00e3o.[^robustez][^resumo]\n\n```mermaid\nflowchart TD\n    subgraph Validacao_Bancada [\"Valida\u00e7\u00e3o Experimental em Bancada (Hardware-in-the-Loop)\"]\n        Testes[\"Ensaios: CLMULTI (0-100-200-50-0 psi), RAMP, PLID\"]\n        Telemetria[\"Aquisi\u00e7\u00e3o a 1 kHz em RAM\"]\n        Histerese[\"An\u00e1lise de Histerese de Press\u00e3o Pw = g(x)\"]\n        AjusteValvulas[\"Ajuste de Pol\u00edtica de V\u00e1lvulas (Apply Cont\u00ednuo vs Ciclo Limite)\"]\n        Testes --> Telemetria --> Histerese --> AjusteValvulas\n    end\n\n    subgraph Analise_Robustez [\"An\u00e1lise de Robustez Num\u00e9rica (Simula\u00e7\u00e3o)\"]\n        ParamsNom[\"Par\u00e2metros Nominais: \u03b2, Vsup, Vw, Kb, Klb, Ain_max\"]\n        Hipercubo[\"Varredura em Hipercubo (\u00b120% em 6 par\u00e2metros = 64 v\u00e9rtices)\"]\n        SimSweep[\"run_varredura_robustez_lqi_export.m\"]\n        MetricasExport[\"compute_metricas_lqi.m: RMS(e), e_inf, Mp, tr, ts\"]\n        ParamsNom --> Hipercubo --> SimSweep --> MetricasExport\n    end\n\n    AjusteValvulas -.-> Conclusao[\"Conclus\u00e3o da Monografia: Controle Indireto Est\u00e1vel\"]\n    MetricasExport -.-> Conclusao\n```\n\n## 1. Desafios Experimentais e Mitiga\u00e7\u00f5es em Bancada\n\nDurante a realiza\u00e7\u00e3o dos ensaios em malha fechada no atuador f\u00edsico ([CLMULTI](../modules/matlab2-bench-tests.md)), foram identificados fen\u00f4menos cruciais detalhados no relat\u00f3rio t\u00e9cnico do projeto:[^resumo]\n\n### O Fen\u00f4meno do Ciclo Limite nas V\u00e1lvulas\n- **Problema**: Inicialmente, a l\u00f3gica de chaveamento das v\u00e1lvulas utilizava bandas de posi\u00e7\u00e3o excessivamente estreitas para comutar entre os modos `Apply` e `Hold`.[^resumo] Isso gerou ciclos limite severos (comuta\u00e7\u00e3o em alta frequ\u00eancia), provocando recuos involunt\u00e1rios do pist\u00e3o e sobreleva\u00e7\u00e3o (*overshoot*) de press\u00e3o.[^resumo]\n- **Solu\u00e7\u00e3o de Arquitetura**: Modificou-se a estrat\u00e9gia para manter o solenoide de **Apply cont\u00ednuo** enquanto a press\u00e3o de refer\u00eancia for positiva ($P_{ref} > 0$), permitindo que a modula\u00e7\u00e3o por PWM do motor do LAC controle suavemente a posi\u00e7\u00e3o linear. O solenoide de **Release** \u00e9 acionado apenas quando a refer\u00eancia \u00e9 nula ($P_{ref} = 0$) ou em descidas acentuadas de press\u00e3o.[^resumo]\n\n### Histerese N\u00e3o Linear $P_w = g(x)$\n- A curva de press\u00e3o em fun\u00e7\u00e3o do deslocamento do pist\u00e3o exibe histerese acentuada decorrente da deforma\u00e7\u00e3o el\u00e1stica das veda\u00e7\u00f5es hidr\u00e1ulicas e da linha de freio.[^resumo]\n- Como consequ\u00eancia, a posi\u00e7\u00e3o durante o cruzamento da press\u00e3o no ensaio din\u00e2mico difere da posi\u00e7\u00e3o necess\u00e1ria para sustenta\u00e7\u00e3o est\u00e1tica (*hold*). A calibra\u00e7\u00e3o da tabela inversa $g^{-1}(P_{ref})$ foi refinada especificamente na regi\u00e3o de transi\u00e7\u00e3o para evitar subpressuriza\u00e7\u00e3o no retorno aos patamares mais baixos (ex: $200 \\rightarrow 50\\,\\text{psi}$).[^resumo]\n\n---\n\n## 2. Varredura de Robustez Param\u00e9trica (`run_varredura_robustez_lqi_export.m`)\n\nPara certificar que a lei de controle \u00f3timo linear quadr\u00e1tico (LQI) projetada \u00e9 insens\u00edvel a desvios operacionais dos par\u00e2metros f\u00edsicos do bloco hidr\u00e1ulico, implementou-se uma rotina automatizada de teste em hipercubo param\u00e9trico.[^robustez]\n\n### Par\u00e2metros Analisados ($\\pm 20\\%$ de Varia\u00e7\u00e3o)\nO script submete o modelo Simulink \u00e0 varia\u00e7\u00e3o extrema nos seguintes par\u00e2metros constitutivos:[^robustez]\n1. $\\beta$: M\u00f3dulo de compressibilidade volum\u00e9trica efetivo do fluido de freio ($1.5 \\times 10^9\\,\\text{Pa}$).\n2. $V_{sup}$: Volume da c\u00e2mara de suprimento de press\u00e3o ($6.0 \\times 10^{-5}\\,\\text{m}^3$).\n3. $V_w$: Volume efetivo do cilindro da roda / pin\u00e7a ($1.0 \\times 10^{-5}\\,\\text{m}^3$).\n4. $K_b$: Deslocamento volum\u00e9trico por rota\u00e7\u00e3o da bomba hidr\u00e1ulica.\n5. $K_{lb}$: Coeficiente de vazamento interno por retorno de press\u00e3o.\n6. $A_{in,max}$: \u00c1rea m\u00e1xima efetiva do orif\u00edcio da v\u00e1lvula de admiss\u00e3o ($3.0 \\times 10^{-7}\\,\\text{m}^2$).\n\n### S\u00edntese de Pior Caso\nCom $2^6 = 64$ combina\u00e7\u00f5es de cantos no espa\u00e7o param\u00e9trico mais o caso nominal, a rotina extrai as m\u00e9tricas de desempenho via `compute_metricas_lqi.m` e gera diretamente a tabela LaTeX `elementos-textuais/tabelas/metricas_robustez.tex`:[^robustez]\n- Erro m\u00e9dio quadr\u00e1tico: $\\text{RMS}(e)$\n- Erro em regime estacion\u00e1rio: $e_\\infty$\n- Tempo de subida de 10% a 90%: $t_r$\n- Tempo de acomoda\u00e7\u00e3o a 2%: $t_s$\n- M\u00e1ximo sobre-sinal percentual: $M_p$\n\nOs resultados num\u00e9ricos comprovam que a a\u00e7\u00e3o integral combinada ao observador de Luenberger mant\u00e9m a estabilidade estrita e erro assint\u00f3tico residual contido dentro dos requisitos de seguran\u00e7a funcional para sistemas ADAS.[^robustez]\n\n## Conex\u00f5es\n- A teoria e formula\u00e7\u00e3o matem\u00e1tica est\u00e3o em [Control Strategy](control-strategy.md).\n- O c\u00f3digo da varredura param\u00e9trica est\u00e1 detalhado em [Matlab Simulation & Synthesis](../modules/matlab-simulation.md).\n- Os ensaios de bancada correspondentes est\u00e3o documentados em [Bench Testing & Identification](../modules/matlab2-bench-tests.md).\n\n[^robustez]: matlab/run_varredura_robustez_lqi_export.m:1-100\n[^resumo]: Matlab2/RESUMO_CONTROLE_CLMULTI.md:1-57", "architecture/system-architecture": "# System Architecture\n\nA arquitetura do sistema do m\u00f3dulo de freio compreende a integra\u00e7\u00e3o entre o hardware eletr\u00f4nico automotivo, atuadores eletromec\u00e2nicos e hidr\u00e1ulicos, e o ambiente de controle em tempo real.[^resumo]\n\n```mermaid\ngraph LR\n    subgraph Host [\"Ambiente Host (PC)\"]\n        MatlabHost[\"MATLAB R202x Scripts & GUI\"]\n        SerialPort[\"Driver Serial COM (460.800 bps)\"]\n    end\n\n    subgraph Hardware [\"M\u00f3dulo Eletr\u00f4nico & Embarcado\"]\n        AurixMCU[\"Microcontrolador AURIX (TriCore)\"]\n        PDB[\"Power Distribution Board (PDB)\"]\n        ValveDriver[\"Driver de Solenoides (HSV/USV/Apply/Release)\"]\n        MotorDriver[\"Ponte H (Controle PWM do Motor)\"]\n    end\n\n    subgraph Planta [\"Planta Mec\u00e2nica e Hidr\u00e1ulica\"]\n        MotorLAC[\"Motor DC / Sem Fim (LAC)\"]\n        Piston[\"Cilindro / Pist\u00e3o\"]\n        Valves[\"V\u00e1lvulas Hidr\u00e1ulicas (Apply / Release)\"]\n        Chamber[\"Linha Hidr\u00e1ulica & Pin\u00e7a de Freio (Pw)\"]\n    end\n\n    MatlabHost <-->|UART ASCII| SerialPort\n    SerialPort <--> AurixMCU\n    AurixMCU --> MotorDriver --> MotorLAC --> Piston\n    AurixMCU --> ValveDriver --> Valves\n    Piston --> Chamber\n    Valves --> Chamber\n    Chamber -->|Sensor de Press\u00e3o| AurixMCU\n    Piston -->|Sensor de Deslocamento| AurixMCU\n```\n\n## Componentes Principais\n\n### 1. Unidade de Processamento (AURIX TC2xx/TC3xx)\nO firmware embarcado no microcontrolador automotivo Infineon AURIX executa loops em alta frequ\u00eancia (1 kHz no buffer interno e 200 Hz para streaming serial cont\u00ednuo).[^clmulti] O firmware \u00e9 respons\u00e1vel por:\n- Leitura anal\u00f3gica dos sensores de press\u00e3o ($P_w$) e sensores de deslocamento linear do pist\u00e3o ($pos$).[^serial-codec]\n- Acionamento das pontes de pot\u00eancia (PWM para motor do atuador linear LAC).[^tau-id]\n- Disparo e chaveamento dos solenoides das v\u00e1lvulas hidr\u00e1ulicas de admiss\u00e3o e descarga.[^resumo]\n- M\u00e1quina de estados dos ensaios de identifica\u00e7\u00e3o e seguran\u00e7a (`HOMING`, `APPLY`, `HOLD`, `RELEASE`).\n\n### 2. Atuador Mec\u00e2nico Linear (LAC - Linear Actuator)\nO atuador converte a rota\u00e7\u00e3o do motor em avan\u00e7o linear do pist\u00e3o hidr\u00e1ulico. O sistema apresenta uma constante de tempo mec\u00e2nica $\\tau$ e um ganho de velocidade em malha aberta $K_{vel}$ (expresso em $\\text{mm/s}$ por $\\%$ de PWM), os quais s\u00e3o identificados a partir das curvas transit\u00f3rias.[^tau-id]\n\n### 3. Circuito Hidr\u00e1ulico de Duas Press\u00f5es (2P)\nConforme modelado em [Matlab Simulation & Synthesis](../modules/matlab-simulation.md), o sistema f\u00edsico divide-se em dois compartimentos de press\u00e3o:[^bloco-2p]\n- **Press\u00e3o de Suprimento ($P_{sup}$)**: gerada pela rota\u00e7\u00e3o da bomba de deslocamento positivo $\\omega_p$.\n- **Press\u00e3o da Roda/Pin\u00e7a ($P_w$)**: resultante da modula\u00e7\u00e3o de abertura das v\u00e1lvulas solenoides de entrada ($u_{in}$) e sa\u00edda ($u_{out}$).\n\n### 4. Interface Serial e Placa de Distribui\u00e7\u00e3o de Pot\u00eancia (PDB)\nA alimenta\u00e7\u00e3o das bobinas das v\u00e1lvulas e dos est\u00e1gios de pot\u00eancia do motor \u00e9 provida pela placa PDB (*Power Distribution Board*). A comunica\u00e7\u00e3o com a bancada no PC \u00e9 efetuada por UART r\u00e1pida a 460.800 bps, garantindo lat\u00eancia inferior a $2\\,\\text{ms}$ por quadro de telemetria.[^clmulti]\n\n## Conex\u00f5es e Depend\u00eancias\n- Para os detalhes do protocolo de pacotes e tr\u00e1fego de dados, consulte [Data Flow & Telemetry](data-flow.md).\n- Para a din\u00e2mica de controle implementada no microcontrolador e no Simulink, veja [Control Strategy](control-strategy.md).\n- Para os scripts de aquisi\u00e7\u00e3o em bancada, consulte [Bench Testing & Identification](../modules/matlab2-bench-tests.md).\n\n[^resumo]: Matlab2/RESUMO_CONTROLE_CLMULTI.md:1-57\n[^clmulti]: Matlab2/ensaio_clmulti_serial.m:1-100\n[^serial-codec]: Matlab2/BrakeSerialDecoder.m:1-64\n[^tau-id]: Matlab2/identify_tau_gain_from_csv.m:1-120\n[^bloco-2p]: matlab/Bloco_Hidraulico_2P.m:1-65", "modules/matlab-simulation": "# Matlab Simulation & Synthesis\n\nO m\u00f3dulo `matlab/` concentra os modelos matem\u00e1ticos cont\u00ednuos, rotinas de lineariza\u00e7\u00e3o anal\u00edtica, s\u00edntese de controle linear quadr\u00e1tico com a\u00e7\u00e3o integral (LQI), observador discreto de Luenberger e scripts de c\u00e1lculo de m\u00e9tricas e sensibilidade param\u00e9trica.[^bloco-2p][^lqi-run]\n\n```mermaid\nflowchart TD\n    Params[\"Par\u00e2metros F\u00edsicos (\u03b2, \u03c1, Vsup, Vw, Kb, Klb, Ain_max)\"] --> NonLinPlant[\"Bloco_Hidraulico_2P.m (Equa\u00e7\u00f5es de Estado N\u00e3o-Lineares)\"]\n    NonLinPlant --> OpPoint[\"Ponto de Opera\u00e7\u00e3o (Pw = 100 bar, \u0394Pin = 5 bar)\"]\n    OpPoint --> Lin[\"Lineariza\u00e7\u00e3o Anal\u00edtica em Espa\u00e7o de Estados (A, B, C)\"]\n    Lin --> ZOH[\"Discretiza\u00e7\u00e3o ZOH (Ts = 1e-4 s) -> (Ad, Bd, Cd)\"]\n    ZOH --> LQI[\"S\u00edntese DLQR Aumentado (Ad_aug, Bd_aug, Q_aug, R) -> [Kx, Ki]\"]\n    ZOH --> Obs[\"Aloca\u00e7\u00e3o de Polos Luenberger (place) -> Ld\"]\n    LQI --> Controller[\"LQI_Observer_omega.m (Anti-windup + Satura\u00e7\u00e3o)\"]\n    Obs --> Controller\n    Controller --> SimModel[\"Simulink: Freio_LQR_Model_v2\"]\n    SimModel --> Metrics[\"compute_metricas_lqi.m & export_metricas_lqi_tabela_tex.m\"]\n```\n\n## Arquivos e Pap\u00e9is no M\u00f3dulo\n\n| Arquivo | Descri\u00e7\u00e3o / Papel Principal |\n| :--- | :--- |\n| `Bloco_Hidraulico_2P.m` | Modelo da planta hidr\u00e1ulica n\u00e3o-linear de dois volumes ($P_{sup}$ e $P_w$) destinado a blocos MATLAB Function do Simulink.[^bloco-2p] |\n| `script_controle_lqi_luenberger_run.m` | Script mestre de s\u00edntese anal\u00edtica, discretiza\u00e7\u00e3o ZOH a $100\\,\\mu\\text{s}$, projeto de ganhos LQI e observador.[^lqi-run] |\n| `LQI_Observer_omega.m` | Implementa\u00e7\u00e3o embarc\u00e1vel (suporta `#codegen`) do controlador discreto com integrador condicional anti-windup e teto de rota\u00e7\u00e3o.[^lqi-obs] |\n| `compute_metricas_lqi.m` | Fun\u00e7\u00e3o que processa `simOut`, segmenta degraus e calcula $RMS(e)$, $e_\\infty$, tempo de subida ($t_r$), tempo de acomoda\u00e7\u00e3o ($t_s$) e sobre-sinal ($M_p$).[^metricas] |\n| `export_metricas_lqi_tabela_tex.m` | Exporta as m\u00e9tricas computadas diretamente para formato de tabela LaTeX pronta para inclus\u00e3o na disserta\u00e7\u00e3o.[^lqi-run] |\n| `run_varredura_robustez_lqi_export.m` | Executa varredura de Monte Carlo / hipercubo ($\\pm 20\\%$) nos par\u00e2metros f\u00edsicos e sintetiza o pior caso em LaTeX.[^robustez] |\n\n## Detalhamento do Modelo Hidr\u00e1ulico (`Bloco_Hidraulico_2P.m`)\n\nO modelo hidr\u00e1ulico computa as derivadas temporais de press\u00e3o atrav\u00e9s do m\u00f3dulo de compressibilidade volum\u00e9trica efetivo ($\\beta = 1.5 \\times 10^9\\,\\text{Pa}$):[^bloco-2p]\n$$\\dot{P}_{sup} = \\frac{\\beta}{V_{sup}} \\left[ Q_{pump} - Q_{in} - K_{leak,sup}(P_{sup} - P_{ret}) \\right]$$\n$$\\dot{P}_w = \\frac{\\beta}{V_w} \\left[ Q_{in} - Q_{out} - K_{leak,w}(P_w - P_{ret}) \\right]$$\n\nOnde:\n- Vaz\u00e3o da bomba volum\u00e9trica: $Q_{pump} = K_b \\omega_p - K_{lb}(P_{sup} - P_{ret})$, sendo $K_b = \\eta_v \\frac{D_p}{2\\pi}$.[^bloco-2p]\n- Orif\u00edcios de admiss\u00e3o e descarga (equa\u00e7\u00e3o do orif\u00edcio de Bernoulli):\n  $$Q_{in} = C_{v,in} (A_{in,max} u_{in}) \\sqrt{\\frac{2 \\max(P_{sup}-P_w, 0)}{\\rho}}$$\n  $$Q_{out} = C_{v,out} (A_{out,max} u_{out}) \\sqrt{\\frac{2 \\max(P_w-P_{ret}, 0)}{\\rho}}$$\n\n## S\u00edntese de Controle e Observador (`script_controle_lqi_luenberger_run.m`)\n\n1. **Lineariza\u00e7\u00e3o no ponto nominal** ($P_{w,op} = 100\\,\\text{bar}$, $\\Delta P = 5\\,\\text{bar}$):[^lqi-run]\n   $$A = \\begin{bmatrix} -\\frac{\\beta}{V_{sup}}(K_{lb} + dQ_d) & \\frac{\\beta}{V_{sup}} dQ_d \\\\ \\frac{\\beta}{V_w} dQ_d & -\\frac{\\beta}{V_w} dQ_d \\end{bmatrix}, \\quad B = \\begin{bmatrix} \\frac{\\beta}{V_{sup}} K_b \\\\ 0 \\end{bmatrix}, \\quad C = [0 \\;\\; 1]$$\n2. **Discretiza\u00e7\u00e3o**: Obt\u00e9m $(A_d, B_d, C_d)$ via convers\u00e3o ZOH em $T_s = 10^{-4}\\,\\text{s}$.[^lqi-run]\n3. **Observador de Luenberger**: Ganhos $L_d$ alocados posicionando os autovalores em $0.4 \\times \\text{eig}(A_d)$ via comando `place`.[^lqi-run]\n4. **Anti-Windup no Controlador**: O bloco `LQI_Observer_omega.m` interrompe o ac\u00famulo da integral de erro quando a rota\u00e7\u00e3o atinge $\\omega_{p,max} = (P_{sup,max} - P_{ret}) \\frac{K_{lb}}{K_b}$ ou satura em zero.[^lqi-obs]\n\n## Conex\u00f5es\n- A arquitetura geral e as motiva\u00e7\u00f5es te\u00f3ricas est\u00e3o em [Control Strategy](../architecture/control-strategy.md).\n- Os ensaios de valida\u00e7\u00e3o em bancada f\u00edsica que complementam esta simula\u00e7\u00e3o est\u00e3o em [Bench Testing & Identification](matlab2-bench-tests.md).\n- Os ensaios de robustez num\u00e9rica e varreduras param\u00e9tricas est\u00e3o consolidados em [Experimental Validation & Robustness](../architecture/experimental-validation.md).\n\n[^bloco-2p]: matlab/Bloco_Hidraulico_2P.m:1-65\n[^lqi-run]: matlab/script_controle_lqi_luenberger_run.m:1-100\n[^lqi-obs]: matlab/LQI_Observer_omega.m:1-80\n[^metricas]: matlab/compute_metricas_lqi.m:1-150\n[^robustez]: matlab/run_varredura_robustez_lqi_export.m:1-100", "modules/matlab2-bench-tests": "# Bench Testing & Identification\n\nO diret\u00f3rio `Matlab2/` abriga os ensaios experimentais executados diretamente sobre a bancada f\u00edsica de testes automotiva via interface serial COM com o microcontrolador AURIX.[^resumo][^clmulti] \n\n```mermaid\nflowchart TD\n    subgraph Experimento [\"Execu\u00e7\u00e3o em Bancada (Hardware-in-the-Loop)\"]\n        AURIX_COM[\"Microcontrolador AURIX (COM18, 460800 bps)\"]\n        PLID_M[\"ensaio_plid_serial.m (3 Degraus: 100/200/300 psi)\"] <--> AURIX_COM\n        CLMULTI_M[\"ensaio_clmulti_serial.m (Perfil: 0/100/200/50/0 psi)\"] <--> AURIX_COM\n        RAMP_M[\"ensaio_ramp5c_serial.m & staircase\"] <--> AURIX_COM\n    end\n\n    subgraph Dados [\"Reposit\u00f3rio de Dados de Ensaio\"]\n        PLID_M --> CSV_PLID[\"dados/ensaio_plid_*.csv\"]\n        CLMULTI_M --> CSV_CM[\"dados/ensaio_clmulti_buf1khz_*.csv\"]\n        RAMP_M --> CSV_RAMP[\"dados/ensaio_ramptest_*.csv\"]\n    end\n\n    subgraph Identificacao [\"Identifica\u00e7\u00e3o Param\u00e9trica & Modelagem Inversa\"]\n        CSV_PLID --> LUT_Gen[\"Mapeamento Est\u00e1tico Pw = g(x) -> LUT g\u207b\u00b9(Pref)\"]\n        CSV_CM --> ID_Tau[\"identify_tau_gain_from_csv.m\"]\n        ID_Tau --> Params[\"Estimativa de Constante de Tempo (\u03c4) e Ganho (K_vel)\"]\n        Params --> Model[\"Modelo G(s) = K / (s(\u03c4s+1)) -> Discretiza\u00e7\u00e3o ZOH\"]\n        Model --> LuenbergerDesign[\"Projeto Luenberger (\u03a6, \u0393, L) e Ganhos LQR (K, Ki)\"]\n        LUT_Gen --> LuenbergerDesign\n    end\n```\n\n## Principais Ensaios Experimentais\n\n### 1. Ensaio PLID (*Plant IDentification* - `ensaio_plid_serial.m`)\n- **Objetivo**: Mapear a rela\u00e7\u00e3o hidromec\u00e2nica entre a posi\u00e7\u00e3o linear do pist\u00e3o ($x$) e a press\u00e3o na pin\u00e7a ($P_w$), obtendo os pontos de opera\u00e7\u00e3o para calibra\u00e7\u00e3o da tabela inversa $g^{-1}(P_{ref})$.[^resumo][^plid]\n- **Funcionamento**: Aplica tr\u00eas degraus de press\u00e3o controlada (100, 200 e 300 psi) com rotina de homing intermedi\u00e1ria.[^plid]\n- **Descoberta f\u00edsica**: A planta apresenta histerese acentuada; a posi\u00e7\u00e3o do pist\u00e3o durante a subida (cruzamento) difere da posi\u00e7\u00e3o de sustenta\u00e7\u00e3o est\u00e1vel (*hold*), exigindo calibra\u00e7\u00e3o refinada na regi\u00e3o de alta press\u00e3o.[^resumo]\n\n### 2. Ensaio CLMULTI (*Closed-Loop Multi-Reference* - `ensaio_clmulti_serial.m`)\n- **Objetivo**: Avaliar a capacidade de rastreamento de trajet\u00f3rias din\u00e2micas de press\u00e3o ADAS utilizando a estrat\u00e9gia indireta por posi\u00e7\u00e3o.[^clmulti]\n- **Perfil de Teste**: Sequ\u00eancia de patamares din\u00e2micos $0 \\rightarrow 100 \\rightarrow 200 \\rightarrow 50 \\rightarrow 0\\,\\text{psi}$ com comuta\u00e7\u00f5es em 1s, 2s, 3s e 4s (ensaio com dura\u00e7\u00e3o total de 6s).[^clmulti]\n- **Aquisi\u00e7\u00e3o**: Registra telemetria a 200 Hz via UART e drena um buffer interno de 1 kHz gravado na RAM do AURIX com precis\u00e3o temporal de $1\\,\\text{ms}$.[^clmulti]\n\n### 3. Outros Ensaios Dispon\u00edveis\n- `ensaio_clstep_serial.m`: Resposta ao degrau simples em malha fechada.[^resumo]\n- `ensaio_olstep_serial.m` e `ensaio_motor_ol_serial.m`: Ensaios em malha aberta para acionamento direto do motor LAC.[^tau-id]\n- `ensaio_staircase_serial.m`: Varredura em escada para levantamento fino de n\u00e3o linearidades e perdas por atrito.\n- `ensaio_ramp5c_serial.m`: Aplica\u00e7\u00e3o de rampas cont\u00ednuas de press\u00e3o.\n\n## Identifica\u00e7\u00e3o Param\u00e9trica do Atuador (`identify_tau_gain_from_csv.m`)\n\nPara projetar formalmente o servossistema com integrador e o observador de Luenberger, desenvolveu-se o algoritmo de identifica\u00e7\u00e3o em `identify_tau_gain_from_csv.m`.[^tau-id]\n\n1. **Leitura e Filtragem**:\n   - Detecta automaticamente o \u00faltimo arquivo CSV na pasta `dados/` ou recebe o caminho expl\u00edcito.[^tau-id]\n   - Isola janelas temporais onde o PWM aplicado \u00e9 est\u00e1vel ($\\text{movstd}(u) < 0.7$ e $u > 5\\%$).[^tau-id]\n2. **C\u00e1lculo da Velocidade**:\n   - Aplica diferencia\u00e7\u00e3o num\u00e9rica suavizada via filtro Savitzky-Golay na curva de posi\u00e7\u00e3o $pos(t)$.[^tau-id]\n3. **Ajuste N\u00e3o Linear de Curva (Levenberg-Marquardt / Nelder-Mead)**:\n   - Modela a resposta de velocidade do atuador como resposta ao degrau de primeira ordem:[^tau-id]\n     $$v(t) = V_{ss} \\left( 1 - e^{-t/\\tau} \\right)$$\n   - Extrai por otimiza\u00e7\u00e3o (`fminsearch`) a constante de tempo do motor ($\\tau$), a velocidade de regime ($V_{ss}$) e o ganho din\u00e2mico:[^tau-id]\n     $$K_{vel} = \\frac{V_{ss}}{u_{loc}} \\quad \\left[\\frac{\\text{mm/s}}{\\% \\text{ PWM}}\\right]$$\n4. **Formula\u00e7\u00e3o do Modelo Cont\u00ednuo**:\n   $$G(s) = \\frac{K_{vel}}{s(\\tau s + 1)}$$\n   Discretizado em ZOH com $T_s = 1\\,\\text{ms}$ para derivar as matrizes $(\\Phi, \\Gamma)$ do observador embarcado no AURIX.[^resumo]\n\n## Conex\u00f5es\n- A teoria do servossistema com integrador associado est\u00e1 em [Control Strategy](../architecture/control-strategy.md).\n- Os blocos de decodifica\u00e7\u00e3o de telemetria serial est\u00e3o em [Serial Communication & Codec](serial-interface.md).\n- A metodologia e os resultados consolidados de valida\u00e7\u00e3o est\u00e3o em [Experimental Validation & Robustness](../architecture/experimental-validation.md).\n\n[^resumo]: Matlab2/RESUMO_CONTROLE_CLMULTI.md:1-57\n[^clmulti]: Matlab2/ensaio_clmulti_serial.m:1-100\n[^plid]: Matlab2/ensaio_plid_serial.m:1-100\n[^tau-id]: Matlab2/identify_tau_gain_from_csv.m:1-120", "modules/serial-interface": "# Serial Communication & Codec\n\nOs arquivos `BrakeSerialDecoder.m` e `BrakeSerialEncoder.m` fornecem a ponte de dados e comunica\u00e7\u00e3o em tempo real entre os diagramas Simulink / rotinas MATLAB e o firmware embarcado no microcontrolador AURIX.[^encoder][^decoder]\n\n```mermaid\nflowchart LR\n    subgraph SimulinkHost [\"Ambiente Simulink Host\"]\n        CmdSig[\"Sinais: [omega, u_in, u_out]\"] --> Enc[\"BrakeSerialEncoder (matlab.System)\"]\n        Enc --> SerialTx[\"Serial Transmit (COM Port)\"]\n        SerialRx[\"Serial Receive (COM Port)\"] --> Dec[\"BrakeSerialDecoder (matlab.System)\"]\n        Dec --> Parsed[\"Sinais: [omega, u_in, u_out, pw_psi, pos_mm, status, valid]\"]\n    end\n\n    subgraph MCU [\"Firmware Microcontrolador AURIX\"]\n        SerialTx -->|UART String @ 460800| AurixRx[\"Parser de Comandos UART\"]\n        AurixRx --> Engine[\"Controle de V\u00e1lvulas / Motor\"]\n        Engine --> AurixTx[\"Formatador ASCII\"]\n        AurixTx -->|UART String @ 460800| SerialRx\n    end\n```\n\n## Arquitetura de M\u00f3dulos (MATLAB System Objects)\n\nAmbas as classes herdam de `matlab.System`, o que permite a compila\u00e7\u00e3o e execu\u00e7\u00e3o direta dentro de blocos MATLAB System no Simulink com tipagem forte e tamanhos fixos pr\u00e9-alocados.[^encoder][^decoder]\n\n### 1. Codificador Serial (`BrakeSerialEncoder.m`)\n\nO bloco \u00e9 respons\u00e1vel por traduzir refer\u00eancias e comandos em sequ\u00eancias de bytes ASCII terminadas em `\\n`.[^encoder]\n- **Portas de Entrada**: `omega` (double), `uIn` (uint8: 0..100), `uOut` (uint8: 0..100).\n- **Porta de Sa\u00edda**: Vetor est\u00e1tico `msg` de `uint8` com comprimento m\u00e1ximo `MaxLength = 48` bytes e escalar `len` com os bytes v\u00e1lidos.[^encoder]\n- **Propriedade `Mode`**:\n  - `'ECHO'`: Formata a mensagem no padr\u00e3o `[ECHO]<%.2f,%u,%u>\\n`.[^encoder]\n  - `'LIVE'`: Formata no padr\u00e3o textual direto `OMEGA_P=%.2f,U_IN=%u,U_OUT=%u\\n`.[^encoder]\n\n### 2. Decodificador Serial (`BrakeSerialDecoder.m`)\n\nProcessa os fluxos recebidos pela porta serial e extrai de forma s\u00edncrona as vari\u00e1veis de estado do atuador de freio.[^decoder]\n- **Portas de Entrada**: Buffer `uint8` vindo do bloco *Serial Receive* e `count` (n\u00famero de bytes v\u00e1lidos no ciclo de amostragem).[^decoder]\n- **Portas de Sa\u00edda**:\n  1. `omega` (double): Rota\u00e7\u00e3o da bomba ou frequ\u00eancia de opera\u00e7\u00e3o.\n  2. `uIn` (uint8): Duty cycle da v\u00e1lvula de admiss\u00e3o (Apply / HSV).\n  3. `uOut` (uint8): Duty cycle da v\u00e1lvula de descarga (Release / USV).\n  4. `pwPsi` (double): Press\u00e3o hidr\u00e1ulica medida na pin\u00e7a em psi.\n  5. `posMm` (double): Deslocamento linear do pist\u00e3o do atuador em mil\u00edmetros.\n  6. `status` (uint8): Flag de status da m\u00e1quina de estados do firmware (ex: homing, pronto, erro).\n  7. `valid` (logical): Sinal booleano que indica se o pacote continha cabe\u00e7alho v\u00e1lido (`[ECHO]` ou `[LIVE]`) e todos os 6 par\u00e2metros num\u00e9ricos foram parseados com sucesso.[^decoder]\n\n## Fun\u00e7\u00f5es de Suporte Legadas\n\nNo diret\u00f3rio `Matlab2/` tamb\u00e9m est\u00e3o mantidas as fun\u00e7\u00f5es procedurais puras:\n- `brake_serial_encode.m`: Fun\u00e7\u00e3o direta para codifica\u00e7\u00e3o de strings sem envolver a m\u00e1quina de estados de `matlab.System`.\n- `brake_serial_decode.m`: Fun\u00e7\u00e3o escalar que realiza varredura e extra\u00e7\u00e3o r\u00e1pida em linhas individuais de texto.\n\n## Conex\u00f5es\n- A telemetria gerada alimenta as rotinas de teste descritas em [Bench Testing & Identification](matlab2-bench-tests.md).\n- O fluxo geral de pacotes e cad\u00eancia temporal est\u00e1 detalhado em [Data Flow & Telemetry](../architecture/data-flow.md).\n- A integra\u00e7\u00e3o com a arquitetura de hardware est\u00e1 descrita em [System Architecture](../architecture/system-architecture.md).\n\n[^encoder]: Matlab2/BrakeSerialEncoder.m:1-47\n[^decoder]: Matlab2/BrakeSerialDecoder.m:1-64", "overview": "# Desenvolvimento de Controle de M\u00f3dulo de Frenagem ADAS\n\nO projeto **Desenvolvimento de Controle de M\u00f3dulo de Frenagem ADAS** \u00e9 uma pesquisa de Mestrado desenvolvida na **Escola Polit\u00e9cnica da USP** em parceria com a **Continental AG**.[^resumo] O objetivo central \u00e9 o projeto, s\u00edntese, simula\u00e7\u00e3o num\u00e9rica e valida\u00e7\u00e3o experimental em bancada de leis de controle digital de press\u00e3o hidr\u00e1ulica para atua\u00e7\u00e3o em sistemas avan\u00e7ados de assist\u00eancia ao condutor (ADAS - *Advanced Driver Assistance Systems*).\n\n```mermaid\nflowchart TD\n    ADAS[\"Fun\u00e7\u00e3o ADAS (Refer\u00eancia Pref / a_des)\"] --> LUT[\"Mapeamento Inverso LUT: xRef = g\u207b\u00b9(Pref)\"]\n    LUT --> ServoSis[\"Servossistema Integrador Digital\"]\n    ServoSis --> LQR[\"Controle LQR / Aloca\u00e7\u00e3o de Polos\"]\n    LQR --> AURIX[\"Microcontrolador AURIX (Ponte H / V\u00e1lvulas)\"]\n    AURIX --> LAC[\"Atuador Linear (LAC) & Bloco Hidr\u00e1ulico\"]\n    LAC --> SensPos[\"Sensor de Posi\u00e7\u00e3o Linear (posReal)\"]\n    LAC --> SensPress[\"Sensor de Press\u00e3o (Pw) - Telemetria/Seguran\u00e7a\"]\n    SensPos --> Obs[\"Observador de Luenberger (x\u0302)\"]\n    Obs --> ServoSis\n    SensPress -.->|Apenas Log/Identifica\u00e7\u00e3o| MATLAB[\"MATLAB Host (Matlab2 Su\u00edte Serial)\"]\n```\n\n## Arquitetura e Organiza\u00e7\u00e3o do Reposit\u00f3rio\n\nO projeto \u00e9 estruturado em duas vertentes complementares de engenharia e modelagem:\n\n1. **Simula\u00e7\u00e3o e Modelagem Conceitual (`matlab/`)**:\n   - Modelagem de planta hidr\u00e1ulica n\u00e3o-linear de dois volumes de press\u00e3o (`Psup` e `Pw`) atrav\u00e9s do modelo [Bloco_Hidraulico_2P](modules/matlab-simulation.md).[^bloco-2p]\n   - S\u00edntese de regulador \u00f3timo linear quadr\u00e1tico com a\u00e7\u00e3o integral (LQI) e observador discreto de Luenberger via discretiza\u00e7\u00e3o ZOH a $100\\,\\mu\\text{s}$ (`Ts = 1e-4`).[^lqi-run]\n   - An\u00e1lises automatizadas de sensibilidade param\u00e9trica e robustez frente a perturba\u00e7\u00f5es em par\u00e2metros fluidos e mec\u00e2nicos (`beta`, `Vsup`, `Vw`, `Kb`, `Klb`, `Ain_max`).[^robustez]\n\n2. **Ensaios Experimentais e Controle F\u00edsico em Bancada (`Matlab2/`)**:\n   - Controle em tempo real com hardware microcontrolador Infineon AURIX conectado por porta serial UART a 460.800 bps.[^clmulti]\n   - Princ\u00edpio arquitetural fundamental: **A press\u00e3o n\u00e3o fecha malha diretamente no ensaio f\u00edsico**; adota-se controle indireto por posi\u00e7\u00e3o do atuador mec\u00e2nico (LAC), com mapeamento est\u00e1tico/din\u00e2mico $P_w = g(x)$ calibrado via ensaios PLID.[^resumo]\n   - Rotinas de identifica\u00e7\u00e3o de par\u00e2metros do atuador el\u00e9trico ($\\tau$ e $K_{vel}$) a partir de logs a 1 kHz.[^tau-id]\n   - Decodificadores e codificadores de telemetria baseados em `matlab.System` ([BrakeSerialDecoder](modules/serial-interface.md) e [BrakeSerialEncoder](modules/serial-interface.md)).[^serial-codec]\n\n## Estrutura da Wiki\n\n- [System Architecture](architecture/system-architecture.md): Descri\u00e7\u00e3o detalhada da bancada, atuador linear (LAC), bloco de v\u00e1lvulas e interface com o microcontrolador AURIX.\n- [Control Strategy](architecture/control-strategy.md): An\u00e1lise comparativa entre o controle direto LQI de 2 press\u00f5es e a estrat\u00e9gia indireta por rastreamento de posi\u00e7\u00e3o do LAC.\n- [Data Flow & Telemetry](architecture/data-flow.md): Protocolos seriais ASCII de telemetria a 1 kHz, comandos de bancada e estrutura de buffers de dados.\n- [Matlab Simulation & Synthesis](modules/matlab-simulation.md): Equa\u00e7\u00f5es da planta hidr\u00e1ulica 2P, lineariza\u00e7\u00e3o anal\u00edtica e s\u00edntese de ganhos de controle.\n- [Bench Testing & Identification](modules/matlab2-bench-tests.md): Protocolos de ensaio experimental (PLID, CLMULTI, CLSTEP, RAMP) e extra\u00e7\u00e3o de par\u00e2metros din\u00e2micos.\n- [Serial Communication & Codec](modules/serial-interface.md): Implementa\u00e7\u00e3o dos blocos Simulink/MATLAB para decodifica\u00e7\u00e3o de telemetria e inje\u00e7\u00e3o de comandos.\n- [Experimental Validation & Robustness](architecture/experimental-validation.md): Metodologia de valida\u00e7\u00e3o, tratamento de histerese e varredura de robustez param\u00e9trica.\n\n[^resumo]: Matlab2/RESUMO_CONTROLE_CLMULTI.md:1-57\n[^bloco-2p]: matlab/Bloco_Hidraulico_2P.m:1-65\n[^lqi-run]: matlab/script_controle_lqi_luenberger_run.m:1-100\n[^robustez]: matlab/run_varredura_robustez_lqi_export.m:1-100\n[^clmulti]: Matlab2/ensaio_clmulti_serial.m:1-100\n[^tau-id]: Matlab2/identify_tau_gain_from_csv.m:1-120\n[^serial-codec]: Matlab2/BrakeSerialDecoder.m:1-64"}, "types": ["Architecture", "Module", "Repo"], "palette": {"Repo": "#0ea5e9", "Module": "#3b82f6", "File": "#22c55e", "Architecture": "#a855f7", "API Endpoint": "#ec4899", "Data Flow": "#f97316", "Entrypoint": "#eab308", "Reference": "#10b981", "BigQuery Dataset": "#8b5cf6", "BigQuery Table": "#3b82f6"}};
+</script>
+<script>
+(function () {
+  const bundle = window.BUNDLE;
+  const bundleName = window.BUNDLE_NAME;
+  document.title = `${bundleName} — VIO Wiki`;
+  document.getElementById("bundle-name").textContent = bundleName;
+
+  // Mermaid: manual render mode so we control which subtree runs.
+  let mermaidReady = false;
+  if (window.mermaid) {
+    try {
+      mermaid.initialize({ startOnLoad: false, securityLevel: "strict", theme: "neutral" });
+      mermaidReady = true;
+    } catch (_e) { mermaidReady = false; }
+  }
+  let _mermaidSeq = 0;
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+
+  // OKF v0.2 per-claim attribution: `[^label]` refs in prose and
+  // `[^label]: source` definitions at the foot of the page. Plain marked has
+  // no footnote syntax and mis-parses them as reference links — a one-token
+  // definition turns every `[^label]` into a link captioned "^label", a
+  // multi-token one is left as literal text. Registering both as extensions
+  // keeps them out of link parsing and renders refs as superscripts plus a
+  // "Sources" list. Extensions run before the built-in tokenizers, and code
+  // spans / fences still win because our patterns only match at their own
+  // start, so a literal `[^id]` inside backticks stays literal.
+  let footnoteDefs = {};
+  let footnoteOrder = [];
+  const FN_DEF_START = /^\[\^[^\]\s]+\]:/m;
+  const FN_DEF = /^\[\^([^\]\s]+)\]:[ \t]*([^\n]*)(?:\n+|$)/;
+  const FN_REF = /^\[\^([^\]\s]+)\]/;
+  if (window.marked && typeof marked.use === "function") {
+    marked.use({
+      extensions: [
+        {
+          name: "footnoteDef",
+          level: "block",
+          start(src) { const m = FN_DEF_START.exec(src); return m ? m.index : undefined; },
+          tokenizer(src) {
+            const m = FN_DEF.exec(src);
+            if (!m) return undefined;
+            const label = m[1];
+            if (!(label in footnoteDefs)) footnoteOrder.push(label);
+            footnoteDefs[label] = m[2].trim();
+            return { type: "footnoteDef", raw: m[0], label: label, text: m[2].trim() };
+          },
+          renderer() { return ""; },
+        },
+        {
+          name: "footnoteRef",
+          level: "inline",
+          start(src) { const i = src.indexOf("[^"); return i === -1 ? undefined : i; },
+          tokenizer(src) {
+            const m = FN_REF.exec(src);
+            return m ? { type: "footnoteRef", raw: m[0], label: m[1] } : undefined;
+          },
+          renderer(token) {
+            const label = escapeHtml(token.label);
+            const text = footnoteDefs[token.label];
+            const title = text ? ` title="${escapeHtml(text)}"` : "";
+            return `<sup class="fn-ref"><a href="#fn-${label}" data-fn="${label}"${title}>${label}</a></sup>`;
+          },
+        },
+      ],
+    });
+  }
+
+  // Parse a page body; the footnote extensions fill footnoteDefs during the
+  // block pass, so the definitions are known by the time refs render and the
+  // "Sources" list can be appended afterwards.
+  function renderMarkdown(body) {
+    footnoteDefs = {};
+    footnoteOrder = [];
+    let html = marked.parse(body, { breaks: false, gfm: true });
+    if (footnoteOrder.length) {
+      const items = footnoteOrder.map((label) => {
+        const l = escapeHtml(label);
+        return `<li id="fn-${l}"><span class="fn-label">${l}</span> <code>${escapeHtml(footnoteDefs[label])}</code></li>`;
+      }).join("");
+      html += `<section class="footnotes"><h2>Sources</h2><ol>${items}</ol></section>`;
+    }
+    return html;
+  }
+
+  // Populate type filter
+  const typeSelect = document.getElementById("filter-type");
+  for (const t of bundle.types) {
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    typeSelect.appendChild(opt);
+  }
+
+  // Build reverse-link index for backlinks
+  const backlinks = {};
+  for (const edge of bundle.edges) {
+    const { source, target } = edge.data;
+    (backlinks[target] ||= []).push(source);
+  }
+
+  // Look up node label/type by id
+  const nodeIndex = {};
+  for (const n of bundle.nodes) nodeIndex[n.data.id] = n.data;
+
+  // ── Build the link tree (left sidebar) ──
+  // Group concepts by their id prefix (the directory), e.g.
+  // "architecture/auth" -> group "architecture". Top-level ids form roots.
+  const treeItemEls = {};   // conceptId -> <li class=tree-item>
+  (function buildTree() {
+    const groups = {};       // prefix -> [ids]
+    const roots = [];        // ids with no "/"
+    for (const n of bundle.nodes) {
+      const id = n.data.id;
+      const slash = id.indexOf("/");
+      if (slash === -1) {
+        roots.push(id);
+      } else {
+        const prefix = id.slice(0, id.lastIndexOf("/"));
+        (groups[prefix] ||= []).push(id);
+      }
+    }
+    const byLabel = (a, b) =>
+      (nodeIndex[a]?.label || a).localeCompare(nodeIndex[b]?.label || b);
+
+    const list = document.getElementById("tree-list");
+    const makeItem = (id) => {
+      const li = document.createElement("li");
+      li.className = "tree-item";
+      li.title = id;
+      const dot = document.createElement("span");
+      dot.className = "tree-dot";
+      dot.style.background = nodeIndex[id]?.color || "#94a3b8";
+      const label = document.createElement("span");
+      label.textContent = nodeIndex[id]?.label || id;
+      li.appendChild(dot);
+      li.appendChild(label);
+      li.addEventListener("click", () => showDetail(id));
+      treeItemEls[id] = li;
+      return li;
+    };
+
+    // Roots first (Repo/overview usually), then each group as a header + children.
+    for (const id of roots.sort(byLabel)) list.appendChild(makeItem(id));
+    for (const prefix of Object.keys(groups).sort()) {
+      const header = document.createElement("li");
+      header.className = "tree-head";
+      header.textContent = prefix;
+      list.appendChild(header);
+      const sub = document.createElement("ul");
+      for (const id of groups[prefix].sort(byLabel)) sub.appendChild(makeItem(id));
+      list.appendChild(sub);
+    }
+  })();
+
+  function setActiveTreeItem(conceptId) {
+    for (const el of Object.values(treeItemEls)) el.classList.remove("active");
+    const el = treeItemEls[conceptId];
+    if (el) {
+      el.classList.add("active");
+      el.scrollIntoView({ block: "nearest" });
+    }
+  }
+
+  const cy = cytoscape({
+    container: document.getElementById("graph"),
+    elements: [...bundle.nodes, ...bundle.edges],
+    style: [
+      {
+        selector: "node",
+        style: {
+          "background-color": "data(color)",
+          "label": "data(label)",
+          "color": "#0f172a",
+          "font-size": 11,
+          "text-valign": "bottom",
+          "text-margin-y": 4,
+          "text-wrap": "wrap",
+          "text-max-width": 120,
+          "width": "data(size)",
+          "height": "data(size)",
+          "border-width": 1,
+          "border-color": "#0f172a",
+        },
+      },
+      {
+        selector: "node:selected",
+        style: {
+          "border-width": 3,
+          "border-color": "#f59e0b",
+        },
+      },
+      {
+        selector: "edge",
+        style: {
+          "width": 1.5,
+          "line-color": "#cbd5e1",
+          "target-arrow-color": "#cbd5e1",
+          "target-arrow-shape": "triangle",
+          "curve-style": "bezier",
+          "arrow-scale": 0.9,
+        },
+      },
+      {
+        selector: "edge:selected",
+        style: {
+          "line-color": "#f59e0b",
+          "target-arrow-color": "#f59e0b",
+          "width": 2.5,
+        },
+      },
+      {
+        selector: ".dim",
+        style: { "opacity": 0.15 },
+      },
+    ],
+    layout: { name: "cose", animate: false, padding: 30 },
+    wheelSensitivity: 0.2,
+  });
+
+  cy.on("tap", "node", (evt) => showDetail(evt.target.id()));
+  cy.on("tap", (evt) => {
+    if (evt.target === cy) clearSelection();
+  });
+
+  document.getElementById("layout").addEventListener("change", (e) => {
+    cy.layout({ name: e.target.value, animate: false, padding: 30 }).run();
+  });
+
+  document.getElementById("fit-graph").addEventListener("click", () => {
+    cy.resize();
+    cy.fit(null, 30);
+  });
+
+  document.getElementById("reset-graph").addEventListener("click", () => {
+    cy.layout({ name: document.getElementById("layout").value, animate: false, padding: 30 }).run();
+    cy.resize();
+    cy.fit(null, 30);
+    clearSelection();
+  });
+
+  document.getElementById("search").addEventListener("input", (e) => {
+    const q = e.target.value.trim().toLowerCase();
+    if (!q) {
+      cy.elements().removeClass("dim");
+      return;
+    }
+    cy.nodes().forEach((n) => {
+      const d = n.data();
+      const hay =
+        (d.label || "").toLowerCase() + " " +
+        d.id.toLowerCase() + " " +
+        (d.tags || []).join(" ").toLowerCase();
+      n.toggleClass("dim", !hay.includes(q));
+    });
+    cy.edges().forEach((edge) => {
+      const src = edge.source();
+      const tgt = edge.target();
+      edge.toggleClass("dim", src.hasClass("dim") || tgt.hasClass("dim"));
+    });
+  });
+
+  document.getElementById("filter-type").addEventListener("change", (e) => {
+    const t = e.target.value;
+    if (!t) {
+      cy.elements().removeClass("dim");
+      return;
+    }
+    cy.nodes().forEach((n) => {
+      n.toggleClass("dim", n.data("type") !== t);
+    });
+    cy.edges().forEach((edge) => {
+      edge.toggleClass("dim", edge.source().hasClass("dim") || edge.target().hasClass("dim"));
+    });
+  });
+
+  function clearSelection() {
+    cy.elements().unselect();
+    document.getElementById("detail-empty").hidden = false;
+    document.getElementById("detail-content").hidden = true;
+  }
+
+  function showDetail(conceptId) {
+    const data = nodeIndex[conceptId];
+    if (!data) return;
+    cy.elements().unselect();
+    const node = cy.getElementById(conceptId);
+    if (node) node.select();
+
+    setActiveTreeItem(conceptId);
+
+    document.getElementById("detail-empty").hidden = true;
+    const content = document.getElementById("detail-content");
+    content.hidden = false;
+
+    const chip = document.getElementById("detail-type");
+    chip.textContent = data.type;
+    chip.style.background = data.color;
+
+    document.getElementById("detail-title").textContent = data.label;
+    document.getElementById("detail-id").textContent = conceptId;
+    document.getElementById("detail-description").textContent = data.description || "—";
+
+    const resourceEl = document.getElementById("detail-resource");
+    resourceEl.innerHTML = "";
+    if (data.resource) {
+      const a = document.createElement("a");
+      a.href = data.resource;
+      a.textContent = data.resource;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.className = "external";
+      resourceEl.appendChild(a);
+    } else {
+      resourceEl.textContent = "—";
+    }
+
+    const tagsEl = document.getElementById("detail-tags");
+    tagsEl.innerHTML = "";
+    if (data.tags && data.tags.length) {
+      for (const t of data.tags) {
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.textContent = t;
+        tagsEl.appendChild(span);
+      }
+    } else {
+      tagsEl.textContent = "—";
+    }
+
+    const body = bundle.bodies[conceptId] || "";
+    const html = renderMarkdown(body);
+    const bodyEl = document.getElementById("detail-body");
+    bodyEl.innerHTML = html;
+    rewriteInternalLinks(bodyEl, conceptId);
+    bindFootnoteRefs(bodyEl);
+    renderMermaidIn(bodyEl);
+    highlightCodeIn(bodyEl);
+
+    const bl = backlinks[conceptId] || [];
+    const blSection = document.getElementById("detail-backlinks");
+    const blList = document.getElementById("backlinks-list");
+    blList.innerHTML = "";
+    if (bl.length) {
+      blSection.hidden = false;
+      for (const src of bl) {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.textContent = nodeIndex[src]?.label || src;
+        a.dataset.target = src;
+        a.addEventListener("click", () => showDetail(src));
+        li.appendChild(a);
+        const muted = document.createElement("span");
+        muted.className = "muted";
+        muted.textContent = ` (${src})`;
+        li.appendChild(muted);
+        blList.appendChild(li);
+      }
+    } else {
+      blSection.hidden = true;
+    }
+
+    if (node && !document.body.classList.contains("graph-hidden")) {
+      cy.animate({ center: { eles: node }, zoom: Math.max(cy.zoom(), 1.0) }, { duration: 200 });
+    }
+  }
+
+  // Normalise a markdown link target to a concept-id, tolerant of every
+  // cross-link style: bare id (`architecture/auth`), relative `.md`
+  // (`auth.md`, `../files/srv.md`), absolute `/architecture/auth.md`.
+  // Returns the first candidate that maps to a real node, else null.
+  function resolveConceptId(href, fromId) {
+    if (!href) return null;
+    let raw = href.split("#")[0].trim();
+    if (!raw || raw.includes("://") || raw.startsWith("mailto:")) return null;
+
+    const selfDir = fromId && fromId.includes("/")
+      ? fromId.slice(0, fromId.lastIndexOf("/"))
+      : "";
+    const strip = (s) => s.replace(/\.md$/, "").replace(/^\/+/, "").replace(/\/+$/, "");
+    const candidates = [];
+
+    if (raw.startsWith("/")) {
+      candidates.push(strip(raw));
+    } else if (raw.endsWith(".md") || raw.includes("/") || raw.startsWith(".")) {
+      // resolve relative path against this doc's directory
+      const base = selfDir ? selfDir.split("/") : [];
+      for (const part of strip(raw).split("/")) {
+        if (part === "..") base.pop();
+        else if (part !== "." && part !== "") base.push(part);
+      }
+      candidates.push(base.join("/"));
+      candidates.push(strip(raw));               // bundle-root-relative literal
+      const lit = strip(raw);
+      if (selfDir && !lit.includes("/")) candidates.push(`${selfDir}/${lit}`);
+    } else {
+      candidates.push(raw);                      // bare token
+      if (selfDir) candidates.push(`${selfDir}/${raw}`);
+    }
+
+    for (const cid of candidates) {
+      if (cid && nodeIndex[cid]) return cid;
+    }
+    return null;
+  }
+
+  // Syntax-highlight non-mermaid fenced code blocks with Prism (autoloader
+  // pulls the grammar on demand). Mirrors VIO's in-chat code rendering.
+  function highlightCodeIn(root) {
+    if (typeof Prism === "undefined") return;
+    const blocks = root.querySelectorAll("pre > code[class*='language-']");
+    blocks.forEach((code) => {
+      if (code.classList.contains("language-mermaid")) return;
+      const pre = code.parentElement;
+      if (pre && pre.tagName === "PRE") {
+        pre.classList.add("code-block");
+        if (!pre.hasAttribute("tabindex")) pre.setAttribute("tabindex", "0");
+      }
+      try { Prism.highlightElement(code); } catch (e) { /* leave plain */ }
+    });
+  }
+
+  // Render ```mermaid fenced blocks (marked emits <pre><code class="language-mermaid">)
+  // into SVG. Falls back to the raw code block on any parse error — never blank.
+  function renderMermaidIn(root) {
+    if (!mermaidReady) return;
+    const blocks = root.querySelectorAll("pre > code.language-mermaid, code.language-mermaid");
+    blocks.forEach((code) => {
+      const pre = code.closest("pre") || code;
+      const src = code.textContent || "";
+      const id = "mmd-" + (_mermaidSeq++);
+      mermaid.render(id, src).then(({ svg }) => {
+        const fig = document.createElement("figure");
+        fig.className = "mermaid-figure";
+        fig.innerHTML = svg;
+        // Mermaid stamps a fixed width/height + inline `max-width:<px>` on the
+        // SVG. On a narrow pane that squeezes the diagram and clips edge text
+        // (the lightbox looked fine only because openLightbox strips these).
+        // Drop them so the figure CSS (max-width:100% + horizontal scroll)
+        // governs sizing and nothing gets cropped.
+        var inlineSvg = fig.querySelector("svg");
+        if (inlineSvg) {
+          inlineSvg.removeAttribute("width");
+          inlineSvg.removeAttribute("height");
+          inlineSvg.style.maxWidth = "100%";
+          inlineSvg.style.width = "100%";
+          inlineSvg.style.height = "auto";
+        }
+        fig.title = "Click to zoom";
+        fig.addEventListener("click", () => openLightbox(fig.innerHTML));
+        pre.replaceWith(fig);
+      }).catch(() => {
+        pre.classList.add("mermaid-error");
+      });
+    });
+  }
+
+  function openLightbox(svgHtml) {
+    let lb = document.getElementById("mermaid-lightbox");
+    if (!lb) {
+      lb = document.createElement("div");
+      lb.id = "mermaid-lightbox";
+      lb.addEventListener("click", () => { lb.style.display = "none"; lb.innerHTML = ""; });
+      document.body.appendChild(lb);
+    }
+    lb.innerHTML = '<div class="mermaid-lightbox-inner">' + svgHtml + "</div>";
+    var svg = lb.querySelector("svg");
+    if (svg) {
+      // Mermaid stamps an inline max-width (its natural px width) on the SVG,
+      // which would cap the zoomed view to a tiny size. Clear it so the
+      // lightbox CSS can scale the diagram up to fill the viewport.
+      svg.style.maxWidth = "none";
+      svg.style.width = "100%";
+      svg.style.height = "auto";
+      svg.removeAttribute("width");
+      svg.removeAttribute("height");
+    }
+    lb.style.display = "flex";
+  }
+
+  // Footnote refs scroll to their definition inside the detail pane instead
+  // of navigating the page hash (which would also mark them "external").
+  function bindFootnoteRefs(root) {
+    root.querySelectorAll("sup.fn-ref > a[data-fn]").forEach((a) => {
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        const li = root.querySelector(`#fn-${CSS.escape(a.dataset.fn)}`);
+        if (li) li.scrollIntoView({ block: "center" });
+      });
+    });
+  }
+
+  function rewriteInternalLinks(root, fromId) {
+    root.querySelectorAll("a[href]").forEach((a) => {
+      if (a.matches("sup.fn-ref > a")) return;
+      const href = a.getAttribute("href");
+      const target = resolveConceptId(href, fromId);
+      if (target) {
+        a.className = "internal";
+        a.setAttribute("href", "javascript:void(0)");
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          showDetail(target);
+        });
+        return;
+      }
+      a.className = "external";
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener");
+    });
+  }
+
+  // ── Toggle graph visibility — collapse leaves a reopen button ──
+  const toggleBtn = document.getElementById("toggle-graph");
+  const graphReopen = document.getElementById("graph-reopen");
+  function setGraphHidden(hidden) {
+    document.body.classList.toggle("graph-hidden", hidden);
+    if (graphReopen) graphReopen.hidden = !hidden;
+    if (!hidden) {
+      // Graph re-shown: cytoscape needs a resize + refit after display change.
+      cy.resize();
+      cy.fit(null, 30);
+    }
+  }
+  toggleBtn.addEventListener("click", () => setGraphHidden(true));
+  if (graphReopen) graphReopen.addEventListener("click", () => setGraphHidden(false));
+
+  // ── Toggle page-tree visibility — collapse leaves a reopen button ──
+  const toggleTreeBtn = document.getElementById("toggle-tree");
+  const treeReopen = document.getElementById("tree-reopen");
+  function setTreeHidden(hidden) {
+    document.body.classList.toggle("tree-hidden", hidden);
+    if (treeReopen) treeReopen.hidden = !hidden;
+  }
+  toggleTreeBtn.addEventListener("click", () => setTreeHidden(true));
+  if (treeReopen) treeReopen.addEventListener("click", () => setTreeHidden(false));
+
+  // ── Auto-fit the graph whenever its pane changes size (drag-resize,
+  //    window resize, show/hide of sibling panes). Debounced via rAF. ──
+  (function autoFitGraph() {
+    if (typeof ResizeObserver === "undefined") return;
+    const pane = document.getElementById("graph-pane");
+    let raf = 0;
+    const ro = new ResizeObserver(() => {
+      if (document.body.classList.contains("graph-hidden")) return;
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        cy.resize();
+        cy.fit(null, 30);
+      });
+    });
+    ro.observe(pane);
+  })();
+
+  // True when the panes are stacked vertically (narrow embed). In that mode the
+  // two gutters act as horizontal row-resizers (drag on the Y axis).
+  const isStacked = () => window.matchMedia("(max-width: 520px)").matches;
+
+  // ── Drag-resize the page tree against the content (col when wide, row when stacked) ──
+  (function initTreeResize() {
+    const gutter = document.getElementById("tree-gutter");
+    const tree = document.getElementById("tree");
+    let dragging = false;
+    gutter.addEventListener("mousedown", (e) => {
+      dragging = true;
+      gutter.classList.add("dragging");
+      document.body.style.userSelect = "none";
+      document.body.style.cursor = isStacked() ? "row-resize" : "col-resize";
+      e.preventDefault();
+    });
+    window.addEventListener("mousemove", (e) => {
+      if (!dragging) return;
+      const rect = tree.getBoundingClientRect();
+      if (isStacked()) {
+        let h = e.clientY - rect.top;
+        h = Math.max(90, Math.min(h, window.innerHeight - 200));
+        tree.style.flex = `0 0 ${h}px`;
+        tree.style.height = `${h}px`;
+      } else {
+        let w = e.clientX - rect.left;
+        w = Math.max(150, Math.min(w, 480));
+        tree.style.flex = `0 0 ${w}px`;
+        tree.style.width = `${w}px`;
+      }
+    });
+    window.addEventListener("mouseup", () => {
+      if (!dragging) return;
+      dragging = false;
+      gutter.classList.remove("dragging");
+      document.body.style.userSelect = "";
+      document.body.style.cursor = "";
+    });
+  })();
+
+  // ── Drag-resize between the content (middle) and graph pane (right) ──
+  (function initResize() {
+    const gutter = document.getElementById("gutter");
+    const graphPane = document.getElementById("graph-pane");
+    const mainEl = document.querySelector("main");
+    let dragging = false;
+
+    gutter.addEventListener("mousedown", (e) => {
+      dragging = true;
+      gutter.classList.add("dragging");
+      document.body.style.userSelect = "none";
+      document.body.style.cursor = isStacked() ? "row-resize" : "col-resize";
+      e.preventDefault();
+    });
+    window.addEventListener("mousemove", (e) => {
+      if (!dragging) return;
+      if (isStacked()) {
+        // graph pane occupies from the gutter down to the bottom edge
+        const rect = mainEl.getBoundingClientRect();
+        let graphH = rect.bottom - e.clientY;
+        graphH = Math.max(120, Math.min(graphH, rect.height - 200));
+        graphPane.style.flex = `0 0 ${graphH}px`;
+        graphPane.style.height = `${graphH}px`;
+      } else {
+        const rect = mainEl.getBoundingClientRect();
+        const min = 240;
+        // graph pane occupies from the gutter to the right edge
+        let graphW = rect.right - e.clientX;
+        const maxGraph = rect.width - min;
+        graphW = Math.max(min, Math.min(graphW, maxGraph));
+        graphPane.style.flex = `0 0 ${graphW}px`;
+      }
+    });
+    window.addEventListener("mouseup", () => {
+      if (!dragging) return;
+      dragging = false;
+      gutter.classList.remove("dragging");
+      document.body.style.userSelect = "";
+      document.body.style.cursor = "";
+      cy.resize();
+    });
+  })();
+
+  // Auto-show the first node — prefer Repo > Architecture > Module > first.
+  const preferOrder = ["Repo", "Architecture", "Module"];
+  let initial = null;
+  for (const t of preferOrder) {
+    initial = bundle.nodes.find((n) => n.data.type === t);
+    if (initial) break;
+  }
+  initial = initial || bundle.nodes[0];
+  if (initial) showDetail(initial.data.id);
+})();
+
+</script>
+</body>
+</html>
