@@ -2,11 +2,9 @@
 \chapter{Resultados e discussão}
 \label{chap:resultados-final}
 
-Este capítulo reúne os resultados obtidos durante o desenvolvimento do controle digital de pressão para um bloco hidráulico de frenagem automotivo. A apresentação foi organizada em quatro etapas: validação do modelo hidráulico em MATLAB/Simulink, avaliação do controlador em malha fechada, desenvolvimento da plataforma eletrônica e ensaios de integração com o conjunto físico. A separação entre esses grupos é mantida porque cada um fornece um tipo diferente de evidência.
+Este capítulo apresenta os resultados de simulação e de bancada obtidos no desenvolvimento do controle digital de um módulo hidráulico de frenagem. Primeiro, são discutidos o comportamento do modelo hidráulico e o desempenho do LQI em simulação; em seguida, apresentam-se a plataforma eletrônica, a transição da configuração inicial com bomba centrífuga para o LAC e os ensaios experimentais. Essa organização distingue as evidências computacionais dos resultados medidos no conjunto físico.
 
-Nas simulações, a pressão é uma variável da planta hidráulica e é utilizada para avaliar o seguimento da referência. Nos ensaios de bancada, o acionamento principal é realizado pelo atuador linear (LAC), cuja posição determina o volume deslocado e, consequentemente, a pressão desenvolvida no circuito. A pressão medida na bancada é utilizada para monitoramento e validação do modelo posição--pressão. Ela não deve ser interpretada como a variável de realimentação do controlador de posição.
-
-Nas simulações computacionais, a pressão hidráulica atua como variável direta de estado da planta concentrada de duas pressões (reproduzindo o modelo clássico de recirculação por excêntrico), sendo utilizada para avaliar o seguimento de referência pelo regulador discreto. Em contrapartida, nos ensaios executados na bancada física, o acionamento primário de pressão é realizado pelo módulo atuador linear de êmbolo para deslocamento de fluido (\textit{Linear Actuator Concept} -- LAC). Nesse arranjo, a translação linear do pistão determina o volume deslocado e, por consequência da rigidez elástica do circuito e da pinça, a pressão desenvolvida na roda. A pressão manométrica medida na bancada é utilizada para monitoramento, calibração da curva estática e fechamento da malha de validação, permitindo avaliar tanto o controle indireto via posicionamento quanto o comportamento conjunto com a modulação das válvulas solenoides.
+Nas simulações, a pressão hidráulica é a variável utilizada para avaliar o seguimento de referência pelo LQI. Na bancada, o controlador LQI foi aplicado ao posicionamento do atuador linear de êmbolo (LAC), e a pressão resultante foi monitorada para avaliar a resposta hidráulica. A posição do LAC determina o volume deslocado e, em conjunto com a complacência do circuito, influencia a pressão gerada. Portanto, os ensaios físicos validam a execução do LQI no controle de posição e caracterizam a pressão produzida, sem serem interpretados como controle direto da pressão medida.
 
 
 \section{Simulação do modelo hidráulico em malha aberta}
@@ -16,11 +14,7 @@ Antes da avaliação do controlador, foi realizado um ensaio integrado em malha 
 
 \begin{figure}[htbp]
     \centering
-    \IfFileExists{figuras/artigo_ensaio_malha_aberta_integrado_real.png}{%
-        \includegraphics[width=0.90\textwidth]{figuras/artigo_ensaio_malha_aberta_integrado_real.png}%
-    }{%
-        \includegraphics[width=0.90\textwidth]{figuras/ensaio_malha_aberta_integrado_real.png}%
-    }
+    \includegraphics[width=0.90\textwidth]{figuras/artigo_ensaio_malha_aberta_integrado_real}
     \caption{Ensaio integrado em malha aberta do modelo hidráulico 2P, com as fases de pressurização, retenção e alívio.}
     \label{fig:resultado-final-malha-aberta}
 \end{figure}
@@ -30,7 +24,7 @@ O resultado reproduziu a causalidade esperada do circuito. Durante a pressuriza�
 \section{Seguimento de referência em malha fechada}
 \label{sec:resultado-final-malha-fechada}
 
-O controlador LQI com observador de Luenberger foi avaliado na planta não linear. A síntese foi feita a partir de uma linearização local, enquanto a verificação foi executada no modelo hidráulico não linear. Essa configuração permitiu observar a influência das saturações dos comandos, da dependência das vazões com o diferencial de pressão e da diferença entre as dinâmicas de pressurização e alívio.
+O controlador LQI com observador de Luenberger foi avaliado na planta hidráulica não linear. A síntese baseou-se em uma linearização local, e a avaliação foi realizada no modelo não linear. Essa abordagem permitiu analisar a influência das saturações, da dependência das vazões em relação ao diferencial de pressão e das diferenças entre as dinâmicas de pressurização e alívio.
 
 \begin{figure}[htbp]
     \centering
@@ -62,14 +56,14 @@ A resposta simulada acompanhou o perfil de referência em patamares e respeitou 
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.92\textwidth]{figuras/artigo_item01_metricas_tracking.png}
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item01_metricas_tracking}
     \caption{Seguimento por degraus e erro de acompanhamento na simulação.}
     \label{fig:resultado-final-metricas-tracking}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.92\textwidth]{figuras/artigo_item01_metricas_desempenho.png}
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item01_metricas_desempenho}
     \caption{Métricas de desempenho globais e por degrau.}
     \label{fig:resultado-final-metricas-desempenho}
 \end{figure}
@@ -78,21 +72,21 @@ As curvas de $\mathrm{d}P_w/\mathrm{d}t$ mostram que os maiores gradientes de pr
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.92\textwidth]{figuras/artigo_item02_dpdt_saturacao.png}
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item02_dpdt_saturacao}
     \caption{Taxa de variação da pressão e atuação próxima aos limites de comando.}
     \label{fig:resultado-final-dpdt}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.92\textwidth]{figuras/artigo_item03_assimetria_subida_descida.png}
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item03_assimetria_subida_descida}
     \caption{Assimetria entre os transientes de pressurização e de alívio.}
     \label{fig:resultado-final-assimetria}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.92\textwidth]{figuras/artigo_item04_ripple_fft.png}
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item04_ripple_fft}
     \caption{Ondulação em regime permanente no domínio do tempo e da frequência.}
     \label{fig:resultado-final-ripple}
 \end{figure}
@@ -104,7 +98,7 @@ Foi realizada uma varredura paramétrica para verificar a sensibilidade do desem
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.92\textwidth]{figuras/artigo_item06_sensibilidade_parametrica.png}
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item06_sensibilidade_parametrica}
     \caption{Sensibilidade das métricas de erro e esforço às variações paramétricas.}
     \label{fig:resultado-final-sensibilidade}
 \end{figure}
@@ -113,14 +107,14 @@ A variação dos pesos do LQI evidenciou um compromisso entre erro de seguimento
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.92\textwidth]{figuras/artigo_item09_tradeoff_erro_esforco.png}
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item09_tradeoff_erro_esforco}
     \caption{Compromisso entre erro de seguimento e esforço de atuação para diferentes ponderações do LQI.}
     \label{fig:resultado-final-tradeoff}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.92\textwidth]{figuras/artigo_item10_robustez_ruido.png}
+    \includegraphics[width=0.92\textwidth]{figuras/artigo_item10_robustez_ruido}
     \caption{Variação das métricas com o nível de ruído de medição.}
     \label{fig:resultado-final-ruido}
 \end{figure}
@@ -128,7 +122,7 @@ A variação dos pesos do LQI evidenciou um compromisso entre erro de seguimento
 \section{Plataforma eletrônica e preparação dos ensaios}
 \label{sec:resultado-final-plataforma}
 
-Foi desenvolvida uma placa eletrônica para permitir a migração posterior do controle para o microcontrolador AURIX TC375. Foram produzidas cinco placas. Todas receberam pelo menos os componentes passivos básicos; duas foram montadas com todos os componentes disponíveis e três permaneceram sem o driver SB0410. A placa e a arquitetura funcional são apresentadas nas Figuras~\ref{fig:resultado-final-placa} e~\ref{fig:resultado-final-arquitetura}.
+Foi desenvolvida uma placa eletrônica para integração com o microcontrolador AURIX TC375 e execução embarcada do controle. Foram produzidas cinco placas: duas receberam todos os componentes disponíveis e três permaneceram sem o driver SB0410. A placa e a arquitetura funcional são apresentadas nas Figuras~\ref{fig:resultado-final-placa} e~\ref{fig:resultado-final-arquitetura}.
 
 \begin{figure}[htbp]
     \centering
@@ -146,16 +140,18 @@ Foi desenvolvida uma placa eletrônica para permitir a migração posterior do c
 
 Durante a fase de integração física, verificou-se que a tentativa de executar o laço de controle em tempo real fechado diretamente pelo MATLAB/Simulink conectado à bancada via interface USB revelou-se tecnicamente inviável. A latência estocástica e o \textit{jitter} de transmissão do controlador USB no sistema operacional hospedeiro aumentaram excessivamente o tempo de ciclo, impedindo a sincronização determinística do período de controle discreto em $1{,}0\text{ ms}$. Além disso, identificou-se a restrição temporal severa imposta pelo circuito integrado inteligente de potência NXP MC34SB0800 (responsável pelo acionamento das válvulas solenoides), o qual requer supervisão ininterrupta via barramento SPI com envio periódico de quadro de \textit{watchdog}. Os atrasos esporádicos no canal USB provocavam o disparo do mecanismo de proteção interna do driver por perda de comunicação, desabilitando as saídas de potência e interrompendo o ensaio.
 
-Diante desse gargalo de comunicação, reestruturou-se a arquitetura de controle: toda a malha fechada discreta (execução dos algoritmos LQI, observadores de Luenberger, máquinas de estados das válvulas e limites de proteção) foi embarcada nativamente no microcontrolador automotivo \textbf{AURIX TC375} integrado à \textbf{placa de controle proposta desenvolvida neste trabalho}. O ambiente MATLAB foi mantido unicamente fora de linha (\textit{offline}) para a modelagem, resolução matricial dos ganhos e geração das tabelas calibradas, enquanto a interface serial USB da bancada foi reconfigurada exclusivamente para o envio assíncrono e passivo dos registros de telemetria (a cada $5\text{ ms}$), desacoplando totalmente o fluxo de dados da interrupção crítica de $1\text{ ms}$ que processa o controle.
+Diante dessa limitação, o LQI e a lógica de acionamento foram executados no microcontrolador AURIX TC375 integrado à placa desenvolvida neste trabalho. O MATLAB foi utilizado fora de linha para modelagem, cálculo dos ganhos e análise dos dados. A interface USB permaneceu dedicada ao registro assíncrono da telemetria, separado da interrupção de controle de $1\text{ ms}$.
 
-Adicionalmente, consolidou-se na montagem da bancada a substituição da concepção hidráulica original baseada em bomba de recirculação acionada por excêntrico pela bomba hidráulica de deslocamento linear (atuador linear de êmbolo). O arranjo convencional de recirculação contínua não se mostrou adequado na bancada para sustentar os gradientes dinâmicos requeridos por manobras autônomas de frenagem sem o auxílio prévio de servofreio a vácuo, dissipando energia por recirculação para o reservatório de baixa pressão. Em contraste, o atuador linear translada diretamente o pistão primário do cilindro, fornecendo uma injeção volumétrica positiva e determinística no circuito. Para assegurar a integridade estrutural do sistema antes da aplicação das malhas de pressão, foram implementadas rotinas de calibração de zero mecânico (\textit{homing}) e saturações de segurança no firmware do AURIX, prevenindo colisões do êmbolo contra os batentes de fim de curso.
+Na bancada, a configuração inicialmente baseada em bomba de deslocamento linear, desloca diretamente o êmbolo e altera o volume do circuito. Para proteger o conjunto, foram implementadas rotinas de referência de posição (\textit{homing}) e limites de curso no firmware do AURIX TC375.
 
-Outro resultado da integração foi a necessidade de substituir, no modelo destinado à bancada, a bomba centrífuga por um atuador linear. A bomba centrífuga utilizada inicialmente não produziu a pressão necessária no circuito físico e passou a recircular o fluido. O LAC desloca diretamente o êmbolo do cilindro, o que fornece a variação de volume necessária para comprimir o fluido. Antes do controle de pressão indireta, foi implementada uma malha de posição do motor para evitar que o êmbolo atingisse o fim de curso mecânico.
+A transição para o LAC também definiu a estratégia de ensaio: o LQI foi aplicado ao controle da posição do atuador, com referências relacionadas aos níveis de pressão avaliados. A pressão foi medida para caracterizar a resposta do circuito, e os limites de posição evitaram que o êmbolo atingisse o fim de curso mecânico.
 
 \section{Ensaio de integração em malha aberta no bloco hidráulico}
 \label{sec:resultado-final-oltest}
 
 O ensaio \texttt{OLTEST} foi executado no conjunto físico de frenagem com duração de $5$ s e 500 amostras exportadas. Os dados foram registrados com período de aproximadamente $10$ ms. Na sequência inicial, a válvula de entrada permaneceu comandada e a saída ficou fechada. No instante de aproximadamente $2{,}5$ s, o comando do LAC foi interrompido e o sistema entrou em retenção. A partir de aproximadamente $3{,}5$ s, a válvula de saída foi aberta para o alívio.
+
+A sequência de pressurização, retenção e alívio foi executada pelo firmware e os sinais foram enviados para análise posterior. O registro serial do ensaio é exemplificado no Código~\ref{cod:c-oltest-telemetria}; a figura apresenta a visualização pós-processada desses dados.
 
 \begin{figure}[htbp]
     \centering
@@ -166,8 +162,9 @@ O ensaio \texttt{OLTEST} foi executado no conjunto físico de frenagem com dura�
 
 No primeiro ajuste do limite de posição, definido em $12{,}0$ mm nos dados da conversa, a subida de pressão acima de 1 psi começou em $t=859$ ms, quando o LAC estava em aproximadamente $5{,}92$ mm. A maior pressão registrada foi $51{,}79$ psi em $t=1399$ ms, com posição de $12{,}26$ mm. A pressão, portanto, não alcançou 80 psi nesse ajuste.
 
-No segundo ensaio, foi utilizado o limite de posição
-$\texttt{HYDRAULIC\_BLOCK\_POSITION\_CAP\_MM}=14{,}3$ mm. A pressão começou a crescer de modo mensurável próximo de $5{,}9$ mm. O pico registrado foi de $75{,}12$ psi, com posição máxima próxima de $13{,}4$ mm. Esses dados mostram a relação direta entre o deslocamento do LAC e o aumento da pressão, mas também indicam que um único limite de posição não pode ser convertido em uma tabela universal pressão--deslocamento sem repetir a identificação para cada condição hidráulica.
+No segundo ensaio, o limite de posição foi definido em $14{,}3$ mm. A pressão começou a crescer de modo mensurável próximo de $5{,}9$ mm. O pico registrado foi de $75{,}12$ psi, com posição máxima próxima de $13{,}4$ mm. Esses dados mostram a relação direta entre o deslocamento do LAC e o aumento da pressão, mas também indicam que um único limite de posição não pode ser convertido em uma tabela universal pressão--deslocamento sem repetir a identificação para cada condição hidráulica.
+
+Em conjunto, os registros indicam curso morto até aproximadamente $5{,}9$ mm e aumento da inclinação aparente da relação posição--pressão após o início da pressurização. Os dois ensaios demonstram comportamento não linear, mas não são suficientes para ajustar ou afirmar uma lei exponencial para $P_w(x)$. A interpretação deve permanecer restrita às condições e às trajetórias medidas.
 
 \begin{table}[htbp]
     \centering
@@ -186,14 +183,21 @@ $\texttt{HYDRAULIC\_BLOCK\_POSITION\_CAP\_MM}=14{,}3$ mm. A pressão começou a 
 
 O perfil de cinco segundos também confirmou a sequência funcional de acionamento: pressurização com entrada aberta e saída fechada, retenção com ambos os caminhos fechados e alívio com entrada fechada e saída aberta. Os dados disponíveis identificam explicitamente os comandos \texttt{u\_in} e \texttt{u\_out}, associados no ensaio às válvulas IRL e ORL. Não foram encontrados, no material analisado, registros independentes dos estados elétricos das válvulas PFV e CSV.
 
-{\color{red}
 \subsection{Caracterização do comportamento transitório do motor elétrico do atuador linear}
 \label{sec:resultado-transitorio-motor-lac}
 
-A dinâmica mecânica do atuador linear foi caracterizada em bancada submetendo o motor BLDC a degraus controlados de modulação por largura de pulso (PWM) em malha aberta, com aquisição de telemetria a cada $10\text{ ms}$ (\textit{scripts} de ensaio \texttt{MTEST}). Nos ensaios a $10\%$ de PWM, verificou-se que o motor vence o atrito estático inicial e o assentamento do acoplamento do fuso nos primeiros $50\text{ ms}$, acelerando até atingir uma velocidade linear estável oscilando em torno de $11$ a $18\text{ mm/s}$, com correntes de fase monitoradas pelo conversor analógico-digital interno (\texttt{iadc}) estabilizadas e sinais de quadratura do sensor magnético (\texttt{sin}/\texttt{cos}) perfeitamente coerentes. 
+A dinâmica mecânica do atuador linear foi caracterizada em bancada submetendo o motor BLDC a degraus controlados de modulação por largura de pulso (PWM) em malha aberta, ou seja, fora do circuito hidraulico, com aquisição de telemetria a cada $10\text{ ms}$. A Figura~\ref{fig:grafico_multiduty_Informacoes_do_Lac} Nos ensaios a $10\%$ de PWM, verificou-se que o motor vence o atrito estático inicial e o assentamento do acoplamento do fuso nos primeiros $50\text{ ms}$, acelerando até atingir uma velocidade linear estável oscilando em torno de $11$ a $18\text{ mm/s}$. 
 
-Ao elevar o degrau para $30\%$ de PWM, a velocidade linear máxima atingiu patamares transitórios de até $50\text{ mm/s}$ nas fases de menor contrapressão, estabilizando-se em regime em valores médios superiores a $38\text{ mm/s}$. Esses ensaios experimentais confirmaram que a resposta eletromecânica do atuador linear possui constante de tempo compatível com os requisitos de atuação rápida de segurança veicular, respaldando a identificação da planta de primeira ordem para velocidade com ganho $K_{vel} = 1{,}306\text{ mm/s por \%PWM}$ e constante $\tau = 0{,}053\text{ s}$ utilizada no projeto do regulador LQI.
-\par}
+\begin{figure}[htbp]
+    \centering
+    \caption{Gráfico de múltiplos PWM aplicados ao atuador linear}
+    \label{fig:grafico_multiduty_Informacoes_do_Lac}
+    \includegraphics[width=0.8\textwidth]{figuras/grafico_multiduty_Informacoes_do_Lac_20261022_074203.png}
+    \fonte{ O Autor.}
+\end{figure}
+
+Ao elevar o degrau para $30\%$,$50\%$ e $100\%$ de PWM, a velocidade linear máxima atingiu patamares transitórios de até $30\text{ mm/s}$ nas fases de final. Esses ensaios experimentais confirmaram que a resposta eletromecânica do atuador linear possui constante de tempo compatível com os requisitos de atuação rápida, respaldando a identificação da planta de primeira ordem para velocidade com ganho $K_{vel} = 1{,}306\text{ mm/s por \%PWM}$ e constante $\tau = 0{,}053\text{ s}$ utilizada no projeto do regulador LQI.
+\par
 
 
 \subsection{Identificação da relação posição--pressão}
@@ -226,6 +230,8 @@ Na fase de pressurização, os maiores valores registrados foram 94,13, 197,17 e
     \label{fig:resultado-final-plid}
 \end{figure}
 
+O Código~\ref{cod:c-plid-retencao} mostra como o firmware detecta o cruzamento do nível de pressão de cada degrau, registra a posição correspondente e calcula as médias durante a retenção. Os dados enviados pelo firmware foram processados posteriormente para compor a Figura~\ref{fig:resultado-final-plid}.
+
 \subsection{Tabela de referência entre 50 e 100 psi}
 \label{sec:resultado-final-tabela-50-100}
 
@@ -256,6 +262,8 @@ Para organizar a faixa de menor pressão, foi utilizado o ponto do ensaio \textt
     \caption{Curva experimental de posição e pressão obtida no ensaio \texttt{STAIRCASE}.}
     \label{fig:resultado-final-staircase}
 \end{figure}
+
+No ensaio \texttt{STAIRCASE}, o firmware registra o alvo de posição, a posição medida e a pressão filtrada. Esse formato de aquisição, empregado no pós-processamento da curva, é apresentado no Código~\ref{cod:c-staircase-telemetria}.
 
 \subsection{Estados funcionais das válvulas}
 \label{sec:resultado-final-valvulas}
@@ -328,12 +336,12 @@ Quando a instrumentação estiver disponível, os sinais ambientais devem ser re
 \section{Controle indireto por posição do LAC}
 \label{sec:resultado-final-clstep}
 
-O ensaio \texttt{CLSTEP B} avaliou o controle em malha fechada da posição do LAC. O valor de referência de posição foi aproximadamente $x_{\mathrm{ref}}=6{,}85$ mm. A pressão foi registrada para avaliar o resultado, mas não participou da lei de controle. Essa distinção é necessária: o experimento demonstra o controle indireto da pressão por deslocamento, e não uma realimentação direta da pressão.
+O ensaio \texttt{CLSTEP B} avaliou em malha fechada da posição do LAC. A referência de posição foi de aproximadamente $x_{\mathrm{ref}}=6{,}85$ mm, associada à referência de pressão de 100 psi pela curva posição--pressão. Nesse modo, o erro de posição alimenta as ações proporcional e integral, enquanto a pressão medida é utilizada para avaliar a resposta hidráulica. O excerto do firmware está no Código~\ref{cod:c-clstep-pi}. O LQI embarcado é documentado separadamente no Código~\ref{cod:c-ppmulti-lqi} e foi avaliado nos ensaios com múltiplas referências.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=1.0\textwidth]{Matlab2/figuras/ensaio_clstepB_20260912_083523.png}
-    \caption{Ensaio \texttt{CLSTEP B}: controle de posição do LAC e pressão resultante no circuito hidráulico.}
+    \includegraphics[width=1.0\textwidth]{figuras/ensaio_clstepB_20260912_083523.png}
+    \caption{Ensaio \texttt{CLSTEP B}: controle PI da posição do LAC e pressão resultante no circuito hidráulico.}
     \label{fig:resultado-final-clstep}
 \end{figure}
 
@@ -422,30 +430,30 @@ quantifica a histerese em pressão em cada posição. A área entre as curvas po
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.92\textwidth]{Matlab2/figuras/ensaio_clstepB_20260912_083523.png}
-    \caption{Ensaio \texttt{CLSTEP B}, com controle da posição do LAC e pressão registrada para validação.}
+    \caption{Ensaio \texttt{CLSTEP B}, com controle PI da posição do LAC e pressão registrada para validação.}
     \label{fig:resultado-final-clstep-b}
 \end{figure}
 
 \section{Ensaios complementares de controle e identificação}
 \label{sec:resultado-final-complementares}
 
-O conjunto de arquivos também inclui ensaios de múltiplas referências, controle combinado e varredura de PWM. O perfil \texttt{CLMULTI} aplica a sequência $0\rightarrow100\rightarrow200\rightarrow50\rightarrow0$ psi, permitindo avaliar as transições de subida e descida em um único ensaio. O \texttt{PPMULTI} registra separadamente as contribuições do controlador de posição e do termo de pressão, enquanto o \texttt{PWMSWEEP} fornece dados para a identificação da dinâmica do LAC.
+O conjunto de dados inclui ensaios com múltiplas referências, configurações LQI e varredura de PWM. O perfil \texttt{CLMULTI} aplica a sequência $0\rightarrow100\rightarrow200\rightarrow50\rightarrow0$ psi; o modelo discreto, o observador e a lei LQI embarcada estão no Código~\ref{cod:c-clmulti-lqi}. No \texttt{PPMULTI}, a malha interna emprega LQR com ação integral para controlar a posição, enquanto a malha externa corrige a referência de posição a partir do erro de pressão. O modelo discreto, o observador e a lei de controle estão no Código~\ref{cod:c-ppmulti-lqi}; o formato dos dados enviados para geração da Figura~\ref{fig:resultado-final-ppmulti} está no Código~\ref{cod:c-ppmulti-telemetria}. O \texttt{PWMSWEEP} fornece dados para a identificação da dinâmica do LAC.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.92\textwidth]{Matlab2/figuras/ensaio_clmulti_20260913_153036.png}
+    \includegraphics[width=0.92\textwidth]{figuras/ensaio_clmulti_20260912_091937.png}
     \caption{Ensaio \texttt{CLMULTI} com múltiplos patamares de referência.}
     \label{fig:resultado-final-clmulti}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.92\textwidth]{Matlab2/figuras/ensaio_ppmulti_20260913_180129.png}
-    \caption{Ensaio \texttt{PPMULTI}, com registro das contribuições dos controladores de posição e de pressão.}
+    \includegraphics[width=0.92\textwidth]{figuras/ensaio_ppmulti_20260916_083850.png}
+    \caption{Ensaio \texttt{PPMULTI}: referência, contribuições das malhas de controle, posição do LAC e pressão medida.}
     \label{fig:resultado-final-ppmulti}
 \end{figure}
 
-No ensaio \texttt{PPMULTI} de 13 de setembro de 2026, o degrau de 100 psi apresentou erro RMS de 57,18 psi, erro estacionário de 6,94 psi, sobressinal de 52,1\%, pressão média de 73,92 psi e pressão máxima de 152,10 psi. No degrau de 200 psi, foram obtidos erro RMS de 108,96 psi, erro estacionário de 89,26 psi, sobressinal de 60,7\%, pressão média de 110,74 psi e pressão máxima de 321,46 psi. O ensaio foi interrompido pelo limite de segurança de 320 psi aproximadamente em $2,1$ s, de modo que os segmentos posteriores de 50 psi e 0 psi não foram executados.
+No ensaio \texttt{PPMULTI}, o degrau de 100 psi apresentou erro RMS de 57,18 psi, erro estacionário de 6,94 psi, sobressinal de 52,1\%, pressão média de 73,92 psi e pressão máxima de 152,10 psi. No degrau de 200 psi, foram obtidos erro RMS de 108,96 psi, erro estacionário de 89,26 psi, sobressinal de 60,7\%, pressão média de 110,74 psi e pressão máxima de 321,46 psi. O ensaio foi interrompido pelo limite de segurança de 320 psi aproximadamente em $2,1$ s, de modo que os segmentos posteriores de 50 psi e 0 psi não foram executados. Como a revisão do firmware fornecida contém limites e duração diferentes dos observados nesse arquivo, os excertos do Código~\ref{cod:c-ppmulti-lqi} documentam a estrutura do algoritmo, mas não comprovam a configuração exata de segurança carregada durante essa corrida. O registro evidencia erro de seguimento e interrupção por sobrepressão, mas não permite identificar a causa do desarme. A listagem contém integração condicional anti-windup; assim, não há base para atribuir o resultado a acúmulo do integrador ou à banda morta das válvulas sem dados adicionais de execução e de configuração.
 
 \begin{table}[htbp]
     \centering
@@ -522,35 +530,12 @@ Os três ensaios \texttt{PLID} permitem uma análise preliminar de repetibilidad
     \Fonte{O autor, a partir das três repetições \texttt{PLID}.}
 \end{table}
 
-\subsection{Quadro comparativo entre os ensaios CLSTEP A e B}
+\subsection{Limites da comparação entre os ensaios CLSTEP A e B}
 \label{sec:resultado-final-comparacao-clstep}
 
-Os ensaios \texttt{CLSTEP A} e \texttt{CLSTEP B} foram concebidos para comparar duas arquiteturas. No modo A, a pressão medida participa da realimentação. No modo B, a malha é fechada na posição do LAC e a pressão é registrada apenas para validação. A comparação deve utilizar as mesmas condições iniciais, o mesmo perfil de referência e o mesmo critério de validade.
+Os ensaios \texttt{CLSTEP A} e \texttt{CLSTEP B} avaliaram configurações distintas. No modo A, a pressão medida participa da realimentação; no modo B, o firmware fornecido fecha a malha na posição do LAC, e a pressão é registrada para caracterizar a resposta hidráulica. A comparação entre os modos requer condições iniciais, perfis de referência e critérios de avaliação equivalentes.
 
-Os dois modos utilizam $T_{\mathrm{idle}}=1500$ ms, $T_{\mathrm{ctrl}}=3000$ ms e $T_{\mathrm{release}}=1500$ ms, com referência de 100 psi e limite de segurança de 250 psi. No modo A, foram registrados os ganhos $K_p=0,10$, $K_i=0,010$ e $K_d=0,003$. No modo B, foram utilizados $K_{p,\mathrm{pos}}=12,0$, $K_{i,\mathrm{pos}}=2,0$ e ganho do observador $L=0,3$. As bandas de decisão foram de $\pm5$ psi no modo A e $\pm0,05$ mm no modo B; a condição de alívio foi definida acima de 7 psi da referência no modo A e acima de 0,07 mm da posição de referência no modo B.
-
-\begin{table}[htbp]
-    \centering
-    \caption{Quadro para a comparação experimental entre os modos \texttt{CLSTEP A} e \texttt{CLSTEP B}.}
-    \label{tab:resultado-final-comparacao-clstep}
-    \begin{tabular}{l c c}
-        \toprule
-        Métrica & \texttt{CLSTEP A} & \texttt{CLSTEP B} \\
-        \midrule
-        Número de corridas válidas & A consolidar & A consolidar \\
-        $e_{\mathrm{RMS}}$ (psi), mediana [IQR] & A consolidar & A consolidar \\
-        $e_{\mathrm{SS}}$ (psi), mediana [IQR] & A consolidar & A consolidar \\
-        Sobressinal (\%), mediana [IQR] & A consolidar & 3,8\% no ensaio representativo \\
-        $t_{10--90}$ (ms), mediana [IQR] & A consolidar & 98 ms no ensaio representativo \\
-        $P_{w,\max}$ (psi), mediana [IQR] & A consolidar & 103,85 psi no ensaio representativo \\
-        Saturação (\% do tempo) & A consolidar & A consolidar \\
-        $P_{w,\mathrm{hold}}$ médio (psi) & A consolidar & aproximadamente 93 psi no trecho final \\
-        \bottomrule
-    \end{tabular}
-    \Fonte{O autor. As métricas do modo A e as estatísticas consolidadas dependem do pós-processamento conjunto dos CSVs.}
-\end{table}
-
-Os arquivos disponíveis permitem realizar essa comparação, mas a seleção de uma única corrida para representar cada modo pode produzir uma conclusão enviesada. A mediana e o intervalo interquartil são preferíveis à média e ao desvio padrão enquanto a dispersão e a presença de valores extremos não forem caracterizadas. Até que todas as corridas válidas sejam processadas, não se afirma que o modo B seja estatisticamente superior ao modo A.
+Os arquivos de aquisição de 1~kHz disponíveis compreendem oito corridas \texttt{CLSTEP A} e dez corridas \texttt{CLSTEP B}. No modo A, três corridas não apresentam elevação mensurável de pressão, duas atingem máximos de apenas 64,18 e 69,39 psi, e três ultrapassam 100 psi, incluindo dois picos próximos de 244--248 psi. No modo B, três corridas não alcançam 90 psi; as demais apresentam máximos entre aproximadamente 91,6 e 175 psi. Essa dispersão, somada à ausência de metadados suficientes para confirmar a equivalência de parâmetros e condições entre todas as aquisições, impede definir com rigor um conjunto homogêneo de corridas válidas. Por esse motivo, não se apresentam medianas ou intervalos interquartis agregados, nem se conclui que um modo seja estatisticamente superior ao outro. O ensaio \texttt{CLSTEP B} é discutido individualmente na Tabela~\ref{tab:resultado-final-clstep}; seus indicadores não representam a distribuição de todas as corridas.
 
 No conjunto \texttt{CLMULTI}, quatro ensaios representativos no degrau de 100 psi apresentaram erro RMS médio de 56,26 psi, erro estacionário médio de 27,14 psi, sobressinal médio de 31,4\% e pressão máxima média de 131,39 psi. Os desvios padrão foram, respectivamente, 9,73 psi, 27,93 psi, 34,5\% e 34,41 psi. A dispersão elevada indica que o ajuste utilizado não produziu desempenho repetível nas condições avaliadas. Como os ganhos e as condições de execução não foram mantidos integralmente constantes, esses valores são usados como diagnóstico de desenvolvimento, e não como validação estatística definitiva.
 
@@ -577,8 +562,8 @@ No conjunto \texttt{CLMULTI}, quatro ensaios representativos no degrau de 100 ps
 \section{Síntese dos resultados e limitações experimentais}
 \label{sec:resultado-final-sintese}
 
-Os resultados obtidos evidenciam a complementaridade entre a abordagem numérica e a validação experimental. As simulações em MATLAB/Simulink comprovaram a consistência conceitual da formulação em espaço de estados e a capacidade do regulador discreto LQI com observador de Luenberger em rastrear perfis dinâmicos de pressão no modelo de duas pressões. Por sua vez, a transposição para a bancada física agregou evidências de engenharia que não se manifestavam no modelo teórico inicial: constatou-se a inviabilidade de aplicar a bomba de recirculação para frenagens ativas autônomas sem vácuo e comprovou-se a superioridade dinâmica da bomba hidráulica de deslocamento linear, na qual o volume deslocado pelo êmbolo estabelece uma correlação rígida com a pressurização da pinça.
+Os resultados articulam a avaliação computacional e os ensaios experimentais. Nas simulações, o LQI com observador de Luenberger acompanhou referências de pressão no modelo hidráulico de duas pressões. Na bancada, os ensaios iniciais mostraram que a bomba centrífuga não estabelecia a pressão requerida e recirculava o fluido, o que levou à sua substituição pelo LAC. Os ensaios com LQI embarcado avaliaram o controle da posição do atuador e a pressão hidráulica resultante.
 
-Os ensaios na bancada física também demonstraram a necessidade de abandonar o controle em tempo real via computador hospedeiro em prol da arquitetura embarcada dedicada. A latência da interface USB e as exigências temporais de \textit{watchdog} SPI do driver de potência foram plenamente superadas pela execução em tempo real determinístico no microcontrolador \textbf{AURIX TC375} e na \textbf{placa eletrônica proposta}. Os ensaios \texttt{PLID} e \texttt{STAIRCASE} permitiram mapear com sucesso a curva característica não linear $p-V$, enquanto os ensaios em malha fechada (\texttt{CLSTEP B} e \texttt{CLMULTI}) demonstraram a viabilidade prática do controle indireto por posição do atuador linear, atingindo tempos de resposta da ordem de 98 ms e baixo sobressinal, condizentes com os requisitos de atuação para sistemas ADAS.
+A integração também mostrou que a comunicação USB com o computador hospedeiro não atendia aos requisitos temporais observados, motivando a execução embarcada dos controladores no AURIX TC375. Os ensaios \texttt{PLID} e \texttt{STAIRCASE} permitiram caracterizar a relação posição--pressão. No ensaio representativo \texttt{CLSTEP B}, o controle controlou a posição do LAC e a pressão atingiu 103,85 psi, com sobressinal de 3,8\% para a referência de 100 psi e tempo de subida de 98 ms. A pressão, porém, decaiu para aproximadamente 93 psi durante a retenção. O LQI foi avaliado nos ensaios de múltiplas referências, cujos resultados apresentaram dispersão e desvios relevantes; portanto, os dados demonstram a execução e a avaliação experimental dos controladores, mas não comprovam atendimento a requisitos veiculares.
 
 O sensor de pressão integrado ao bloco hidráulico utiliza uma interface serial compatível com a família de protocolos OSPI descrita em documentação de fabricantes de circuitos integrados. Entretanto, a implementação específica do sensor e do módulo não estava disponível para leitura direta pelo sistema desenvolvido, pois os detalhes de acesso dependiam de informações proprietárias dos fornecedores. Por essa razão, a interface não foi utilizada na arquitetura de controle. A pressão foi estimada indiretamente a partir da posição do LAC e o sensor disponível foi mantido para monitoramento e validação.

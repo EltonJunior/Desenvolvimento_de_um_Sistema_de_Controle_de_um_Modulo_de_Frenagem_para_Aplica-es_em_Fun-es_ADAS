@@ -998,3 +998,252 @@ Pref = F / Ac;      % required pressure [Pa]
 end
 \end{lstlisting}
 
+\chapter{Trechos selecionados do firmware em C}
+\label{ap:codigo-c-firmware}
+
+Este capítulo apresenta excertos do firmware em C relacionados aos ensaios experimentais discutidos no Capítulo~\ref{chap:resultados-final}. Foram mantidos somente trechos necessários para documentar o acionamento, o processamento de sinais e o registro de dados; foram removidos comentários de desenvolvimento, referências a ferramentas de visualização e rotinas genéricas de inicialização. As listagens são fragmentos: declarações globais, funções de suporte e interfaces de hardware não são repetidas. O firmware executa o ensaio e envia telemetria pela UART; os gráficos são gerados posteriormente pelo processamento dos arquivos registrados.
+
+\section{Aquisição e registro dos ensaios em bancada}
+\label{ap:codigo-c-aquisicao}
+
+No ensaio \texttt{OLTEST}, o firmware calcula os comandos em malha aberta, consulta as telemetrias hidráulica e mecânica e envia, em intervalos regulares, uma linha com tempo, comandos, pressão, posição, estado e modo das válvulas. O formato de registro associado à Figura~\ref{fig:resultado-final-oltest} é exemplificado no Código~\ref{cod:c-oltest-telemetria}.
+
+\begin{lstlisting}[language=C,caption={Registro serial de telemetria do ensaio OLTEST.},label={cod:c-oltest-telemetria}]
+g_olLogCounterMs++;
+if (g_olLogCounterMs >= BRAKE_OL_LOG_PERIOD_MS)
+{
+    BrakeHydraulics_Mode valveMode;
+    g_olLogCounterMs = 0u;
+    BrakeHydraulics_GetMode(&valveMode);
+    BrakeUartTest_Printf("[OL],%lu,%.2f,%u,%u,%.2f,%.2f,%u,%u\r\n",
+                         (unsigned long)g_olElapsedMs,
+                         posMm,
+                         (unsigned int)uIn,
+                         (unsigned int)uOut,
+                         pwPsi,
+                         hydraulicTelemetry.pistonPositionMm,
+                         (unsigned int)hydraulicTelemetry.status,
+                         (unsigned int)valveMode);
+}
+\end{lstlisting}
+
+O ensaio \texttt{PLID} identifica a posição no instante em que cada referência de pressão é atingida e calcula médias durante a retenção. O trecho do Código~\ref{cod:c-plid-retencao} corresponde ao processamento que fundamenta a análise da Figura~\ref{fig:resultado-final-plid}.
+
+\begin{lstlisting}[language=C,caption={Deteccao de referencia e calculo das medias de retencao no ensaio PLID.},label={cod:c-plid-retencao}]
+case BrakeUartTest_Plid_Pressurize:
+    if (pwReal >= g_plidTargetPsi[g_plidStepIndex])
+    {
+        MotorPlatform_Stop();
+        g_plidPosAtTarget[g_plidStepIndex] = posReal;
+        (void)BrakeHydraulics_SetMode(
+            BrakeHydraulics_ModeHoldCandidate);
+        g_plidPhase = BrakeUartTest_Plid_Hold;
+        g_plidPhaseMs = 0u;
+    }
+    break;
+
+case BrakeUartTest_Plid_Hold:
+    (void)BrakeHydraulics_SetMode(
+        BrakeHydraulics_ModeHoldCandidate);
+    g_plidPwAtHold[g_plidStepIndex] += pwReal;
+    g_plidPosAtHold[g_plidStepIndex] += posReal;
+    g_plidHoldSamples[g_plidStepIndex]++;
+
+    if (g_plidPhaseMs >= BRAKE_PLID_T_HOLD_MS)
+    {
+        if (g_plidHoldSamples[g_plidStepIndex] > 0u)
+        {
+            g_plidPwAtHold[g_plidStepIndex] /=
+                (float)g_plidHoldSamples[g_plidStepIndex];
+            g_plidPosAtHold[g_plidStepIndex] /=
+                (float)g_plidHoldSamples[g_plidStepIndex];
+        }
+        BrakeUartTest_Printf(
+            "[PLID] Hold: Pw_med=%.1f pos_med=%.2f\r\n",
+            g_plidPwAtHold[g_plidStepIndex],
+            g_plidPosAtHold[g_plidStepIndex]);
+        MotorPlatform_Stop();
+        (void)BrakeHydraulics_SetMode(
+            BrakeHydraulics_ModeReleaseValidated);
+        g_plidPhase = BrakeUartTest_Plid_Release;
+        g_plidPhaseMs = 0u;
+    }
+    break;
+\end{lstlisting}
+
+Para o ensaio \texttt{STAIRCASE}, o firmware registra a referência de posição, a posição medida e a pressão filtrada em cada amostra exportada. Esse registro permite relacionar a curva experimental da Figura~\ref{fig:resultado-final-staircase} ao movimento do atuador e à telemetria hidráulica, conforme o Código~\ref{cod:c-staircase-telemetria}.
+
+\begin{lstlisting}[language=C,caption={Registro de posicao e pressao no ensaio STAIRCASE.},label={cod:c-staircase-telemetria}]
+BrakeUartTest_Printf("[STAIR],%lu,%lu,%u,%.2f,%.2f,%.2f,%u\r\n",
+                     (unsigned long)g_stairElapsedMs,
+                     (unsigned long)g_stairStepIndex,
+                     (unsigned)g_stairReturning,
+                     g_stairTargetMm,
+                     mTel.positionMm,
+                     pTel.filteredPressurePsi,
+                     (unsigned)g_stairPhase);
+\end{lstlisting}
+
+\section{Controle de posição e seguimento de referência}
+\label{ap:codigo-c-controle}
+
+{\color{red}No modo B do ensaio \texttt{CLSTEP}, a pressão de referência é convertida em uma referência de posição pela curva de calibração. O trecho abaixo mostra o observador de posição utilizado nesse modo. Embora o código-fonte descreva o modo como controle LQR/LQI, a equação implementada no modo B contém os termos proporcional e integral de posição, sem realimentação do estado de velocidade; por isso, o ensaio é identificado neste trabalho como controle PI de posição. O Código~\ref{cod:c-clstep-pi} documenta a estratégia associada à Figura~\ref{fig:resultado-final-clstep}.}
+
+\begin{lstlisting}[language=C,caption={Observador e controle PI de posicao no modo B do ensaio CLSTEP.},label={cod:c-clstep-pi}]
+g_clStepXhat = g_clStepXhat
+             + BRAKE_CLSTEP_OBS_L * (posReal - g_clStepXhat);
+
+float errPos = xRef - g_clStepXhat;
+
+if (fabsf(errPos) <= BRAKE_CLSTEP_POS_BAND_HOLD)
+{
+    (void)BrakeHydraulics_SetMode(
+        BrakeHydraulics_ModeHoldCandidate);
+    u_cmd = 0.0f;
+}
+else if (g_clStepXhat > xRef + BRAKE_CLSTEP_POS_BAND_RELEASE)
+{
+    (void)BrakeHydraulics_SetMode(
+        BrakeHydraulics_ModeReleaseValidated);
+    u_cmd = 0.0f;
+    g_clStepIntegral -= BRAKE_CLSTEP_TS * errPos;
+}
+else
+{
+    (void)BrakeHydraulics_SetMode(
+        BrakeHydraulics_ModeApplyCandidate);
+    g_clStepIntegral += BRAKE_CLSTEP_TS * errPos;
+    u_cmd = BRAKE_CLSTEP_KP_POS * errPos
+          + BRAKE_CLSTEP_KI_POS * g_clStepIntegral;
+}
+
+if (u_cmd > 100.0f) u_cmd = 100.0f;
+if (u_cmd < 0.0f)   u_cmd = 0.0f;
+MotorPlatform_SetRawCommandPercent(u_cmd);
+\end{lstlisting}
+
+No ensaio \texttt{CLMULTI}, a lei de controle emprega realimentação dos estados estimados e integração do erro de posição. O Código~\ref{cod:c-clmulti-lqi} apresenta o modelo discreto, o observador e a lei LQI correspondente à avaliação de múltiplas referências mostrada na Figura~\ref{fig:resultado-final-clmulti}.
+
+\begin{lstlisting}[language=C,caption={Modelo discreto, observador e lei LQI no ensaio CLMULTI.},label={cod:c-clmulti-lqi}]
+#define BRAKE_CLMULTI_TS       (0.001f)
+#define BRAKE_CLMULTI_PHI11    (1.0f)
+#define BRAKE_CLMULTI_PHI12    (0.000990625092f)
+#define BRAKE_CLMULTI_PHI21    (0.0f)
+#define BRAKE_CLMULTI_PHI22    (0.981308960528f)
+#define BRAKE_CLMULTI_GAMMA1   (0.000012243629833f)
+#define BRAKE_CLMULTI_GAMMA2   (0.024410497550323f)
+#define BRAKE_CLMULTI_LQR_K1   (8.38448851f)
+#define BRAKE_CLMULTI_LQR_K2   (0.36393239f)
+#define BRAKE_CLMULTI_LQR_KI   (22.26039869f)
+#define BRAKE_CLMULTI_OBS_L1   (0.43130896f)
+#define BRAKE_CLMULTI_OBS_L2   (37.28795837f)
+
+float innov = posReal - g_clMultiXhat;
+float xhatNew = BRAKE_CLMULTI_PHI11 * g_clMultiXhat
+              + BRAKE_CLMULTI_PHI12 * g_clMultiVhat
+              + BRAKE_CLMULTI_GAMMA1 * g_clMultiLastU
+              + BRAKE_CLMULTI_OBS_L1 * innov;
+float vhatNew = BRAKE_CLMULTI_PHI21 * g_clMultiXhat
+              + BRAKE_CLMULTI_PHI22 * g_clMultiVhat
+              + BRAKE_CLMULTI_GAMMA2 * g_clMultiLastU
+              + BRAKE_CLMULTI_OBS_L2 * innov;
+g_clMultiXhat = xhatNew;
+g_clMultiVhat = vhatNew;
+
+float errPos = xRef - g_clMultiXhat;
+float integralCand = g_clMultiIntegral
+                   + BRAKE_CLMULTI_TS * errPos;
+float uUnclamped = -BRAKE_CLMULTI_LQR_K1 * g_clMultiXhat
+                   -BRAKE_CLMULTI_LQR_K2 * g_clMultiVhat
+                   + BRAKE_CLMULTI_LQR_KI * integralCand;
+
+if (uUnclamped > 100.0f && errPos > 0.0f)
+{
+    u_cmd = 100.0f;
+}
+else if (uUnclamped < -100.0f && errPos < 0.0f)
+{
+    u_cmd = -100.0f;
+}
+else
+{
+    g_clMultiIntegral = integralCand;
+    u_cmd = uUnclamped;
+    if (u_cmd > 100.0f)  u_cmd = 100.0f;
+    if (u_cmd < -100.0f) u_cmd = -100.0f;
+}
+\end{lstlisting}
+
+Na rotina \texttt{PPMULTI}, o modelo discreto do atuador linear alimenta um observador de Luenberger de posição e velocidade. A malha externa corrige a referência de posição a partir do erro de pressão; a malha interna emprega realimentação de posição e velocidade com ação integral (LQR+I, ou LQI). Os parâmetros e as equações essenciais estão reunidos no Código~\ref{cod:c-ppmulti-lqi}.
+
+\begin{lstlisting}[language=C,caption={Modelo discreto, observador e controle LQR com acao integral no ensaio PPMULTI.},label={cod:c-ppmulti-lqi}]
+#define BRAKE_PPMULTI_TS          (0.001f)
+#define BRAKE_PPMULTI_PHI11       (1.0f)
+#define BRAKE_PPMULTI_PHI12       (0.000990625092f)
+#define BRAKE_PPMULTI_PHI21       (0.0f)
+#define BRAKE_PPMULTI_PHI22       (0.981308960528f)
+#define BRAKE_PPMULTI_GAMMA1      (0.000012243629833f)
+#define BRAKE_PPMULTI_GAMMA2      (0.024410497550323f)
+#define BRAKE_PPMULTI_LQR_K1      (3.0f)
+#define BRAKE_PPMULTI_LQR_K2      (0.15f)
+#define BRAKE_PPMULTI_LQR_KI_POS  (3.0f)
+#define BRAKE_PPMULTI_OBS_L1      (0.50000000f)
+#define BRAKE_PPMULTI_OBS_L2      (40.00000000f)
+#define BRAKE_PPMULTI_BIAS_KP_MM_PER_PSI   (0.002f)
+#define BRAKE_PPMULTI_BIAS_KI_MM_PER_PSI_S (0.0002f)
+#define BRAKE_PPMULTI_BIAS_CAP_MM          (0.35f)
+
+float innov = posReal - g_ppMultiXhat;
+float xhatNew = BRAKE_PPMULTI_PHI11 * g_ppMultiXhat
+              + BRAKE_PPMULTI_PHI12 * g_ppMultiVhat
+              + BRAKE_PPMULTI_GAMMA1 * g_ppMultiLastU
+              + BRAKE_PPMULTI_OBS_L1 * innov;
+float vhatNew = BRAKE_PPMULTI_PHI21 * g_ppMultiXhat
+              + BRAKE_PPMULTI_PHI22 * g_ppMultiVhat
+              + BRAKE_PPMULTI_GAMMA2 * g_ppMultiLastU
+              + BRAKE_PPMULTI_OBS_L2 * innov;
+g_ppMultiXhat = xhatNew;
+g_ppMultiVhat = vhatNew;
+
+float errPw = pwRef - pwReal;
+float integralBiasCand = g_ppMultiIntegralBias
+                       + BRAKE_PPMULTI_TS * errPw;
+float bias = BRAKE_PPMULTI_BIAS_KP_MM_PER_PSI * errPw
+           + BRAKE_PPMULTI_BIAS_KI_MM_PER_PSI_S * integralBiasCand;
+if (bias > BRAKE_PPMULTI_BIAS_CAP_MM)
+    bias = BRAKE_PPMULTI_BIAS_CAP_MM;
+else if (bias < -BRAKE_PPMULTI_BIAS_CAP_MM)
+    bias = -BRAKE_PPMULTI_BIAS_CAP_MM;
+uPw = bias;
+
+xRef = BrakeUartTest_PpMulti_GxInv(pwRef) + bias;
+float errPos = xRef - g_ppMultiXhat;
+float integralPosCand = g_ppMultiIntegralPos
+                      + BRAKE_PPMULTI_TS * errPos;
+float uUnclamped = BRAKE_PPMULTI_LQR_K1 * errPos
+                 - BRAKE_PPMULTI_LQR_K2 * g_ppMultiVhat
+                 + BRAKE_PPMULTI_LQR_KI_POS * integralPosCand;
+bool freezeBias = (uUnclamped > 100.0f && errPw > 0.0f)
+               || (uUnclamped < -100.0f && errPw < 0.0f);
+bool freezePos = (uUnclamped > 100.0f && errPos > 0.0f)
+              || (uUnclamped < -100.0f && errPos < 0.0f);
+
+if (!freezeBias) g_ppMultiIntegralBias = integralBiasCand;
+if (!freezePos)  g_ppMultiIntegralPos = integralPosCand;
+
+float uPos = BRAKE_PPMULTI_LQR_K1 * errPos
+           - BRAKE_PPMULTI_LQR_K2 * g_ppMultiVhat
+           + BRAKE_PPMULTI_LQR_KI_POS * g_ppMultiIntegralPos;
+float uIntent = uPos;
+if (uIntent > 100.0f)  uIntent = 100.0f;
+if (uIntent < -100.0f) uIntent = -100.0f;
+\end{lstlisting}
+
+As variáveis utilizadas nos gráficos do ensaio PPMULTI são enviadas em série para processamento posterior. O formato de telemetria é mostrado no Código~\ref{cod:c-ppmulti-telemetria}; a figura resultante é apresentada na Figura~\ref{fig:resultado-final-ppmulti}.
+
+\begin{lstlisting}[language=C,caption={Formato de telemetria serial do ensaio PPMULTI.},label={cod:c-ppmulti-telemetria}]
+BrakeUartTest_Printf(
+    "[PPMULTI],%lu,%.2f,%.2f,%.2f,%.1f,%.2f,%.2f,%.2f\r\n",
+    (unsigned long)g_ppMultiElapsedMs,
+    pwReal, g_ppMultiPwHat, posReal, pwRef, uPos, uPw, u_cmd);
+\end{lstlisting}

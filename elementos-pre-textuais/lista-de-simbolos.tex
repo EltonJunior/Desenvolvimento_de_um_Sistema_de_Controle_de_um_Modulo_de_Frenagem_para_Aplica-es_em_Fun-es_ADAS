@@ -3,55 +3,91 @@
 %%   Atencao! A lista nao ordena automaticamente   %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{simbolos} 
+\begin{simbolos}
 \itemsep -1pt
-	\item[$ xe $] posição do veículo controlado [m] — indica a posição longitudinal do veículo controlado
-	\item[$ x\ell $] posição do veículo à frente [m] — posição do veículo líder
-	\item[$ ve $] velocidade do veículo seguinte [m/s] — velocidade do veículo controlado
-	\item[$ v\ell $] velocidade do veículo à frente [m/s] — velocidade do veículo líder
-	\item[$ d $] distância relativa [m] — distância entre os dois veículos
-	\item[$ Facc $] força aplicada pelo motor ou freio [N] — força resultante de aceleração ou frenagem
-	\item[$ m $] massa do veículo [kg]
-	\item[$ cr $] coeficiente de resistência ao movimento [N·s/m] — representa forças dissipativas (atrito, arrasto)
-	\item[$ pw,des $] pressão de frenagem desejada
-	\item[$ Tb,des $] torque de frenagem desejado
-	\item[$ Kb $] ganho agregado do sistema de freio
-	\item[$ pmc,des $] pressão no cilindro mestre
-	\item[$ pd,des $] pressão no booster
-	\item[$ Amc $] área do cilindro mestre
-	\item[$ Ad $] área do booster
-	\item[$ S $] distância segura
-	\item[$\Delta$] distância mínima de segurança
-	\item[$ tgap $] tempo de seguimento
-	\item[$ v $] velocidade do veículo
-	\item[$ a\textsubscript{des} $] aceleração desejada
-	\item[$ amin $] aceleração mínima permitida
-	\item[$ amax $] aceleração máxima permitida
-	\item[$ u $] força de controle
-	\item[$ x $] vetor de estados
-	\item[$ w $] velocidade do veículo líder (entrada externa)
-	\item[$ A, B, E $] matrizes do modelo em espaço de estados
-	\item[$ Q, R $] matrizes de ponderação do LQR
-	\item[$ K $] ganho do controlador LQR
-	\item[$ L $] ganho do observador de Luenberger
-	\item[$ e $] erro de estimação
-	\item[$\gamma$] parâmetro de desempenho do controle $H_\infty$
-	\item[$ P_{\mathrm{ref}} $] pressão de referência manométrica (relativa a $P_{ret}$) [Pa]
-	\item[$ A_c $] área efetiva agregada do conjunto de freio (relação força longitudinal equivalente--pressão) [m$^2$]
-	\item[$ P_{sup} $] pressão no suprimento/manifold [Pa]
-	\item[$ P_w $] pressão no canal/roda [Pa]
-	\item[$ P_{ret} $] pressão de retorno (reservatório) [Pa]
-	\item[$ Q_{pump} $] vazão da bomba hidráulica [m$^3$/s]
-	\item[$ Q_{in} $] vazão pela válvula de entrada [m$^3$/s]
-	\item[$ Q_{out} $] vazão pela válvula de saída [m$^3$/s]
-	\item[$ \omega_p $] velocidade angular da bomba [rad/s]
-	\item[$ u_{in} $] comando da válvula de entrada (on/off ou PWM normalizado) [--]
-	\item[$ u_{out} $] comando da válvula de saída (on/off ou PWM normalizado) [--]
-	\item[$ \beta $] módulo volumétrico efetivo do fluido [Pa]
-	\item[$ \rho $] densidade do fluido [kg/m$^3$]
-	\item[$ V_{sup} $] volume equivalente do suprimento [m$^3$]
-	\item[$ V_w $] volume equivalente do canal/roda [m$^3$]
-	\item[$ R_w $] raio efetivo da roda [m]
-	\item[$ K_{br} $] ganho agregado torque--pressão do freio (por roda) [N·m/Pa]
-	\item[$ T_s $] período de amostragem [s]
+    \item[$A$] matriz de estado do modelo linearizado em tempo contínuo
+    \item[$A_a$] matriz de estado do modelo hidráulico aumentado com ação integral
+    \item[$A_c$] área efetiva agregada do conjunto de freio [m$^2$]
+    \item[$A_d$] matriz de estado do modelo discretizado
+    \item[$A_{ef}$] área efetiva de passagem do orifício [m$^2$]
+    \item[$A_{in}$, $A_{out}$] áreas efetivas das válvulas de entrada e de saída [m$^2$]
+    \item[$A_{in,\max}$, $A_{out,\max}$] áreas máximas das válvulas de entrada e de saída [m$^2$]
+    \item[$A_p$] área da seção transversal do êmbolo do atuador linear [m$^2$]
+    \item[$a_{\mathrm{ego}}$] aceleração longitudinal do veículo [m/s$^2$]
+    \item[$B$] matriz de entrada do modelo linearizado em tempo contínuo
+    \item[$B_a$] matriz de entrada do modelo hidráulico aumentado com ação integral
+    \item[$B_d$] matriz de entrada do modelo discretizado
+    \item[$b_{eq}$] coeficiente de atrito viscoso equivalente do atuador linear [N\,s/m]
+    \item[$C$] matriz de saída do modelo linearizado em tempo contínuo
+    \item[$C_d$] coeficiente de descarga do orifício; em subscrito de matrizes, matriz de saída do modelo discretizado
+    \item[$C_{d,in}$, $C_{d,out}$] coeficientes de descarga das válvulas de entrada e de saída
+    \item[$C_x$] matriz de saída do modelo reduzido do atuador linear
+    \item[$D$] matriz de transmissão direta do modelo em espaço de estados
+    \item[$e$] erro de estimação dos estados, definido como $x-\hat{x}$
+    \item[$e_\infty$] erro de regime permanente
+    \item[$F_m$] força motriz axial transmitida pelo fuso [N]
+    \item[$F_{x,\mathrm{eq}}$] força longitudinal equivalente de frenagem [N]
+    \item[$J$] função de custo quadrática do regulador
+    \item[$K_b$] coeficiente de vazão da bomba por velocidade angular [m$^3$/rad]
+    \item[$K_d$] ganho do controlador LQR discreto
+    \item[$K_i$] ganho integral do controlador LQI
+    \item[$K_{lb}$] coeficiente de vazamento interno da bomba [m$^3$/s/Pa]
+    \item[$K_{ls}$, $K_{lw}$] coeficientes de vazamento interno no suprimento e no canal de roda [m$^3$/s/Pa]
+    \item[$K_{\mathrm{vel}}$] ganho entre o comando PWM e a velocidade do atuador linear
+    \item[$K_x$] ganho de realimentação dos estados do controlador LQI
+    \item[$L$] ganho do observador de Luenberger
+    \item[$L_d$] ganho do observador de Luenberger em tempo discreto
+    \item[$m$] massa equivalente do veículo usada no mapeamento de desaceleração em pressão [kg]
+    \item[$m_{eq}$] massa equivalente do conjunto móvel do atuador linear [kg]
+    \item[$M_p$] sobressinal máximo da resposta
+    \item[$p_s$] passo do fuso por deslocamento angular [m/rad]
+    \item[$P$] pressão hidráulica no circuito [Pa]
+    \item[$P_g$] pressão manométrica expressa em bar
+    \item[$P_{\mathrm{ref}}$] pressão de referência para o modelo hidráulico [Pa]
+    \item[$P_{ret}$] pressão de retorno do circuito hidráulico [Pa]
+    \item[$P_{sup}$] pressão no suprimento ou manifold [Pa]
+    \item[$P_{sup,\max}$] limite máximo da pressão no suprimento [Pa]
+    \item[$P_w$] pressão no canal de roda [Pa]
+    \item[$Q$] vazão volumétrica genérica [m$^3$/s]; em contexto de controle, matriz de ponderação dos estados no regulador LQR
+    \item[$Q_a$] matriz de ponderação dos estados aumentados no regulador LQI
+    \item[$Q_{in}$, $Q_{out}$] vazões pelas válvulas de entrada e de saída [m$^3$/s]
+    \item[$Q_{leak,sup}$, $Q_{leak,w}$] vazões de vazamento no suprimento e no canal de roda [m$^3$/s]
+    \item[$Q_{pump}$] vazão fornecida pela bomba hidráulica [m$^3$/s]
+    \item[$Q_{valv}$] vazão de alívio pelas válvulas [m$^3$/s]
+    \item[$R$] matriz de ponderação do sinal de controle no regulador LQR/LQI
+    \item[$R_u$] ponderação do comando PWM na função de custo do controlador do atuador
+    \item[$r$] referência de saída do modelo hidráulico
+    \item[$T_s$] período de amostragem [s]
+    \item[$t$] tempo contínuo [s]
+    \item[$\tau$] constante de tempo do modelo reduzido do atuador linear [s]
+    \item[$\tau_h$] constante de tempo associada às perdas de carga hidráulicas [s]
+    \item[$\theta_m$] posição angular do eixo do motor [rad]
+    \item[$u$] sinal de controle do modelo em espaço de estados
+    \item[$u_{in}$, $u_{out}$] comandos das válvulas de entrada e de saída
+    \item[$u_{\mathrm{PWM}}$] comando de modulação por largura de pulso aplicado ao atuador
+    \item[$V(t)$] volume interno instantâneo da câmara hidráulica [m$^3$]
+    \item[$V_0$] volume interno de referência da câmara hidráulica [m$^3$]
+    \item[$V_{sup}$, $V_w$] volumes equivalentes do suprimento e do canal de roda [m$^3$]
+    \item[$x$] vetor de estados do modelo considerado; no modelo hidráulico, contém $P_{sup}$ e $P_w$
+    \item[$x_a$] vetor de estados aumentado do modelo do atuador linear com ação integral
+    \item[$x_{aug}$] vetor de estados aumentado do modelo hidráulico com ação integral
+    \item[$x_{\mathrm{LAC}}$] posição linear do êmbolo do atuador [m]
+    \item[$x_{\mathrm{ref}}$] referência de posição do atuador linear [m]
+    \item[$x_0$, $u_0$] estado e entrada no ponto de operação do modelo linearizado; $x_0$ também denota a posição de contato das pastilhas no modelo do atuador
+    \item[$\bar{x}_{\mathrm{LAC}}$, $\bar{v}_{\mathrm{LAC}}$, $\bar{P}$] valores nominais de posição, velocidade e pressão na linearização do atuador
+    \item[$\dot{x}_{\mathrm{LAC}}$] velocidade linear do êmbolo [m/s]
+    \item[$\Delta F_m$] variação incremental da força motriz do atuador [N]
+    \item[$\hat{x}$] vetor de estados estimado pelo observador
+    \item[$y$] saída medida do modelo em espaço de estados; no modelo do atuador, corresponde à posição
+    \item[$\hat{y}$] saída estimada pelo observador
+    \item[$z$] estado integral do erro de seguimento
+    \item[$\beta$] módulo volumétrico efetivo do fluido hidráulico [Pa]
+    \item[$\beta_{\mathrm{eff}}$] módulo volumétrico efetivo do conjunto hidráulico dependente da pressão [Pa]
+    \item[$\Gamma$] matriz de entrada do modelo discreto reduzido do atuador linear
+    \item[$\delta x$, $\delta u$, $\delta y$] desvios de estado, entrada e saída em relação ao ponto de operação
+    \item[$\Delta P$] diferença de pressão aplicada à lei de vazão do orifício [Pa]
+    \item[$\rho$] massa específica do fluido hidráulico [kg/m$^3$]
+    \item[$\Phi$] matriz de estado do modelo discreto reduzido do atuador linear
+    \item[$\omega_p$] velocidade angular da bomba [rad/s]
+    \item[$k$] índice de tempo discreto
 \end{simbolos}

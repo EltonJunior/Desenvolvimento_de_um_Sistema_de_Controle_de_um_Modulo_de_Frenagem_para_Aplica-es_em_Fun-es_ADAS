@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2026.1.8)  23 OCT 2026 06:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2026.1.8)  24 OCT 2026 07:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -784,21 +784,13 @@ Package: relsize 2013/03/29 ver 4.1
 \c@algocf=\count370
 \algocf@algoframe=\box69
 \algocf@algobox=\box70
-) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/algorithms\algorithmic.sty
-Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
-\c@ALC@unique=\count371
-\c@ALC@line=\count372
-\c@ALC@rem=\count373
-\c@ALC@depth=\count374
-\ALC@tlm=\skip283
-\algorithmicindent=\skip284
 ) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/lipsum\lipsum.sty (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/l3keys2e\l3keys2e.sty
 Package: l3keys2e 2023-10-10 LaTeX2e option processing using LaTeX3 keys
 )
 Package: lipsum 2021-09-20 v2.7 150 paragraphs of Lorem Ipsum dummy text
-\g__lipsum_par_int=\count375
-\l__lipsum_a_int=\count376
-\l__lipsum_b_int=\count377
+\g__lipsum_par_int=\count371
+\l__lipsum_a_int=\count372
+\l__lipsum_b_int=\count373
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/lipsum\lipsum.ltd.tex)) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/base\glossaries.sty
 Package: glossaries 2025/05/14 v4.7 (NLCT)
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/xkeyval\xkeyval.sty
@@ -807,7 +799,7 @@ Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
 \XKV@toks=\toks39
 \XKV@tempa@toks=\toks40
 )
-\XKV@depth=\count378
+\XKV@depth=\count374
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 )) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/mfirstuc\mfirstuc.sty
 Package: mfirstuc 2025/04/03 v2.09 (NLCT)
@@ -835,36 +827,36 @@ Package: datatool-base 2025/04/25 v3.4.1 (NLCT)
 File: datatool-l3fp.def 2025/04/25 v3.4.1 (NLCT)
 )
 \@dtl@toks=\toks43
-\@dtl@tmpcount=\count379
-\dtl@tmplength=\skip285
+\@dtl@tmpcount=\count375
+\dtl@tmplength=\skip283
 \l__datatool_measure_box=\box71
-\dtl@sortresult=\count380
+\dtl@sortresult=\count376
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/datatool\datatool-utf8.ldf
 File: datatool-utf8.ldf 2025/04/25 v3.4.1 (NLCT)
 )
-\@dtl@datatype=\count381
-\l__datatool_tmpa_int=\count382
-\l__datatool_tmpb_int=\count383
-\l__datatool_tmpc_int=\count384
-\l__datatool_tmpd_int=\count385
-\l__datatool_count_int=\count386
-\l__datatool_tmp_datatype_int=\count387
+\@dtl@datatype=\count377
+\l__datatool_tmpa_int=\count378
+\l__datatool_tmpb_int=\count379
+\l__datatool_tmpc_int=\count380
+\l__datatool_tmpd_int=\count381
+\l__datatool_count_int=\count382
+\l__datatool_tmp_datatype_int=\count383
 \l__datatool_tmpa_dim=\dimen272
 \l__datatool_tmpb_dim=\dimen273
-\c_datatool_unknown_int=\count388
-\l__datatool_year_int=\count389
-\l__datatool_month_int=\count390
-\l__datatool_day_int=\count391
-\l__datatool_hour_int=\count392
-\l__datatool_minute_int=\count393
-\l__datatool_second_int=\count394
-\l__datatool_tzhour_int=\count395
-\l__datatool_tzminute_int=\count396
-\l__datatool_julian_int=\count397
-\l__datatool_local_julian_int=\count398
-\l__datatool_prefix_int=\count399
-\l__datatool_suffix_int=\count400
-\@dtl@foreach@level=\count401
+\c_datatool_unknown_int=\count384
+\l__datatool_year_int=\count385
+\l__datatool_month_int=\count386
+\l__datatool_day_int=\count387
+\l__datatool_hour_int=\count388
+\l__datatool_minute_int=\count389
+\l__datatool_second_int=\count390
+\l__datatool_tzhour_int=\count391
+\l__datatool_tzminute_int=\count392
+\l__datatool_julian_int=\count393
+\l__datatool_local_julian_int=\count394
+\l__datatool_prefix_int=\count395
+\l__datatool_suffix_int=\count396
+\@dtl@foreach@level=\count397
 
 
 Package tracklang Warning: No `datatool' support for dialect `english'  on input line 9908.
@@ -878,12 +870,12 @@ Package tracklang Warning: No `datatool' support for dialect `brazil'  on input 
 
 Package tracklang Warning: No `datatool' support for dialect `brazil'  on input line 9908.
 
-\dtl@codeA=\count402
-\dtl@codeB=\count403
+\dtl@codeA=\count398
+\dtl@codeB=\count399
 )
-\gls@level=\count404
+\gls@level=\count400
 \@gls@tmpb=\toks44
-\gls@tmplen=\skip286
+\gls@tmplen=\skip284
 
 
 Package glossaries Warning: Overriding \printglossary on input line 6477.
@@ -901,39 +893,39 @@ Package glossaries Warning: Overriding `theglossary' environment on input line 7
 Package: glossary-hypernav 2025/05/14 v4.7 (NLCT)
 ) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-list.sty
 Package: glossary-list 2025/05/14 v4.7 (NLCT)
-\glslistdottedwidth=\skip287
+\glslistdottedwidth=\skip285
 ) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-long.sty
 Package: glossary-long 2025/05/14 v4.7 (NLCT)
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/tools\longtable.sty
 Package: longtable 2023-11-01 v4.19 Multi-page Table package (DPC)
-\LTleft=\skip288
-\LTright=\skip289
-\LTpre=\skip290
-\LTpost=\skip291
-\LTchunksize=\count405
+\LTleft=\skip286
+\LTright=\skip287
+\LTpre=\skip288
+\LTpost=\skip289
+\LTchunksize=\count401
 \LTcapwidth=\dimen276
 \LT@head=\box72
 \LT@firsthead=\box73
 \LT@foot=\box74
 \LT@lastfoot=\box75
 \LT@gbox=\box76
-\LT@cols=\count406
-\LT@rows=\count407
-\c@LT@tables=\count408
-\c@LT@chunks=\count409
+\LT@cols=\count402
+\LT@rows=\count403
+\c@LT@tables=\count404
+\c@LT@chunks=\count405
 \LT@p@ftn=\toks49
 )
-\glsdescwidth=\skip292
-\glspagelistwidth=\skip293
+\glsdescwidth=\skip290
+\glspagelistwidth=\skip291
 ) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-super.sty
 Package: glossary-super 2025/05/14 v4.7 (NLCT)
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/supertabular\supertabular.sty
 Package: supertabular 2024/07/20 v4.2c the supertabular environment
-\c@tracingst=\count410
+\c@tracingst=\count406
 \ST@wd=\dimen277
-\ST@rightskip=\skip294
-\ST@leftskip=\skip295
-\ST@parfillskip=\skip296
+\ST@rightskip=\skip292
+\ST@leftskip=\skip293
+\ST@parfillskip=\skip294
 \ST@pageleft=\dimen278
 \ST@headht=\dimen279
 \ST@tailht=\dimen280
@@ -946,7 +938,7 @@ Package: supertabular 2024/07/20 v4.2c the supertabular environment
 \ST@pbox=\box77
 )) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/glossaries/styles\glossary-tree.sty
 Package: glossary-tree 2025/05/14 v4.7 (NLCT)
-\l__glossaries_tree_max_known_level_int=\count411
+\l__glossaries_tree_max_known_level_int=\count407
 \l__glossaries_tree_offset_dim=\dimen287
 \l__glossaries_tree_namewidth_dim=\dimen288
 \l__glossaries_tree_symbolwidth_dim=\dimen289
@@ -956,8 +948,8 @@ Package: glossary-tree 2025/05/14 v4.7 (NLCT)
 \l__glossaries_tree_symbolwidth_padding_dim=\dimen293
 \l__glossaries_tree_namesymbolwidth_dim=\dimen294
 \l__glossaries_tree_namesymbolwidth_padding_dim=\dimen295
-\l__glossaries_tree_level_int=\count412
-\glstreeindent=\skip297
+\l__glossaries_tree_level_int=\count408
+\glstreeindent=\skip295
 )) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption.sty
 Package: caption 2023/08/05 v3.6o Customizing captions (AR)
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption3.sty
@@ -974,8 +966,8 @@ Package caption Info: memoir document class detected.
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption-memoir.sto
 File: caption-memoir.sto 2023/09/08 v2.2c Adaption of the caption package to the memoir document class (AR)
 ))
-\c@caption@flags=\count413
-\c@continuedfloat=\count414
+\c@caption@flags=\count409
+\c@continuedfloat=\count410
 Package caption Info: changepage package is loaded.
 \caption@adjustwidth@hsize=\dimen304
 \caption@adjustwidth@linewidth=\dimen305
@@ -989,16 +981,16 @@ Package caption Info: supertabular package is loaded.
 ) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/abntex2\abntex2cite.sty
 Package: abntex2cite 2018/11/24 v-1.9.7 abnTeX2
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/abntex2\abntex2abrev.sty)
-\minimumbiblabelwidth=\skip298
-\ABCIauxlen=\skip299
-\c@ABCIaux=\count415
-\c@ABCImax=\count416
+\minimumbiblabelwidth=\skip296
+\ABCIauxlen=\skip297
+\c@ABCIaux=\count411
+\c@ABCImax=\count412
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifpdf.sty
 Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
 ) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifxetex.sty
 Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
 )
-\biblabelsep=\skip300
+\biblabelsep=\skip298
 LaTeX Info: Redefining \newblock on input line 591.
 LaTeX Info: Redefining \cite on input line 618.
 \ABCItoken=\toks50
@@ -1039,23 +1031,23 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 LaTeX Info: Redefining \hbar on input line 50.
 ) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/paracol\paracol.sty
 Package: paracol 2024/10/22 1.36 typeset columns in parallel
-\pcol@currcol=\count417
-\pcol@nextcol=\count418
-\pcol@ncol=\count419
-\pcol@ncolleft=\count420
-\pcol@page=\count421
-\pcol@basepage=\count422
-\pcol@toppage=\count423
-\pcol@footnotebase=\count424
-\pcol@nfootnotes=\count425
-\pcol@mcid=\count426
+\pcol@currcol=\count413
+\pcol@nextcol=\count414
+\pcol@ncol=\count415
+\pcol@ncolleft=\count416
+\pcol@page=\count417
+\pcol@basepage=\count418
+\pcol@toppage=\count419
+\pcol@footnotebase=\count420
+\pcol@nfootnotes=\count421
+\pcol@mcid=\count422
 \pcol@prevdepth=\dimen306
 \pcol@colht=\dimen307
 \pcol@textfloatsep=\dimen308
 \pcol@lrmargin=\dimen309
 \pagerim=\dimen310
-\pcol@topskip=\skip301
-\belowfootnoteskip=\skip302
+\pcol@topskip=\skip299
+\belowfootnoteskip=\skip300
 \pcol@topfnotes=\box78
 \pcol@prespan=\box79
 \pcol@rightpage=\box80
@@ -1085,42 +1077,42 @@ Sidefoothsep and sidefootwidth: 7pt and 42pt
 Sidefootvsep and sidefootheight: 14.5pt and 590.14995pt
 ******************************************************
 
-\enitdp@alineascomponto=\count427
-\c@subalineascompontoi=\count428
-\enitdp@subalineascomponto=\count429
-\c@alineascomnumeroi=\count430
-\c@alineascomnumeroii=\count431
-\enitdp@alineascomnumero=\count432
-\c@subalineascomnumeroi=\count433
-\enitdp@subalineascomnumero=\count434
-\c@afirmacao=\count435
-\c@argumento=\count436
-\c@teo=\count437
-\c@lema=\count438
-\c@cor=\count439
-\c@conjec=\count440
-\c@premissa=\count441
-\c@procedimento=\count442
-\c@heuristica=\count443
-\c@axioma=\count444
-\c@exem=\count445
-\c@xdefinicao=\count446
-\c@cdefinicao=\count447
-\c@propriedade=\count448
-\c@quest=\count449
-\c@quadro=\count450
-\c@loqdepth=\count451
-\cftbeforequadroskip=\skip303
-\cftquadroindent=\skip304
-\cftquadronumwidth=\skip305
-\mylen=\skip306
-\cftbeforelstlistingskip=\skip307
-\cftlstlistingindent=\skip308
-\cftlstlistingnumwidth=\skip309
-\myAlgoLen=\skip310
-\cftbeforealgocfskip=\skip311
-\cftalgocfindent=\skip312
-\cftalgocfnumwidth=\skip313
+\enitdp@alineascomponto=\count423
+\c@subalineascompontoi=\count424
+\enitdp@subalineascomponto=\count425
+\c@alineascomnumeroi=\count426
+\c@alineascomnumeroii=\count427
+\enitdp@alineascomnumero=\count428
+\c@subalineascomnumeroi=\count429
+\enitdp@subalineascomnumero=\count430
+\c@afirmacao=\count431
+\c@argumento=\count432
+\c@teo=\count433
+\c@lema=\count434
+\c@cor=\count435
+\c@conjec=\count436
+\c@premissa=\count437
+\c@procedimento=\count438
+\c@heuristica=\count439
+\c@axioma=\count440
+\c@exem=\count441
+\c@xdefinicao=\count442
+\c@cdefinicao=\count443
+\c@propriedade=\count444
+\c@quest=\count445
+\c@quadro=\count446
+\c@loqdepth=\count447
+\cftbeforequadroskip=\skip301
+\cftquadroindent=\skip302
+\cftquadronumwidth=\skip303
+\mylen=\skip304
+\cftbeforelstlistingskip=\skip305
+\cftlstlistingindent=\skip306
+\cftlstlistingnumwidth=\skip307
+\myAlgoLen=\skip308
+\cftbeforealgocfskip=\skip309
+\cftalgocfindent=\skip310
+\cftalgocfnumwidth=\skip311
 ) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/pdfpages\pdfpages.sty
 Package: pdfpages 2025/03/12 v0.6f Insert pages of external PDF documents (AM)
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/eso-pic\eso-pic.sty
@@ -1134,13 +1126,13 @@ Package: eso-pic 2023/05/03 v3.0c eso-pic (RN)
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/pdfpages\pppdftex.def
 File: pppdftex.def 2025/03/12 v0.6f Pdfpages driver for pdfTeX (AM)
 )
-\pdfpages@includegraphics@status=\count452
+\pdfpages@includegraphics@status=\count448
 \AM@pagebox=\box84
 \AM@global@opts=\toks52
-\AM@pagecnt=\count453
+\AM@pagecnt=\count449
 \AM@toc@title=\toks53
 \AM@lof@heading=\toks54
-\c@AM@survey=\count454
+\c@AM@survey=\count450
 \AM@templatesizebox=\box85
 ) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/todonotes\todonotes.sty
 Package: todonotes 2024/01/05 v1.1.7 Todonotes source and documentation.
@@ -1175,14 +1167,14 @@ Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
 \pgf@yd=\dimen327
 \w@pgf@writea=\write4
 \r@pgf@reada=\read4
-\c@pgf@counta=\count455
-\c@pgf@countb=\count456
-\c@pgf@countc=\count457
-\c@pgf@countd=\count458
+\c@pgf@counta=\count451
+\c@pgf@countb=\count452
+\c@pgf@countc=\count453
+\c@pgf@countd=\count454
 \t@pgf@toka=\toks59
 \t@pgf@tokb=\toks60
 \t@pgf@tokc=\toks61
-\pgf@sys@id@count=\count459
+\pgf@sys@id@count=\count455
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgf.cfg
 File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
 )
@@ -1193,21 +1185,21 @@ File: pgfsys-pdftex.def 2023-01-15 v3.1.10 (3.1.10)
 File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
 ))) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfsyssoftpath@smallbuffer@items=\count460
-\pgfsyssoftpath@bigbuffer@items=\count461
+\pgfsyssoftpath@smallbuffer@items=\count456
+\pgfsyssoftpath@bigbuffer@items=\count457
 ) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore.code.tex
 Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code.tex (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathutil.code.tex) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathparser.code.tex
 \pgfmath@dimen=\dimen328
-\pgfmath@count=\count462
+\pgfmath@count=\count458
 \pgfmath@box=\box87
 \pgfmath@toks=\toks62
 \pgfmath@stack@operand=\toks63
 \pgfmath@stack@operation=\toks64
 ) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.code.tex) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.basic.code.tex) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.trigonometric.code.tex) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.random.code.tex) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.comparison.code.tex) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.base.code.tex) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.round.code.tex) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.misc.code.tex) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.integerarithmetics.code.tex) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathcalc.code.tex) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count463
+\c@pgfmathroundto@lastzeros=\count459
 )) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfint.code.tex) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@picminx=\dimen329
@@ -1237,7 +1229,7 @@ File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfpic=\box88
 \pgf@hbox=\box89
 \pgf@layerbox@main=\box90
-\pgf@picture@serial@count=\count464
+\pgf@picture@serial@count=\count460
 ) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgflinewidth=\dimen347
@@ -1258,8 +1250,8 @@ File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@max=\dimen352
-\pgf@sys@shading@range@num=\count465
-\pgf@shadingcount=\count466
+\pgf@sys@shading@range@num=\count461
+\pgf@shadingcount=\count462
 ) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreexternal.code.tex
@@ -1294,7 +1286,7 @@ Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
 Package: tikz 2023-01-15 v3.1.10 (3.1.10)
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibraryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@plot@mark@count=\count467
+\pgf@plot@mark@count=\count463
 \pgfplotmarksize=\dimen357
 )
 \tikz@lastx=\dimen358
@@ -1309,23 +1301,23 @@ File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \tikz@figbox@bg=\box94
 \tikz@tempbox=\box95
 \tikz@tempbox@bg=\box96
-\tikztreelevel=\count468
-\tikznumberofchildren=\count469
-\tikznumberofcurrentchild=\count470
-\tikz@fig@count=\count471
+\tikztreelevel=\count464
+\tikznumberofchildren=\count465
+\tikznumberofcurrentchild=\count466
+\tikz@fig@count=\count467
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfmatrixcurrentrow=\count472
-\pgfmatrixcurrentcolumn=\count473
-\pgf@matrix@numberofcolumns=\count474
+\pgfmatrixcurrentrow=\count468
+\pgfmatrixcurrentcolumn=\count469
+\pgf@matrix@numberofcolumns=\count470
 )
-\tikz@expandcount=\count475
+\tikz@expandcount=\count471
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ))) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibrarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )
-\c@@todonotes@numberoftodonotes=\count476
+\c@@todonotes@numberoftodonotes=\count472
 )
 \glswrite=\write5
 \glo@main@file=\write6
@@ -1371,19 +1363,19 @@ LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 165.
 LaTeX Font Info:    ... okay on input line 165.
 Package hyperref Info: Link coloring OFF on input line 165.
 \myptabbox=\box97
-\myptabboxwidth=\skip314
+\myptabboxwidth=\skip312
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count477
+\scratchcounter=\count473
 \scratchdimen=\dimen366
 \scratchbox=\box98
-\nofMPsegments=\count478
-\nofMParguments=\count479
+\nofMPsegments=\count474
+\nofMParguments=\count475
 \everyMPshowfont=\toks67
-\MPscratchCnt=\count480
+\MPscratchCnt=\count476
 \MPscratchDim=\dimen367
-\MPnumerator=\count481
-\makeMPintoPDFobject=\count482
+\MPnumerator=\count477
+\makeMPintoPDFobject=\count478
 \everyMPtoPDFconversion=\toks68
 ) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -1391,7 +1383,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-\c@lstlisting=\count483
+\c@lstlisting=\count479
 LaTeX Info: Redefining \microtypecontext on input line 165.
 Package microtype Info: Applying patch `item' on input line 165.
 Package microtype Info: Applying patch `toc' on input line 165.
@@ -1575,356 +1567,338 @@ Overfull \hbox (4.80414pt too wide) in paragraph at lines 176--177
 
 [7
 
-] (elementos-pre-textuais/resumo.tex) [8] (elementos-pre-textuais/abstract.tex) [9
-
-] (documento.lof
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 20.
+] (elementos-pre-textuais/resumo.tex
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 4.
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/base\t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
-LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 20.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
+) [8] (elementos-pre-textuais/abstract.tex) [9
 
-Overfull \hbox (3.65628pt too wide) in paragraph at lines 20--20
+] (documento.lof
+LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <12> not available
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 21.
+
+Overfull \hbox (3.65628pt too wide) in paragraph at lines 21--21
  [][] [][]\T1/ptm/b/n/12 (-20) Implementação do sub-sis-tema hi-dráu-lico em um bloco \T1/cmtt/m/n/12 MATLAB Function 
  []
 
 [10
 
-] [11]) [12] (documento.lot) [13] (documento.loa) [14
-
-] (documento.lol) [15] (documento.acr) [16
+] [11]) [12] (documento.lot) [13] (documento.lol) [14] (documento.acr [15] [16
 
 
-] (elementos-pre-textuais/lista-de-simbolos.tex
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 15.
+]) [17] (elementos-pre-textuais/lista-de-simbolos.tex [18
+
+] [19] [20] [21]) (documento.toc [22
+
+] [23] [24]) [25] (elementos-textuais/introducao.tex [26
+
+
+]
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 35.
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [17
-
-]
-Overfull \hbox (19.76617pt too wide) in paragraph at lines 40--41
-[]\T1/ptm/m/n/12 (-20) área efe-tiva agre-gada do con-junto de freio (re-la-ção força lon-gi-tu-di-nal equivalente--
- []
-
-[18]) (documento.toc [19
-
-]
-Overfull \hbox (1.14842pt too wide) in paragraph at lines 65--65
- [][] [][]\T1/ptm/b/n/12 (-20) METODOLOGIA ES-PE-CÍ-FICA: CON-TROLE DO SIS-TEMA HI-DRÁU- 
- []
-
-[20] [21]) [22] (elementos-textuais/introducao.tex [23
-
-
-] [24] [25] [26]) (elementos-textuais/o-estado-da-arte.tex [27] [28
-
-]
-<figuras/trajetoria_historica_evolucao_tecnologia_adas.jpg, id=645, 1380.90097pt x 575.8287pt>
+) [27] [28]) (elementos-textuais/o-estado-da-arte.tex [29] [30]
+<figuras/trajetoria_historica_evolucao_tecnologia_adas.jpg, id=697, 1380.90097pt x 575.8287pt>
 File: figuras/trajetoria_historica_evolucao_tecnologia_adas.jpg Graphic file (type jpg)
 <use figuras/trajetoria_historica_evolucao_tecnologia_adas.jpg>
-Package pdftex.def Info: figuras/trajetoria_historica_evolucao_tecnologia_adas.jpg  used on input line 35.
+Package pdftex.def Info: figuras/trajetoria_historica_evolucao_tecnologia_adas.jpg  used on input line 27.
 (pdftex.def)             Requested size: 364.00139pt x 151.78552pt.
- [29 <./figuras/trajetoria_historica_evolucao_tecnologia_adas.jpg>] [30]
-<figuras/freio-disco.jpg, id=694, 130.086pt x 81.4242pt>
+ [31
+
+] [32 <./figuras/trajetoria_historica_evolucao_tecnologia_adas.jpg>] [33]
+<figuras/freio-disco.jpg, id=753, 130.086pt x 81.4242pt>
 File: figuras/freio-disco.jpg Graphic file (type jpg)
 <use figuras/freio-disco.jpg>
-Package pdftex.def Info: figuras/freio-disco.jpg  used on input line 71.
+Package pdftex.def Info: figuras/freio-disco.jpg  used on input line 60.
 (pdftex.def)             Requested size: 364.00139pt x 227.8781pt.
-<figuras/freio-tambor.jpg, id=708, 578.16pt x 433.62pt>
+<figuras/freio-tambor.jpg, id=767, 578.16pt x 433.62pt>
 File: figuras/freio-tambor.jpg Graphic file (type jpg)
 <use figuras/freio-tambor.jpg>
-Package pdftex.def Info: figuras/freio-tambor.jpg  used on input line 83.
+Package pdftex.def Info: figuras/freio-tambor.jpg  used on input line 72.
 (pdftex.def)             Requested size: 364.00139pt x 272.99678pt.
- [31] [32 <./figuras/freio-disco.jpg> <./figuras/freio-tambor.jpg>]
-<figuras/sistemas_hidraulicos.jpg, id=738, 177.7842pt x 116.3547pt>
+ [34 <./figuras/freio-disco.jpg>]
+<figuras/sistemas_hidraulicos.jpg, id=789, 177.7842pt x 116.3547pt>
 File: figuras/sistemas_hidraulicos.jpg Graphic file (type jpg)
 <use figuras/sistemas_hidraulicos.jpg>
-Package pdftex.def Info: figuras/sistemas_hidraulicos.jpg  used on input line 100.
+Package pdftex.def Info: figuras/sistemas_hidraulicos.jpg  used on input line 89.
 (pdftex.def)             Requested size: 364.00139pt x 238.23041pt.
-<figuras/sistemas_pneumatico.jpg, id=748, 742.12743pt x 311.6158pt>
+<figuras/sistemas_pneumatico.jpg, id=799, 742.12743pt x 311.6158pt>
 File: figuras/sistemas_pneumatico.jpg Graphic file (type jpg)
 <use figuras/sistemas_pneumatico.jpg>
-Package pdftex.def Info: figuras/sistemas_pneumatico.jpg  used on input line 110.
+Package pdftex.def Info: figuras/sistemas_pneumatico.jpg  used on input line 99.
 (pdftex.def)             Requested size: 364.00139pt x 152.84047pt.
- [33 <./figuras/sistemas_hidraulicos.jpg>] [34 <./figuras/sistemas_pneumatico.jpg>]
-<figuras/controle_eletronico_estabilidade.jpg, id=786, 530.73282pt x 341.02406pt>
+ [35 <./figuras/freio-tambor.jpg>] [36 <./figuras/sistemas_hidraulicos.jpg> <./figuras/sistemas_pneumatico.jpg>]
+<figuras/controle_eletronico_estabilidade.jpg, id=839, 530.73282pt x 341.02406pt>
 File: figuras/controle_eletronico_estabilidade.jpg Graphic file (type jpg)
 <use figuras/controle_eletronico_estabilidade.jpg>
-Package pdftex.def Info: figuras/controle_eletronico_estabilidade.jpg  used on input line 132.
+Package pdftex.def Info: figuras/controle_eletronico_estabilidade.jpg  used on input line 121.
 (pdftex.def)             Requested size: 364.00139pt x 233.89146pt.
-<figuras/sistema_controle_tracao.jpg, id=805, 815.17451pt x 543.96774pt>
+ [37 <./figuras/controle_eletronico_estabilidade.jpg>]
+<figuras/sistema_controle_tracao.jpg, id=864, 815.17451pt x 543.96774pt>
 File: figuras/sistema_controle_tracao.jpg Graphic file (type jpg)
 <use figuras/sistema_controle_tracao.jpg>
-Package pdftex.def Info: figuras/sistema_controle_tracao.jpg  used on input line 146.
+Package pdftex.def Info: figuras/sistema_controle_tracao.jpg  used on input line 135.
 (pdftex.def)             Requested size: 364.00139pt x 242.89905pt.
- [35 <./figuras/controle_eletronico_estabilidade.jpg>]
-<figuras/acc-controle-de-cruzeiro-adaptativo.png, id=823, 366.36874pt x 240.9pt>
+<figuras/acc-controle-de-cruzeiro-adaptativo.png, id=876, 366.36874pt x 240.9pt>
 File: figuras/acc-controle-de-cruzeiro-adaptativo.png Graphic file (type png)
 <use figuras/acc-controle-de-cruzeiro-adaptativo.png>
-Package pdftex.def Info: figuras/acc-controle-de-cruzeiro-adaptativo.png  used on input line 156.
+Package pdftex.def Info: figuras/acc-controle-de-cruzeiro-adaptativo.png  used on input line 145.
 (pdftex.def)             Requested size: 364.00139pt x 239.35555pt.
- [36 <./figuras/sistema_controle_tracao.jpg> <./figuras/acc-controle-de-cruzeiro-adaptativo.png>] [37] [38] [39] [40] [41] [42] [43] [44] [45]) (elementos-textuais/metodologia.tex [46] [47
+ [38 <./figuras/sistema_controle_tracao.jpg>] [39 <./figuras/acc-controle-de-cruzeiro-adaptativo.png>] [40] [41] [42] [43] [44] [45] [46] [47] [48]) (elementos-textuais/metodologia.tex [49] [50
 
-] [48] [49]
-<figuras/sistema-de-freio-com-abs.jpg, id=1103, 826.83096pt x 592.92484pt>
+] [51] [52]
+<figuras/sistema-de-freio-com-abs.jpg, id=1169, 826.83096pt x 592.92484pt>
 File: figuras/sistema-de-freio-com-abs.jpg Graphic file (type jpg)
 <use figuras/sistema-de-freio-com-abs.jpg>
-Package pdftex.def Info: figuras/sistema-de-freio-com-abs.jpg  used on input line 72.
+Package pdftex.def Info: figuras/sistema-de-freio-com-abs.jpg  used on input line 73.
 (pdftex.def)             Requested size: 364.00139pt x 261.03249pt.
- [50]
-<figuras/principio-do-modulador-hidraulico-com-valvulas-solenoides.png, id=1114, 408.77719pt x 548.80031pt>
+<figuras/principio-do-modulador-hidraulico-com-valvulas-solenoides.png, id=1176, 408.77719pt x 548.80031pt>
 File: figuras/principio-do-modulador-hidraulico-com-valvulas-solenoides.png Graphic file (type png)
 <use figuras/principio-do-modulador-hidraulico-com-valvulas-solenoides.png>
-Package pdftex.def Info: figuras/principio-do-modulador-hidraulico-com-valvulas-solenoides.png  used on input line 83.
-(pdftex.def)             Requested size: 364.00139pt x 488.71544pt.
-<figuras/modelo-hidraulico-conjunto-freio.png, id=1121, 334.24875pt x 253.69781pt>
+Package pdftex.def Info: figuras/principio-do-modulador-hidraulico-com-valvulas-solenoides.png  used on input line 84.
+(pdftex.def)             Requested size: 227.5pt x 305.43353pt.
+ [53] [54 <./figuras/sistema-de-freio-com-abs.jpg> <./figuras/principio-do-modulador-hidraulico-com-valvulas-solenoides.png>]
+<figuras/modelo-hidraulico-conjunto-freio.png, id=1193, 334.24875pt x 253.69781pt>
 File: figuras/modelo-hidraulico-conjunto-freio.png Graphic file (type png)
 <use figuras/modelo-hidraulico-conjunto-freio.png>
-Package pdftex.def Info: figuras/modelo-hidraulico-conjunto-freio.png  used on input line 105.
+Package pdftex.def Info: figuras/modelo-hidraulico-conjunto-freio.png  used on input line 106.
 (pdftex.def)             Requested size: 364.00139pt x 276.3006pt.
- [51 <./figuras/sistema-de-freio-com-abs.jpg>] [52 <./figuras/principio-do-modulador-hidraulico-com-valvulas-solenoides.png>] [53 <./figuras/modelo-hidraulico-conjunto-freio.png>]
-<figuras/bloco_valvulas_lac.png, id=1140, 1036.62282pt x 462.22687pt>
+ [55 <./figuras/modelo-hidraulico-conjunto-freio.png>]
+<figuras/Diagrama-bloco-hidraulico-LAC.png, id=1204, 935.13pt x 517.059pt>
+File: figuras/Diagrama-bloco-hidraulico-LAC.png Graphic file (type png)
+<use figuras/Diagrama-bloco-hidraulico-LAC.png>
+Package pdftex.def Info: figuras/Diagrama-bloco-hidraulico-LAC.png  used on input line 126.
+(pdftex.def)             Requested size: 364.00139pt x 201.2656pt.
+<figuras/bloco_valvulas_lac.png, id=1209, 1036.62282pt x 462.22687pt>
 File: figuras/bloco_valvulas_lac.png Graphic file (type png)
 <use figuras/bloco_valvulas_lac.png>
-Package pdftex.def Info: figuras/bloco_valvulas_lac.png  used on input line 136.
+Package pdftex.def Info: figuras/bloco_valvulas_lac.png  used on input line 134.
 (pdftex.def)             Requested size: 364.00139pt x 162.31079pt.
- [54 <./figuras/bloco_valvulas_lac.png>]
-<figuras/motor_lac_atuador.png, id=1152, 877.77937pt x 752.8125pt>
+ [56] [57 <./figuras/Diagrama-bloco-hidraulico-LAC.png> <./figuras/bloco_valvulas_lac.png>]
+<figuras/motor_lac_atuador.png, id=1225, 877.77937pt x 752.8125pt>
 File: figuras/motor_lac_atuador.png Graphic file (type png)
 <use figuras/motor_lac_atuador.png>
-Package pdftex.def Info: figuras/motor_lac_atuador.png  used on input line 169.
+Package pdftex.def Info: figuras/motor_lac_atuador.png  used on input line 155.
 (pdftex.def)             Requested size: 341.25pt x 292.66524pt.
- [55]
-<figuras/diagrama-de-sensor-passivo-e-sinal-gerado.jpg, id=1163, 857.13774pt x 261.10452pt>
+ [58]
+<figuras/diagrama-de-sensor-passivo-e-sinal-gerado.jpg, id=1236, 857.13774pt x 261.10452pt>
 File: figuras/diagrama-de-sensor-passivo-e-sinal-gerado.jpg Graphic file (type jpg)
 <use figuras/diagrama-de-sensor-passivo-e-sinal-gerado.jpg>
-Package pdftex.def Info: figuras/diagrama-de-sensor-passivo-e-sinal-gerado.jpg  used on input line 187.
+Package pdftex.def Info: figuras/diagrama-de-sensor-passivo-e-sinal-gerado.jpg  used on input line 175.
 (pdftex.def)             Requested size: 364.00139pt x 110.8823pt.
- [56 <./figuras/motor_lac_atuador.png>]
-<figuras/diagrama-de-sensor-ativo-e-sinal-gerado.png, id=1177, 733.99219pt x 235.63031pt>
+ [59 <./figuras/motor_lac_atuador.png> <./figuras/diagrama-de-sensor-passivo-e-sinal-gerado.jpg>]
+<figuras/diagrama-de-sensor-ativo-e-sinal-gerado.png, id=1250, 733.99219pt x 235.63031pt>
 File: figuras/diagrama-de-sensor-ativo-e-sinal-gerado.png Graphic file (type png)
 <use figuras/diagrama-de-sensor-ativo-e-sinal-gerado.png>
-Package pdftex.def Info: figuras/diagrama-de-sensor-ativo-e-sinal-gerado.png  used on input line 200.
+Package pdftex.def Info: figuras/diagrama-de-sensor-ativo-e-sinal-gerado.png  used on input line 188.
 (pdftex.def)             Requested size: 364.00139pt x 116.85487pt.
- [57 <./figuras/diagrama-de-sensor-passivo-e-sinal-gerado.jpg> <./figuras/diagrama-de-sensor-ativo-e-sinal-gerado.png>]
-<figuras/bloco-do-sistema-de-freio.jpg, id=1190, 533.86548pt x 330.26613pt>
+<figuras/bloco-do-sistema-de-freio.jpg, id=1257, 533.86548pt x 330.26613pt>
 File: figuras/bloco-do-sistema-de-freio.jpg Graphic file (type jpg)
 <use figuras/bloco-do-sistema-de-freio.jpg>
-Package pdftex.def Info: figuras/bloco-do-sistema-de-freio.jpg  used on input line 219.
+Package pdftex.def Info: figuras/bloco-do-sistema-de-freio.jpg  used on input line 207.
 (pdftex.def)             Requested size: 364.00139pt x 225.18776pt.
-<figuras/diagrama-em-bloco-da-placa-proposta.png, id=1195, 843.15pt x 478.78876pt>
+ [60 <./figuras/diagrama-de-sensor-ativo-e-sinal-gerado.png>]
+<figuras/diagrama-em-bloco-da-placa-proposta.png, id=1269, 843.15pt x 478.78876pt>
 File: figuras/diagrama-em-bloco-da-placa-proposta.png Graphic file (type png)
 <use figuras/diagrama-em-bloco-da-placa-proposta.png>
-Package pdftex.def Info: figuras/diagrama-em-bloco-da-placa-proposta.png  used on input line 232.
+Package pdftex.def Info: figuras/diagrama-em-bloco-da-placa-proposta.png  used on input line 220.
 (pdftex.def)             Requested size: 364.00139pt x 206.7007pt.
- [58 <./figuras/bloco-do-sistema-de-freio.jpg>] [59 <./figuras/diagrama-em-bloco-da-placa-proposta.png>] [60]
-Overfull \hbox (40.9304pt too wide) in paragraph at lines 368--368
-[]\T1/ptm/m/n/12 (-20) MONTAGEM E AR-QUI-TE-TURA DA BAN-CADA EX-PE-RI-MEN-TAL FÍSICO-MECATRÔNICA 
- []
-
-[61]
-<figuras/bancada_experimental_completa.jpg, id=1234, 2007.5pt x 1130.2225pt>
+ [61 <./figuras/bloco-do-sistema-de-freio.jpg>] [62 <./figuras/diagrama-em-bloco-da-placa-proposta.png>] [63] [64]
+<figuras/bancada_experimental_completa.jpg, id=1313, 2007.5pt x 1130.2225pt>
 File: figuras/bancada_experimental_completa.jpg Graphic file (type jpg)
 <use figuras/bancada_experimental_completa.jpg>
-Package pdftex.def Info: figuras/bancada_experimental_completa.jpg  used on input line 399.
+Package pdftex.def Info: figuras/bancada_experimental_completa.jpg  used on input line 374.
 (pdftex.def)             Requested size: 400.40222pt x 225.41965pt.
- [62] [63 <./figuras/bancada_experimental_completa.jpg>]) (elementos-textuais/controle.tex [64] [65
+ [65 <./figuras/bancada_experimental_completa.jpg>] [66]) (elementos-textuais/controle.tex [67] [68
 
-] [66] [67] [68]
-<figuras/image_matlab_function_bloco_hidraulico_2p.png, id=1338, 881.54344pt x 320.69812pt>
+] [69] [70] [71]
+<figuras/image_matlab_function_bloco_hidraulico_2p.png, id=1417, 881.54344pt x 320.69812pt>
 File: figuras/image_matlab_function_bloco_hidraulico_2p.png Graphic file (type png)
 <use figuras/image_matlab_function_bloco_hidraulico_2p.png>
-Package pdftex.def Info: figuras/image_matlab_function_bloco_hidraulico_2p.png  used on input line 172.
+Package pdftex.def Info: figuras/image_matlab_function_bloco_hidraulico_2p.png  used on input line 171.
 (pdftex.def)             Requested size: 409.49722pt x 148.97137pt.
-<figuras/ensaio_malha_aberta_integrado.png, id=1339, 688.7331pt x 529.98pt>
+<figuras/ensaio_malha_aberta_integrado.png, id=1418, 688.7331pt x 529.98pt>
 File: figuras/ensaio_malha_aberta_integrado.png Graphic file (type png)
 <use figuras/ensaio_malha_aberta_integrado.png>
-Package pdftex.def Info: figuras/ensaio_malha_aberta_integrado.png  used on input line 178.
+Package pdftex.def Info: figuras/ensaio_malha_aberta_integrado.png  used on input line 177.
 (pdftex.def)             Requested size: 386.75278pt x 297.61162pt.
- [69] [70 <./figuras/image_matlab_function_bloco_hidraulico_2p.png> <./figuras/ensaio_malha_aberta_integrado.png (PNG copy)>]
+ [72 <./figuras/image_matlab_function_bloco_hidraulico_2p.png>] [73 <./figuras/ensaio_malha_aberta_integrado.png (PNG copy)>]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 226.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 225.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 226.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 225.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 226.
- [71] [72] [73] [74] [75]
-<figuras/simulink_freio_lqi_integrado.png, id=1467, 1273.75874pt x 435.87843pt>
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 225.
+ [74] [75] [76] [77] [78]
+<figuras/simulink_freio_lqi_integrado.png, id=1537, 1273.75874pt x 435.87843pt>
 File: figuras/simulink_freio_lqi_integrado.png Graphic file (type png)
 <use figuras/simulink_freio_lqi_integrado.png>
-Package pdftex.def Info: figuras/simulink_freio_lqi_integrado.png  used on input line 381.
+Package pdftex.def Info: figuras/simulink_freio_lqi_integrado.png  used on input line 376.
 (pdftex.def)             Requested size: 418.59917pt x 143.24173pt.
-<figuras/image_matlab_function_lqi_observer.png, id=1468, 776.9025pt x 277.035pt>
+<figuras/image_matlab_function_lqi_observer.png, id=1538, 776.9025pt x 277.035pt>
 File: figuras/image_matlab_function_lqi_observer.png Graphic file (type png)
 <use figuras/image_matlab_function_lqi_observer.png>
-Package pdftex.def Info: figuras/image_matlab_function_lqi_observer.png  used on input line 393.
+Package pdftex.def Info: figuras/image_matlab_function_lqi_observer.png  used on input line 382.
 (pdftex.def)             Requested size: 386.75278pt x 137.91266pt.
- [76] [77 <./figuras/simulink_freio_lqi_integrado.png> <./figuras/image_matlab_function_lqi_observer.png>]
-Overfull \hbox (10.97437pt too wide) in paragraph at lines 424--425
-[]\T1/ptm/m/n/12 (-20) Dessa forma, os en-saios fí-si-cos con-du-zi-dos na ban-cada e dis-cu-ti-dos a se-guir concentram-
+ [79] [80 <./figuras/simulink_freio_lqi_integrado.png> <./figuras/image_matlab_function_lqi_observer.png>] [81] [82]
+Overfull \hbox (9.97255pt too wide) in paragraph at lines 492--494
+\T1/ptm/m/n/12 (-20) em que $\OT1/ptm/b/n/12 (-20) x \OT1/ztmcm/m/n/12 = [\OML/ztmcm/m/it/12 x[];  []\OT1/ztmcm/m/n/12 ][]$\T1/ptm/m/n/12 (-20) , $\OML/ztmcm/m/it/12 u[]$ \T1/ptm/m/n/12 (-20) é o co-mando em por-cen-ta-gem, $\OML/ztmcm/m/it/12 ^^\ \OT1/ztmcm/m/n/12 = 0[]053[]$ \T1/ptm/m/n/12 (-20) e $\OML/ztmcm/m/it/12 K[] \OT1/ztmcm/m/n/12 = 1[]306[][]$
  []
 
-[78] [79] [80] [81]
-<figuras/serial_log_20261019_104841_plot.png, id=1540, 1004.553pt x 715.2321pt>
+[83] [84] [85]
+<figuras/serial_log_20261019_104841_plot.png, id=1615, 1004.553pt x 715.2321pt>
 File: figuras/serial_log_20261019_104841_plot.png Graphic file (type png)
 <use figuras/serial_log_20261019_104841_plot.png>
-Package pdftex.def Info: figuras/serial_log_20261019_104841_plot.png  used on input line 546.
-(pdftex.def)             Requested size: 400.40222pt x 285.08372pt.
-) (elementos-textuais/resultado.tex [82] [83 <./figuras/serial_log_20261019_104841_plot.png>]
-<figuras/artigo_ensaio_malha_aberta_integrado_real.png, id=1555, 844.23405pt x 623.81055pt>
-File: figuras/artigo_ensaio_malha_aberta_integrado_real.png Graphic file (type png)
-<use figuras/artigo_ensaio_malha_aberta_integrado_real.png>
-Package pdftex.def Info: figuras/artigo_ensaio_malha_aberta_integrado_real.png  used on input line 23.
-(pdftex.def)             Requested size: 409.49722pt x 302.57631pt.
- [84
+Package pdftex.def Info: figuras/serial_log_20261019_104841_plot.png  used on input line 584.
+(pdftex.def)             Requested size: 364.00139pt x 259.16405pt.
+) (elementos-textuais/resultado.tex [86 <./figuras/serial_log_20261019_104841_plot.png>] [87]
+<figuras/artigo_ensaio_malha_aberta_integrado_real.pdf, id=1628, 852.18375pt x 632.3625pt>
+File: figuras/artigo_ensaio_malha_aberta_integrado_real.pdf Graphic file (type pdf)
+<use figuras/artigo_ensaio_malha_aberta_integrado_real.pdf>
+Package pdftex.def Info: figuras/artigo_ensaio_malha_aberta_integrado_real.pdf  used on input line 17.
+(pdftex.def)             Requested size: 409.49722pt x 303.86827pt.
+ [88
 
 ]
-<figuras/simulacao_comandos_e_pressao.png, id=1561, 845.73967pt x 612.00645pt>
+<figuras/simulacao_comandos_e_pressao.png, id=1633, 845.73967pt x 612.00645pt>
 File: figuras/simulacao_comandos_e_pressao.png Graphic file (type png)
 <use figuras/simulacao_comandos_e_pressao.png>
-Package pdftex.def Info: figuras/simulacao_comandos_e_pressao.png  used on input line 37.
+Package pdftex.def Info: figuras/simulacao_comandos_e_pressao.png  used on input line 31.
 (pdftex.def)             Requested size: 418.59917pt x 302.91144pt.
-<figuras/artigo_item01_metricas_tracking.png, id=1562, 878.0805pt x 626.0991pt>
-File: figuras/artigo_item01_metricas_tracking.png Graphic file (type png)
-<use figuras/artigo_item01_metricas_tracking.png>
-Package pdftex.def Info: figuras/artigo_item01_metricas_tracking.png  used on input line 65.
-(pdftex.def)             Requested size: 418.59917pt x 298.4797pt.
-<figuras/artigo_item01_metricas_desempenho.png, id=1563, 851.3406pt x 624.6537pt>
-File: figuras/artigo_item01_metricas_desempenho.png Graphic file (type png)
-<use figuras/artigo_item01_metricas_desempenho.png>
-Package pdftex.def Info: figuras/artigo_item01_metricas_desempenho.png  used on input line 72.
-(pdftex.def)             Requested size: 418.59917pt x 307.14098pt.
- [85 <./figuras/artigo_ensaio_malha_aberta_integrado_real.png (PNG copy)>]
-<figuras/artigo_item02_dpdt_saturacao.png, id=1568, 848.9316pt x 626.0991pt>
-File: figuras/artigo_item02_dpdt_saturacao.png Graphic file (type png)
-<use figuras/artigo_item02_dpdt_saturacao.png>
-Package pdftex.def Info: figuras/artigo_item02_dpdt_saturacao.png  used on input line 81.
-(pdftex.def)             Requested size: 418.59917pt x 308.73059pt.
-<figuras/artigo_item03_assimetria_subida_descida.png, id=1569, 840.5001pt x 613.8132pt>
-File: figuras/artigo_item03_assimetria_subida_descida.png Graphic file (type png)
-<use figuras/artigo_item03_assimetria_subida_descida.png>
-Package pdftex.def Info: figuras/artigo_item03_assimetria_subida_descida.png  used on input line 88.
-(pdftex.def)             Requested size: 418.59917pt x 305.70699pt.
-<figuras/artigo_item04_ripple_fft.png, id=1570, 845.0772pt x 626.0991pt>
-File: figuras/artigo_item04_ripple_fft.png Graphic file (type png)
-<use figuras/artigo_item04_ripple_fft.png>
-Package pdftex.def Info: figuras/artigo_item04_ripple_fft.png  used on input line 95.
-(pdftex.def)             Requested size: 418.59917pt x 310.13496pt.
- [86 <./figuras/simulacao_comandos_e_pressao.png (PNG copy)>] [87 <./figuras/artigo_item01_metricas_tracking.png (PNG copy)> <./figuras/artigo_item01_metricas_desempenho.png (PNG copy)>] [88 <./figuras/artigo_item02_dpdt_saturacao.png (PNG copy)> <./figuras/artigo_item03_assimetria_subida_descida.png (PNG copy)>]
-<figuras/artigo_item06_sensibilidade_parametrica.png, id=1583, 844.8363pt x 626.0991pt>
-File: figuras/artigo_item06_sensibilidade_parametrica.png Graphic file (type png)
-<use figuras/artigo_item06_sensibilidade_parametrica.png>
-Package pdftex.def Info: figuras/artigo_item06_sensibilidade_parametrica.png  used on input line 107.
-(pdftex.def)             Requested size: 418.59917pt x 310.22095pt.
-<figuras/artigo_item09_tradeoff_erro_esforco.png, id=1584, 761.9667pt x 577.9191pt>
-File: figuras/artigo_item09_tradeoff_erro_esforco.png Graphic file (type png)
-<use figuras/artigo_item09_tradeoff_erro_esforco.png>
-Package pdftex.def Info: figuras/artigo_item09_tradeoff_erro_esforco.png  used on input line 116.
-(pdftex.def)             Requested size: 418.59917pt x 317.49493pt.
-<figuras/artigo_item10_robustez_ruido.png, id=1585, 841.4637pt x 622.0038pt>
-File: figuras/artigo_item10_robustez_ruido.png Graphic file (type png)
-<use figuras/artigo_item10_robustez_ruido.png>
-Package pdftex.def Info: figuras/artigo_item10_robustez_ruido.png  used on input line 123.
-(pdftex.def)             Requested size: 418.59917pt x 309.42563pt.
-<figuras/imagem_placa_montada.png, id=1588, 364.36125pt x 319.1925pt>
+<figuras/artigo_item01_metricas_tracking.pdf, id=1634, 882.29625pt x 631.35875pt>
+File: figuras/artigo_item01_metricas_tracking.pdf Graphic file (type pdf)
+<use figuras/artigo_item01_metricas_tracking.pdf>
+Package pdftex.def Info: figuras/artigo_item01_metricas_tracking.pdf  used on input line 59.
+(pdftex.def)             Requested size: 418.59917pt x 299.54207pt.
+<figuras/artigo_item01_metricas_desempenho.pdf, id=1635, 854.19125pt x 628.3475pt>
+File: figuras/artigo_item01_metricas_desempenho.pdf Graphic file (type pdf)
+<use figuras/artigo_item01_metricas_desempenho.pdf>
+Package pdftex.def Info: figuras/artigo_item01_metricas_desempenho.pdf  used on input line 66.
+(pdftex.def)             Requested size: 418.59917pt x 307.92172pt.
+<figuras/artigo_item02_dpdt_saturacao.pdf, id=1636, 852.18375pt x 631.35875pt>
+File: figuras/artigo_item02_dpdt_saturacao.pdf Graphic file (type pdf)
+<use figuras/artigo_item02_dpdt_saturacao.pdf>
+Package pdftex.def Info: figuras/artigo_item02_dpdt_saturacao.pdf  used on input line 75.
+(pdftex.def)             Requested size: 418.59917pt x 310.12956pt.
+<figuras/artigo_item03_assimetria_subida_descida.pdf, id=1637, 843.15pt x 618.31pt>
+File: figuras/artigo_item03_assimetria_subida_descida.pdf Graphic file (type pdf)
+<use figuras/artigo_item03_assimetria_subida_descida.pdf>
+Package pdftex.def Info: figuras/artigo_item03_assimetria_subida_descida.pdf  used on input line 82.
+(pdftex.def)             Requested size: 418.59917pt x 306.97484pt.
+<figuras/artigo_item04_ripple_fft.pdf, id=1638, 847.165pt x 631.35875pt>
+File: figuras/artigo_item04_ripple_fft.pdf Graphic file (type pdf)
+<use figuras/artigo_item04_ripple_fft.pdf>
+Package pdftex.def Info: figuras/artigo_item04_ripple_fft.pdf  used on input line 89.
+(pdftex.def)             Requested size: 418.59917pt x 311.95998pt.
+ [89 <./figuras/artigo_ensaio_malha_aberta_integrado_real.pdf>]
+<figuras/artigo_item06_sensibilidade_parametrica.pdf, id=1668, 847.165pt x 631.35875pt>
+File: figuras/artigo_item06_sensibilidade_parametrica.pdf Graphic file (type pdf)
+<use figuras/artigo_item06_sensibilidade_parametrica.pdf>
+Package pdftex.def Info: figuras/artigo_item06_sensibilidade_parametrica.pdf  used on input line 101.
+(pdftex.def)             Requested size: 418.59917pt x 311.95998pt.
+ [90 <./figuras/simulacao_comandos_e_pressao.png (PNG copy)>] [91 <./figuras/artigo_item01_metricas_tracking.pdf> <./figuras/artigo_item01_metricas_desempenho.pdf>] [92 <./figuras/artigo_item02_dpdt_saturacao.pdf> <./figuras/artigo_item03_assimetria_subida_descida.pdf>] [93 <./figuras/artigo_item04_ripple_fft.pdf> <./figuras/artigo_item06_sensibilidade_parametrica.pdf>]
+<figuras/artigo_item09_tradeoff_erro_esforco.pdf, id=1841, 764.8575pt x 583.17876pt>
+File: figuras/artigo_item09_tradeoff_erro_esforco.pdf Graphic file (type pdf)
+<use figuras/artigo_item09_tradeoff_erro_esforco.pdf>
+Package pdftex.def Info: figuras/artigo_item09_tradeoff_erro_esforco.pdf  used on input line 110.
+(pdftex.def)             Requested size: 418.59917pt x 319.16536pt.
+<figuras/artigo_item10_robustez_ruido.pdf, id=1842, 844.15375pt x 628.3475pt>
+File: figuras/artigo_item10_robustez_ruido.pdf Graphic file (type pdf)
+<use figuras/artigo_item10_robustez_ruido.pdf>
+Package pdftex.def Info: figuras/artigo_item10_robustez_ruido.pdf  used on input line 117.
+(pdftex.def)             Requested size: 418.59917pt x 311.59386pt.
+<figuras/imagem_placa_montada.png, id=1845, 364.36125pt x 319.1925pt>
 File: figuras/imagem_placa_montada.png Graphic file (type png)
 <use figuras/imagem_placa_montada.png>
-Package pdftex.def Info: figuras/imagem_placa_montada.png  used on input line 135.
+Package pdftex.def Info: figuras/imagem_placa_montada.png  used on input line 129.
 (pdftex.def)             Requested size: 373.10333pt x 326.8627pt.
-<figuras/arquitetura-funcional-do-sistema-de-controle-de-freio.png, id=1589, 463.7325pt x 250.68657pt>
+<figuras/arquitetura-funcional-do-sistema-de-controle-de-freio.png, id=1846, 463.7325pt x 250.68657pt>
 File: figuras/arquitetura-funcional-do-sistema-de-controle-de-freio.png Graphic file (type png)
 <use figuras/arquitetura-funcional-do-sistema-de-controle-de-freio.png>
-Package pdftex.def Info: figuras/arquitetura-funcional-do-sistema-de-controle-de-freio.png  used on input line 142.
+Package pdftex.def Info: figuras/arquitetura-funcional-do-sistema-de-controle-de-freio.png  used on input line 136.
 (pdftex.def)             Requested size: 418.59917pt x 226.29286pt.
- [89 <./figuras/artigo_item04_ripple_fft.png (PNG copy)>] [90 <./figuras/artigo_item06_sensibilidade_parametrica.png (PNG copy)> <./figuras/artigo_item09_tradeoff_erro_esforco.png (PNG copy)>] [91 <./figuras/artigo_item10_robustez_ruido.png (PNG copy)> <./figuras/imagem_placa_montada.png>] [92 <./figuras/arquitetura-funcional-do-sistema-de-controle-de-freio.png>]
-<figuras/ensaio_olstep_20260911_145243.png, id=1609, 980.463pt x 661.5114pt>
+ [94 <./figuras/artigo_item09_tradeoff_erro_esforco.pdf>] [95 <./figuras/artigo_item10_robustez_ruido.pdf> <./figuras/imagem_placa_montada.png>] [96 <./figuras/arquitetura-funcional-do-sistema-de-controle-de-freio.png>]
+<figuras/ensaio_olstep_20260911_145243.png, id=1924, 980.463pt x 661.5114pt>
 File: figuras/ensaio_olstep_20260911_145243.png Graphic file (type png)
 <use figuras/ensaio_olstep_20260911_145243.png>
-Package pdftex.def Info: figuras/ensaio_olstep_20260911_145243.png  used on input line 162.
+Package pdftex.def Info: figuras/ensaio_olstep_20260911_145243.png  used on input line 158.
 (pdftex.def)             Requested size: 455.0pt x 306.98389pt.
-
-Overfull \hbox (46.22469pt too wide) in paragraph at lines 169--171
-[]\T1/ptm/m/n/12 (-20) No se-gundo en-saio, foi uti-li-zado o li-mite de po-si-ção $[] \OT1/ztmcm/m/n/12 =
- []
-
-
-Overfull \hbox (92.26733pt too wide) in paragraph at lines 176--184
+ [97 <./figuras/ensaio_olstep_20260911_145243.png (PNG copy)>]
+Overfull \hbox (92.26733pt too wide) in paragraph at lines 173--181
  [][] 
  []
 
-[93] [94 <./figuras/ensaio_olstep_20260911_145243.png (PNG copy)>]
-<Matlab2/figuras/ensaio_plid_20260912_202531.png, id=1619, 980.463pt x 661.69208pt>
+<figuras/grafico_multiduty_Informacoes_do_Lac_20261022_074203.png, id=1930, 722.7pt x 505.89pt>
+File: figuras/grafico_multiduty_Informacoes_do_Lac_20261022_074203.png Graphic file (type png)
+<use figuras/grafico_multiduty_Informacoes_do_Lac_20261022_074203.png>
+Package pdftex.def Info: figuras/grafico_multiduty_Informacoes_do_Lac_20261022_074203.png  used on input line 195.
+(pdftex.def)             Requested size: 364.00139pt x 254.8047pt.
+[98] [99 <./figuras/grafico_multiduty_Informacoes_do_Lac_20261022_074203.png>]
+<Matlab2/figuras/ensaio_plid_20260912_202531.png, id=1942, 980.463pt x 661.69208pt>
 File: Matlab2/figuras/ensaio_plid_20260912_202531.png Graphic file (type png)
 <use Matlab2/figuras/ensaio_plid_20260912_202531.png>
-Package pdftex.def Info: Matlab2/figuras/ensaio_plid_20260912_202531.png  used on input line 224.
+Package pdftex.def Info: Matlab2/figuras/ensaio_plid_20260912_202531.png  used on input line 228.
 (pdftex.def)             Requested size: 418.59917pt x 282.50273pt.
- [95]
-<Matlab2/figuras/ensaio_staircase_curva_20260910_104748.png, id=1626, 565.93433pt x 485.05215pt>
+<Matlab2/figuras/ensaio_staircase_curva_20260910_104748.png, id=1946, 565.93433pt x 485.05215pt>
 File: Matlab2/figuras/ensaio_staircase_curva_20260910_104748.png Graphic file (type png)
 <use Matlab2/figuras/ensaio_staircase_curva_20260910_104748.png>
-Package pdftex.def Info: Matlab2/figuras/ensaio_staircase_curva_20260910_104748.png  used on input line 255.
+Package pdftex.def Info: Matlab2/figuras/ensaio_staircase_curva_20260910_104748.png  used on input line 261.
 (pdftex.def)             Requested size: 400.40222pt x 343.19043pt.
- [96 <./Matlab2/figuras/ensaio_plid_20260912_202531.png (PNG copy)>] [97 <./Matlab2/figuras/ensaio_staircase_curva_20260910_104748.png (PNG copy)>]
-Overfull \hbox (6.14491pt too wide) in paragraph at lines 295--310
+ [100 <./Matlab2/figuras/ensaio_plid_20260912_202531.png (PNG copy)>] [101 <./Matlab2/figuras/ensaio_staircase_curva_20260910_104748.png (PNG copy)>]
+Overfull \hbox (6.14491pt too wide) in paragraph at lines 303--318
  [][] 
  []
 
-[98]
-Overfull \hbox (9.74799pt too wide) in paragraph at lines 326--327
+[102] [103]
+Overfull \hbox (9.74799pt too wide) in paragraph at lines 334--335
 \T1/ptm/m/n/12 (-20) das vál-vu-las po-dem ser re-gis-tra-dos no for-mato \T1/cmtt/m/n/12 [VALVE],t_ms,iPFV,iIRL,iORL,iCSV,vDriver\T1/ptm/m/n/12 (-20) .
  []
 
-[99]
-<Matlab2/figuras/ensaio_clstepB_20260912_083523.png, id=1646, 978.83693pt x 737.03355pt>
-File: Matlab2/figuras/ensaio_clstepB_20260912_083523.png Graphic file (type png)
-<use Matlab2/figuras/ensaio_clstepB_20260912_083523.png>
-Package pdftex.def Info: Matlab2/figuras/ensaio_clstepB_20260912_083523.png  used on input line 335.
+<figuras/ensaio_clstepB_20260912_083523.png, id=1969, 978.83693pt x 737.03355pt>
+File: figuras/ensaio_clstepB_20260912_083523.png Graphic file (type png)
+<use figuras/ensaio_clstepB_20260912_083523.png>
+Package pdftex.def Info: figuras/ensaio_clstepB_20260912_083523.png  used on input line 343.
 (pdftex.def)             Requested size: 455.0pt x 342.6046pt.
- [100 <./Matlab2/figuras/ensaio_clstepB_20260912_083523.png (PNG copy)>] [101]
-<Matlab2/figuras/ensaio_clstepA_20260912_082531.png, id=1656, 973.35645pt x 737.09378pt>
+[104] [105 <./figuras/ensaio_clstepB_20260912_083523.png (PNG copy)>] [106]
+<Matlab2/figuras/ensaio_clstepA_20260912_082531.png, id=1983, 973.35645pt x 737.09378pt>
 File: Matlab2/figuras/ensaio_clstepA_20260912_082531.png Graphic file (type png)
 <use Matlab2/figuras/ensaio_clstepA_20260912_082531.png>
-Package pdftex.def Info: Matlab2/figuras/ensaio_clstepA_20260912_082531.png  used on input line 417.
+Package pdftex.def Info: Matlab2/figuras/ensaio_clstepA_20260912_082531.png  used on input line 425.
 (pdftex.def)             Requested size: 418.59917pt x 316.98914pt.
+<Matlab2/figuras/ensaio_clstepB_20260912_083523.png, id=1984, 978.83693pt x 737.03355pt>
 File: Matlab2/figuras/ensaio_clstepB_20260912_083523.png Graphic file (type png)
 <use Matlab2/figuras/ensaio_clstepB_20260912_083523.png>
-Package pdftex.def Info: Matlab2/figuras/ensaio_clstepB_20260912_083523.png  used on input line 424.
+Package pdftex.def Info: Matlab2/figuras/ensaio_clstepB_20260912_083523.png  used on input line 432.
 (pdftex.def)             Requested size: 418.59917pt x 315.19757pt.
- [102] [103 <./Matlab2/figuras/ensaio_clstepA_20260912_082531.png (PNG copy)>]
-<Matlab2/figuras/ensaio_clmulti_20260913_153036.png, id=1667, 980.463pt x 737.03355pt>
-File: Matlab2/figuras/ensaio_clmulti_20260913_153036.png Graphic file (type png)
-<use Matlab2/figuras/ensaio_clmulti_20260913_153036.png>
-Package pdftex.def Info: Matlab2/figuras/ensaio_clmulti_20260913_153036.png  used on input line 436.
-(pdftex.def)             Requested size: 418.59917pt x 314.669pt.
-<Matlab2/figuras/ensaio_ppmulti_20260913_180129.png, id=1668, 980.463pt x 879.94748pt>
-File: Matlab2/figuras/ensaio_ppmulti_20260913_180129.png Graphic file (type png)
-<use Matlab2/figuras/ensaio_ppmulti_20260913_180129.png>
-Package pdftex.def Info: Matlab2/figuras/ensaio_ppmulti_20260913_180129.png  used on input line 443.
+<figuras/ensaio_clmulti_20260912_091937.png, id=1989, 980.463pt x 736.97333pt>
+File: figuras/ensaio_clmulti_20260912_091937.png Graphic file (type png)
+<use figuras/ensaio_clmulti_20260912_091937.png>
+Package pdftex.def Info: figuras/ensaio_clmulti_20260912_091937.png  used on input line 444.
+(pdftex.def)             Requested size: 418.59917pt x 314.6433pt.
+<figuras/ensaio_ppmulti_20260916_083850.png, id=1990, 980.463pt x 879.94748pt>
+File: figuras/ensaio_ppmulti_20260916_083850.png Graphic file (type png)
+<use figuras/ensaio_ppmulti_20260916_083850.png>
+Package pdftex.def Info: figuras/ensaio_ppmulti_20260916_083850.png  used on input line 451.
 (pdftex.def)             Requested size: 418.59917pt x 375.68466pt.
- [104 <./Matlab2/figuras/ensaio_clmulti_20260913_153036.png (PNG copy)>]
-<Matlab2/figuras/ensaio_pwmsweep_curvas_20260910_110520.png, id=1673, 571.95682pt x 484.9317pt>
+ [107] [108 <./Matlab2/figuras/ensaio_clstepA_20260912_082531.png (PNG copy)> <./Matlab2/figuras/ensaio_clstepB_20260912_083523.png (PNG copy)>]
+<Matlab2/figuras/ensaio_pwmsweep_curvas_20260910_110520.png, id=2002, 571.95682pt x 484.9317pt>
 File: Matlab2/figuras/ensaio_pwmsweep_curvas_20260910_110520.png Graphic file (type png)
 <use Matlab2/figuras/ensaio_pwmsweep_curvas_20260910_110520.png>
-Package pdftex.def Info: Matlab2/figuras/ensaio_pwmsweep_curvas_20260910_110520.png  used on input line 470.
+Package pdftex.def Info: Matlab2/figuras/ensaio_pwmsweep_curvas_20260910_110520.png  used on input line 478.
 (pdftex.def)             Requested size: 418.59917pt x 354.91472pt.
 
-Overfull \hbox (58.8812pt too wide) in paragraph at lines 475--476
+Overfull \hbox (58.8812pt too wide) in paragraph at lines 483--484
 \T1/ptm/m/n/12 (-20) ção, en-quanto os va-lo-res fi-nais de-pen-dem da exe-cu-ção uni-forme do script \T1/cmtt/m/n/12 identify_tau_gain_from_csv.m
  []
 
-[105 <./Matlab2/figuras/ensaio_ppmulti_20260913_180129.png (PNG copy)>] [106 <./Matlab2/figuras/ensaio_pwmsweep_curvas_20260910_110520.png (PNG copy)>] [107] [108]) (elementos-textuais/conclusao.tex [109]
-Overfull \hbox (23.03586pt too wide) in paragraph at lines 15--16
-\T1/ptm/m/n/12 (-20) me-tros di-nâ-mi-cos do mo-tor elé-trico sem es-co-vas e fuso ($\OML/ztmcm/m/it/12 ^^\ \OT1/ztmcm/m/n/12 = 0[]053[]$ \T1/ptm/m/n/12 (-20) e $\OML/ztmcm/m/it/12 K[] \OT1/ztmcm/m/n/12 = 1[]306[]$\T1/ptm/m/n/12 (-20) )
- []
+[109 <./figuras/ensaio_clmulti_20260912_091937.png (PNG copy)>] [110 <./figuras/ensaio_ppmulti_20260916_083850.png (PNG copy)>] [111 <./Matlab2/figuras/ensaio_pwmsweep_curvas_20260910_110520.png (PNG copy)>] [112]) (elementos-textuais/conclusao.tex [113] [114] [115
 
-[110
-
-] [111]) (documento.bbl [112]
+] [116]) (documento.bbl [117]
 bibitemlist
 
 Underfull \hbox (badness 8170) in paragraph at lines 33--37
@@ -1936,7 +1910,7 @@ Underfull \hbox (badness 2547) in paragraph at lines 33--37
 \T1/ptm/b/n/12 (+20) sito\T1/ptm/m/n/12 (+20) . 2024. Dis-po-ní-vel em: []$<[]https : / / www . bosch . com . br / noticias-[]e-[]historias / mobilidade /
  []
 
-[113
+[118
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 210--213
@@ -1948,7 +1922,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 210--213
 \T1/ptm/m/n/12 (+20) 2020. Dis-po-ní-vel em: []$<[]https : / / www . onmanorama . com / news / business / 2020 / 08 / 21 /
  []
 
-[114]
+[119]
 Underfull \hbox (badness 8094) in paragraph at lines 247--250
 []\T1/ptm/m/n/12 (+20) TOTALENERGIES, A. \T1/ptm/b/n/12 (+20) Mo-dul de ac-tiune al li-chi-du-lui de frana\T1/ptm/m/n/12 (+20) . 2023. Dis-
  []
@@ -1958,43 +1932,43 @@ Underfull \hbox (badness 10000) in paragraph at lines 247--250
 \T1/ptm/m/n/12 (+20) po-ní-vel em: []$<[]https : / / totalenergies . ro / intrebari-[]frecvente / despre-[]lichide-[]de-[]frana /
  []
 
-) [115] [116] (elementos-pos-textuais/apendices/apendice.tex
-<figuras/circuito-sensor-de-roda-proposto.png, id=1754, 612.03656pt x 445.665pt>
+) [120] [121] (elementos-pos-textuais/apendices/apendice.tex
+<figuras/circuito-sensor-de-roda-proposto.png, id=2090, 612.03656pt x 445.665pt>
 File: figuras/circuito-sensor-de-roda-proposto.png Graphic file (type png)
 <use figuras/circuito-sensor-de-roda-proposto.png>
 Package pdftex.def Info: figuras/circuito-sensor-de-roda-proposto.png  used on input line 21.
 (pdftex.def)             Requested size: 364.00139pt x 265.05496pt.
-<figuras/simulacao-circuito-sensor-de-roda-proposto.jpg, id=1755, 1440.13031pt x 797.98125pt>
+<figuras/simulacao-circuito-sensor-de-roda-proposto.jpg, id=2091, 1440.13031pt x 797.98125pt>
 File: figuras/simulacao-circuito-sensor-de-roda-proposto.jpg Graphic file (type jpg)
 <use figuras/simulacao-circuito-sensor-de-roda-proposto.jpg>
 Package pdftex.def Info: figuras/simulacao-circuito-sensor-de-roda-proposto.jpg  used on input line 30.
 (pdftex.def)             Requested size: 364.00139pt x 201.68654pt.
-<figuras/circuito-controle-valvula-solenoide.png, id=1756, 603.0028pt x 394.47375pt>
+<figuras/circuito-controle-valvula-solenoide.png, id=2092, 603.0028pt x 394.47375pt>
 File: figuras/circuito-controle-valvula-solenoide.png Graphic file (type png)
 <use figuras/circuito-controle-valvula-solenoide.png>
 Package pdftex.def Info: figuras/circuito-controle-valvula-solenoide.png  used on input line 42.
 (pdftex.def)             Requested size: 364.00139pt x 238.11864pt.
- [117
+ [122
 
 
  <./figuras/circuito-sensor-de-roda-proposto.png>]
-<figuras/circuito-controle-valvula-motor.png, id=1762, 535.2497pt x 599.23875pt>
+<figuras/circuito-controle-valvula-motor.png, id=2098, 535.2497pt x 599.23875pt>
 File: figuras/circuito-controle-valvula-motor.png Graphic file (type png)
 <use figuras/circuito-controle-valvula-motor.png>
 Package pdftex.def Info: figuras/circuito-controle-valvula-motor.png  used on input line 56.
 (pdftex.def)             Requested size: 364.00139pt x 407.53181pt.
- [118 <./figuras/simulacao-circuito-sensor-de-roda-proposto.jpg> <./figuras/circuito-controle-valvula-solenoide.png>]
-<figuras/circuito-sensor-de-pressao-proposto.png, id=1768, 758.08218pt x 407.27156pt>
+ [123 <./figuras/simulacao-circuito-sensor-de-roda-proposto.jpg> <./figuras/circuito-controle-valvula-solenoide.png>]
+<figuras/circuito-sensor-de-pressao-proposto.png, id=2104, 758.08218pt x 407.27156pt>
 File: figuras/circuito-sensor-de-pressao-proposto.png Graphic file (type png)
 <use figuras/circuito-sensor-de-pressao-proposto.png>
 Package pdftex.def Info: figuras/circuito-sensor-de-pressao-proposto.png  used on input line 70.
 (pdftex.def)             Requested size: 364.00139pt x 195.55647pt.
- [119 <./figuras/circuito-controle-valvula-motor.png>] (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+ [124 <./figuras/circuito-controle-valvula-motor.png>] (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 )
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 97.
- [120 <./figuras/circuito-sensor-de-pressao-proposto.png>] [121]
+ [125 <./figuras/circuito-sensor-de-pressao-proposto.png>] [126]
 LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 165.
  (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1cmtt.fd
 File: ts1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
@@ -2003,23 +1977,26 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: TS1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [122] [123] [124] [125] [126] [127] [128] [129] [130] [131] [132] [133] [134] [135] [136] [137] [138] [139] [140] [141] [142]) [143
+ [127] [128] [129] [130] [131] [132] [133] [134] [135] [136] [137] [138] [139] [140] [141] [142] [143] [144] [145] [146] [147] [148
 
-]
+] (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2023/02/27 1.9 listings language file
+) (C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
+File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
+) [149
+
+] [150] [151] [152] [153] [154]) [155]
 \tf@lof=\write9
 \openout9 = `documento.lof'.
 
 \tf@lot=\write10
 \openout10 = `documento.lot'.
 
-\tf@loa=\write11
-\openout11 = `documento.loa'.
+\tf@lol=\write11
+\openout11 = `documento.lol'.
 
-\tf@lol=\write12
-\openout12 = `documento.lol'.
-
-\tf@toc=\write13
-\openout13 = `documento.toc'.
+\tf@toc=\write12
+\openout12 = `documento.toc'.
 
  (documento.aux)
  ***********
@@ -2028,17 +2005,17 @@ L3 programming layer <2020/03/25>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 48477 strings out of 474479
- 924033 string characters out of 5742176
- 2151542 words of memory out of 5000000
- 68246 multiletter control sequences out of 15000+600000
- 648540 words of font info for 432 fonts, out of 8000000 for 9000
+ 49963 strings out of 474479
+ 949114 string characters out of 5742176
+ 2150542 words of memory out of 5000000
+ 69469 multiletter control sequences out of 15000+600000
+ 650077 words of font info for 423 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  104i,17n,120p,2715b,2711s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\uidq5744\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcit1000.pk> <C:\Users\uidq5744\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tctt1000.pk> <C:\Users\uidq5744\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecit1000.pk> <C:\Users\uidq5744\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\uidq5744\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk><C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on documento.pdf (144 pages, 23949592 bytes).
+Output written on documento.pdf (156 pages, 28626153 bytes).
 PDF statistics:
- 3628 PDF objects out of 4296 (max. 8388607)
- 1273 named destinations out of 1440 (max. 500000)
- 79556 words of extra memory for PDF output out of 89155 (max. 10000000)
+ 4286 PDF objects out of 4296 (max. 8388607)
+ 1552 named destinations out of 1728 (max. 500000)
+ 82675 words of extra memory for PDF output out of 89155 (max. 10000000)
 
