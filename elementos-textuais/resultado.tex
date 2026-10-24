@@ -333,15 +333,15 @@ Para uma bateria controlada, devem ser mantidos: posição inicial de aproximada
 
 Quando a instrumentação estiver disponível, os sinais ambientais devem ser registrados no formato \texttt{[ENV],t\_ms,Tfluid\_C,Tamb\_C,Psup\_psi}. Os comandos elétricos individuais das válvulas podem ser registrados no formato \texttt{[VALVE],t\_ms,iPFV,iIRL,iORL,iCSV,vDriver}. Esses formatos são propostas de aquisição para os ensaios futuros e não correspondem a canais existentes nos CSVs analisados neste trabalho.
 
-\section{Controle indireto por posição do LAC}
+\section[Etapa I: resposta eletro-hidráulica ao degrau]{Etapa I: resposta eletro-hidráulica ao degrau}
 \label{sec:resultado-final-clstep}
 
-O ensaio \texttt{CLSTEP B} avaliou em malha fechada da posição do LAC. A referência de posição foi de aproximadamente $x_{\mathrm{ref}}=6{,}85$ mm, associada à referência de pressão de 100 psi pela curva posição--pressão. Nesse modo, o erro de posição alimenta as ações proporcional e integral, enquanto a pressão medida é utilizada para avaliar a resposta hidráulica. O excerto do firmware está no Código~\ref{cod:c-clstep-pi}. O LQI embarcado é documentado separadamente no Código~\ref{cod:c-ppmulti-lqi} e foi avaliado nos ensaios com múltiplas referências.
+A Etapa I utiliza o ensaio auxiliar \texttt{CLSTEP B} para examinar a resposta eletro-hidráulica a uma referência em degrau, sob controle de posição do LAC. A implementação utilizada é descrita na Seção~\ref{sec:metodologia-procedimento} e no Código~\ref{cod:c-clstep-pi}. A referência de posição foi de aproximadamente $x_{\mathrm{ref}}=6{,}85$ mm, associada ao nível nominal de 100 psi pela curva posição--pressão. A pressão medida, a estimativa registrada, o erro de estimação, a posição e o esforço de controle permitem examinar o transiente e a retenção. A presença desses sinais no gráfico não implica equivalência entre essa implementação e o LQI com observador avaliado na Etapa II.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1.0\textwidth]{figuras/ensaio_clstepB_20260912_083523.png}
-    \caption{Ensaio \texttt{CLSTEP B}: controle PI da posição do LAC e pressão resultante no circuito hidráulico.}
+    \caption[Ensaio CLSTEP B: resposta eletro-hidráulica ao degrau.]{Etapa I -- Ensaio \texttt{CLSTEP B}: resposta eletro-hidráulica ao degrau sob controle de posição do LAC.}
     \label{fig:resultado-final-clstep}
 \end{figure}
 
@@ -351,7 +351,7 @@ A posição permaneceu próxima de $6{,}82$ mm durante o trecho de retenção. A
 
 \begin{table}[htbp]
     \centering
-    \caption{Resultados do ensaio \texttt{CLSTEP B}.}
+    \caption[Resultados do ensaio CLSTEP B.]{Resultados do ensaio auxiliar \texttt{CLSTEP B} na Etapa I.}
     \label{tab:resultado-final-clstep}
     \begin{tabular}{l l}
         \toprule
@@ -430,14 +430,14 @@ quantifica a histerese em pressão em cada posição. A área entre as curvas po
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.92\textwidth]{Matlab2/figuras/ensaio_clstepB_20260912_083523.png}
-    \caption{Ensaio \texttt{CLSTEP B}, com controle PI da posição do LAC e pressão registrada para validação.}
+    \caption[Ensaio CLSTEP B: posição do LAC e pressão registrada.]{\textcolor{red}{Ensaio auxiliar \texttt{CLSTEP B} da Etapa I, com controle de posição do LAC e registro da pressão resultante.}}
     \label{fig:resultado-final-clstep-b}
 \end{figure}
 
-\section{Ensaios complementares de controle e identificação}
+\section[Etapa II: avaliação do LQI e ensaios complementares]{\textcolor{red}{Etapa II: avaliação do LQI e ensaios complementares}}
 \label{sec:resultado-final-complementares}
 
-O conjunto de dados inclui ensaios com múltiplas referências, configurações LQI e varredura de PWM. O perfil \texttt{CLMULTI} aplica a sequência $0\rightarrow100\rightarrow200\rightarrow50\rightarrow0$ psi; o modelo discreto, o observador e a lei LQI embarcada estão no Código~\ref{cod:c-clmulti-lqi}. No \texttt{PPMULTI}, a malha interna emprega LQR com ação integral para controlar a posição, enquanto a malha externa corrige a referência de posição a partir do erro de pressão. O modelo discreto, o observador e a lei de controle estão no Código~\ref{cod:c-ppmulti-lqi}; o formato dos dados enviados para geração da Figura~\ref{fig:resultado-final-ppmulti} está no Código~\ref{cod:c-ppmulti-telemetria}. O \texttt{PWMSWEEP} fornece dados para a identificação da dinâmica do LAC.
+A Etapa II concentra a avaliação embarcada do LQI com observador de Luenberger nos ensaios de múltiplas referências. Enquanto a Etapa I examina a resposta a um degrau em uma configuração auxiliar, esta etapa analisa o seguimento de referências e a pressão produzida nas configurações LQI documentadas. Os indicadores do \texttt{CLSTEP B} permanecem restritos à Etapa I e não são utilizados como medidas de desempenho do LQI. O perfil \texttt{CLMULTI} aplica a sequência $0\rightarrow100\rightarrow200\rightarrow50\rightarrow0$ psi; o modelo discreto, o observador e a lei LQI embarcada estão no Código~\ref{cod:c-clmulti-lqi}. No \texttt{PPMULTI}, a malha interna emprega LQR com ação integral para controlar a posição, enquanto a malha externa corrige a referência de posição a partir do erro de pressão. O modelo discreto, o observador e a lei de controle estão no Código~\ref{cod:c-ppmulti-lqi}; o formato dos dados enviados para geração da Figura~\ref{fig:resultado-final-ppmulti} está no Código~\ref{cod:c-ppmulti-telemetria}. O \texttt{PWMSWEEP} fornece dados para a identificação da dinâmica do LAC.
 
 \begin{figure}[htbp]
     \centering
@@ -564,6 +564,6 @@ No conjunto \texttt{CLMULTI}, quatro ensaios representativos no degrau de 100 ps
 
 Os resultados articulam a avaliação computacional e os ensaios experimentais. Nas simulações, o LQI com observador de Luenberger acompanhou referências de pressão no modelo hidráulico de duas pressões. Na bancada, os ensaios iniciais mostraram que a bomba centrífuga não estabelecia a pressão requerida e recirculava o fluido, o que levou à sua substituição pelo LAC. Os ensaios com LQI embarcado avaliaram o controle da posição do atuador e a pressão hidráulica resultante.
 
-A integração também mostrou que a comunicação USB com o computador hospedeiro não atendia aos requisitos temporais observados, motivando a execução embarcada dos controladores no AURIX TC375. Os ensaios \texttt{PLID} e \texttt{STAIRCASE} permitiram caracterizar a relação posição--pressão. No ensaio representativo \texttt{CLSTEP B}, o controle controlou a posição do LAC e a pressão atingiu 103,85 psi, com sobressinal de 3,8\% para a referência de 100 psi e tempo de subida de 98 ms. A pressão, porém, decaiu para aproximadamente 93 psi durante a retenção. O LQI foi avaliado nos ensaios de múltiplas referências, cujos resultados apresentaram dispersão e desvios relevantes; portanto, os dados demonstram a execução e a avaliação experimental dos controladores, mas não comprovam atendimento a requisitos veiculares.
+A integração também mostrou que a comunicação USB com o computador hospedeiro não atendia aos requisitos temporais observados, motivando a execução embarcada dos controladores no AURIX TC375. Os ensaios \texttt{PLID} e \texttt{STAIRCASE} permitiram caracterizar a relação posição--pressão. Na Etapa I, o ensaio auxiliar \texttt{CLSTEP B} apresentou pressão máxima de 103,85 psi, sobressinal de 3,8\% para o nível nominal de 100 psi e tempo de subida de 98 ms. A pressão decaiu para aproximadamente 93 psi durante a retenção, evidenciando a necessidade de avaliar a resposta hidráulica além do posicionamento. Na Etapa II, o LQI foi avaliado nos ensaios de múltiplas referências, que apresentaram dispersão e desvios relevantes. Portanto, os dados demonstram a execução e a avaliação experimental dos controladores, mas não comprovam atendimento a requisitos veiculares.
 
 O sensor de pressão integrado ao bloco hidráulico utiliza uma interface serial compatível com a família de protocolos OSPI descrita em documentação de fabricantes de circuitos integrados. Entretanto, a implementação específica do sensor e do módulo não estava disponível para leitura direta pelo sistema desenvolvido, pois os detalhes de acesso dependiam de informações proprietárias dos fornecedores. Por essa razão, a interface não foi utilizada na arquitetura de controle. A pressão foi estimada indiretamente a partir da posição do LAC e o sensor disponível foi mantido para monitoramento e validação.

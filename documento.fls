@@ -553,10 +553,6 @@ INPUT .\elementos-pre-textuais\resumo.tex
 INPUT .\elementos-pre-textuais\resumo.tex
 INPUT .\elementos-pre-textuais\resumo.tex
 INPUT elementos-pre-textuais\resumo.tex
-INPUT C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex\latex\base\t1cmtt.fd
-INPUT C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex\latex\base\t1cmtt.fd
-INPUT C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex\latex\base\t1cmtt.fd
-INPUT C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ectt1200.tfm
 INPUT .\elementos-pre-textuais\abstract.tex
 INPUT .\elementos-pre-textuais\abstract.tex
 INPUT .\elementos-pre-textuais\abstract.tex
@@ -565,6 +561,10 @@ INPUT elementos-pre-textuais\abstract.tex
 INPUT .\documento.lof
 INPUT .\documento.lof
 INPUT documento.lof
+INPUT C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex\latex\base\t1cmtt.fd
+INPUT C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex\latex\base\t1cmtt.fd
+INPUT C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\tex\latex\base\t1cmtt.fd
+INPUT C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ectt1200.tfm
 INPUT C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmbi8t.tfm
 INPUT C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\times\ptmbi8t.vf
 INPUT C:\Users\uidq5744\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\times\ptmbi8r.tfm

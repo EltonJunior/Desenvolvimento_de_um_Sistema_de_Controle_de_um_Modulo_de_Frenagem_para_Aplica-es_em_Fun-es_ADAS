@@ -1087,7 +1087,7 @@ BrakeUartTest_Printf("[STAIR],%lu,%lu,%u,%.2f,%.2f,%.2f,%u\r\n",
 \section{Controle de posição e seguimento de referência}
 \label{ap:codigo-c-controle}
 
-{\color{red}No modo B do ensaio \texttt{CLSTEP}, a pressão de referência é convertida em uma referência de posição pela curva de calibração. O trecho abaixo mostra o observador de posição utilizado nesse modo. Embora o código-fonte descreva o modo como controle LQR/LQI, a equação implementada no modo B contém os termos proporcional e integral de posição, sem realimentação do estado de velocidade; por isso, o ensaio é identificado neste trabalho como controle PI de posição. O Código~\ref{cod:c-clstep-pi} documenta a estratégia associada à Figura~\ref{fig:resultado-final-clstep}.}
+No modo B do ensaio \texttt{CLSTEP}, a pressão de referência é convertida em uma referência de posição pela curva de calibração. O trecho abaixo mostra o observador de posição utilizado nesse modo. Embora o código-fonte descreva o modo como controle LQR/LQI, a equação implementada no modo B contém os termos proporcional e integral de posição, sem realimentação do estado de velocidade; por isso, o ensaio é identificado neste trabalho como controle de posição. O Código~\ref{cod:c-clstep-pi} documenta a estratégia associada à Figura~\ref{fig:resultado-final-clstep}.
 
 \begin{lstlisting}[language=C,caption={Observador e controle PI de posicao no modo B do ensaio CLSTEP.},label={cod:c-clstep-pi}]
 g_clStepXhat = g_clStepXhat

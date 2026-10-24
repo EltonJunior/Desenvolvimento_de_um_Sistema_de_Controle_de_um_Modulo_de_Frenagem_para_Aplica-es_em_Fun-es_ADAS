@@ -8,7 +8,7 @@
 \contentsline {figure}{\numberline {7}{\ignorespaces Demonstração da roda sem (TCS).}}{38}{figure.caption.20}%
 \contentsline {figure}{\numberline {8}{\ignorespaces Controle de Cruzeiro Adaptativo (ACC).}}{39}{figure.caption.21}%
 \contentsline {figure}{\numberline {9}{\ignorespaces Sistema de Freio}}{54}{figure.caption.22}%
-\contentsline {figure}{\numberline {10}{\ignorespaces Princípio do Bloco Hidráulico com Válvulas Solenoides}}{54}{figure.caption.23}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Princípio do Bloco Hidráulico com Válvulas Solenoides}}{55}{figure.caption.23}%
 \contentsline {figure}{\numberline {11}{\ignorespaces Modelo Hidráulico com Conjunto de Freio Automotivo.}}{55}{figure.caption.24}%
 \contentsline {figure}{\numberline {12}{\ignorespaces Diagrama-bloco-hidraulico-LAC}}{57}{figure.caption.25}%
 \contentsline {figure}{\numberline {13}{\ignorespaces Bloco hidráulico integrado do módulo de frenagem: matriz de válvulas e conexões hidráulicas dos canais de roda.}}{57}{figure.caption.26}%
@@ -18,11 +18,11 @@
 \contentsline {figure}{\numberline {17}{\ignorespaces Sensor de Pressão no Bloco do Sistema de Freio.}}{61}{figure.caption.30}%
 \contentsline {figure}{\numberline {18}{\ignorespaces Diagrama em Bloco da Placa Proposta.}}{62}{figure.caption.31}%
 \contentsline {figure}{\numberline {19}{\ignorespaces Bancada experimental completa para ensaios mecatrônicos do módulo hidráulico de deslocamento linear.}}{65}{figure.caption.32}%
-\contentsline {figure}{\numberline {20}{\ignorespaces Implementação do subsistema hidráulico em um bloco \texttt {MATLAB Function} no Simulink.}}{72}{figure.caption.33}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Implementação do subsistema hidráulico em um bloco \texttt {MATLAB Function} no Simulink.}}{73}{figure.caption.33}%
 \contentsline {figure}{\numberline {21}{\ignorespaces Esquema da simulação em malha aberta do modelo hidráulico 2P em MATLAB/Simulink, com \textit {script} MATLAB gerando o ensaio.}}{73}{figure.caption.34}%
 \contentsline {figure}{\numberline {22}{\ignorespaces Modelo Simulink integrado para validação do controle digital de pressão (referência, controlador LQI+observador, lógica das válvulas e planta não linear).}}{80}{figure.caption.36}%
 \contentsline {figure}{\numberline {23}{\ignorespaces Implementação do controlador discreto (LQI + observador de Luenberger) em um bloco \texttt {MATLAB Function} no Simulink.}}{80}{figure.caption.37}%
-\contentsline {figure}{\numberline {24}{\ignorespaces Resposta temporal do LQI embarcado no AURIX TC375: posição do LAC, pressão hidráulica resultante e comandos das válvulas durante o ensaio em bancada.}}{86}{figure.caption.38}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Resposta temporal do LQI embarcado no AURIX TC375: posição do LAC, pressão hidráulica resultante e comandos das válvulas durante o ensaio em bancada.}}{87}{figure.caption.38}%
 \contentsline {figure}{\numberline {25}{\ignorespaces Ensaio integrado em malha aberta do modelo hidráulico 2P, com as fases de pressurização, retenção e alívio.}}{89}{figure.caption.39}%
 \contentsline {figure}{\numberline {26}{\ignorespaces Comandos e pressão obtidos na simulação em malha fechada com o controlador LQI e o observador de Luenberger.}}{90}{figure.caption.40}%
 \contentsline {figure}{\numberline {27}{\ignorespaces Seguimento por degraus e erro de acompanhamento na simulação.}}{91}{figure.caption.42}%
@@ -39,9 +39,9 @@
 \contentsline {figure}{\numberline {38}{\ignorespaces Gráfico de múltiplos PWM aplicados ao atuador linear}}{99}{figure.caption.54}%
 \contentsline {figure}{\numberline {39}{\ignorespaces Ensaio \texttt {PLID}: identificação dos transientes de pressão e da posição do LAC para os níveis de 100, 200 e 300 psi.}}{100}{figure.caption.56}%
 \contentsline {figure}{\numberline {40}{\ignorespaces Curva experimental de posição e pressão obtida no ensaio \texttt {STAIRCASE}.}}{101}{figure.caption.58}%
-\contentsline {figure}{\numberline {41}{\ignorespaces Ensaio \texttt {CLSTEP B}: controle PI da posição do LAC e pressão resultante no circuito hidráulico.}}{105}{figure.caption.61}%
+\contentsline {figure}{\numberline {41}{\ignorespaces Ensaio CLSTEP B: resposta eletro-hidráulica ao degrau.}}{105}{figure.caption.61}%
 \contentsline {figure}{\numberline {42}{\ignorespaces Ensaio \texttt {CLSTEP A}, com realimentação direta da pressão, utilizado como referência experimental.}}{108}{figure.caption.64}%
-\contentsline {figure}{\numberline {43}{\ignorespaces Ensaio \texttt {CLSTEP B}, com controle PI da posição do LAC e pressão registrada para validação.}}{108}{figure.caption.65}%
+\contentsline {figure}{\numberline {43}{\ignorespaces Ensaio CLSTEP B: posição do LAC e pressão registrada.}}{108}{figure.caption.65}%
 \contentsline {figure}{\numberline {44}{\ignorespaces Ensaio \texttt {CLMULTI} com múltiplos patamares de referência.}}{109}{figure.caption.66}%
 \contentsline {figure}{\numberline {45}{\ignorespaces Ensaio \texttt {PPMULTI}: referência, contribuições das malhas de controle, posição do LAC e pressão medida.}}{110}{figure.caption.67}%
 \contentsline {figure}{\numberline {46}{\ignorespaces Varredura de PWM utilizada para observar a resposta de posição e pressão do atuador linear.}}{111}{figure.caption.69}%
