@@ -16,10 +16,9 @@
 {ANGELICO, B.~A. \textbf{Notas de Aula PTC5611 Controle Digital de Sistemas
   Dinamicos}. [S.l.: s.n.], 2018.}
 
-\bibitem[AUTOTECH 2023]{sistemapneumaticos}
-\abntrefinfo{AUTOTECH}{AUTOTECH}{2023}
-{AUTOTECH, m. \textbf{What is Air Brakes Systems? automotive brake system}.
-  2023.
+\bibitem[AutoTech 2023]{sistemapneumaticos}
+\abntrefinfo{AutoTech}{AUTOTECH}{2023}
+{AUTOTECH. \textbf{What is Air Brakes Systems? automotive brake system}. 2023.
 Dispon{\'\i}vel em: \url{https://www.youtube.com/watch?v=w77VJhCIAgo}.}
 
 \bibitem[Bosch 2022]{wiley2022}
@@ -76,9 +75,9 @@ Dispon{\'\i}vel em: \url{https://www.mdpi.com/2076-3417/8/4/639}.}
   Software Engineering and Service Science (ICSESS)}. [S.l.: s.n.], 2019. p.
   654--657.}
 
-\bibitem[classicindustries.com 2025]{freioATambor}
-\abntrefinfo{classicindustries.com}{CLASSICINDUSTRIES.COM}{2025}
-{CLASSICINDUSTRIES.COM, w. \textbf{1955-92 GM Cars}. 2025.
+\bibitem[{Classic Industries} 2025]{freioATambor}
+\abntrefinfo{{Classic Industries}}{{Classic Industries}}{2025}
+{{Classic Industries}. \textbf{1955-92 GM Cars}. 2025.
 Dispon{\'\i}vel em:
   \url{https://www.classicindustries.com/product/ce600514.html}.}
 
@@ -97,10 +96,10 @@ ISBN 978-3-658-14219-3.}
   Dynamic Systems}. [S.l.]: Ellis-Kagle Press, 1998.
 ISBN 0-9791226-0-0.}
 
-\bibitem[Honda 2023]{acc-controle-cruzeiro-adaptativo}
-\abntrefinfo{Honda}{HONDA}{2023}
-{HONDA, c. \textbf{ACC: o que é e como funciona o Controle de Cruzeiro
-  Adaptativo}. 2023.
+\bibitem[{Honda Automóveis} 2023]{acc-controle-cruzeiro-adaptativo}
+\abntrefinfo{{Honda Automóveis}}{{Honda Automóveis}}{2023}
+{{Honda Automóveis}. \textbf{ACC: o que é e como funciona o Controle de
+  Cruzeiro Adaptativo}. 2023.
 Dispon{\'\i}vel em:
   \url{https://www.hondacaiuas.com.br/blog/acc-controle-cruzeiro-adaptativo/}.}
 
@@ -187,13 +186,6 @@ Dispon{\'\i}vel em: \url{https://doi.org/10.1007/978-3-658-45276-6\_25}.}
 Dispon{\'\i}vel em:
   \url{https://www.import-car.com/mercedes-benz-floating-composite-rotors/}.}
 
-\bibitem[Mecanico 2022]{evolucaodosistemaemniveis2022}
-\abntrefinfo{Mecanico}{MECANICO}{2022}
-{MECANICO, R. O. \textbf{Como funcionam os sistemas de assistência à
-  condução?} 2022.
-Dispon{\'\i}vel em:
-  \url{https://omecanico.com.br/artigo-como-funcionam-os-sistemas-de-assistencia-a-conducao/}.}
-
 \bibitem[Ogata 1997]{Ogata1997}
 \abntrefinfo{Ogata}{OGATA}{1997}
 {OGATA, K. \textbf{Engenharia de Controle Moderno}. [S.l.]: PRENTICE-HALL
@@ -242,9 +234,16 @@ Dispon{\'\i}vel em:
   Springer, 2014.
 ISBN 978-3-658-03977-6.}
 
-\bibitem[totalenergies 2023]{sistemahidraulico}
-\abntrefinfo{totalenergies}{TOTALENERGIES}{2023}
-{TOTALENERGIES, A. \textbf{Modul de actiune al lichidului de frana}. 2023.
+\bibitem[{Revista O Mecânico} 2022]{evolucaodosistemaemniveis2022}
+\abntrefinfo{{Revista O Mecânico}}{{Revista O Mecânico}}{2022}
+{{Revista O Mecânico}. \textbf{Como funcionam os sistemas de assistência à
+  condução?} 2022.
+Dispon{\'\i}vel em:
+  \url{https://omecanico.com.br/artigo-como-funcionam-os-sistemas-de-assistencia-a-conducao/}.}
+
+\bibitem[TotalEnergies 2023]{sistemahidraulico}
+\abntrefinfo{TotalEnergies}{TOTALENERGIES}{2023}
+{TOTALENERGIES. \textbf{Modul de actiune al lichidului de frana}. 2023.
 Dispon{\'\i}vel em:
   \url{https://totalenergies.ro/intrebari-frecvente/despre-lichide-de-frana/modul-de-actiune-al-lichidului-de-frana}.}
 

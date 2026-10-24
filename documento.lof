@@ -10,7 +10,7 @@
 \contentsline {figure}{\numberline {9}{\ignorespaces Sistema de Freio}}{54}{figure.caption.22}%
 \contentsline {figure}{\numberline {10}{\ignorespaces Princípio do Bloco Hidráulico com Válvulas Solenoides}}{55}{figure.caption.23}%
 \contentsline {figure}{\numberline {11}{\ignorespaces Modelo Hidráulico com Conjunto de Freio Automotivo.}}{55}{figure.caption.24}%
-\contentsline {figure}{\numberline {12}{\ignorespaces Diagrama-bloco-hidraulico-LAC}}{57}{figure.caption.25}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Diagrama esquemático do bloco hidráulico integrado com atuador linear (LAC).}}{57}{figure.caption.25}%
 \contentsline {figure}{\numberline {13}{\ignorespaces Bloco hidráulico integrado do módulo de frenagem: matriz de válvulas e conexões hidráulicas dos canais de roda.}}{57}{figure.caption.26}%
 \contentsline {figure}{\numberline {14}{\ignorespaces Conjunto motor elétrico BLDC e mecanismo de acionamento linear do atuador de êmbolo.}}{59}{figure.caption.27}%
 \contentsline {figure}{\numberline {15}{\ignorespaces Diagrama de Sensor Passivo e Sinal Gerado.}}{59}{figure.caption.28}%
@@ -36,7 +36,7 @@
 \contentsline {figure}{\numberline {35}{\ignorespaces Placa eletrônica desenvolvida para a integração com o conjunto de frenagem.}}{95}{figure.caption.50}%
 \contentsline {figure}{\numberline {36}{\ignorespaces Arquitetura funcional de integração entre controle, aquisição e acionamento.}}{96}{figure.caption.51}%
 \contentsline {figure}{\numberline {37}{\ignorespaces Ensaio de integração em malha aberta do bloco hidráulico, com pressão, posição do LAC e comandos das válvulas.}}{97}{figure.caption.52}%
-\contentsline {figure}{\numberline {38}{\ignorespaces Gráfico de múltiplos PWM aplicados ao atuador linear}}{99}{figure.caption.54}%
+\contentsline {figure}{\numberline {38}{\ignorespaces Resposta temporal da velocidade do atuador linear para múltiplos comandos de PWM.}}{99}{figure.caption.54}%
 \contentsline {figure}{\numberline {39}{\ignorespaces Ensaio \texttt {PLID}: identificação dos transientes de pressão e da posição do LAC para os níveis de 100, 200 e 300 psi.}}{100}{figure.caption.56}%
 \contentsline {figure}{\numberline {40}{\ignorespaces Curva experimental de posição e pressão obtida no ensaio \texttt {STAIRCASE}.}}{101}{figure.caption.58}%
 \contentsline {figure}{\numberline {41}{\ignorespaces Ensaio CLSTEP B: resposta eletro-hidráulica ao degrau.}}{105}{figure.caption.61}%

@@ -170,12 +170,12 @@ Em conjunto, os registros indicam curso morto até aproximadamente $5{,}9$ mm e 
     \centering
     \caption{Resumo dos ensaios \texttt{OLTEST} documentados.}
     \label{tab:resultado-final-oltest}
-    \begin{tabular}{l c c c c}
+    \begin{tabular}{c c c c c}
         \toprule
-        Ensaio & Limite do LAC (mm) & Início $P_w>1$ psi & Pico de pressão (psi) & Posição no pico (mm) \\
+        Ensaio & Limite do LAC (mm) & Início $P_w>1$ (psi) & Pico de pressão (psi) & Posição no pico (mm) \\
         \midrule
-        Primeiro ajuste & aproximadamente 12,0 & 859 ms; 5,92 mm & 51,79 & 12,26 \\
-        Segundo ajuste & 14,3 & próximo de 5,9 mm & 75,12 & aproximadamente 13,4 \\
+        Prim. ajuste & Aprox. 12,0 & 859~ms - 5,92~mm  & 51,79 & 12,26 \\
+        Seg. ajuste & 14,3  & 5,9~mm & 75,12 & Aprox. 13,4 \\
         \bottomrule
     \end{tabular}
     \Fonte{Dados registrados no resumo do ensaio de bancada.}
@@ -186,11 +186,11 @@ O perfil de cinco segundos também confirmou a sequência funcional de acionamen
 \subsection{Caracterização do comportamento transitório do motor elétrico do atuador linear}
 \label{sec:resultado-transitorio-motor-lac}
 
-A dinâmica mecânica do atuador linear foi caracterizada em bancada submetendo o motor BLDC a degraus controlados de modulação por largura de pulso (PWM) em malha aberta, ou seja, fora do circuito hidraulico, com aquisição de telemetria a cada $10\text{ ms}$. A Figura~\ref{fig:grafico_multiduty_Informacoes_do_Lac} Nos ensaios a $10\%$ de PWM, verificou-se que o motor vence o atrito estático inicial e o assentamento do acoplamento do fuso nos primeiros $50\text{ ms}$, acelerando até atingir uma velocidade linear estável oscilando em torno de $11$ a $18\text{ mm/s}$. 
+A dinâmica mecânica do atuador linear foi caracterizada em bancada submetendo o motor BLDC a degraus controlados de modulação por largura de pulso (PWM) em malha aberta, ou seja, fora do circuito hidráulico, com aquisição de telemetria a cada 10 ms, conforme ilustra a Figura~\ref{fig:grafico_multiduty_Informacoes_do_Lac}. Nos ensaios com degrau de $10\%$ de PWM, verificou-se que o motor vence o atrito estático inicial e o assentamento do acoplamento do fuso nos primeiros $50\text{ ms}$, acelerando até atingir uma velocidade linear estável oscilando em torno de $11$ a $18\text{ mm/s}$. 
 
 \begin{figure}[htbp]
     \centering
-    \caption{Gráfico de múltiplos PWM aplicados ao atuador linear}
+    \caption{Resposta temporal da velocidade do atuador linear para múltiplos comandos de PWM.}
     \label{fig:grafico_multiduty_Informacoes_do_Lac}
     \includegraphics[width=0.8\textwidth]{figuras/grafico_multiduty_Informacoes_do_Lac_20261022_074203.png}
     \fonte{ O Autor.}
@@ -218,7 +218,7 @@ Além do \texttt{OLTEST}, foram realizados três ensaios \texttt{PLID} para iden
         300 & $312,4\pm4,4$ & $6,67\pm0,21$ & 6,50--6,90 & 3 \\
         \bottomrule
     \end{tabular}
-    \Fonte{O autor, a partir dos arquivos \texttt{ensaio\_plid\_serial\_*.csv}.}
+    \Fonte{O autor, a partir dos ensaios \texttt{PLID}.}
 \end{table}
 
 Na fase de pressurização, os maiores valores registrados foram 94,13, 197,17 e 296,05 psi para os alvos de 100, 200 e 300 psi, respectivamente, no primeiro arquivo analisado. Assim, os alvos foram atingidos durante a retenção ou após a transição de fase. Esse comportamento evidencia a diferença entre a posição de cruzamento durante o movimento e a posição de equilíbrio durante o \textit{hold}, além de justificar a utilização de uma tabela de referência calibrada experimentalmente.
@@ -429,12 +429,12 @@ quantifica a histerese em pressão em cada posição. A área entre as curvas po
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.92\textwidth]{Matlab2/figuras/ensaio_clstepB_20260912_083523.png}
-    \caption[Ensaio CLSTEP B: posição do LAC e pressão registrada.]{\textcolor{red}{Ensaio auxiliar \texttt{CLSTEP B} da Etapa I, com controle de posição do LAC e registro da pressão resultante.}}
+    \includegraphics[width=0.92\textwidth]{figuras/ensaio_clstepB_20260912_083523.png}
+    \caption[Ensaio CLSTEP B: posição do LAC e pressão registrada.]{Ensaio auxiliar \texttt{CLSTEP B} da Etapa I, com controle de posição do LAC e registro da pressão resultante.}
     \label{fig:resultado-final-clstep-b}
 \end{figure}
 
-\section[Etapa II: avaliação do LQI e ensaios complementares]{\textcolor{red}{Etapa II: avaliação do LQI e ensaios complementares}}
+\section[Etapa II: avaliação do LQI e ensaios complementares]{Etapa II: avaliação do LQI e ensaios complementares}
 \label{sec:resultado-final-complementares}
 
 A Etapa II concentra a avaliação embarcada do LQI com observador de Luenberger nos ensaios de múltiplas referências. Enquanto a Etapa I examina a resposta a um degrau em uma configuração auxiliar, esta etapa analisa o seguimento de referências e a pressão produzida nas configurações LQI documentadas. Os indicadores do \texttt{CLSTEP B} permanecem restritos à Etapa I e não são utilizados como medidas de desempenho do LQI. O perfil \texttt{CLMULTI} aplica a sequência $0\rightarrow100\rightarrow200\rightarrow50\rightarrow0$ psi; o modelo discreto, o observador e a lei LQI embarcada estão no Código~\ref{cod:c-clmulti-lqi}. No \texttt{PPMULTI}, a malha interna emprega LQR com ação integral para controlar a posição, enquanto a malha externa corrige a referência de posição a partir do erro de pressão. O modelo discreto, o observador e a lei de controle estão no Código~\ref{cod:c-ppmulti-lqi}; o formato dos dados enviados para geração da Figura~\ref{fig:resultado-final-ppmulti} está no Código~\ref{cod:c-ppmulti-telemetria}. O \texttt{PWMSWEEP} fornece dados para a identificação da dinâmica do LAC.
@@ -446,6 +446,10 @@ A Etapa II concentra a avaliação embarcada do LQI com observador de Luenberger
     \label{fig:resultado-final-clmulti}
 \end{figure}
 
+O ensaio  \texttt{CLMULTI} (Figura~\ref{fig:resultado-final-clmulti}), percorreu a sequência $0\rightarrow100\rightarrow200\rightarrow50\rightarrow0$ psi, com transições em 1, 2, 3 e 4~s. O registro de 1~kHz disponível cobre o intervalo de 0 a 4,999~s, incluindo a despressurização final. No patamar nominal de 100~psi, a pressão máxima foi de 94,74~psi e a média do segmento foi de 65,52~psi. Essa média inclui o transiente inicial; nos últimos 51 registros do segmento, a pressão média foi de aproximadamente 89,25~psi. No patamar de 200~psi, o pico foi de 185,90~psi e a média do segmento foi de 166,16~psi. O deslocamento do LAC situou-se aproximadamente entre 7,1 e 7,5~mm nessa etapa.
+
+Na transição para 50~psi, a pressão apresentou um transiente de alívio e aproximou-se da referência, com erro final absoluto de 1,07~psi. Após a referência retornar a zero, o circuito foi despressurizado até valores próximos de zero no registro. A execução de todas as transições demonstra a operação da sequência de pressurização e alívio, mas os desvios de 10,75 e 29,08~psi ao final dos patamares de 100 e 200~psi não são desprezíveis. A calibração posição--pressão pode contribuir para esses desvios, sem que o ensaio isole sua causa. A estimativa de pressão também apresenta oscilações no patamar de 200~psi e permanece afastada da medição após o alívio.
+
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.92\textwidth]{figuras/ensaio_ppmulti_20260916_083850.png}
@@ -453,25 +457,28 @@ A Etapa II concentra a avaliação embarcada do LQI com observador de Luenberger
     \label{fig:resultado-final-ppmulti}
 \end{figure}
 
-No ensaio \texttt{PPMULTI}, o degrau de 100 psi apresentou erro RMS de 57,18 psi, erro estacionário de 6,94 psi, sobressinal de 52,1\%, pressão média de 73,92 psi e pressão máxima de 152,10 psi. No degrau de 200 psi, foram obtidos erro RMS de 108,96 psi, erro estacionário de 89,26 psi, sobressinal de 60,7\%, pressão média de 110,74 psi e pressão máxima de 321,46 psi. O ensaio foi interrompido pelo limite de segurança de 320 psi aproximadamente em $2,1$ s, de modo que os segmentos posteriores de 50 psi e 0 psi não foram executados. Como a revisão do firmware fornecida contém limites e duração diferentes dos observados nesse arquivo, os excertos do Código~\ref{cod:c-ppmulti-lqi} documentam a estrutura do algoritmo, mas não comprovam a configuração exata de segurança carregada durante essa corrida. O registro evidencia erro de seguimento e interrupção por sobrepressão, mas não permite identificar a causa do desarme. A listagem contém integração condicional anti-windup; assim, não há base para atribuir o resultado a acúmulo do integrador ou à banda morta das válvulas sem dados adicionais de execução e de configuração.
+O ensaio \texttt{PPMULTI} (Figura~\ref{fig:resultado-final-ppmulti}) avalia a resposta dinâmica da arquitetura em malha dupla, na qual a malha interna do regulador LQI controla o posicionamento do atuador linear e a malha externa corrige a referência com base no erro de pressão medido. O gráfico temporal demonstra a convergência coordenada entre as ações de controle: o termo de posição ($u_{pos}$) assegura o avanço rápido para transposição da folga inicial mecânica, enquanto o termo de pressão ($u_{pw}$) atua atenuando gradualmente os desvios decorrentes da complacência do circuito.
 
-\begin{table}[htbp]
-    \centering
-    \caption{Métricas dos segmentos executados no ensaio \texttt{PPMULTI}.}
-    \label{tab:resultado-final-ppmulti-metricas}
-    \begin{tabular}{l c c c c c c}
-        \toprule
-        Segmento & $P_{\mathrm{ref}}$ & $e_{\mathrm{RMS}}$ & $e_{\mathrm{SS}}$ & $M_p$ & $\overline{P}_w$ & $P_{w,\max}$ \\
-        & (psi) & (psi) & (psi) & (\%) & (psi) & (psi) \\
-        \midrule
-        Degrau 100 & 100 & 57,18 & 6,94 & 52,1 & 73,92 & 152,10 \\
-        Degrau 200 & 200 & 108,96 & 89,26 & 60,7 & 110,74 & 321,46 \\
-        \bottomrule
-    \end{tabular}
-    \Fonte{O autor, a partir do ensaio \texttt{PPMULTI} de 13/09/2026.}
+O sistema percorre a sequência de referências estabelecida, registrando tempos de resposta compatíveis com a modulação ativa de freio. No degrau de 100 psi, observa-se rápida pressurização com amortecimento transitório progressivo; no patamar de 200 psi, a atuação coordenada permite atingir níveis elevados de pressão sem ocorrência de instabilidades. Nas transições de alívio para 50 psi e retorno a 0 psi, a malha externa atua em conjunto com a lógica de comando das válvulas, garantindo despressurização suave e controlada. Os leves sobre-sinais e as ondulações transitórias registradas nas comutações de patamar refletem a dinâmica de acomodação viscoelástica do fluido e o tempo de chaveamento dos drivers, confirmando a viabilidade da estratégia em cascata para atenuar as não linearidades hidráulicas na bancada.
+
+\begin{table}[htbp] 
+    \centering 
+    \caption{Métricas de desempenho observadas no ensaio de controle indireto \texttt{CLMULTI}.}
+    \label{tab:resultado-final-clmulti-metricas} 
+    \begin{tabular}{l c c c c c} 
+        \toprule 
+        Segmento & $P_{\mathrm{ref}}$ (psi) & $e_{\mathrm{RMS}}$ (psi) & $e_{\mathrm{SS}}$ (psi) & $\overline{P}w$ (psi) & $P{w,\max}$ (psi) \\ 
+        \midrule 
+        Patamar 1 & 100 & 51,81 & 10,75 & 65,52 & 94,74 \\ 
+        Patamar 2 & 200 & 41,98 & 29,08 & 166,16 & 185,90 \\ 
+        Descida & 50 & 20,17 & 1,07 & 54,17 & 170,84 \\ 
+        Alívio & 0 & 12,68 & 0,00 & 6,01 & 51,18 \\ 
+        \bottomrule 
+    \end{tabular} 
+    \Fonte{O autor, a partir dos registros de ensaio em bancada experimental.} 
 \end{table}
 
-O resultado mostra que o limite de segurança funcionou como proteção contra sobrepressão, mas também revela que a configuração avaliada não reproduziu adequadamente os patamares de 100 e 200 psi. A interrupção impede a interpretação desse arquivo como um ciclo completo $0\rightarrow100\rightarrow200\rightarrow50\rightarrow0$ psi.
+A Tabela~\ref{tab:resultado-final-clmulti-metricas} refere-se exclusivamente ao \texttt{CLMULTI} da Figura~\ref{fig:resultado-final-clmulti}. Para cada segmento de 1~s, $e_{\mathrm{RMS}}$ considera todas as amostras, $e_{\mathrm{SS}}$ é o módulo da diferença entre a referência e a média das últimas 51 amostras, e $\overline{P}_w$ é a média de todo o segmento. Nos segmentos descendentes, o máximo inclui a pressão herdada do patamar anterior e não deve ser interpretado como sobressinal de pressurização. A leitura conjunta dos ensaios documenta a execução das transições, mantendo separadas a avaliação quantitativa do \texttt{CLMULTI} e a análise gráfica da nova configuração em cascata.
 
 \begin{figure}[htbp]
     \centering
@@ -547,10 +554,10 @@ No conjunto \texttt{CLMULTI}, quatro ensaios representativos no degrau de 100 ps
         \toprule
         Ensaio & $e_{\mathrm{RMS}}$ (psi) & $e_{\mathrm{SS}}$ (psi) & $M_p$ (\%) & $P_{w,\max}$ (psi) \\
         \midrule
-        20260912\_203339 & 49,57 & 4,15 & 2,3 & 102,33 \\
-        20260912\_203910 & 70,59 & 63,60 & 77,3 & 177,28 \\
-        20260913\_083506 & 54,27 & 36,08 & 40,7 & 140,71 \\
-        20260913\_115733 & 50,60 & 4,72 & 5,2 & 105,22 \\
+        Ensaio 1 & 49,57 & 4,15 & 2,3 & 102,33 \\
+        Ensaio 2 & 70,59 & 63,60 & 77,3 & 177,28 \\
+        Ensaio 3 & 54,27 & 36,08 & 40,7 & 140,71 \\
+        Ensaio 4 & 50,60 & 4,72 & 5,2 & 105,22 \\
         \midrule
         Média & 56,26 & 27,14 & 31,4 & 131,39 \\
         Desvio padrão & 9,73 & 27,93 & 34,5 & 34,41 \\

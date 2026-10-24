@@ -1001,6 +1001,8 @@ end
 \chapter{Trechos selecionados do firmware em C}
 \label{ap:codigo-c-firmware}
 
+{\color{red}Os excertos documentam a estrutura das rotinas, mas não constituem um registro versionado da configuração executada em cada aquisição. A Figura~\ref{fig:resultado-final-ppmulti} apresenta o ensaio \texttt{PPMULTI} de 16/09/2026, às 08:38:50; seus sinais de contribuição das malhas não bastam para confirmar que todos os ganhos, limites e a composição do comando coincidem com a revisão de código aqui reproduzida. As métricas da Tabela~\ref{tab:resultado-final-clmulti-metricas} pertencem ao \texttt{CLMULTI} de 12/09/2026, às 09:19:37, e não devem ser usadas para quantificar o desempenho dessa corrida \texttt{PPMULTI}.}
+
 Este capítulo apresenta excertos do firmware em C relacionados aos ensaios experimentais discutidos no Capítulo~\ref{chap:resultados-final}. Foram mantidos somente trechos necessários para documentar o acionamento, o processamento de sinais e o registro de dados; foram removidos comentários de desenvolvimento, referências a ferramentas de visualização e rotinas genéricas de inicialização. As listagens são fragmentos: declarações globais, funções de suporte e interfaces de hardware não são repetidas. O firmware executa o ensaio e envia telemetria pela UART; os gráficos são gerados posteriormente pelo processamento dos arquivos registrados.
 
 \section{Aquisição e registro dos ensaios em bancada}

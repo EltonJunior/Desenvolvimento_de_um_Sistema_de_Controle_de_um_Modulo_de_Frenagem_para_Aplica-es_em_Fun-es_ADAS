@@ -27,7 +27,7 @@ Reallocating 'global_strs' (item size: 1) to 4000000 items.
 +---------------------------------------------------------+
 You've used 47 entries,
             6714 wiz_defined-function locations,
-            1460 strings with 17967 characters,
+            1460 strings with 17952 characters,
 and the built_in function-call counts, 51344 in all, are:
 = -- 5086
 > -- 1343

@@ -121,7 +121,7 @@ Na arquitetura integrada do módulo atuador linear para deslocamento de fluido, 
 
 \begin{figure}[htbp]
     \centering
-    \caption{Diagrama-bloco-hidraulico-LAC}
+    \caption{Diagrama esquemático do bloco hidráulico integrado com atuador linear (LAC).}
     \label{fig:Diagrama-bloco-hidraulico-LAC}
     \includegraphics[width=0.8\textwidth]{figuras/Diagrama-bloco-hidraulico-LAC.png}
     \fonte{ O Autor, adaptado de \cite{Linhoff2026}.}
@@ -236,82 +236,7 @@ Cada circuito cumpre uma função específica dentro da plataforma experimental:
     \item  leitura do sensor de pressão.
 \end{enumerate}
 
-
-\begin{comment}
-% Comentei essa area, porque nao tinha o appendice referenciado. 
-A descrição completa desses circuitos, incluindo seus esquemáticos, diagramas elétricos e simulações, encontra-se no Apêndice~\ref{ap:circuitos-propostos}.
-
-
-    
-\subsection{Circuitos Propostos}
-\label{sec:metodologia-6-1}
-
-Para condicionar o sinal proveniente do sensor de velocidade, foi definido um circuito comparador Figura~\ref{fig:circuito-sensor-de-roda-proposto}, uma vez que o sinal pode apresentar ruído e pode ser de uma magnitude baixa, o circuito comparador é ideal neste cenário, por utilizar um amplificador operacional, que possui alta impedância na sua entrada.
-
-Para o condicionamento do sinal proveniente do sensor de velocidade, foi adotado um circuito comparador baseado em amplificador operacional. Esse circuito é responsável por elevar a robustez do sinal e garantir níveis de tensão compatíveis com o microcontrolador utilizado. A descrição completa do circuito, incluindo seu diagrama e análise de funcionamento, encontra-se no Apêndice~\ref{ap:circuito-sensor-roda}.
-
-\begin{figure}[htbp]
-    \centering
-    \caption{Circuito Sensor de Roda Proposto.}
-    \label{fig:circuito-sensor-de-roda-proposto}
-    \includegraphics[width=0.8\textwidth]{figuras/circuito-sensor-de-roda-proposto.png}
-    \fonte{ O Autor.}
-\end{figure}
-
-Foi inserido um comparador que limita a tensão em 2.5V, ou seja, quando o sinal do sensor estiver no ciclo positivo, a saída do amplificar será nível alto lógico, que no caso do microcontrolador escolhido é de 3V3, e quando o sinal do sensor estiver no nível baixo, ou seja, abaixo de 2.5V o sinal será 0V para o microcontrolador, como mostra a simulação do circuito no LTSpice da Figura~\ref{fig:simulacao-circuito-sensor-de-roda-proposto}.
-
-\begin{figure}[htbp]
-    \centering
-    \caption{Simulação do Circuito Sensor de Roda Proposto.}
-    \label{fig:simulacao-circuito-sensor-de-roda-proposto}
-    \includegraphics[width=0.8\textwidth]{figuras/simulacao-circuito-sensor-de-roda-proposto.jpg}
-    \fonte{ O Autor.}
-\end{figure}
-
-\subsection{Circuito da Válvula}
-\label{sec:metodologia-6-2}
-
-O circuito da placa, tem como base o kit de Freio da NXP, o KITVALVECNTLEVM \cite{KITVALVECNTLEVM}. Esse kit possui 2 Circuitos Integrados (CI), o MC34SB0800 tem a capacidade de controlar 8 válvulas e um motor, e o MC34SB0410 controla 4 válvulas e um motor. 
-
-O circuito foi totalmente baseado no kit \citeonline{KITVALVECNTLEVM} Figura~\ref{fig:circuito-controle-valvula-solenoide}.
- 
-\begin{figure}[htbp]
-    \centering
-    \caption{Circuito de Controle das Válvulas Solenoides.}
-    \label{fig:circuito-controle-valvula-solenoide}
-    \includegraphics[width=0.8\textwidth]{figuras/circuito-controle-valvula-solenoide.png}
-    \fonte{ O Autor adaptado de \cite{MC34SB0800}. }
-\end{figure}
-
-\subsection{Circuito da Bomba}
-\label{sec:metodologia-6-3}
-
- O circuito proposto, foi baseado no kit \cite{KITVALVECNTLEVM}, a operação do motor da bomba, se faz ao selecionar o drive de controle, tendo em vista que o MC34SB0800 suporta controle de alta frequência de até 500 Hz \gls{PWM} \cite{MC34SB0800}, enquanto isso, o MC34SB0410 pode lidar com frequências PWM de até 16 kHz, fornecendo operação mais silenciosa e controle mais fino \cite{MC34SB0410}.
-
-Ambos os drives contam com proteções de corrente, para manter a integridade do circuito da Figura~\ref{fig:circuito-controle-valvula-motor}.
-
-\begin{figure}[htbp]
-    \centering
-    \caption{Circuito de Controle da Bomba de pressão.}
-    \label{fig:circuito-controle-valvula-motor}
-    \includegraphics[width=0.8\textwidth]{figuras/circuito-controle-valvula-motor.png}
-    \fonte{ O Autor adaptado de \cite{MC34SB0800}. }
-\end{figure}
-
-\subsection{Circuito Sensor de Pressão}
-\label{sec:metodologia-6-4}
-
-No mercado atual, entre os modelos de sensores encontrados, foram eleitos os sensores piezoresistivos ou tipo \textit{strain gauge}, devido a criticidade desse componente aplicado no sistema de freio, para mitigar uma possível falha de leitura. Também foi decisiva a escolha de circuito de amplificador de instrumentação, por ser menos suscetivo a ruído em seu condicionamento, a Figura~\ref{fig:circuito-sensor-de-pressao-proposto} mostra o circuito para fazer a leitura deste sensor. 
-
-\begin{figure}[htbp]
-    \centering
-    \caption{Circuito de Leitura do Sensor de Pressão.}
-    \label{fig:circuito-sensor-de-pressao-proposto}
-    \includegraphics[width=0.8\textwidth]{figuras/circuito-sensor-de-pressao-proposto.png}
-    \fonte{ O Autor. }
-\end{figure}
-
-\end{comment}
+A descrição detalhada desses circuitos, acompanhada de seus diagramas esquemáticos e simulações elétricas, é apresentada no Apêndice~\ref{ap:circuitos-propostos}.
 
 \subsection{Microcontrolador}
 \label{sec:metodologia-6-5}
@@ -325,7 +250,7 @@ A plataforma experimental utiliza o microcontrolador AURIX TC375, da Infineon Te
        \item \textbf{Desempenho:} altas velocidades de \textit{clock} (até 300 MHz) e aceleradores de cálculos complexos, também possui \gls{DSP} (\textit{Digital Signal Processing}) integrados para processamento de sinal em tempo real.
 \end{itemize}
 
-Como descrito, este microcontrolador é muito relevante, mas isso não significa que poderia ser empregado unicamente ele na placa, uma vez que, adicionalmente ao microcontrolador AURIX TC375 (INFINEON, 2021), também foi implementada uma conexão na placa visando conectar o Kit de desenvolvimento do TC375\_LITE \cite{tc37xEvaluationBoard}. 
+Como descrito, este microcontrolador é muito relevante, mas isso não significa que poderia ser empregado unicamente ele na placa, uma vez que, adicionalmente ao microcontrolador AURIX TC375 \citeonline{tc37xDatasheet}, também foi implementada uma conexão na placa visando conectar o Kit de desenvolvimento do TC375\_LITE \cite{tc37xEvaluationBoard}. 
 
 Além disso, uma característica fundamental da placa proposta, é que ela seja flexível quanto ao microcontrolador usado, por esse motivo, foi adicionada uma conexão compatível com Arduino, permitindo desenvolver essa placa com qualquer kit de desenvolvimento desde que com a mesma estrutura.
 

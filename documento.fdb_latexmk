@@ -1,25 +1,25 @@
 # Fdb version 4
-["bibtex documento"] 1792842765.58637 "documento.aux" "documento.bbl" "documento" 1792843767.91194 0
-  "./elementos-pos-textuais/referencias.bib" 1792631523 29743 4ebcafd566172ac2a1c417432b26e683 ""
+["bibtex documento"] 1792857982.81217 "documento.aux" "documento.bbl" "documento" 1792857995.69373 0
+  "./elementos-pos-textuais/referencias.bib" 1792857968 29728 8711ccb98b1fca20b20e92075850ff3c ""
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/bibtex/bib/abntex2/abntex2-options.bib" 1543103229 5396 4eb260dac60f150ae608d45252853090 ""
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/bibtex/bst/abntex2/abntex2-alf.bst" 1543103230 60064 0819ac8568f9a482510a46e3a8a6f605 ""
-  "documento.aux" 1792843765 134727 75951388c47f0d5435cb880efbc1e450 "pdflatex"
+  "documento.aux" 1792857994 135025 22cdc48f2cd9360f05997f9aaf2c4808 "pdflatex"
   (generated)
   "documento.bbl"
   "documento.blg"
   (rewritten before read)
-["cusdep acn acr documento"] 1792842765.93337 "documento.acn" "documento.acr" "documento" 1792843767.91336 0
-  "documento.acn" 1792843765 6140 bb750b13d7bcd79bbd130dd9b4a2b7cd "pdflatex"
+["cusdep acn acr documento"] 1792853076.78405 "documento.acn" "documento.acr" "documento" 1792857995.69449 0
+  "documento.acn" 1792857994 6140 bb750b13d7bcd79bbd130dd9b4a2b7cd "pdflatex"
   (generated)
   "documento.acr"
   (rewritten before read)
-["makeindex documento.idx"] 1792838649.04177 "documento.idx" "documento.ind" "documento" 1792843767.91104 0
-  "documento.idx" 1792843757 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+["makeindex documento.idx"] 1792853063.56937 "documento.idx" "documento.ind" "documento" 1792857995.69321 0
+  "documento.idx" 1792857985 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   (generated)
   "documento.ilg"
   "documento.ind"
   (rewritten before read)
-["pdflatex"] 1792843754.98086 "d:/OneDrive - Continental AG/MestradoUspPoli/Anti-Brake System/Overleaf/Mestrado/Desenvolvimento_Controle_Modulo_Frenagem_ADAS/documento.tex" "documento.pdf" "documento" 1792843767.91405 0
+["pdflatex"] 1792857983.18266 "d:/OneDrive - Continental AG/MestradoUspPoli/Anti-Brake System/Overleaf/Mestrado/Desenvolvimento_Controle_Modulo_Frenagem_ADAS/documento.tex" "documento.pdf" "documento" 1792857995.69485 0
   "C:/Program Files/MiKTeX/tex/latex/listings/lstpatch.sty" 1741168182 353 9024412f43e92cd5b21fe9ded82d0610 ""
   "C:/Users/uidq5744/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1792591209 83788 3e06ff692e1323f668f12ea28ca579e9 ""
   "C:/Users/uidq5744/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecit1000.pk" 1771878387 26728 7ab8f1ac8abcfe1f3705b95f8d5217f8 ""
@@ -308,36 +308,35 @@
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/tex/latex/xpatch/xpatch.sty" 1585221260 8510 7803f78066c4f9d008405191a4b43073 ""
   "Matlab2/figuras/ensaio_clstepA_20260912_082531.png" 1789215951 2207901 2293c9d6732c1b939021607d503333c2 ""
-  "Matlab2/figuras/ensaio_clstepB_20260912_083523.png" 1789216541 1806339 093a55feaa18dcdc4364952afef67337 ""
   "Matlab2/figuras/ensaio_plid_20260912_202531.png" 1789259148 1496191 096612c32d916456b70104f0074c62b5 ""
   "Matlab2/figuras/ensaio_pwmsweep_curvas_20260910_110520.png" 1789052747 1107997 0e7779f81aa04387aea0d45088584fda ""
   "Matlab2/figuras/ensaio_staircase_curva_20260910_104748.png" 1789051696 722058 c9c0b9f8271693063fa53aa60e106ce1 ""
   "d:/OneDrive - Continental AG/MestradoUspPoli/Anti-Brake System/Overleaf/Mestrado/Desenvolvimento_Controle_Modulo_Frenagem_ADAS/documento.tex" 1792774322 8539 19e34eb632d474a0089c8393c09a0c53 ""
-  "documento.acr" 1792842766 7761 8ba27d65a86ef080e0292aeea44c7774 "cusdep acn acr documento"
-  "documento.aux" 1792843765 134727 75951388c47f0d5435cb880efbc1e450 "pdflatex"
-  "documento.bbl" 1792842765 13340 aa6efa80ee719e5dfc14972ea44b6d16 "bibtex documento"
-  "documento.ind" 1792838649 0 d41d8cd98f00b204e9800998ecf8427e "makeindex documento.idx"
-  "documento.lof" 1792843765 7713 f2daa5b9357c0a0d7996e884a2bff391 "pdflatex"
-  "documento.lol" 1792843765 2133 d961196de642ba8b46d58cbc5352a638 "pdflatex"
-  "documento.lot" 1792843765 1844 3f3f54ecf9f5710c3f221973380b6889 "pdflatex"
+  "documento.acr" 1792853077 7761 8ba27d65a86ef080e0292aeea44c7774 "cusdep acn acr documento"
+  "documento.aux" 1792857994 135025 22cdc48f2cd9360f05997f9aaf2c4808 "pdflatex"
+  "documento.bbl" 1792857983 13423 0bb94023a9bcb7ab67d299d0fac415bc "bibtex documento"
+  "documento.ind" 1792853063 0 d41d8cd98f00b204e9800998ecf8427e "makeindex documento.idx"
+  "documento.lof" 1792857994 7790 74eb73ce8b8256a7b8fb029269bcb13d "pdflatex"
+  "documento.lol" 1792857994 2133 e927f5b19a1bf7e9d8ba1eb0ad74273b "pdflatex"
+  "documento.lot" 1792857994 1865 a2491270d97b24101d1e2c17f1c78a82 "pdflatex"
   "documento.tex" 1792774322 8539 19e34eb632d474a0089c8393c09a0c53 ""
-  "documento.toc" 1792843765 14422 8461b94e96d26804f7fce78a5df5a06b "pdflatex"
-  "elementos-pos-textuais/apendices/apendice.tex" 1792843754 46959 7f5a505c3727d754ef9379b6bea3ecc2 ""
+  "documento.toc" 1792857994 14422 a695c869daede42f0488a8ff7aa033e4 "pdflatex"
+  "elementos-pos-textuais/apendices/apendice.tex" 1792847548 47613 23803f3d2a1793277c84a95cf4b9b287 ""
   "elementos-pos-textuais/glossario.tex" 1783629405 178 ae74258bc571b56c99f5da3aa21d9509 ""
   "elementos-pre-textuais/abstract.tex" 1792843754 2092 d61c86e3d425757253aa77813431215a ""
-  "elementos-pre-textuais/agradecimentos.tex" 1783629405 1114 d6a9dde77d5ce05f8a4364d5366cc7b2 ""
-  "elementos-pre-textuais/dedicatoria.tex" 1783629405 118 4e83e45adb0707937e45e1ca63efabb6 ""
+  "elementos-pre-textuais/agradecimentos.tex" 1792857667 1113 ed5d2cd8382b366cae63415a5e971db5 ""
+  "elementos-pre-textuais/dedicatoria.tex" 1792857667 119 b9d901c557b4fd2c6d07f285fea60a69 ""
   "elementos-pre-textuais/epigrafe.tex" 1783629405 208 2798f736f0f261b71e58edea1792112a ""
   "elementos-pre-textuais/fig_ficha_catalografica.pdf" 1783629406 91337 948cca5e5d792c06b554544345231a73 ""
   "elementos-pre-textuais/lista-de-abreviaturas-e-siglas.tex" 1792774326 5261 e055aa7209a07f3e36306b34d347e31f ""
   "elementos-pre-textuais/lista-de-simbolos.tex" 1792780472 6973 f1ca6871ff56344e423b21d0899b61c6 ""
   "elementos-pre-textuais/resumo.tex" 1792843754 2289 355e3ec8c942f50cc2298dd135ad392c ""
-  "elementos-textuais/conclusao.tex" 1792843754 7171 cac045408148aac0cdd1573bf86f9d7a ""
-  "elementos-textuais/controle.tex" 1792843754 50544 6d53cf29b8fd57ef08d817b76bf7bb72 ""
+  "elementos-textuais/conclusao.tex" 1792857667 7186 90fb390eeeb23a8f176f44f7b45a4afa ""
+  "elementos-textuais/controle.tex" 1792857667 50552 f27619be2a14501f6ed38c21242ca890 ""
   "elementos-textuais/introducao.tex" 1792784647 10030 690d27aa3f2d182f7acf12054bd28fd1 ""
-  "elementos-textuais/metodologia.tex" 1792843754 43053 b40bd2ade3a1c4c23f689a6ebc3b3977 ""
+  "elementos-textuais/metodologia.tex" 1792857968 38593 fc76c45944e9e57641d30264d14df7b3 ""
   "elementos-textuais/o-estado-da-arte.tex" 1792785543 44498 ef036674e42d37795f2df0ce42d5aa26 ""
-  "elementos-textuais/resultado.tex" 1792843754 49155 4aec656608207f6e0a19ed0f3765a74b ""
+  "elementos-textuais/resultado.tex" 1792857667 51242 8d11da5bb2bdc4a402d9ed7dbdb451b4 ""
   "figuras/Diagrama-bloco-hidraulico-LAC.png" 1792787659 2793229 eaeefe863b9aba0d0c2cf425bb578ee7 ""
   "figuras/acc-controle-de-cruzeiro-adaptativo.png" 1783629405 128421 ff78c160e5662e9fb547817f378d3ccb ""
   "figuras/arquitetura-funcional-do-sistema-de-controle-de-freio.png" 1783629405 41361 bfba5d89eed6745de8ce5bc59b4f68ea ""
@@ -384,8 +383,8 @@
   "figuras/sistemas_hidraulicos.jpg" 1783629405 85103 4d325ec65c152b65b632f673113713ea ""
   "figuras/sistemas_pneumatico.jpg" 1783629405 30754 1d9b6f59ebdae1056185448236a6cc8a ""
   "figuras/trajetoria_historica_evolucao_tecnologia_adas.jpg" 1783629405 56994 1181ff86e8e83fdbae023602390be69a ""
-  "preambulo.tex" 1792770527 3568 afc5f1cc5bd6e38199d05b034a8f939e ""
-  "unifortex2.sty" 1792706578 48775 5dcb5b75ba5e8038c9d1300207e0e36f ""
+  "preambulo.tex" 1792852458 3591 dbb7684060e876442095ceef1d0f8eb4 ""
+  "unifortex2.sty" 1792857667 48776 4561ba47a7374314692c6c74cfd536f2 ""
   (generated)
   "documento.acn"
   "documento.aux"
