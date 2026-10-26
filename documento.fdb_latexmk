@@ -1,27 +1,27 @@
 # Fdb version 4
-["bibtex documento"] 1792857982.81217 "documento.aux" "documento.bbl" "documento" 1792857995.69373 0
+["bibtex documento"] 1793009955.30117 "documento.aux" "documento.bbl" "documento" 1793009971.38366 0
   "./elementos-pos-textuais/referencias.bib" 1792857968 29728 8711ccb98b1fca20b20e92075850ff3c ""
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/bibtex/bib/abntex2/abntex2-options.bib" 1543103229 5396 4eb260dac60f150ae608d45252853090 ""
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/bibtex/bst/abntex2/abntex2-alf.bst" 1543103230 60064 0819ac8568f9a482510a46e3a8a6f605 ""
-  "documento.aux" 1792857994 135025 22cdc48f2cd9360f05997f9aaf2c4808 "pdflatex"
+  "documento.aux" 1793009968 134526 74ff3094e6fa4213796f2eeb39ff0add "pdflatex"
   (generated)
   "documento.bbl"
   "documento.blg"
   (rewritten before read)
-["cusdep acn acr documento"] 1792853076.78405 "documento.acn" "documento.acr" "documento" 1792857995.69449 0
-  "documento.acn" 1792857994 6140 bb750b13d7bcd79bbd130dd9b4a2b7cd "pdflatex"
+["cusdep acn acr documento"] 1793009955.82715 "documento.acn" "documento.acr" "documento" 1793009971.3855 0
+  "documento.acn" 1793009968 6140 bb750b13d7bcd79bbd130dd9b4a2b7cd "pdflatex"
   (generated)
   "documento.acr"
   (rewritten before read)
-["makeindex documento.idx"] 1792853063.56937 "documento.idx" "documento.ind" "documento" 1792857995.69321 0
-  "documento.idx" 1792857985 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+["makeindex documento.idx"] 1793009940.79093 "documento.idx" "documento.ind" "documento" 1793009971.38265 0
+  "documento.idx" 1793009959 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   (generated)
   "documento.ilg"
   "documento.ind"
   (rewritten before read)
-["pdflatex"] 1792857983.18266 "d:/OneDrive - Continental AG/MestradoUspPoli/Anti-Brake System/Overleaf/Mestrado/Desenvolvimento_Controle_Modulo_Frenagem_ADAS/documento.tex" "documento.pdf" "documento" 1792857995.69485 0
+["pdflatex"] 1793009956.73947 "d:/OneDrive - Continental AG/MestradoUspPoli/Anti-Brake System/Overleaf/Mestrado/Desenvolvimento_Controle_Modulo_Frenagem_ADAS/documento.tex" "documento.pdf" "documento" 1793009971.38649 0
   "C:/Program Files/MiKTeX/tex/latex/listings/lstpatch.sty" 1741168182 353 9024412f43e92cd5b21fe9ded82d0610 ""
-  "C:/Users/uidq5744/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1792591209 83788 3e06ff692e1323f668f12ea28ca579e9 ""
+  "C:/Users/uidq5744/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1793009880 83788 3e06ff692e1323f668f12ea28ca579e9 ""
   "C:/Users/uidq5744/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecit1000.pk" 1771878387 26728 7ab8f1ac8abcfe1f3705b95f8d5217f8 ""
   "C:/Users/uidq5744/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ectt1000.pk" 1767904807 20028 6a894a5220c816cee8d1117621abd2f4 ""
   "C:/Users/uidq5744/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ectt1200.pk" 1753121474 24152 ad26100c011b49574a9a12c29bb5f5fc ""
@@ -62,6 +62,7 @@
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmr10.tfm" 1136765053 1296 45809c5a464d5f32c8f98ba97c1bb47f ""
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmr12.tfm" 1136765053 1288 655e228510b4c2a1abe905c368440826 ""
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmsy10.tfm" 1136765053 1124 6c73e740cf17375f03eec0ee63599741 ""
+  "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/tfm/public/latex-fonts/lasy6.tfm" 1136765053 520 4889cce2180234b97cad636b6039c722 ""
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1247596667 30251 6afa5cb1d0204815a708a080681d4674 ""
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1247596667 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1247596667 35752 024fb6c41858982481f6968b5fc26508 ""
@@ -302,6 +303,7 @@
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/tex/latex/tools/xspace.sty" 1700599895 4545 9f5ea23ab1c91476c42749893f790666 ""
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/tex/latex/tracklang/tracklang.sty" 1741688950 10062 6009a67f1c2bd376a9f34880dc509a07 ""
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/tex/latex/translator/translator.sty" 1622471510 8765 56d370785f0143111ff9898b5adfe08e ""
+  "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/tex/latex/ulem/ulem.sty" 1578651445 15682 94f55b803e160cf7fb6e4d77d07cfe1d ""
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
   "C:/Users/uidq5744/AppData/Local/Programs/MiKTeX/tex/latex/xfor/xfor.sty" 1233849756 2689 44855b72da58344b1c1d9b3087bce6ca ""
@@ -312,31 +314,31 @@
   "Matlab2/figuras/ensaio_pwmsweep_curvas_20260910_110520.png" 1789052747 1107997 0e7779f81aa04387aea0d45088584fda ""
   "Matlab2/figuras/ensaio_staircase_curva_20260910_104748.png" 1789051696 722058 c9c0b9f8271693063fa53aa60e106ce1 ""
   "d:/OneDrive - Continental AG/MestradoUspPoli/Anti-Brake System/Overleaf/Mestrado/Desenvolvimento_Controle_Modulo_Frenagem_ADAS/documento.tex" 1792774322 8539 19e34eb632d474a0089c8393c09a0c53 ""
-  "documento.acr" 1792853077 7761 8ba27d65a86ef080e0292aeea44c7774 "cusdep acn acr documento"
-  "documento.aux" 1792857994 135025 22cdc48f2cd9360f05997f9aaf2c4808 "pdflatex"
-  "documento.bbl" 1792857983 13423 0bb94023a9bcb7ab67d299d0fac415bc "bibtex documento"
-  "documento.ind" 1792853063 0 d41d8cd98f00b204e9800998ecf8427e "makeindex documento.idx"
-  "documento.lof" 1792857994 7790 74eb73ce8b8256a7b8fb029269bcb13d "pdflatex"
-  "documento.lol" 1792857994 2133 e927f5b19a1bf7e9d8ba1eb0ad74273b "pdflatex"
-  "documento.lot" 1792857994 1865 a2491270d97b24101d1e2c17f1c78a82 "pdflatex"
+  "documento.acr" 1793009956 7761 8ba27d65a86ef080e0292aeea44c7774 "cusdep acn acr documento"
+  "documento.aux" 1793009968 134526 74ff3094e6fa4213796f2eeb39ff0add "pdflatex"
+  "documento.bbl" 1793009955 13423 0bb94023a9bcb7ab67d299d0fac415bc "bibtex documento"
+  "documento.ind" 1793009941 0 d41d8cd98f00b204e9800998ecf8427e "makeindex documento.idx"
+  "documento.lof" 1793009968 7790 74eb73ce8b8256a7b8fb029269bcb13d "pdflatex"
+  "documento.lol" 1793009968 2133 e927f5b19a1bf7e9d8ba1eb0ad74273b "pdflatex"
+  "documento.lot" 1793009968 1884 b4e30e6100b5b1e06437e55b3975d5f4 "pdflatex"
   "documento.tex" 1792774322 8539 19e34eb632d474a0089c8393c09a0c53 ""
-  "documento.toc" 1792857994 14422 a695c869daede42f0488a8ff7aa033e4 "pdflatex"
+  "documento.toc" 1793009968 14343 4ac226fa94d64b661cab0915d8eca140 "pdflatex"
   "elementos-pos-textuais/apendices/apendice.tex" 1792847548 47613 23803f3d2a1793277c84a95cf4b9b287 ""
   "elementos-pos-textuais/glossario.tex" 1783629405 178 ae74258bc571b56c99f5da3aa21d9509 ""
-  "elementos-pre-textuais/abstract.tex" 1792843754 2092 d61c86e3d425757253aa77813431215a ""
+  "elementos-pre-textuais/abstract.tex" 1792872715 2305 31c877cca01a5327d182cc8925cc6a6a ""
   "elementos-pre-textuais/agradecimentos.tex" 1792857667 1113 ed5d2cd8382b366cae63415a5e971db5 ""
   "elementos-pre-textuais/dedicatoria.tex" 1792857667 119 b9d901c557b4fd2c6d07f285fea60a69 ""
   "elementos-pre-textuais/epigrafe.tex" 1783629405 208 2798f736f0f261b71e58edea1792112a ""
   "elementos-pre-textuais/fig_ficha_catalografica.pdf" 1783629406 91337 948cca5e5d792c06b554544345231a73 ""
   "elementos-pre-textuais/lista-de-abreviaturas-e-siglas.tex" 1792774326 5261 e055aa7209a07f3e36306b34d347e31f ""
   "elementos-pre-textuais/lista-de-simbolos.tex" 1792780472 6973 f1ca6871ff56344e423b21d0899b61c6 ""
-  "elementos-pre-textuais/resumo.tex" 1792843754 2289 355e3ec8c942f50cc2298dd135ad392c ""
-  "elementos-textuais/conclusao.tex" 1792857667 7186 90fb390eeeb23a8f176f44f7b45a4afa ""
-  "elementos-textuais/controle.tex" 1792857667 50552 f27619be2a14501f6ed38c21242ca890 ""
-  "elementos-textuais/introducao.tex" 1792784647 10030 690d27aa3f2d182f7acf12054bd28fd1 ""
-  "elementos-textuais/metodologia.tex" 1792857968 38593 fc76c45944e9e57641d30264d14df7b3 ""
-  "elementos-textuais/o-estado-da-arte.tex" 1792785543 44498 ef036674e42d37795f2df0ce42d5aa26 ""
-  "elementos-textuais/resultado.tex" 1792857667 51242 8d11da5bb2bdc4a402d9ed7dbdb451b4 ""
+  "elementos-pre-textuais/resumo.tex" 1792868677 2525 0e9d0e8cf127c89fe51224e541d1209e ""
+  "elementos-textuais/conclusao.tex" 1792872715 6687 792f7feb8a13981d37d09f028f32ed55 ""
+  "elementos-textuais/controle.tex" 1793009820 50646 da7b7e506558db04ab040b68f2795814 ""
+  "elementos-textuais/introducao.tex" 1793009940 10086 73b6e8e376c5960f9b8383e2dfacf49f ""
+  "elementos-textuais/metodologia.tex" 1793009820 38517 0dca41942b7a9edd1246aea85f8d1e94 ""
+  "elementos-textuais/o-estado-da-arte.tex" 1792875433 44244 a6aac030b7c0821edc8c2ef529cfedda ""
+  "elementos-textuais/resultado.tex" 1792872715 51221 bc3f47fb9b2205276613c9b41404ac52 ""
   "figuras/Diagrama-bloco-hidraulico-LAC.png" 1792787659 2793229 eaeefe863b9aba0d0c2cf425bb578ee7 ""
   "figuras/acc-controle-de-cruzeiro-adaptativo.png" 1783629405 128421 ff78c160e5662e9fb547817f378d3ccb ""
   "figuras/arquitetura-funcional-do-sistema-de-controle-de-freio.png" 1783629405 41361 bfba5d89eed6745de8ce5bc59b4f68ea ""
@@ -383,7 +385,7 @@
   "figuras/sistemas_hidraulicos.jpg" 1783629405 85103 4d325ec65c152b65b632f673113713ea ""
   "figuras/sistemas_pneumatico.jpg" 1783629405 30754 1d9b6f59ebdae1056185448236a6cc8a ""
   "figuras/trajetoria_historica_evolucao_tecnologia_adas.jpg" 1783629405 56994 1181ff86e8e83fdbae023602390be69a ""
-  "preambulo.tex" 1792852458 3591 dbb7684060e876442095ceef1d0f8eb4 ""
+  "preambulo.tex" 1793009870 3620 d34e5c80b121fac4768eb8a9937261d3 ""
   "unifortex2.sty" 1792857667 48776 4561ba47a7374314692c6c74cfd536f2 ""
   (generated)
   "documento.acn"

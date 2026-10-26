@@ -299,7 +299,7 @@ Por fim, desafios relacionados à integração de novas tecnologias, como freios
 \label{sec:o-estado-da-arte-5-4}
 Em resumo, os sistemas de freio enfrentam desafios significativos relacionados ao aquecimento e desgaste, além de certos obstáculos que exigem melhorias contínuas e serão mencionados abaixo.
 
-Atualmente, podemos elencar como as principais limitações tecnológicas dos sistemas de freio a dependência de sensores, que podem falhar em condições adversas, comprometendo o funcionamento de sistemas eletrônicos como ABS e ESC \cite{Konrad2014, Lentin2022}.
+Atualmente, observam-se as principais limitações tecnológicas dos sistemas de freio a dependência de sensores, que podem falhar em condições adversas, comprometendo o funcionamento de sistemas eletrônicos como ABS e ESC \cite{Konrad2014, Lentin2022}.
 
 Além da integração de sistemas de freio com tecnologias autônomas e híbridas, uma vez que, continuam apresentando desafios significativos, exigindo alta precisão nos sensores e atuadores \cite{Donghai2022, Lentin2022}.
 

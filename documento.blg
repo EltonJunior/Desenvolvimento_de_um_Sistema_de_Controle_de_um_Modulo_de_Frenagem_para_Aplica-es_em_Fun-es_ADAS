@@ -16,6 +16,11 @@ Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'wiz_functions' (item size: 4) to 9000 items.
 Database file #1: abntex2-options.bib
 Database file #2: elementos-pos-textuais/referencias.bib
+Warning--I didn't find a database entry for "limpert2011"
+Warning--I didn't find a database entry for "reif2014"
+Warning--I didn't find a database entry for "bryant2022"
+Warning--I didn't find a database entry for "joseph2022"
+Warning--I didn't find a database entry for "hu2022"
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'glb_str_end' (item size: 4) to 20 items.
 Reallocating 'glb_str_ptr' (item size: 4) to 20 items.
@@ -27,7 +32,7 @@ Reallocating 'global_strs' (item size: 1) to 4000000 items.
 +---------------------------------------------------------+
 You've used 47 entries,
             6714 wiz_defined-function locations,
-            1460 strings with 17952 characters,
+            1465 strings with 17997 characters,
 and the built_in function-call counts, 51344 in all, are:
 = -- 5086
 > -- 1343
@@ -66,3 +71,4 @@ warning$ -- 0
 while$ -- 296
 width$ -- 0
 write$ -- 648
+(There were 5 warnings)

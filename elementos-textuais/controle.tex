@@ -240,7 +240,7 @@ A validação em malha aberta é realizada em duas etapas: em um \emph{caso base
 
 \subsection{Definição do ponto de operação}
 \label{sec:definicao-ponto-operacao}
-Adota-se um ponto de operação $(x_0,u_0)$ correspondente a regime de frenagem, com $P_{sup,0}>P_{w,0}>P_{ret}$ e $\Delta P>0$ nas leis de orifício. Para a obtenção de um modelo linear de projeto com uma única entrada, assume-se ainda $u_{in}=u_{in,0}$ constante e $u_{out}=0$ (válvula de saída fechada) no ponto de operação, de modo que a dinâmica incremental seja governada pela variável contínua $\omega_p$. O ponto de operação é escolhido de modo a representar equilíbrio local (regime permanente), isto é, $\dot{x}=f(x,u)=0$ em $(x_0,u_0)$ para as hipóteses adotadas \cite{FranklinPowellWorkman1998,Ogata1997}. Os valores numéricos empregados nas simulações são apresentados no Apêndice~\ref{ap:ponto-operacao}.
+Adota-se um ponto de operação $(x_0,u_0)$ correspondente a regime de frenagem, com $P_{sup,0}>P_{w,0}>P_{ret}$ e $\Delta P>0$ nas leis de orifício. Para a obtenção de um modelo linear de projeto com uma única entrada, assume-se ainda $u_{in}=u_{in,0}$ constante e $u_{out}=0$ (válvula de saída fechada) no ponto de operação, a dinâmica incremental seja governada pela variável contínua $\omega_p$. O ponto de operação é escolhido de modo a representar equilíbrio local (regime permanente), isto é, $\dot{x}=f(x,u)=0$ em $(x_0,u_0)$ para as hipóteses adotadas \cite{FranklinPowellWorkman1998,Ogata1997}. Os valores numéricos empregados nas simulações são apresentados no Apêndice~\ref{ap:ponto-operacao}.
 \subsection{Jacobianos e forma linear aproximada}
 \label{sec:derivacao-matrizes-jacobianas}
 A partir de \eqref{eq:din_press}–\eqref{eq:leaks}, escreve-se $\dot{x}=f(x,u)$. As jacobianas
@@ -406,7 +406,7 @@ O projeto de controle apresentado nas seções precedentes considera uma planta 
 
 Na etapa de integração física, a configuração inicialmente testada com bomba centrífuga foi substituída por um atuador linear de êmbolo (\textit{Linear Actuator Concept} -- LAC). A análise dos resultados obtidos em simulação no MATLAB/Simulink para a arquitetura convencional evidenciou que a bomba não estabeleceu a pressão requerida no circuito, em razão da necessidade de pressurização inicial de 1 bar. A transição para o LAC permitiu investigar a geração de pressão por deslocamento volumétrico direto do êmbolo.
 \begin{enumerate}
-    \item \textbf{Limitação observada na configuração inicial:} a bomba centrífuga não produziu a pressão requerida na montagem física e recirculou o fluido, o que motivou a mudança da arquitetura de bancada;
+    \item \textbf{Limitação observada na configuração inicial:} com as análises realizadas na simulação, verificou-se que a bomba centrífuga não produziu a pressão requerida na montagem física, devido ao fato de ter uma pressao inicial de 1 bar nos testes, o que motivou a mudança da arquitetura de bancada;
     \item \textbf{Adequação ao ensaio físico:} o LAC desloca diretamente o êmbolo e, assim, altera o volume do circuito hidráulico. Essa configuração foi integrada à placa eletrônica e ao microcontrolador AURIX TC375 para os ensaios de controle.
 \end{enumerate}
 
@@ -557,7 +557,7 @@ A estimação do estado de velocidade linear $\dot{x}_{\mathrm{LAC}}(k)$, não m
     + L \left( y(k) - C_x\hat{\mathbf{x}}(k) \right).
     \label{eq:observador_luenberger_lac}
 \end{equation}
-O ganho do observador $L$ é alocado de modo que os autovalores da matriz $(\Phi - L C_x)$ convirjam mais rapidamente que a dinâmica de malha fechada do regulador LQI, satisfazendo o princípio da separação \cite{Ogata1997}.
+O ganho do observador $L$ é alocado fazendo com que os autovalores da matriz $(\Phi - L C_x)$ convirjam mais rapidamente que a dinâmica de malha fechada do regulador LQI, satisfazendo o princípio da separação \cite{Ogata1997}.
 
 \subsection{Restrição de comunicação USB e migração para execução determinística embarcada}
 \label{sec:restricao-usb-arquitetura}

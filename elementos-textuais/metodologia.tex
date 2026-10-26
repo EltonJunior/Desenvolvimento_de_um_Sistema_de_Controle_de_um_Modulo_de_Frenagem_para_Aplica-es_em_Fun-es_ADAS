@@ -26,16 +26,13 @@ Os excertos do firmware associados aos ensaios \texttt{OLTEST}, \texttt{PLID}, \
 
 Para evitar que o texto principal assuma a forma de um “manual de MATLAB”, a descrição do uso de \textit{scripts} é feita de maneira conceitual: no corpo do texto, explicita-se o papel do \textit{script} na organização do ensaio (definição do horizonte de simulação, parametrização do modelo, geração de comandos/referências e registro de sinais); já o detalhe de implementação (funções, variáveis e trechos de código) é apresentado no apêndice de códigos.
 
-As métricas de avaliação foram escolhidas para refletir tanto desempenho de seguimento quanto esforço de atuação: tempo de subida e de acomodação da pressão, sobressinal, erro de regime permanente e erro RMS. Complementarmente, registra-se o esforço máximo de controle (por exemplo, máximos de $u_{in}$ e $u_{out}$) para verificar compatibilidade com as saturações físicas impostas no modelo. A apresentação dos resultados (curvas, métricas e discussão) é concentrada no Capítulo~\ref{chap:resultados-final}, de modo que a metodologia permaneça claramente separada dos achados.
+As métricas de avaliação foram escolhidas para refletir tanto desempenho de seguimento quanto esforço de atuação: tempo de subida e de acomodação da pressão, sobressinal, erro de regime permanente e erro RMS. Complementarmente, registra-se o esforço máximo de controle (por exemplo, máximos de $u_{in}$ e $u_{out}$) para verificar compatibilidade com as saturações físicas impostas no modelo. A apresentação dos resultados (curvas, métricas e discussão) é concentrada no Capítulo~\ref{chap:resultados-final}, a metodologia permaneça claramente separada dos achados.
 % END ADD
 
-\section{Tipo e Abordagem da Pesquisa}
+\section{Procedimento metodológico e métricas de avaliação}
 \label{sec:metodologia-1}
 A pesquisa tem caráter computacional e experimental. A etapa computacional utiliza modelos matemáticos, simulações e algoritmos para avaliar o sistema no MATLAB/Simulink. A etapa experimental compreende ensaios em bancada com o LQI executado no AURIX TC375 e o monitoramento da pressão hidráulica produzida pelo atuador linear.
 
-
-\section{Justificativa das Escolhas Metodológicas}
-\label{sec:metodologia-2}
 As escolhas metodológicas foram orientadas pela necessidade de avaliar estratégias de controle digital para sistemas de freio tanto em simulação quanto em bancada. A seleção dos componentes, algoritmos e procedimentos considerou os requisitos de controle e as limitações observadas durante a integração experimental.
 
 
@@ -161,7 +158,7 @@ Em contraste com os motores de corrente contínua com escovas tradicionalmente a
 \subsection{Sensor da Roda}
 \label{sec:metodologia-4-3}
 
-Os sensores de velocidade da roda são usados para medir a velocidade de rotação das rodas do veículo. Esses sinais são fundamentais para funções como ABS e ESC, nas quais a unidade de controle estima condições de escorregamento e estabilidade e decide intervenções de frenagem. No presente trabalho, entretanto, o foco da avaliação em simulação está no \textbf{regulador de pressão hidráulica} (atuador), de modo que os sensores de roda são tratados principalmente como parte da arquitetura típica do sistema e como motivação para a plataforma eletrônica proposta. Além disso, de acordo com \citeonline{Konrad2014}, sistemas de navegação também podem usar sinais de velocidade da roda para estimar distância percorrida (por exemplo, em túneis). Normalmente encontram-se sensores de velocidade da roda em dois modelos: passivos e ativos.
+Os sensores de velocidade da roda são usados para medir a velocidade de rotação das rodas do veículo. Esses sinais são fundamentais para funções como ABS e ESC, nas quais a unidade de controle estima condições de escorregamento e estabilidade e decide intervenções de frenagem. No presente trabalho, entretanto, o foco da avaliação em simulação está no \textbf{regulador de pressão hidráulica} (atuador), enquanto os sensores de roda são tratados principalmente como parte da arquitetura típica do sistema e como motivação para a plataforma eletrônica proposta. Além disso, de acordo com \citeonline{Konrad2014}, sistemas de navegação também podem usar sinais de velocidade da roda para estimar distância percorrida (por exemplo, em túneis). Normalmente encontram-se sensores de velocidade da roda em dois modelos: passivos e ativos.
 
 \subsubsection{Sensor da Roda Modelo Passivo}
 \label{sec:metodologia-4-3-1}
@@ -241,7 +238,7 @@ A descrição detalhada desses circuitos, acompanhada de seus diagramas esquemá
 \subsection{Microcontrolador}
 \label{sec:metodologia-6-5}
 
-A plataforma experimental utiliza o microcontrolador AURIX TC375, da Infineon Technologies, cuja documentação descreve recursos de processamento e segurança voltados a aplicações automotivas \citeonline{tc37xDatasheet}. A presença desses recursos no componente não demonstra, por si só, conformidade da plataforma desenvolvida com a ISO~26262 nem classificação ASIL. De modo que, abaixo estão elencadas as principais características do microcontrolador AURIX TC375 e, como se encaixa em um sistema de freio em termos de segurança, tecnologia e robustez:
+A plataforma experimental utiliza o microcontrolador AURIX TC375, da Infineon Technologies, cuja documentação descreve recursos de processamento e segurança voltados a aplicações automotivas \citeonline{tc37xDatasheet}. A presença desses recursos no componente não demonstra, por si só, conformidade da plataforma desenvolvida com a ISO~26262 nem classificação ASIL. Por isso, abaixo são destacadas as principais características do microcontrolador AURIX TC375 e, como se encaixa em um sistema de freio em termos de segurança, tecnologia e robustez:
 
 \begin{itemize}
     \item \textbf{Arquitetura multinúcleo:} baseada em CPUs TriCore de 32 bits que operam em sincronia para redundância e tolerância a falhas.

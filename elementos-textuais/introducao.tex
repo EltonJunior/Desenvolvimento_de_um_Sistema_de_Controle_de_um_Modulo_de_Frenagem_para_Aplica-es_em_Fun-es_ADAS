@@ -5,7 +5,7 @@
 \section{Considerações Iniciais}
 \label{chap:introducao-1}
  
-O sistema de freios é fundamental para a segurança veicular. Entre suas principais funções estão desacelerar o veículo até a parada completa, manter a velocidade durante uma descida e conservar o veículo imobilizado quando estacionado \citeonline{Rudolf2011}.
+O sistema de freios é fundamental para a segurança veicular. Entre suas funções primordiais destacam-se a desaceleração controlada do veículo até o repouso completo, a manutenção da velocidade em declives acentuados e a garantia da imobilização estática quando estacionado \cite{limpert2011}.
 
 A evolução dos sistemas de freios remonta a soluções rudimentares empregadas em carruagens e inclui, entre outros avanços, os freios a tambor, pneumáticos, a disco e hidráulicos, além de sistemas eletrônicos como o ABS (\textit{Anti-lock Braking System}) e a frenagem regenerativa \cite{Konrad2014}.
 
@@ -17,7 +17,7 @@ Nesse cenário, o Controle de Cruzeiro Adaptativo (ACC), que ajusta automaticame
 % ADD 01/29/2026
 Este trabalho investiga como modelar e controlar, com viabilidade de implementação embarcada, a geração e o alívio de pressão em um módulo de frenagem destinado à integração com funções ADAS, como o ACC. A pesquisa articula a modelagem do subsistema hidráulico, o projeto de um controlador digital de baixo nível e o desenvolvimento de uma plataforma eletrônica para ensaios e integração.
 
-Ressalta-se que o foco está na \textbf{frenagem ativa} e na regulação/rastreamento de pressão como função de baixo nível do módulo eletro-hidráulico (atuador), e não no projeto de um controlador completo de \textit{slip} roda--pista (ABS no sentido estrito), que demandaria a inclusão explícita da dinâmica longitudinal do veículo, do pneu e da lógica de supervisão associada.
+Dessa maneira, a pesquisa delimita seu escopo à \textbf{frenagem ativa}, focando na regulação e no rastreamento de pressão como função de baixo nível do módulo eletro-hidráulico. Exclui-se do escopo o controle dinâmico de escorregamento roda--pista (ABS clássico), o qual demandaria a modelagem explícita da dinâmica longitudinal do chassi e dos pneus.
 % END ADD
 
 \section{ Objetivos }
@@ -32,16 +32,15 @@ A dissertação apresenta a evolução dos sistemas de freio, seus principais co
 % ADD 01/29/2026
 Como objetivos específicos, destacam-se:
 \begin{itemize}
-    \item modelar a dinâmica da pressão hidráulica a partir do balanço de vazões e compressibilidade do fluido;
-    \item obter um modelo linearizado em torno de um ponto de operação para projeto de controle;
-    \item projetar um controlador digital em espaço de estados (LQI) para regulação/rastreamento da pressão;
-    \item implementar um observador de Luenberger para estimação do estado em condições de ruído;
-    \item avaliar o desempenho do LQI por simulação, considerando a pressão, os sinais de atuação e a sensibilidade a variações paramétricas;
-    \item caracterizar experimentalmente, em bancada, a relação entre a posição do atuador linear (LAC) e a pressão hidráulica;
-    \item implementar e avaliar, em bancada, estratégias embarcadas de controle da posição do LAC, incluindo o LQI, e monitorar a pressão resultante nos modos de pressurização, retenção e alívio.
-
+    \item modelar a dinâmica da pressão hidráulica a partir do balanço de vazões e da compressibilidade do fluido;
+    \item obter um modelo linearizado em torno de um ponto de operação para o projeto de controle;
+    \item projetar um controlador digital em espaço de estados (LQI) para regulação e rastreamento da pressão hidráulica em simulação;
+    \item implementar um observador de Luenberger para estimação de estados sob condições de ruído de medição;
+    \item avaliar o desempenho do LQI por simulação, analisando o seguimento de pressão, os esforços de atuação e a sensibilidade paramétrica;
+    \item caracterizar experimentalmente, em bancada, a relação estática e dinâmica entre a posição do atuador linear (LAC) e a pressão hidráulica;
+    \item implementar e avaliar, em bancada, estratégias embarcadas de controle da posição do LAC, incluindo o regulador LQI, monitorando a pressão resultante nas fases de pressurização, retenção e alívio.
 \end{itemize}
-% END ADD
+
 
 \section{ Justificativa }
 \label{sec:introducao-3}
@@ -73,7 +72,7 @@ Como contribuições, destacam-se:
     \item \textbf{Estrutura de estimação de estados compatível com instrumentação limitada}: observador de Luenberger discreto acoplado ao regulador, visando robustez frente a ruído de medição e viabilidade de implementação embarcada (Capítulo~\ref{cap:controle}, Seção~\ref{sec:projeto-observador-luenberger}).
     \item \textbf{Evidência reprodutível por simulação}: organização de \textit{scripts} MATLAB para executar simulações, registrar sinais e calcular métricas, permitindo relacionar hipóteses, procedimentos e resultados (Capítulo~\ref{chap:resultados-final} e Apêndice~\ref{ap:scripts-matlab});
     \item \textbf{Avaliação experimental em bancada}: caracterização da resposta do atuador linear e da relação entre sua posição e a pressão hidráulica, além da avaliação do LQI nos ensaios de controle (Capítulo~\ref{chap:resultados-final});
-    \item \textbf{Transição da arquitetura física}: registro da substituição da bomba centrífuga inicialmente utilizada pelo atuador linear LAC, em razão da recirculação do fluido sem geração da pressão requerida na configuração testada.
+    \item \textbf{Transição da arquitetura física}: registro da substituição da bomba centrífuga inicialmente utilizada pelo atuador linear LAC, em razão da pressão inicial de 1 bar requerida na configuração testada.
 
 \end{itemize}
 

@@ -160,26 +160,26 @@ A sequência de pressurização, retenção e alívio foi executada pelo firmwar
     \label{fig:resultado-final-oltest}
 \end{figure}
 
-No primeiro ajuste do limite de posição, definido em $12{,}0$ mm nos dados da conversa, a subida de pressão acima de 1 psi começou em $t=859$ ms, quando o LAC estava em aproximadamente $5{,}92$ mm. A maior pressão registrada foi $51{,}79$ psi em $t=1399$ ms, com posição de $12{,}26$ mm. A pressão, portanto, não alcançou 80 psi nesse ajuste.
+No primeiro ensaio exploratório, cujo limite de curso foi fixado preliminarmente em 12,0 mm, a elevação de pressão acima de 1 psi começou em $t=859$ ms, quando o LAC estava em aproximadamente $5{,}92$ mm. A maior pressão registrada foi $51{,}79$ psi em $t=1399$ ms, com posição de $12{,}26$ mm. A pressão, portanto, não alcançou 80 psi nesse ajuste.
 
 No segundo ensaio, o limite de posição foi definido em $14{,}3$ mm. A pressão começou a crescer de modo mensurável próximo de $5{,}9$ mm. O pico registrado foi de $75{,}12$ psi, com posição máxima próxima de $13{,}4$ mm. Esses dados mostram a relação direta entre o deslocamento do LAC e o aumento da pressão, mas também indicam que um único limite de posição não pode ser convertido em uma tabela universal pressão--deslocamento sem repetir a identificação para cada condição hidráulica.
 
 Em conjunto, os registros indicam curso morto até aproximadamente $5{,}9$ mm e aumento da inclinação aparente da relação posição--pressão após o início da pressurização. Os dois ensaios demonstram comportamento não linear, mas não são suficientes para ajustar ou afirmar uma lei exponencial para $P_w(x)$. A interpretação deve permanecer restrita às condições e às trajetórias medidas.
 
-\begin{table}[htbp]
-    \centering
-    \caption{Resumo dos ensaios \texttt{OLTEST} documentados.}
-    \label{tab:resultado-final-oltest}
-    \begin{tabular}{c c c c c}
-        \toprule
-        Ensaio & Limite do LAC (mm) & Início $P_w>1$ (psi) & Pico de pressão (psi) & Posição no pico (mm) \\
-        \midrule
-        Prim. ajuste & Aprox. 12,0 & 859~ms - 5,92~mm  & 51,79 & 12,26 \\
-        Seg. ajuste & 14,3  & 5,9~mm & 75,12 & Aprox. 13,4 \\
-        \bottomrule
-    \end{tabular}
-    \Fonte{Dados registrados no resumo do ensaio de bancada.}
+\begin{table}[ht]
+\centering
+\caption{Resumo dos ensaios em malha aberta (OLTEST) na bancada experimental.}
+\label{tab:resumo_oltest}
+\begin{tabular}{lcccc}
+\hline
+Configuração & Limite do LAC [mm] & Início $P_w > 1\text{ psi}$ & Pico de $P_w$ [psi] & Posição no pico [mm] \\
+\hline
+Limite preliminar & $\approx 12{,}0$ & $859\text{ ms}$ ($5{,}92\text{ mm}$) & $51{,}79$ & $12{,}26$ \\
+Limite estendido  & $14{,}3$         & $\approx 5{,}9\text{ mm}$           & $75{,}12$ & $\approx 13{,}4$ \\
+\hline
+\end{tabular}
 \end{table}
+
 
 O perfil de cinco segundos também confirmou a sequência funcional de acionamento: pressurização com entrada aberta e saída fechada, retenção com ambos os caminhos fechados e alívio com entrada fechada e saída aberta. Os dados disponíveis identificam explicitamente os comandos \texttt{u\_in} e \texttt{u\_out}, associados no ensaio às válvulas IRL e ORL. Não foram encontrados, no material analisado, registros independentes dos estados elétricos das válvulas PFV e CSV.
 

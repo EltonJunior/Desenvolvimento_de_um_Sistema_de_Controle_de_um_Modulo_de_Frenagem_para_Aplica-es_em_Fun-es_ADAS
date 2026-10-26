@@ -19,7 +19,7 @@ A execução dos perfis no AURIX TC375, com período nominal de controle de 1~ms
 \section[Limitações do Trabalho]{Limitações do Trabalho}
 \label{sec:conclusao-limitacoes}
 
-Os resultados estão limitados às condições da bancada e às configurações documentadas. A relação posição--pressão pode variar com temperatura, presença de ar, compressibilidade, histerese, vedações e condições mecânicas do circuito, como por exemplo ar no circuito hidráulico. Não foi realizada uma campanha estatística com ganhos e condições iniciais uniformes para todos os ensaios. A leitura do sensor interno do bloco não foi integrada ao firmware; a pressão disponível foi utilizada para monitoramento e validação. Também não foram realizados ensaios de segurança funcional que permitam afirmar conformidade com a ISO~26262 ou classificação ASIL.
+Os resultados estão limitados às condições da bancada e às configurações documentadas. A relação entre deslocamento linear e pressão hidráulica está sujeita a variações decorrentes da temperatura do fluido, do módulo de elasticidade das tubulações, de efeitos de histerese e relaxação viscoelástica das vedações, bem como da presença residual de ar no circuito hidráulico.
 
 Como a placa proposta foi desenvolvida visando à integração com o atuador centrífugo, sua adaptação para o LAC pode não explorar todas as capacidades do hardware, uma vez que não era possível controlar diretamente o motor BLDC do atuador LAC, atuando em suas fases, e não foi possível realizar a medição direta da corrente do motor para fins de controle. Isso limita a capacidade de implementar estratégias de controle mais avançadas que dependam dessas medições. Além disso, a ausência de integração direta do sensor de pressão interno restringe a implementação de malhas de controle de pressão totalmente fechadas, limitando a avaliação do desempenho hidráulico sob condições variáveis.
 Adicionalmente, a implementação atual não permite avaliar o comportamento do sistema sob falhas do atuador ou do sensor de pressão, o que é relevante para a análise de segurança funcional e para a robustez do controle em cenários veiculares.
@@ -27,14 +27,12 @@ Adicionalmente, a implementação atual não permite avaliar o comportamento do 
 \section[Trabalhos Futuros]{Trabalhos Futuros}
 \label{sec:conclusao-trabalhos-futuros}
 
-Como continuidade, recomenda-se:
+Como continuidade desta pesquisa, recomendam-se os seguintes desdobramentos:
 \begin{enumerate}
-    \item incluir driver para o sensor de pressão interno do bloco hidráulico, permitindo sua integração direta ao firmware e a implementação de malhas de controle de pressão totalmente fechadas;
-    \item incluir medição direta da corrente do motor BLDC do atuador LAC, permitindo estratégias de controle que dependam dessa informação;
-    \item implementar circuito de acionamento (driver) para controle do motor BLDC do atuador LAC, permitindo controle direto das fases e integração com a medição de corrente;
-    \item avaliar a plataforma em ambiente \textit{hardware-in-the-loop} antes de qualquer extrapolação para condições de operação veicular.
-    \item realizar ensaios de falha do atuador e do sensor de pressão para analisar a robustez do controle e a segurança funcional do sistema.
-    \item estudos para implementação de estratégias de controle avançadas que utilizem a medição de corrente do motor e a pressão interna do bloco hidráulico para aplicar em veículos.
-    \item integração da plataforma com sistemas veiculares reais para validação em condições de operação prática, considerando variáveis como temperatura, vibração e dinâmica do veículo.
-    \item desenvolvimento de procedimentos de calibração e ajuste fino do controle em ambiente veicular, garantindo desempenho consistente e seguro em diferentes condições de operação.
+    \item desenvolver e integrar o driver de comunicação com o sensor de pressão interno do bloco hidráulico, viabilizando o fechamento direto da malha de controle de pressão sem intermediação geométrica;
+    \item implementar circuito de condicionamento e leitura da corrente de fase do motor BLDC do atuador LAC, permitindo o projeto de controladores em cascata com realimentação de torque/corrente;
+    \item projetar estágio de potência dedicado para o acionamento direto das fases do motor BLDC do atuador linear a partir do próprio microcontrolador AURIX TC375;
+    \item submeter a plataforma de controle a ensaios em ambiente \textit{hardware-in-the-loop} (HIL), acoplando modelos em tempo real da dinâmica veicular, de contato pneu--pista e de supervisão de escorregamento;
+    \item conduzir ensaios de injeção de falhas em atuadores e sensores para caracterização experimental da robustez do sistema frente a requisitos de segurança funcional;
+    \item estabelecer protocolos experimentais automatizados para a identificação dinâmica e compensação adaptativa da histerese na relação posição--pressão do circuito.
 \end{enumerate}

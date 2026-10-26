@@ -80,7 +80,7 @@ Essas análises e explorações favorecem o entendimento das potencialidades e l
 
 \subsection{Sistemas de Freio Hidráulico e Pneumático}
 \label{sec:o-estado-da-arte-2-2}
-Os sistemas de freio podem ser classificados em hidráulicos e pneumáticos. Os sistemas hidráulicos. Figura~\ref{fig:sistemas_hidraulicos}, que utilizam fluido de freio para transmitir a força do pedal aos freios, são os mais comuns em veículos leves \cite{Konrad2014, AndrewJ2022}. Esses sistemas incluem componentes como cilindros mestres, válvulas de controle de pressão e sistemas de reforço (\textit{boosters}) \cite{Rudolf2011}.
+Os sistemas de freio podem ser classificados em hidráulicos e pneumáticos. Os sistemas hidráulicos (Figura~\ref{fig:sistemas_hidraulicos}), que utilizam fluido de freio para transmitir a força do pedal aos freios, são os mais comuns em veículos leves \cite{reif2014, bryant2022}. Esses sistemas incluem componentes como cilindros mestres, válvulas de controle de pressão e sistemas de reforço (\textit{boosters}) \cite{limpert2011}.
 
 \begin{figure}[htbp]
     \centering
@@ -90,7 +90,9 @@ Os sistemas de freio podem ser classificados em hidráulicos e pneumáticos. Os 
     \fonte{ O Autor, adaptado de \cite{sistemahidraulico}. }
 \end{figure}
 
-Já os sistemas pneumáticos. Figura~\ref{fig:sistemas_pneumatico}, que utilizam ar comprimido ou outro gás pressurizado para aplicar a força de frenagem, são predominantes em veículos pesados, como caminhões e ônibus \cite{Konrad2014}. De acordo com análises recentes, esses sistemas apresentam potencial aplicação em veículos de grande porte devido à sua capacidade de gerar força suficiente para frear veículos com grande massa, além de serem reconhecidos por sua durabilidade e segurança operacional \cite{BuHanShue2007}.
+Por sua vez, os sistemas pneumáticos (Figura~\ref{fig:sistemas_pneumaticos}), que empregam ar comprimido ou outro gás pressurizado para aplicar a força de frenagem, são predominantes em veículos pesados, como caminhões e ônibus \cite{reif2014}.
+
+De acordo com análises recentes, esses sistemas apresentam potencial aplicação em veículos de grande porte devido à sua capacidade de gerar força suficiente para frear veículos com grande massa, além de serem reconhecidos por sua durabilidade e segurança operacional \cite{BuHanShue2007}.
 
 \begin{figure}[htbp]
     \centering
@@ -171,9 +173,10 @@ Os principais componentes dos sistemas de freio desempenham funções essenciais
           São responsáveis por dissipar a energia cinética do veículo, transformando-a em calor. A eficiência térmica e a resistência ao desgaste são fundamentais para garantir a segurança e a durabilidade do sistema de freio \cite{Rudolf2011, AndrewJ2022}.
 
     \item \textbf{Pastilhas e lonas:} As pastilhas de freio são feitas de materiais que oferecem alta resistência ao desgaste e ao calor, aplicando pressão nos discos para gerar atrito \cite{Konrad2014, Lentin2022}. As lonas de freio, utilizadas em sistemas de freio a tambor, possuem composições semelhantes às pastilhas e aplicam pressão nos tambores para gerar atrito \cite{Konrad2014, Lentin2022}.
-          De modo que, a partir desse atrito, geram a força de frenagem necessária para parar o veículo. A escolha de materiais de fricção adequados é essencial para garantir alta resistência ao desgaste e ao calor \cite{Konrad2014, AndrewJ2022}.
+          A partir desse atrito, geram a força de frenagem necessária para parar o veículo. A escolha de materiais de fricção adequados é essencial para garantir alta resistência ao desgaste e ao calor \cite{Konrad2014, AndrewJ2022}.
 
-    \item \textbf{Cilindros mestres e servofreios:} O cilindro mestre converte a força do pedal em pressão na linha hidráulica, distribuindo-a para os freios \cite{Konrad2014, Lentin2022}. O servofreio amplifica a força aplicada pelo motorista, utilizando vácuo do motor ou pressão hidráulica \cite{Konrad2014}. Garantindo que a força aplicada no pedal seja transmitida de forma eficiente para os freios, convertendo a força mecânica em pressão na linha do sistema hidráulico \cite{Konrad2014,Lentin2022}.
+    \item \textbf{Cilindros mestres e servofreios:} o cilindro mestre converte a força mecânica do pedal em pressão na linha hidráulica, distribuindo-a para os circuitos das rodas \cite{reif2014, joseph2022}. O servofreio amplifica o esforço aplicado pelo condutor, empregando vácuo gerado pelo motor ou assistência eletro-hidráulica \cite{reif2014}, assegurando a transmissão eficiente de pressão às pinças de freio.
+
 
     \item \textbf{Sensores:} Sensores de velocidade das rodas são essenciais para sistemas como ABS e TCS, monitorando exclusivamente a velocidade das rodas \cite{Konrad2014, Lentin2022, AndrewJ2022}. Já a pressão do fluido de freio é monitorada por sensores de pressão específicos instalados no circuito hidráulico. Sensores de temperatura também auxiliam na análise do desempenho do sistema \cite{Konrad2014}. Esses sinais asseguram o funcionamento correto dos sistemas eletrônicos de frenagem, como ABS e ESC \cite{Konrad2014, AndrewJ2022}.
 
@@ -263,11 +266,12 @@ Por fim, desafios relacionados à integração de novas tecnologias, como freios
 \label{sec:o-estado-da-arte-5-4}
 Em resumo, os sistemas de freio enfrentam desafios significativos relacionados ao aquecimento e desgaste, além de certos obstáculos que exigem melhorias contínuas e serão mencionados abaixo.
 
-Atualmente, podemos elencar como as principais limitações tecnológicas dos sistemas de freio a dependência de sensores, que podem falhar em condições adversas, comprometendo o funcionamento de sistemas eletrônicos como ABS e ESC \cite{Konrad2014, Lentin2022}.
+Atualmente, destacam-se como principais limitações tecnológicas dos sistemas de freio a dependência crítica de sensores, sujeitos a falhas e ruídos em condições operacionais adversas, o que pode comprometer a resposta de subsistemas eletrônicos como ABS e ESC \cite{reif2014, joseph2022}.
 
-Além da integração de sistemas de freio com tecnologias autônomas e híbridas, uma vez que, continuam apresentando desafios significativos, exigindo alta precisão nos sensores e atuadores \cite{Donghai2022, Lentin2022}.
+Adicionalmente, a integração de arquiteturas de frenagem a veículos híbridos e autônomos impõe desafios severos quanto à precisão e à velocidade de resposta dos atuadores eletro-hidráulicos \cite{hu2022, joseph2022}.
 
-E ainda, relacionada à eficiência energética dos sistemas eletromagnéticos e a necessidade de materiais de fricção mais duráveis e eficientes, bem como leves, imbuídos de resistência térmica e que tenham menor desgaste e compatibilidade com sistemas eletrônicos avançados, \cite{Donghai2022, AndrewJ2022}. Ademais de dependerem diretamente da capacidade de conversão e dissipação de energia, o que impõe certos obstáculos em termos de controle térmico e gerenciamento de energia em tempo real.
+E ainda, restrições quanto à eficiência energética de atuadores eletromecânicos e à demanda por materiais de fricção que conciliem baixo peso, elevada dissipação térmica e durabilidade mecânica \cite{hu2022, bryant2022}. Tais fatores dependem diretamente da dinâmica de conversão e dissipação de energia, impondo desafios ao gerenciamento térmico e ao controle em tempo real.
+
 
 Além disso, a limitação na disponibilidade de materiais com essas características e os altos custos ligados ao desenvolvimento e também à fabricação contribuem para ser considerado um dos principais gargalos tecnológicos da frenagem moderna.
 
@@ -276,7 +280,7 @@ Além disso, a limitação na disponibilidade de materiais com essas caracterís
 
 As inovações emergentes na tecnologia de freios estão transformando a indústria automotiva e estão focadas principalmente em eficiência, desempenho, segurança, comodidade e sustentabilidade.
 
-Entre as principais tendências, destacam-se a busca por materiais mais modernos, a partir do desenvolvimento de produtos de atrito mais avançados e duráveis, bem como designs de discos e tambores que melhoram a dissipação de calor \cite{Rudolf2011, AndrewJ2022}. Inclusive, já existem discos de cerâmica e carbono que oferecem maior durabilidade e desempenho, embora ainda sejam caros se comparados a outras alternativas \cite{Konrad2014, Lentin2022}.
+Entre as principais tendências, destacam-se a busca por materiais mais modernos, a partir do desenvolvimento de produtos de atrito mais avançados e duráveis, bem como designs de discos e tambores que melhoram a dissipação de calor \cite{Rudolf2011, AndrewJ2022}. Há também, já existem discos de cerâmica e carbono que oferecem maior durabilidade e desempenho, embora ainda sejam caros se comparados a outras alternativas \cite{Konrad2014, Lentin2022}.
 
 Há também uma inclinação por sistemas de freio mais leves e eficientes, com maior uso de materiais compostos e \textit{designs} aerodinâmicos também para melhorar a dissipação de calor \cite{Rudolf2011}.
 
@@ -291,13 +295,14 @@ De modo que, a adoção de novos materiais, os freios regenerativos e a sinergia
 As novas tecnologias de freios automotivos têm um impacto significativo na segurança veicular. Especialmente sistemas como ABS, ESC e AEB estão reduzindo acidentes e melhorando a segurança nas estradas \cite{Rudolf2011, AndrewJ2022}.
 
 \begin{citacao}
-    Nas últimas décadas, o avanço na segurança veicular ajudou a frear os acidentes fatais. Em 1997, por exemplo, quando o Brasil contava com pouco mais de 20 milhões de veículos, o trânsito matou cerca de 35 mil pessoas. Em 2022, já eram 115 milhões de veículos, mas os óbitos ficaram abaixo de 35 mil. \cite{bosch2024}.
+    Nas últimas décadas, a introdução de controles ativos de frenagem contribuiu para a estabilização das fatalidades no trânsito. Em 1997, por exemplo, quando o Brasil possuía uma frota de aproximadamente 20 milhões de veículos, registraram-se cerca de 35 mil óbitos; em 2022, com uma frota estimada em 115 milhões de veículos, o total anual de óbitos permaneceu abaixo desse patamar \cite{bosch2024}.
 \end{citacao}
 
-Outra inovação importante é a integração de sistemas de frenagem com redes veiculares para comunicação em tempo real e prevenção de colisões \cite{Konrad2014}. Permitindo que os veículos troquem informações instantâneas sobre condições de tráfego, possíveis obstáculos ou riscos iminentes e até mesmo o comportamento dos condutores ao redor, capaz de promover uma resposta antecipada dos sistemas de frenagem; reduzindo o tempo de reação frente a situações críticas, mas também contribuindo para uma atitude colaborativa entre os condutores.
+Outra evolução relevante consiste na integração dos módulos de freio a barramentos e redes veiculares de comunicação cooperativa \cite{reif2014}. Essa conectividade permite o compartilhamento antecipado de dados sobre as condições de tráfego e riscos de colisão, antecipando a pressurização do circuito hidráulico e mitigando o tempo de reação frente a eventos críticos.
 
-A adoção de sistemas eletrônicos avançados e a integração com tecnologias de condução autônoma prometem aumentar ainda mais a segurança. Os sistemas de frenagem autônoma e a integração com ADAS são destacados inclusive como promissores para aumentar ainda mais a segurança e reduzir acidentes \cite{Lentin2022, AndrewJ2022}.
+A adoção de sistemas eletrônicos avançados e a integração com tecnologias de condução autônoma prometem aumentar ainda mais a segurança. Os sistemas de frenagem autônoma e a integração com ADAS são destacados como promissores para aumentar ainda mais a segurança e reduzir acidentes \cite{Lentin2022, AndrewJ2022}.
 
 Tendo isso em vista, o ADAS representa uma das principais inovações tecnológicas na área de mobilidade e segurança veicular, integrando sensores, atuadores e algoritmos inteligentes visando o aumento da segurança, redução de acidentes e melhoria na experiência de condução na totalidade. O que, por sua vez, exige uma padronização rigorosa dos processos de desenvolvimento, validação e integração e, resulta na importância de normas e regulamentações ao nível global para garantir a eficácia desses sistemas, bem como tem ganhado cada vez mais relevância no cenário contemporâneo \cite{Rudolf2011}.
 
-Em resumo, as inovações emergentes na tecnologia de freios automotivos estão não apenas melhorando a eficiência e o desempenho dos veículos, promovendo mais conforto e comodidade, mas também desempenhando um papel crucial na melhoria da segurança veicular.
+As inovações tecnológicas em sistemas de frenagem refletem, portanto, a integração sinérgica entre eletrônica de potência, controle digital e sensoriamento avançado, requisitos indispensáveis para atender às demandas de segurança e dirigibilidade da mobilidade autônoma.
+
