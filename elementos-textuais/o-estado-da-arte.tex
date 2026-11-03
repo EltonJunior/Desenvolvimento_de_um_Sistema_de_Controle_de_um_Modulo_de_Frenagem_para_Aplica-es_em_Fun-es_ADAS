@@ -2,8 +2,6 @@
 \chapter{O Estado da Arte}
 \label{cap:o-estado-da-arte}
 
-Este capítulo apresenta uma análise histórica e técnica do componente alvo desta pesquisa, o sistema de freio. São explorados os principais marcos e inovações tecnológicas, bem como os diferentes tipos de freios e sua evolução mecânica e elétrica. São descritos os componentes e seus princípios de funcionamento, além de serem discutidos estudos experimentais e teóricos, desafios, limitações e tendências de aplicação. O objetivo é fornecer subsídios para a compreensão do contexto atual e identificar oportunidades para futuras contribuições acadêmicas.
-
 
 \section{Histórico dos Sistemas de Freio}
 \label{sec:o-estado-da-arte-1}
@@ -40,11 +38,10 @@ Além disso, alternativas modernas incluem sistemas eletro-hidráulicos, que uti
 
 Ainda relacionado aos sistemas eletro-hidráulicos, estudos recentes também demonstram a relevância do projeto paramétrico de motores integrados a sistemas de freio eletro-hidráulicos em veículos elétricos, evidenciando ganhos em eficiência e resposta dinâmica \cite{MotorParametricDesign2023}. Adicionalmente, estratégias de controle coordenado de pressão têm sido propostas para aprimorar a precisão e robustez desses sistemas, conforme discutido em \citeonline{PressureCoordinatedControl2023}. A literatura técnica explora a potencial aplicação dessas alternativas, destacando a necessidade de análises experimentais e validações em ambientes reais para avaliar sua eficiência e confiabilidade.
 
-Em termos de arquitetura, a expressão \textit{two-box} designa, em geral, a separação entre o conjunto de assistência/geração de pressão e a unidade hidráulica de modulação; a configuração \textit{one-box}, por sua vez, integra essas funções em um conjunto eletro-hidráulico. Essas denominações descrevem a integração dos componentes, mas não determinam, por si sós, um único tipo de motor, mecanismo ou desempenho. Algumas soluções integradas utilizam um atuador linear elétrico para deslocar o pistão hidráulico, enquanto outras podem adotar arranjos distintos \cite{Feigel2016, Linhoff2026}.
-
-A distinção é relevante para este trabalho porque a bancada foi reorganizada em torno de um atuador linear de êmbolo (LAC), após a configuração inicial com bomba centrífuga não estabelecer a pressão requerida. O estudo não pretende caracterizar todas as arquiteturas \textit{one-box} nem demonstrar desempenho veicular; seu recorte limita-se à modelagem, ao controle e à avaliação experimental do conjunto disponível.
+Em termos de integração, as expressões \textit{two-box} e \textit{one-box} descrevem, respectivamente, arquiteturas nas quais as funções de assistência/geração e modulação hidráulica permanecem em conjuntos separados ou são integradas em um mesmo conjunto eletro-hidráulico. Essas denominações não especificam, apenas, um mecanismo único de geração de pressão: há soluções com bombas e válvulas, assim como módulos integrados que deslocam diretamente um pistão por meio de um atuador elétrico \cite{Feigel2016, Linhoff2026}.
 
 Portanto, a classificação dos sistemas de freio apresentada neste capítulo busca contribuir para a compreensão das diferentes tecnologias disponíveis e, possíveis soluções que podem ser exploradas em contextos acadêmicos e industriais. A análise das configurações e princípios de funcionamento dos sistemas de freio é fundamental para validar modelos matemáticos e estratégias de controle, bem como para identificar limitações e oportunidades de investigação na área de sistemas automotivos.
+
 
 \section{Tipos de Sistemas de Freio}
 \label{sec:o-estado-da-arte-2}
@@ -80,7 +77,7 @@ Essas análises e explorações favorecem o entendimento das potencialidades e l
 
 \subsection{Sistemas de Freio Hidráulico e Pneumático}
 \label{sec:o-estado-da-arte-2-2}
-Os sistemas de freio podem ser classificados em hidráulicos e pneumáticos. Os sistemas hidráulicos (Figura~\ref{fig:sistemas_hidraulicos}), que utilizam fluido de freio para transmitir a força do pedal aos freios, são os mais comuns em veículos leves \cite{reif2014, bryant2022}. Esses sistemas incluem componentes como cilindros mestres, válvulas de controle de pressão e sistemas de reforço (\textit{boosters}) \cite{limpert2011}.
+Os sistemas de freio podem ser classificados em hidráulicos e pneumáticos. Os sistemas hidráulicos (Figura~\ref{fig:sistemas_hidraulicos}), que utilizam fluido de freio para transmitir a força do pedal aos freios, são os mais comuns em veículos leves \cite{Konrad2014, AndrewJ2022}. Esses sistemas incluem componentes como cilindros mestres, válvulas de controle de pressão e sistemas de reforço (\textit{boosters}) \cite{Rudolf2011}.
 
 \begin{figure}[htbp]
     \centering
@@ -90,7 +87,7 @@ Os sistemas de freio podem ser classificados em hidráulicos e pneumáticos. Os 
     \fonte{ O Autor, adaptado de \cite{sistemahidraulico}. }
 \end{figure}
 
-Por sua vez, os sistemas pneumáticos (Figura~\ref{fig:sistemas_pneumaticos}), que empregam ar comprimido ou outro gás pressurizado para aplicar a força de frenagem, são predominantes em veículos pesados, como caminhões e ônibus \cite{reif2014}.
+Por sua vez, os sistemas pneumáticos (Figura~\ref{fig:sistemas_pneumatico}), que empregam ar comprimido ou outro gás pressurizado para aplicar a força de frenagem, são predominantes em veículos pesados, como caminhões e ônibus \cite{Konrad2014}.
 
 De acordo com análises recentes, esses sistemas apresentam potencial aplicação em veículos de grande porte devido à sua capacidade de gerar força suficiente para frear veículos com grande massa, além de serem reconhecidos por sua durabilidade e segurança operacional \cite{BuHanShue2007}.
 
@@ -169,29 +166,28 @@ Os principais componentes dos sistemas de freio desempenham funções essenciais
 \begin{itemize}
     \item \textbf{Discos e tambores:} Os discos de freio, geralmente feitos de ferro fundido ou aço, possuem variações ventiladas para melhor dissipação de calor \cite{Konrad2014}. Já os tambores de freio são compostos por sapatas e lonas que pressionam a superfície interna do tambor para gerar atrito \cite{Konrad2014}.
           Discos de cerâmica também são utilizados devido à sua capacidade de dissipação rápida de calor \cite{Lentin2022}.
-
           São responsáveis por dissipar a energia cinética do veículo, transformando-a em calor. A eficiência térmica e a resistência ao desgaste são fundamentais para garantir a segurança e a durabilidade do sistema de freio \cite{Rudolf2011, AndrewJ2022}.
-
     \item \textbf{Pastilhas e lonas:} As pastilhas de freio são feitas de materiais que oferecem alta resistência ao desgaste e ao calor, aplicando pressão nos discos para gerar atrito \cite{Konrad2014, Lentin2022}. As lonas de freio, utilizadas em sistemas de freio a tambor, possuem composições semelhantes às pastilhas e aplicam pressão nos tambores para gerar atrito \cite{Konrad2014, Lentin2022}.
-          A partir desse atrito, geram a força de frenagem necessária para parar o veículo. A escolha de materiais de fricção adequados é essencial para garantir alta resistência ao desgaste e ao calor \cite{Konrad2014, AndrewJ2022}.
-
-    \item \textbf{Cilindros mestres e servofreios:} o cilindro mestre converte a força mecânica do pedal em pressão na linha hidráulica, distribuindo-a para os circuitos das rodas \cite{reif2014, joseph2022}. O servofreio amplifica o esforço aplicado pelo condutor, empregando vácuo gerado pelo motor ou assistência eletro-hidráulica \cite{reif2014}, assegurando a transmissão eficiente de pressão às pinças de freio.
-
-
+    A partir desse atrito, geram a força de frenagem necessária para parar o veículo. A escolha de materiais de fricção adequados é essencial para garantir alta resistência ao desgaste e ao calor \cite{Konrad2014, AndrewJ2022}.
+    \item \textbf{Cilindros mestres e servofreios:} o cilindro mestre converte a força mecânica do pedal em pressão na linha hidráulica, distribuindo-a para os circuitos das rodas \cite{Konrad2014, Lentin2022}. O servofreio amplifica o esforço aplicado pelo condutor, empregando vácuo gerado pelo motor ou assistência eletro-hidráulica \cite{Konrad2014}, assegurando a transmissão eficiente de pressão às pinças de freio. Esse conjunto também é conhecido como (\textit{two-box systems}).
     \item \textbf{Sensores:} Sensores de velocidade das rodas são essenciais para sistemas como ABS e TCS, monitorando exclusivamente a velocidade das rodas \cite{Konrad2014, Lentin2022, AndrewJ2022}. Já a pressão do fluido de freio é monitorada por sensores de pressão específicos instalados no circuito hidráulico. Sensores de temperatura também auxiliam na análise do desempenho do sistema \cite{Konrad2014}. Esses sinais asseguram o funcionamento correto dos sistemas eletrônicos de frenagem, como ABS e ESC \cite{Konrad2014, AndrewJ2022}.
+    \item \textbf{Válvulas e bombas:} As válvulas controlam o fluxo de fluido hidráulico para modular a pressão nos circuitos de freio, enquanto as bombas garantem a circulação adequada do fluido, especialmente em sistemas com assistência eletro-hidráulica \cite{Konrad2014, Lentin2022}. Esses componentes são cruciais para o funcionamento de sistemas como ABS e ESC, permitindo ajustes rápidos e precisos na pressão de frenagem.
+    \item \textbf{Atuadores one-box:} Atuadores eletrônicos integrados, conhecidos como \textit{one-box actuators}, combinam válvulas, bombas e unidades de controle em um único módulo. Esses atuadores são empregados em sistemas de freio \textit{by-wire} e permitem a modulação precisa da pressão de frenagem sem a necessidade de conexão mecânica direta com o pedal \cite{HouhuaJingShihao2023}. Eles representam uma evolução em relação aos sistemas tradicionais, oferecendo maior integração e potencial para controle eletrônico avançado.
 
 \end{itemize}
 
-\subsection{Princípios de Funcionamento}
+\subsection{Princípios de Funcionamento Em Sistemas Hidráulicos / ABS e ESC / AEB e ACC /}
 \label{sec:o-estado-da-arte-3-3}
 Em sistemas hidráulicos convencionais, a força aplicada ao pedal é transmitida ao cilindro mestre, que a converte em pressão distribuída pelo circuito. Nos freios a disco e a tambor, essa pressão aciona, respectivamente, pastilhas contra o disco e lonas contra a superfície interna do tambor, convertendo energia cinética em calor \cite{Konrad2014, Lentin2022}.
 
 Nos sistemas ABS e ESC, sensores de velocidade fornecem informações à unidade eletrônica de controle. Com base nesses sinais, a unidade comanda válvulas e bomba para modular a pressão; os sensores medem as condições de rotação, mas não realizam diretamente a atuação hidráulica \cite{Konrad2014, AndrewJ2022}.
 
+Em funções ADAS longitudinais, como o \gls{ACC} e a \gls{AEB}, sensores como \gls{RADAR} e \gls{LIDAR} podem ser utilizados para monitorar o ambiente e identificar veículos ou obstáculos. Com base nessas informações, o sistema pode gerar uma demanda de desaceleração, posteriormente convertida em comandos para o sistema de frenagem da arquitetura veicular \cite{LihuaLuo2016,Linhoff2026}.
+
 %################################################################
 %################################################################
 %################################################################
-\section{Revisão de estudos experimentais e teóricos sobre a eficiência e desempenho dos sistemas de freio}
+\section{Estudos experimentais e teóricos sobre a eficiência e desempenho dos sistemas de freio}
 \label{sec:o-estado-da-arte-5}
 Diversos estudos destacam a relevância dos sistemas de freio para a segurança veicular. Pesquisas indicam que a integração de tecnologias como ABS e ESC está associada à redução do risco de acidentes, especialmente em condições adversas \cite{Rudolf2011, Donghai2022}. O desenvolvimento de sistemas de freio mais eficientes e a implementação de novas tecnologias continuam sendo temas de interesse para a indústria automotiva \cite{AndrewJ2022}.
 
@@ -206,9 +202,9 @@ Cabe mencionar que pesquisas recentes têm explorado a influência da eletrônic
 %################################################################
 %################################################################
 %################################################################
-\section{Análise de dados de testes em simulações de frenagem}
+\subsection{Testes em simulações de frenagem}
 \label{sec:o-estado-da-arte-5-1}
-A avaliação do desempenho dos sistemas de freio é realizada por meio de diferentes métodos experimentais e computacionais. Testes práticos em pistas de prova, como os realizados no centro de testes da Bosch em \textit{Boxberg} Alemanha, permitem observar o comportamento dos sistemas em situações reais, incluindo frenagens de emergência, descidas prolongadas e fadiga térmica \cite{Rudolf2011}. Tais experimentos possibilitam a análise da resposta dos sistemas ABS e ESC/ESP (\textit{Electronic Stability Control}/\textit{Electronic Stability Program}), que atuam de forma integrada para promover maior estabilidade e segurança.
+Testes práticos em pistas de prova, como os realizados no centro de testes da Bosch em \textit{Boxberg} Alemanha, permitem observar o comportamento dos sistemas em situações reais, incluindo frenagens de emergência, descidas prolongadas e fadiga térmica \cite{Rudolf2011}. Tais experimentos possibilitam a análise da resposta dos sistemas ABS e ESC/ESP (\textit{Electronic Stability Control}/\textit{Electronic Stability Program}), que atuam de forma integrada para promover maior estabilidade e segurança.
 
 Além dos ensaios em campo, simulações computacionais têm sido amplamente utilizadas para prever o desempenho dos freios sob variadas condições de uso \cite{Lentin2022}. Modelos matemáticos e simulações em dinamômetros auxiliam na compreensão dos efeitos da temperatura, velocidade e tipo de material de fricção sobre a eficiência de frenagem \cite{AndrewJ2022}.
 
@@ -229,48 +225,57 @@ Além disso, o gerenciamento térmico e a dissipação de energia durante frenag
 
 Outro aspecto que merece atenção é a segurança cibernética dos sistemas de freio conectados, especialmente em veículos equipados com ADAS e funções autônomas. A proteção contra ataques e falhas de comunicação é fundamental para garantir a confiabilidade dos sistemas em cenários de mobilidade inteligente.
 
-Em síntese, os desafios enfrentados pelos sistemas de freio modernos refletem a complexidade crescente das demandas automotivas, exigindo abordagens multidisciplinares e validações rigorosas. A análise crítica dessas limitações contribui para orientar pesquisas futuras e o desenvolvimento de soluções mais robustas e seguras para o setor.
-
-\section{Síntese crítica e posicionamento do trabalho}
-\label{sec:estado-arte-sintese-critica}
-
-Apesar de o sistema de freio aparecer, na literatura, ora como componente mecânico-hidráulico (com foco em materiais, eficiência térmica e durabilidade) ora como parte de arquiteturas eletrônicas (ABS/ESC/ADAS), o recorte deste trabalho exige uma leitura mais específica: \textbf{o módulo eletro-hidráulico (HCU de ABS/ESC) como atuador de pressão em frenagem ativa}, no qual a variável de interesse é o rastreamento de $P_w(t)$ sob restrições físicas, em tempo discreto.
-
-A distinção entre arquiteturas \textit{two-box} e \textit{one-box} ajuda a delimitar esse recorte. Na primeira, a geração/assistência de pressão e a modulação hidráulica permanecem em conjuntos separados; na segunda, essas funções são integradas. A integração altera a disposição dos atuadores e a interface com o circuito, mas não elimina a necessidade de controlar as variáveis hidráulicas nem as restrições de saturação, curso e temporização. A literatura sobre unidades integradas e controle coordenado de pressão, portanto, complementa os estudos de HCU convencionais, sem permitir presumir que os resultados de uma arquitetura se transfiram diretamente para outra \cite{Feigel2016, Linhoff2026, HouhuaJing2022, PressureCoordinatedControl2023}.
-
-Do ponto de vista de \textbf{controle de pressão hidráulica}, há trabalhos que enfatizam a modelagem e a validação experimental do controle ativo de pressão em unidades hidráulicas automotivas, incluindo estratégias de modulação e testes em ambiente de bancada \cite{HouhuaJing2022}. Outros trabalhos, com viés mais de \textbf{modelagem e controle de alta precisão}, discutem formas de modular queda de pressão e obter comportamento aproximadamente linear em torno de regiões de equilíbrio das válvulas \cite{ChenLv2017}. Também há abordagens que tratam o problema como \textbf{controle coordenado de pressão} em arquiteturas eletro-hidráulicas modernas, reforçando a necessidade de lidar com não linearidades, saturações e limites de atuação \cite{PressureCoordinatedControl2023}. Em paralelo, modelos concentrados (\textit{lumped}) em duas pressões e variações dessa estrutura aparecem como compromissos úteis entre fidelidade e viabilidade computacional, sobretudo quando o objetivo é projeto e validação por simulação \cite{Lv2014,ZengYangHuang2023}.
-
-Quando o foco migra de ``regular pressão'' para ``\textbf{integrar com ADAS}'', surge um ponto prático que nem sempre é explicitado: o nível superior (ACC/AEB) tende a gerar demandas em termos de desaceleração/torque, mas a HCU opera em pressões e vazões. Assim, mesmo quando o objetivo final é longitudinal, há um \textbf{nível intermediário} inevitável de conversão/mapeamento (desaceleração $\rightarrow$ referência de pressão) e de garantia de que o atuador hidráulico consegue seguir o perfil solicitado dentro dos limites físicos.
-
-É nesse ponto que este trabalho se posiciona. Em vez de tentar abranger, no mesmo escopo, dinâmica longitudinal completa, modelo de pneu e controle de \textit{slip}, adota-se um recorte de engenharia e pesquisa: \textbf{isolar o atuador hidráulico e demonstrar um fluxo reprodutível de modelagem e projeto discreto para rastreamento de pressão}, incluindo (i) modelo não linear 2P, (ii) linearização local para síntese em espaço de estados, (iii) LQI discreto com observador de Luenberger, (iv) lógica discreta de válvulas com histerese e (v) validação na planta não linear em Simulink.
-
-Adicionalmente, este trabalho estende a discussão ao confrontar o controle direto de pressão com a estratégia de controle indireto via posicionamento do atuador linear, frequentemente necessária em módulos integrados nos quais a malha de acionamento do motor elétrico é fechada em posição mecânica (via \textit{encoder}), enquanto a pressão hidráulica atua como variável dependente. A literatura aponta que a relação entre o deslocamento linear do êmbolo e a pressão na roda apresenta acentuada não linearidade decorrente da folga inicial das pastilhas, da compressibilidade do fluido de freio e da elasticidade estrutural da pinça. Dessa forma, além do projeto de controle no espaço de estados, torna-se indispensável identificar experimentalmente o mapeamento estático e dinâmico entre deslocamento e pressão, permitindo estabelecer referências de posição que reflitam com precisão as demandas de frenagem requeridas pelo nível ADAS \cite{breuer2008brake}.
-
-
-O escopo deste trabalho não abrange o desenvolvimento de um sistema ACC completo. A pesquisa concentra-se no controle de baixo nível do módulo de frenagem, articulando modelagem, simulação, implementação embarcada e ensaios em bancada. Essa delimitação permite distinguir a avaliação do LQI no modelo hidráulico da análise experimental do controle de posição do LAC e da pressão resultante. As limitações e as etapas necessárias para ampliar a validação são discutidas no Capítulo~\ref{chap:resultados-final} e nas conclusões.
-
 %################################################################
 %################################################################
 %################################################################
-\subsection{Problemas Comuns Enfrentados pelos Sistemas de Freio}
+\subsection{Problemas Comuns Enfrentados pelos Sistemas de Freio e barreiras Tecnológicas}
 \label{sec:o-estado-da-arte-5-3}
-Diversos fatores podem comprometer o desempenho dos sistemas de freio automotivo. O aquecimento excessivo dos componentes, por exemplo, pode resultar no fenômeno conhecido como \textit{fading}, em que a eficiência de frenagem é reduzida devido à elevação da temperatura durante o uso prolongado \cite{Konrad2014}. Esse efeito é especialmente relevante em situações de descidas longas ou frenagens repetidas, exigindo atenção ao gerenciamento térmico dos materiais de fricção.
+Diversos fatores podem comprometer o desempenho dos sistemas de freio automotivo. Tais como:
 
-O desgaste contínuo de elementos como pastilhas, discos, lonas e tambores demanda manutenção periódica para preservar a segurança e o funcionamento adequado do sistema \cite{Konrad2014, Lentin2022}. Além disso, o desgaste irregular e a perda de eficiência em condições de umidade, contaminação ou variações extremas de temperatura são aspectos frequentemente analisados em estudos experimentais \cite{Rudolf2011}. Nesse contexto, “contaminação” refere-se à presença de partículas externas — como poeira abrasiva, óleo, água, minerais ou resíduos metálicos provenientes do desgaste — que podem se depositar nas superfícies de atrito e alterar o coeficiente de fricção do freio.
+O aquecimento excessivo dos componentes, por exemplo, pode resultar no fenômeno conhecido como \textit{fading}, em que a eficiência de frenagem é reduzida devido a elevação da temperatura durante o uso prolongado \cite{Konrad2014}. Esse efeito é especialmente relevante em situações de descidas longas ou frenagens repetidas, exigindo atenção ao gerenciamento térmico dos materiais de fricção.
 
-A dependência de sensores eletrônicos em sistemas avançados, como ABS, ESC e ADAS, pode representar uma limitação adicional, uma vez que falhas ou interferências nesses dispositivos podem comprometer a atuação dos sistemas de frenagem \cite{Donghai2022}. Fatores ambientais, como poeira, água e variações de temperatura, também influenciam o desempenho dos sensores e, consequentemente, a resposta dos sistemas de controle. Esses efeitos ambientais — incluindo ruído de medição, atraso, umidade ou deposição de partículas — também podem ser modelados em simulação para avaliar a robustez dos algoritmos de controle e diagnóstico.
+O desgaste contínuo de elementos como pastilhas, discos, lonas e tambores demanda manutenção periódica para preservar a segurança e o funcionamento adequado do sistema \cite{Konrad2014, Lentin2022}. Além disso, o desgaste irregular e a perda de eficiência em condições de umidade, contaminação ou variações extremas de temperatura são aspectos frequentemente analisados em estudos experimentais \cite{Rudolf2011}. Nesse contexto, “contaminação” refere-se a presença de partículas externas — como poeira abrasiva, óleo, água, minerais ou resíduos metálicos provenientes do desgaste — que podem se depositar nas superfícies de atrito e alterar o coeficiente de fricção do freio.
 
-Por fim, desafios relacionados à integração de novas tecnologias, como freios eletromagnéticos e sistemas \textit{“by-wire”}, envolvem questões de confiabilidade, compatibilidade de componentes e inúmeras constatações em diferentes cenários operacionais. A análise crítica desses problemas contribui para orientar pesquisas futuras e aprimorar o desenvolvimento de soluções mais robustas e seguras para o setor automotivo.
+A dependência de sensores eletrônicos em sistemas avançados, como ABS, ESC e ADAS, pode representar uma limitação adicional, uma vez que falhas ou interferências nesses dispositivos podem comprometer a atuação dos sistemas de frenagem \cite{Donghai2022}. Fatores ambientais, como poeira, água e variações de temperatura, também influenciam o desempenho dos sensores e, consequentemente, a resposta dos sistemas de controle. Esses efeitos ambientais —incluindo ruído de medição, atraso, umidade ou deposição de partículas—também podem ser modelados em simulação para avaliar a robustez dos algoritmos de controle e diagnóstico.
+
+Adicionalmente, a integração de arquiteturas de frenagem a veículos híbridos e autônomos impõe desafios severos quanto a precisão e a velocidade de resposta dos atuadores eletro-hidráulicos \cite{Donghai2022, Lentin2022} e, integração de novas tecnologias, como freios eletromagnéticos e sistemas \textit{“by-wire”}, envolvem questões de confiabilidade, compatibilidade de componentes e inúmeras constatações em diferentes cenários operacionais.
+
+E ainda, restrições quanto a eficiência energética de atuadores eletromecânicos e a demanda por materiais de fricção que conciliam baixo peso, elevada dissipação térmica e durabilidade mecânica \cite{Donghai2022, AndrewJ2022}. Tais fatores dependem diretamente da dinâmica de conversão e dissipação de energia, impondo desafios ao gerenciamento térmico e ao controle em tempo real.
+
+Além disso, a limitação na disponibilidade de materiais com essas características e os altos custos ligados ao desenvolvimento e a fabricação também contribuem para ser considerado um dos principais gargalos tecnológicos da frenagem moderna.
+
+Em síntese, esses desafios e problemas frequentemente enfrentados pelos sistemas de freio modernos refletem a complexidade crescente das demandas automotivas, exigindo abordagens multidisciplinares e validações rigorosas. A análise crítica dessas limitações contribui para orientar pesquisas futuras e o desenvolvimento de soluções mais robustas e seguras para o setor.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \subsection{Barreiras tecnológicas e áreas que demandam aprimoramentos}
 \label{sec:o-estado-da-arte-5-4}
 Em resumo, os sistemas de freio enfrentam desafios significativos relacionados ao aquecimento e desgaste, além de certos obstáculos que exigem melhorias contínuas e serão mencionados abaixo.
 
-Atualmente, destacam-se como principais limitações tecnológicas dos sistemas de freio a dependência crítica de sensores, sujeitos a falhas e ruídos em condições operacionais adversas, o que pode comprometer a resposta de subsistemas eletrônicos como ABS e ESC \cite{reif2014, joseph2022}.
+Atualmente, destacam-se como principais limitações tecnológicas dos sistemas de freio a dependência crítica de sensores, sujeitos a falhas e ruídos em condições operacionais adversas, o que pode comprometer a resposta de subsistemas eletrônicos como ABS e ESC \cite{Konrad2014, Lentin2022}.
 
-Adicionalmente, a integração de arquiteturas de frenagem a veículos híbridos e autônomos impõe desafios severos quanto à precisão e à velocidade de resposta dos atuadores eletro-hidráulicos \cite{hu2022, joseph2022}.
+Adicionalmente, a integração de arquiteturas de frenagem a veículos híbridos e autônomos impõe desafios severos quanto à precisão e à velocidade de resposta dos atuadores eletro-hidráulicos \cite{Donghai2022, Lentin2022}.
 
-E ainda, restrições quanto à eficiência energética de atuadores eletromecânicos e à demanda por materiais de fricção que conciliem baixo peso, elevada dissipação térmica e durabilidade mecânica \cite{hu2022, bryant2022}. Tais fatores dependem diretamente da dinâmica de conversão e dissipação de energia, impondo desafios ao gerenciamento térmico e ao controle em tempo real.
+E ainda, restrições quanto à eficiência energética de atuadores eletromecânicos e à demanda por materiais de fricção que conciliem baixo peso, elevada dissipação térmica e durabilidade mecânica \cite{Donghai2022, AndrewJ2022}. Tais fatores dependem diretamente da dinâmica de conversão e dissipação de energia, impondo desafios ao gerenciamento térmico e ao controle em tempo real.
 
 
 Além disso, a limitação na disponibilidade de materiais com essas características e os altos custos ligados ao desenvolvimento e também à fabricação contribuem para ser considerado um dos principais gargalos tecnológicos da frenagem moderna.
@@ -298,7 +303,7 @@ As novas tecnologias de freios automotivos têm um impacto significativo na segu
     Nas últimas décadas, a introdução de controles ativos de frenagem contribuiu para a estabilização das fatalidades no trânsito. Em 1997, por exemplo, quando o Brasil possuía uma frota de aproximadamente 20 milhões de veículos, registraram-se cerca de 35 mil óbitos; em 2022, com uma frota estimada em 115 milhões de veículos, o total anual de óbitos permaneceu abaixo desse patamar \cite{bosch2024}.
 \end{citacao}
 
-Outra evolução relevante consiste na integração dos módulos de freio a barramentos e redes veiculares de comunicação cooperativa \cite{reif2014}. Essa conectividade permite o compartilhamento antecipado de dados sobre as condições de tráfego e riscos de colisão, antecipando a pressurização do circuito hidráulico e mitigando o tempo de reação frente a eventos críticos.
+Outra evolução relevante consiste na integração dos módulos de freio a barramentos e redes veiculares de comunicação cooperativa \cite{Konrad2014}. Essa conectividade permite o compartilhamento antecipado de dados sobre as condições de tráfego e riscos de colisão, antecipando a pressurização do circuito hidráulico e mitigando o tempo de reação frente a eventos críticos.
 
 A adoção de sistemas eletrônicos avançados e a integração com tecnologias de condução autônoma prometem aumentar ainda mais a segurança. Os sistemas de frenagem autônoma e a integração com ADAS são destacados como promissores para aumentar ainda mais a segurança e reduzir acidentes \cite{Lentin2022, AndrewJ2022}.
 
@@ -306,3 +311,20 @@ Tendo isso em vista, o ADAS representa uma das principais inovações tecnológi
 
 As inovações tecnológicas em sistemas de frenagem refletem, portanto, a integração sinérgica entre eletrônica de potência, controle digital e sensoriamento avançado, requisitos indispensáveis para atender às demandas de segurança e dirigibilidade da mobilidade autônoma.
 
+
+\section{Síntese Crítica e Posicionamento da Pesquisa}
+\label{sec:estado-arte-sintese-critica}
+
+Apesar de o sistema de freio aparecer, na literatura, ora como componente mecânico-hidráulico (com foco em materiais, eficiência térmica e durabilidade) ora como parte de arquiteturas eletrônicas (ABS/ESC/ADAS), o recorte deste pesquisa exige uma leitura mais específica: \textbf{o módulo eletro-hidráulico (HCU de ABS/ESC) como atuador de pressão em frenagem ativa}, no qual a variável de interesse é o rastreamento de $P_w(t)$ sob restrições físicas, em tempo discreto.
+
+A distinção entre arquiteturas \textit{two-box} e \textit{one-box} ajuda a delimitar esse recorte. Na primeira, a geração/assistência de pressão e a modulação hidráulica permanecem em conjuntos separados; na segunda, essas funções são integradas. A integração altera a disposição dos atuadores e a interface com o circuito, mas não elimina a necessidade de controlar as variáveis hidráulicas nem as restrições de saturação, curso e temporização. A literatura sobre unidades integradas e controle coordenado de pressão, portanto, complementa os estudos de HCU convencionais, sem permitir presumir que os resultados de uma arquitetura se transfiram diretamente para outra \cite{Feigel2016, Linhoff2026, HouhuaJing2022, PressureCoordinatedControl2023}.
+
+Do ponto de vista de \textbf{controle de pressão hidráulica}, há trabalhos que enfatizam a modelagem e a validação experimental do controle ativo de pressão em unidades hidráulicas automotivas, incluindo estratégias de modulação e testes em ambiente de bancada \cite{HouhuaJing2022}. Outros trabalhos, com viés mais de \textbf{modelagem e controle de alta precisão}, discutem formas de modular queda de pressão e obter comportamento aproximadamente linear em torno de regiões de equilíbrio das válvulas \cite{ChenLv2017}. Também há abordagens que tratam o problema como \textbf{controle coordenado de pressão} em arquiteturas eletro-hidráulicas modernas, reforçando a necessidade de lidar com não linearidades, saturações e limites de atuação \cite{PressureCoordinatedControl2023}. Em paralelo, modelos concentrados (\textit{lumped}) em duas pressões e variações dessa estrutura aparecem como compromissos úteis entre fidelidade e viabilidade computacional, sobretudo quando o objetivo é projeto e validação por simulação \cite{Lv2014,ZengYangHuang2023}.
+
+Quando o foco migra de ``regular pressão'' para ``\textbf{integrar com ADAS}'', surge um ponto prático que nem sempre é explicitado: o nível superior (ACC/AEB) tende a gerar demandas em termos de desaceleração/torque, mas a HCU opera em pressões e vazões. Assim, mesmo quando o objetivo final é longitudinal, há um \textbf{nível intermediário} inevitável de conversão/mapeamento (desaceleração $\rightarrow$ referência de pressão) e de garantia de que o atuador hidráulico consegue seguir o perfil solicitado dentro dos limites físicos.
+
+É nesse ponto que este estudo se posiciona. Em vez de tentar abranger, no mesmo escopo, dinâmica longitudinal completa, modelo de pneu e controle de \textit{slip}, adota-se um recorte de engenharia e pesquisa: \textbf{isolar o atuador hidráulico e demonstrar um fluxo reprodutível de modelagem e projeto discreto para rastreamento de pressão}, incluindo (i) modelo não linear 2P, (ii) linearização local para síntese em espaço de estados, (iii) LQI discreto com observador de Luenberger, (iv) lógica discreta de válvulas com histerese e (v) validação na planta não linear em Simulink.
+
+Estudos sobre sistemas de frenagem integrados analisam estratégias baseadas na posição do pistão para estimar ou controlar a pressão hidráulica \cite{xiong2021piston}. A relação entre o deslocamento do êmbolo e a pressão também depende de fenômenos como a compressibilidade do fluido e a elasticidade da pinça \cite{breuer2008brake}. Neste trabalho, o controle direto de pressão na planta convencional é avaliado por simulação, enquanto, no modelo e na bancada com LAC, controla-se a posição do atuador e analisa-se a pressão resultante. Essa distinção delimita os contextos avaliados, sem pressupor uma comparação direta entre estratégias ou uma conversão de demandas ADAS.
+
+O escopo deste trabalho não abrange o desenvolvimento de um sistema ACC completo. A pesquisa concentra-se no controle de baixo nível do módulo de frenagem, articulando modelagem, simulação, implementação embarcada e ensaios em bancada. Essa delimitação permite distinguir a avaliação do LQI no modelo hidráulico da análise experimental do controle de posição do LAC e da pressão resultante. As limitações e as etapas necessárias para ampliar a validação são discutidas no Capítulo~\ref{chap:resultados-final} e nas conclusões.

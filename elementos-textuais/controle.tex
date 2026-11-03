@@ -2,24 +2,25 @@
 \chapter[Modelagem e Projeto de Controle Digital]{Modelagem e Projeto de Controle Digital}
 \label{cap:controle}
 
-Este capítulo apresenta duas frentes relacionadas, mas distintas. Na primeira, um modelo hidráulico concentrado em duas pressões representa o módulo ABS/ESC e permite avaliar, por simulação, o rastreamento de pressão com controle LQI e observador de Luenberger. Na segunda, a dinâmica mecânica do LAC é reduzida a um modelo de posição e velocidade para descrever o controle embarcado em bancada. Nesses ensaios físicos, a posição do atuador é a variável controlada e a pressão é monitorada como resposta hidráulica.
+Este capítulo apresenta duas plantas e dois contextos de avaliação, relacionados pelo problema da geração e modulação da pressão de frenagem, mas metodologicamente distintos. A primeira planta é um modelo hidráulico concentrado em duas pressões, com bomba e válvulas solenoides; nela, o LQI e o observador de Luenberger são avaliados por simulação quanto ao rastreamento direto da pressão de roda. A segunda é uma representação hidromecânica do LAC, simulada e posteriormente usada para orientar a análise da configuração física. Na bancada, o controle embarcado regula a posição do atuador, enquanto a pressão é observada como resposta do circuito.
 
-O problema de pesquisa consiste em avaliar como estratégias digitais podem ser projetadas para as duas representações: controle de pressão no modelo hidráulico simulado e controle de posição do LAC na plataforma experimental, respeitando as limitações físicas e temporais de cada configuração. O LQI foi avaliado no modelo de duas pressões por simulação e nos ensaios embarcados de múltiplas referências da Etapa II. O ensaio auxiliar \texttt{CLSTEP B}, apresentado na Etapa I, caracteriza a resposta eletro-hidráulica sob a implementação de posição descrita na metodologia.
+A transição da configuração prevista com bomba para o LAC foi definida a partir da modelagem e das simulações: a planta com bomba requeria uma condição inicial de pressão de 1 bar, que não poderia ser provida na configuração planejada para a bancada. Assim, a planta convencional foi avaliada computacionalmente, enquanto os ensaios físicos foram realizados com o LAC. Como se trata de configurações e contextos distintos, os resultados não são tratados como comparação quantitativa entre plantas equivalentes.
 
-A hipótese para a etapa de simulação é que um controlador LQI discreto com observador de Luenberger, sintetizado a partir da linearização local do modelo hidráulico não linear em duas pressões, pode acompanhar referências de pressão nas condições e faixas avaliadas. Essa hipótese não implica que o controlador tenha sido validado em malha fechada de pressão na bancada.
+O objetivo deste capítulo é apresentar a modelagem, a síntese dos controladores e a implementação de ambas as frentes. Para a planta convencional, a hipótese avaliada é que o LQI discreto com observador de Luenberger pode acompanhar referências de pressão nas condições simuladas. Para o LAC, avaliam-se o controle de posição e a pressão resultante, sem atribuir à simulação uma realimentação direta de pressão quando a variável de controle é a posição.
 
-O objetivo geral é desenvolver e avaliar estratégias digitais para a atuação hidráulica de frenagem, combinando a análise de rastreamento de pressão por simulação com ensaios em bancada do controle de posição do LAC e da pressão resultante.
+O objetivo geral é desenvolver e avaliar estratégias digitais para a atuação hidráulica de frenagem, combinando o rastreamento de pressão por simulação na planta convencional, a simulação do modelo hidromecânico do LAC e ensaios físicos de controle de posição do LAC.
 
 Os objetivos específicos são:
 \begin{enumerate}
-    \item Modelar o subsistema hidráulico por um modelo não linear em duas pressões ($P_{sup},P_w$) e realizar uma validação qualitativa em malha aberta.
+    \item Modelar o subsistema hidráulico convencional por um modelo não linear em duas pressões ($P_{sup},P_w$) e verificar qualitativamente sua resposta em malha aberta.
     \item Linearizar o modelo hidráulico em torno de um ponto de operação fisicamente consistente, obtendo as matrizes $(A,B,C,D)$.
     \item Discretizar o modelo hidráulico e projetar um controlador LQI com observador de Luenberger para a avaliação simulada do rastreamento de pressão, em conjunto com a lógica de acionamento das válvulas.
     \item Avaliar o seguimento de $P_{\mathrm{ref}}(t)$ e o esforço de controle sob saturações físicas de pressão e dos atuadores.
-    \item Identificar a dinâmica reduzida de posição e velocidade do LAC e avaliar o controle embarcado de posição em bancada, utilizando a pressão medida para caracterizar a resposta hidráulica.
+    Desenvolver e avaliar em Simulink um modelo hidromecânico do LAC com controle de posição, analisando a pressão resultante.
+    Identificar a dinâmica reduzida de posição e velocidade do LAC e avaliar o controle embarcado de posição em bancada, utilizando a pressão medida para caracterizar a resposta hidráulica.
 \end{enumerate}
 
-O capítulo está organizado da seguinte forma: inicialmente define-se como a referência de pressão $P_{\mathrm{ref}}(t)$ é especificada nos ensaios (incluindo um mapeamento simples a partir de desaceleração, quando aplicável) (Seção~\ref{sec:mapeamento-aref-pressao}) e descreve-se o modelo hidráulico não linear 2P (Seção~\ref{sec:controle-4-1}); em seguida, apresenta-se a linearização e a formulação em espaço de estados (Seções~\ref{sec:controle-linearizacao-2p} e \ref{sec:controle-formulacao-espaço-estados}); por fim, descrevem-se a síntese do controlador/observador, a discretização e a implementação em Simulink (Seções~\ref{sec:controle-lqr-luenberger} a \ref{sec:implementacao-simulink}). Os procedimentos de simulação e as métricas adotadas são resumidos na Seção~\ref{sec:procedimentos-simulacao-controle}, e os resultados são apresentados e discutidos no Capítulo~\ref{chap:resultados-final}.
+O capítulo primeiro apresenta a referência de pressão usada nos ensaios e o modelo hidráulico convencional de duas pressões, seguido de sua linearização, discretização e síntese do LQI com observador. Em seguida, descreve o modelo mecânico reduzido do LAC usado no controle de posição e a representação hidromecânica implementada no Simulink. Por fim, são tratados a execução embarcada, os procedimentos de simulação e os limites de validade de cada representação. Os resultados são discutidos no Capítulo~\ref{chap:resultados-final}.
 
 
 %====================================================================
@@ -52,7 +53,7 @@ Na prática, os valores de $m$ e $A_c$ são escolhidos para produzir níveis de 
 \label{sec:controle-4-1}
 A planta controlada é o módulo hidráulico da unidade ABS/ESC, empregado como atuador de pressão do freio de serviço. A literatura indica a utilidade de modelos concentrados para descrever a relação entre comandos de válvulas, pressão no cilindro da roda e força de frenagem, tanto para projeto de controladores quanto para validação \emph{hardware-in-the-loop} \cite{HouhuaJing2022,PressureCoordinatedControl2023,ZengYangHuang2023,MotorParametricDesign2023}.
 
-Neste trabalho, adota-se um modelo em duas pressões, $P_{sup}$ (suprimento/manifold) e $P_w$ (canal/roda), em linha com \citeonline{HouhuaJing2022,ZengYangHuang2023,Lv2014}.
+Durante a pesquisa, adota-se um modelo em duas pressões, $P_{sup}$ (suprimento/manifold) e $P_w$ (canal/roda), em linha com \citeonline{HouhuaJing2022,ZengYangHuang2023,Lv2014}.
 
 Para fins de projeto, definem-se os vetores de estado e comando como:
 \begin{equation}
@@ -79,15 +80,15 @@ Para fins de projeto, definem-se os vetores de estado e comando como:
 \subsection{Estratégias de acionamento das válvulas}
 \label{sec:controle-4-1-1}
 
-O módulo hidráulico é composto por uma bomba de deslocamento variável, válvulas de entrada (pressurização) e de saída (alívio) para cada canal/roda, e um suprimento de fluido. As válvulas podem ser do tipo on/off (solenóides) ou proporcionais (HSV/USV), o que abre diferentes possibilidades de estratégia de acionamento.
+O módulo hidráulico é composto por uma bomba de deslocamento variável, válvulas de entrada (pressurização) e de saída (alívio) para cada canal/roda, e um suprimento de fluido. As válvulas podem ser do tipo on/off (solenóides) ou proporcionais \gls{HSV} / \gls{USV}, o que abre diferentes possibilidades de estratégia de acionamento.
 
 Na literatura, destacam-se duas abordagens usuais:
 \begin{itemize}
-    \item \textbf{Modulação quase linear de queda de pressão}: válvulas on/off operam em torno de um ponto de equilíbrio no qual a queda de pressão varia aproximadamente de forma linear com a corrente/condutância, permitindo o uso de relações vazão–comando simplificadas para projeto \cite{ChenLv2017}.
+    \item \textbf{Modulação quase linear de queda de pressão}: válvulas on/off operam em torno de um ponto de equilíbrio no qual a queda de pressão varia aproximadamente de forma linear com a corrente/condutância, permitindo o uso de relações vazão-comando simplificadas para projeto \cite{ChenLv2017}.
     \item \textbf{PWM em válvulas HSV/USV}: o ciclo de trabalho governa a taxa de pressurização/alívio, solução compatível com arquiteturas embarcadas e eficaz para rastreamento dinâmico de pressão \cite{HouhuaJing2022}.
 \end{itemize}
 
-Neste trabalho, o modelo matemático adota válvulas on/off e $u_{in}$ e $u_{out}$ são tratados como comandos discretos (aberto/fechado). Para evitar comutações excessivas na presença de ruído e discretização, emprega-se uma histerese sobre o erro de seguimento $e(t)=P_{w,\text{ref}}(t)-P_w(t)$ na geração desses sinais. Em uma implementação embarcada, é possível ainda interpretar $u_{in}$ e $u_{out}$ como sinais de modulação PWM (ciclo de trabalho) e adotar um modelo médio; no presente estudo, prioriza-se a lógica on/off para representar o comportamento típico de válvulas solenóides.
+Neste trabalho, o modelo matemático adota válvulas on/off e $u_{in}$ e $u_{out}$ são tratados como comandos discretos (aberto/fechado). Para evitar comutações excessivas na presença de ruído e discretização, emprega-se uma histerese sobre o erro de seguimento $e(t)=P_{w,\text{ref}}(t)-P_w(t)$ na geração desses sinais. Em uma implementação embarcada, é possível ainda interpretar $u_{in}$ e $u_{out}$ como sinais de modulação \gls{PWM} (ciclo de trabalho) e adotar um modelo médio; no presente estudo, prioriza-se a lógica on/off para representar o comportamento típico de válvulas solenóides.
 
 %====================================================================
 %====================================================================
@@ -164,7 +165,7 @@ Esta subseção descreve o ensaio em malha aberta utilizado para verificar, de f
 
 O ensaio em malha aberta é organizado por meio de um \textit{script} MATLAB associado ao modelo em Simulink. Esse \textit{script} define o horizonte de simulação e o período de amostragem, configura os parâmetros do modelo hidráulico (volumes equivalentes, coeficientes de vazão e saturações) e gera os sinais de comando da bomba e das válvulas para as três fases do ensaio (pressurização, retenção e alívio), de modo a reproduzir cenários típicos descritos na literatura \cite{ZengYangHuang2023,Lv2014,HouhuaJing2022}. Ao final de cada simulação, são registrados os perfis de pressão no suprimento e no canal de roda, bem como as vazões e os comandos de válvula, que são utilizados para visualização gráfica e cálculo de indicadores. A arquitetura geral da simulação, incluindo o modelo hidráulico, os sinais de comando $(\omega_p,u_{in},u_{out})$ e os blocos de registro de dados, é ilustrada nas Figuras~\ref{fig:bloco_matlab_function_2p} e \ref{fig:simulink_ensaio_2p}. O código completo (bloco hidráulico 2P e \textit{script} do ensaio) encontra-se no Apêndice~\ref{ap:scripts-matlab} (Códigos~\ref{cod:bloco_hidraulico_2p} e \ref{cod:ensaio_integrado_malha_aberta}).
 
-Para o \emph{caso realista} (parâmetros ajustados conforme a Tabela~\ref{tab:parametros_hidraulico_realista_reescrita}), utiliza-se o \textit{script} do ensaio integrado em malha aberta na configuração realista, também fornecido no Apêndice~\ref{ap:scripts-matlab} (Código~\ref{cod:ensaio_integrado_malha_aberta_real}).
+Para o caso realista (parâmetros ajustados conforme a Tabela~\ref{tab:parametros_hidraulico_realista_reescrita}), utiliza-se o \textit{script} do ensaio integrado em malha aberta na configuração realista, também fornecido no Apêndice~\ref{ap:scripts-matlab} (Código~\ref{cod:ensaio_integrado_malha_aberta_real}).
 
 \begin{figure}[htbp]
     \centering
@@ -225,7 +226,7 @@ o que resulta em $\omega_{p,\max}\approx 131$~rad/s (valor utilizado na implemen
     }{\Fonte{Com base em \cite{ZengYangHuang2023,ProportionalPressureABS2023,Lv2014,ChenLv2017}.}}
 \end{table}
 
-A validação em malha aberta é realizada em duas etapas: em um \emph{caso base}, inspecionam-se causalidade, sinais de vazão e efeito das saturações, verificando se o comportamento qualitativo é coerente com a física de pressurização, retenção e alívio; em seguida, em um \emph{caso realista}, os volumes e os parâmetros da bomba são ajustados segundo a Tabela~\ref{tab:parametros_hidraulico_realista_reescrita}, de modo a reproduzir ordens de grandeza de pressão e vazão reportadas na literatura. Os resultados do caso realista e a discussão correspondente são apresentados na Seção~\ref{sec:resultado-final-malha-aberta} (Figura~\ref{fig:resultado-final-malha-aberta}).
+A validação em malha aberta é realizada em duas etapas: em um caso base, inspecionam-se causalidade, sinais de vazão e efeito das saturações, verificando se o comportamento qualitativo é coerente com a física de pressurização, retenção e alívio; em seguida, em um caso realista, os volumes e os parâmetros da bomba são ajustados segundo a Tabela~\ref{tab:parametros_hidraulico_realista_reescrita}, de modo a reproduzir ordens de grandeza de pressão e vazão reportadas na literatura. Os resultados do caso realista e a discussão correspondente são apresentados na Seção~\ref{sec:resultado-final-malha-aberta} (Figura~\ref{fig:resultado-final-malha-aberta}).
 
 
 
@@ -241,7 +242,8 @@ A validação em malha aberta é realizada em duas etapas: em um \emph{caso base
 \subsection{Definição do ponto de operação}
 \label{sec:definicao-ponto-operacao}
 Adota-se um ponto de operação $(x_0,u_0)$ correspondente a regime de frenagem, com $P_{sup,0}>P_{w,0}>P_{ret}$ e $\Delta P>0$ nas leis de orifício. Para a obtenção de um modelo linear de projeto com uma única entrada, assume-se ainda $u_{in}=u_{in,0}$ constante e $u_{out}=0$ (válvula de saída fechada) no ponto de operação, a dinâmica incremental seja governada pela variável contínua $\omega_p$. O ponto de operação é escolhido de modo a representar equilíbrio local (regime permanente), isto é, $\dot{x}=f(x,u)=0$ em $(x_0,u_0)$ para as hipóteses adotadas \cite{FranklinPowellWorkman1998,Ogata1997}. Os valores numéricos empregados nas simulações são apresentados no Apêndice~\ref{ap:ponto-operacao}.
-\subsection{Jacobianos e forma linear aproximada}
+
+\subsection{Linearização Local e Espaço de Estados Contínuo}
 \label{sec:derivacao-matrizes-jacobianas}
 A partir de \eqref{eq:din_press}–\eqref{eq:leaks}, escreve-se $\dot{x}=f(x,u)$. As jacobianas
 \[
@@ -267,7 +269,8 @@ em que $\delta x = x-x_0$, $\delta u = u-u_0$ e $\delta y = y-y_0$, com $x=[P_{s
 %====================================================================
 \section{Projeto do controlador discreto (LQI) para a bomba hidráulica}
 \label{sec:controle-lqr-luenberger}
-O controlador é sintetizado em tempo discreto, a partir das matrizes $(A_d,B_d,C_d)$ obtidas por discretização ZOH do modelo linearizado com entrada $u=\omega_p$. O ponto de partida é o LQR discreto (\texttt{dlqr}), e em seguida adiciona-se ação integral para eliminação de erro estacionário, resultando em um LQI \cite{FranklinPowellWorkman1998,Ogata1997,BrunoAAngelico2018}.
+O controlador é sintetizado em tempo discreto, a partir das matrizes $(A_d,B_d,C_d)$ obtidas por discretização ZOH do modelo linearizado com entrada $u=\omega_p$. O ponto de partida fundamenta-se na síntese do regulador quadrático linear discreto (LQR), estendido posteriormente com ação integral para assegurar erro estacionário nulo diante de perturbações de carga, compondo a estrutura LQI~\cite{FranklinPowellWorkman1998,Ogata1997,BrunoAAngelico2018}.
+
 %--------------------------------------------------------------------
 \section{Projeto do observador de Luenberger}
 \label{sec:projeto-observador-luenberger}
@@ -276,7 +279,7 @@ Para estimação de estados, utiliza-se um observador de Luenberger:
     \dot{\hat{x}} = A\,\hat{x} + B_c\,u_c + L\,(y-\hat{y}),
     \qquad \hat{y}=C\,\hat{x}.
 \]
-Definindo o erro $e=x-\hat{x}$, obtém-se $\dot{e}=(A-LC)e$. O ganho $L$ é calculado por alocação de polos (\texttt{place} em $(A^\top,C^\top)$), de forma que os polos do observador sejam mais rápidos do que os da malha fechada do controlador.
+Definindo o erro de estimação como $e(k)=x(k)-\hat{x}(k)$, a dinâmica autônoma do erro é governada por $e(k+1)=(A_d - L_d C_d)e(k)$. O vetor de ganhos $L_d$ é calculado por alocação de polos no sistema dual $(A_d^\top, C_d^\top)$, assegurando autovalores estritamente no interior do círculo unitário e com dinâmica significativamente mais rápida que a da malha fechada de controle.
 
 Na implementação discreta, utiliza-se a forma equivalente
 \[
@@ -288,20 +291,24 @@ As expressões acima e o critério de posicionamento dos polos do observador sã
 %====================================================================
 \section{Discretização do sistema}
 \label{sec:discretizacao-sistema}
+
 \subsection{Modelo discreto}
 \label{sec:modelo-discreto}
 A discretização por retenção de ordem zero (ZOH), com período de amostragem $T_s$, resulta em
 \[
     x(k+1)=A_d\,x(k)+B_d\,u(k),\qquad y(k)=C_d\,x(k),
 \]
-com $T_s=10^{-4}$~s no presente estudo. As matrizes discretas são obtidas por \texttt{c2d} \cite{FranklinPowellWorkman1998,BrunoAAngelico2018}.
+
+adotando-se o período de amostragem $T_s=10^{-4}$~s. As matrizes do modelo discreto equivalente são obtidas analiticamente pelo método do segurador de ordem zero (ZOH)~\cite{FranklinPowellWorkman1998,BrunoAAngelico2018}.
+
 \subsection{LQR discreto}
 \label{sec:projeto-lqr-discreto}
 No domínio discreto, o LQR minimiza
 \[
     J=\sum_{k=0}^{\infty} \big(x^\top Q\,x + u^\top R\,u\big),
 \]
-fornecendo a lei $u(k)=-K_d x(k)$ via \texttt{dlqr(A\_d,B\_d,Q,R)} \cite{FranklinPowellWorkman1998,Ogata1997}. Para seguimento de referência, é adicionada ação integral, resultando em um controlador LQI.
+fornecendo a lei ótima de realimentação de estados $u(k)=-K_d x(k)$ a partir da solução numérica da equação algébrica de Riccati em tempo discreto (DARE)~\cite{FranklinPowellWorkman1998,Ogata1997}.
+
 %====================================================================
 \section{Projeto do controlador LQI discreto}
 \label{sec:controle-lqi-discreto}
@@ -367,9 +374,9 @@ cujas raízes devem estar estritamente dentro do círculo unitário.
 \label{sec:estrutura-controlador-simulink}
 O modelo é executado em passo fixo com $T_s=10^{-4}$~s. A referência $P_{w,\text{ref}}(t)$ é alimentada por meio de um bloco \texttt{timeseries}. Os ganhos $K_x$, $K_i$ e $L_d$ são carregados do \texttt{workspace}. A arquitetura emprega o observador de Luenberger discreto, a lei LQI e blocos de saturação ajustados às limitações do sistema (pressões e atuadores). A execução dos ensaios em Simulink é automatizada por \textit{scripts} MATLAB que centralizam: (i) a síntese dos ganhos, (ii) a definição do perfil de referência, (iii) a parametrização do modelo e (iv) o registro dos sinais de interesse para cálculo de métricas. O \textit{script} completo utilizado para sintetizar os ganhos e executar o modelo Simulink é apresentado no Apêndice~\ref{ap:scripts-matlab} (Código~\ref{cod:script_controle_lqi_luenberger}). O código do bloco \texttt{MATLAB Function} do controlador (LQI + observador) e a lógica discreta de válvulas são fornecidos no mesmo apêndice (Códigos~\ref{cod:matlab_function_lqi_observer} e \ref{cod:matlab_function_valvulas_onoff}).
 
-Do ponto de vista de implementação, a interface de sinais adotada no modelo em Simulink já reflete a estrutura típica de um modulador eletro-hidráulico em malha fechada: a variável medida principal é a pressão no canal/roda (utilizada para reconstrução de estados no observador e para o cálculo do erro de seguimento), enquanto os comandos calculados pelo regulador atuam sobre a bomba e as válvulas por meio de sinais normalizados (por exemplo, PWM para $u_{in}$ e $u_{out}$, e referência de velocidade/acionamento para a bomba, representada por $\omega_p$). Essa escolha, combinada com o uso de passo fixo, saturações físicas e anti-windup, tem o papel de manter o ensaio numérico coerente com restrições de atuação e de temporização que são relevantes na migração para execução embarcada, sem pressupor validação experimental nesta etapa.
+Do ponto de vista de implementação, a interface de sinais adotada no modelo em Simulink já reflete a estrutura típica de um modulador eletro-hidráulico em malha fechada: a variável medida principal é a pressão no canal/roda (utilizada para reconstrução de estados no observador e para o cálculo do erro de seguimento), enquanto os comandos calculados pelo regulador atuam sobre a bomba e as válvulas por meio de sinais normalizados (por exemplo, \gls{PWM} para $u_{in}$ e $u_{out}$, e referência de velocidade/acionamento para a bomba, representada por $\omega_p$). Essa escolha, combinada com o uso de passo fixo, saturações físicas e anti-windup, tem o papel de manter o ensaio numérico coerente com restrições de atuação e de temporização que são relevantes na migração para execução embarcada, sem pressupor validação experimental nesta etapa.
 
-A implementação descrita nesta seção corresponde ao controlador de pressão simulado no MATLAB/Simulink. Na bancada, a estratégia embarcada atua sobre a posição do LAC; a pressão é medida para avaliar a resposta hidráulica. O modelo discreto do atuador, o observador e a lei LQR com ação integral usados na rotina experimental \texttt{PPMULTI} são apresentados separadamente no Apêndice~\ref{ap:codigo-c-firmware}, Código~\ref{cod:c-ppmulti-lqi}, e não devem ser confundidos com a síntese do controlador de pressão descrita nesta seção.
+A formulação desenvolvida nesta seção destina-se ao controle direto de pressão da planta hidráulica convencional em ambiente MATLAB/Simulink. Em contrapartida, a malha de controle executada em bancada com o atuador linear (LAC) atua na regulação de deslocamento mecânico. A discretização específica do atuador, o observador de estados cinemáticos e a rotina embarcada em linguagem C associada ao ensaio \texttt{PPMULTI} encontram-se documentados no Apêndice~\ref{ap:codigo-c-firmware} (Código~\ref{cod:c-ppmulti-lqi}).
 
 \begin{figure}[htbp]
     \centering
@@ -399,18 +406,16 @@ As métricas utilizadas seguem práticas usuais em controle: erro quadrático m�
 
 
 %====================================================================
-\section{Transição de planta e controle por deslocamento linear}
+\section[Transição da planta convencional para o atuador linear]{Transição da planta convencional para o atuador linear}
 \label{sec:transicao-planta-deslocamento-linear}
 
-O projeto de controle apresentado nas seções precedentes considera uma planta hidráulica de duas pressões ($P_{sup}$ e $P_w$), na qual a pressurização depende da vazão fornecida pela bomba e da comutação das válvulas solenoides. Esse modelo representa a dinâmica de uma arquitetura convencional de ABS/ESC \cite{Konrad2014} e foi avaliado por simulação no MATLAB/Simulink, conforme descrito na Seção~\ref{sec:procedimentos-simulacao-controle} e no Capítulo~\ref{chap:resultados-final}.
+A planta convencional descrita nas seções anteriores representa, em ambiente de simulação, uma arquitetura na qual a pressão de roda decorre do balanço de vazões entre o suprimento, o canal de frenagem e o retorno ao reservatório, sob ação coordenada da bomba e das válvulas solenoides. Essa formulação destina-se exclusivamente à análise teórica e computacional do seguimento de pressão via controle LQI multivariável.
 
-Na etapa de integração física, a configuração inicialmente testada com bomba centrífuga foi substituída por um atuador linear de êmbolo (\textit{Linear Actuator Concept} -- LAC). A análise dos resultados obtidos em simulação no MATLAB/Simulink para a arquitetura convencional evidenciou que a bomba não estabeleceu a pressão requerida no circuito, em razão da necessidade de pressurização inicial de 1 bar. A transição para o LAC permitiu investigar a geração de pressão por deslocamento volumétrico direto do êmbolo.
-\begin{enumerate}
-    \item \textbf{Limitação observada na configuração inicial:} com as análises realizadas na simulação, verificou-se que a bomba centrífuga não produziu a pressão requerida na montagem física, devido ao fato de ter uma pressao inicial de 1 bar nos testes, o que motivou a mudança da arquitetura de bancada;
-    \item \textbf{Adequação ao ensaio físico:} o LAC desloca diretamente o êmbolo e, assim, altera o volume do circuito hidráulico. Essa configuração foi integrada à placa eletrônica e ao microcontrolador AURIX TC375 para os ensaios de controle.
-\end{enumerate}
+Na formulação matemática da planta convencional com bomba de pistões acionada por excêntrico, a garantia de escoamento e a prevenção de singularidades numéricas de cavitação exigiram uma pressão de suprimento basal positiva ($P_{\mathrm{sup},0} \ge 1\,\text{bar}$). Em veículos de produção, esse patamar é assegurado pela coluna de fluido do cilindro mestre ou pela assistência do servofreio. Como a infraestrutura de bancada operaria em circuito fechado sem pré-carga hidráulica externa a partir da pressão atmosférica estrita ($0\,\text{bar}$), a simulação indicou a conveniência de adotar o atuador linear de êmbolo (LAC) para a montagem experimental, permitindo o deslocamento volumétrico positivo direto a partir do repouso absoluto.
 
-Os ensaios em bancada avaliaram o controlador LQI aplicado à posição do LAC e a pressão resultante no circuito. Essa distinção é importante: a variável diretamente regulada pelo controlador é a posição do atuador, enquanto a pressão é utilizada para caracterizar a resposta hidráulica do conjunto.
+Como consequência metodológica, a bancada foi reorganizada em torno do LAC, que desloca diretamente o êmbolo e altera o volume do circuito. O modelo convencional permaneceu como objeto de simulação; a modelagem e a simulação do LAC passaram a fornecer uma segunda frente computacional, e os ensaios físicos foram realizados com o LAC integrado à plataforma eletrônica e ao AURIX TC375.
+ 
+Na bancada, a variável controlada pelo LQI embarcado é a posição do atuador, medida pelo encoder senoidal. A pressão é monitorada como resposta hidráulica, relacionada ao deslocamento por uma característica não linear e dependente das condições do circuito.
 
 \subsection{Modelagem analítica do atuador linear de êmbolo}
 \label{sec:modelagem-deslocamento-linear}
@@ -438,7 +443,7 @@ A relação estática entre a posição linear do êmbolo $x_{\mathrm{LAC}}$ e a
 \subsection[Representação estendida da dinâmica física]{Representação estendida da dinâmica física}
 \label{sec:espaco-estados-lac}
 
-A dinâmica física completa envolve o deslocamento e a velocidade do êmbolo, além da pressão hidráulica. A representação de três estados explicita o acoplamento entre posição, velocidade e pressão no conjunto mecânico-hidráulico. Para o projeto do controlador embarcado, adotou-se o modelo reduzido de posição e velocidade apresentado a seguir, enquanto a pressão foi monitorada nos ensaios de bancada. Os parâmetros hidráulicos da representação estendida não foram integralmente identificados; por isso, ela é utilizada para descrição física, e não para a síntese dos ganhos do controlador.
+A dinâmica do conjunto mecânico-hidráulico compreende o deslocamento, a velocidade do êmbolo e a pressão na câmara. Para a síntese do regulador LQI embarcado, adotou-se a formulação linear de ordem reduzida (segunda ordem, governada pela cinemática do atuador), assegurando baixo custo computacional e determinismo temporal na execução em tempo real a 1~kHz no microcontrolador, enquanto a dinâmica não linear de pressão é tratada como variável de resposta da planta física.
 
 A linearização da dinâmica do atuador em torno de um ponto de operação nominal $(\bar{x}_{\mathrm{LAC}}, \bar{v}_{\mathrm{LAC}}, \bar{P})$ conduz à formulação em espaço de estados em tempo contínuo. Definindo o vetor de estados de desvio como $x(t) = [\Delta x_{\mathrm{LAC}}(t),\, \Delta \dot{x}_{\mathrm{LAC}}(t),\, \Delta P(t)]^T$ e o sinal de controle como a força motriz incremental $u(t) = \Delta F_m(t)$, obtém-se:
 \begin{equation}
@@ -474,7 +479,7 @@ Para a análise em tempo discreto, essa representação contínua pode ser conve
 \subsection{Modelo reduzido de posição e velocidade usado no firmware}
 \label{sec:modelo-reduzido-lac-firmware}
 
-Para a síntese embarcada, foi adotado o modelo identificado de segunda ordem da dinâmica do atuador, com entrada igual ao comando de PWM e saída igual à posição medida pelo \textit{encoder}. Essa redução não inclui a pressão como estado: a pressão é registrada como resposta hidráulica associada ao deslocamento e relacionada à posição por uma curva experimental. O modelo contínuo é
+Para a síntese embarcada, foi adotado o modelo identificado de segunda ordem da dinâmica do atuador, com entrada igual ao comando de \gls{PWM} e saída igual à posição medida pelo \textit{encoder}. Essa redução não inclui a pressão como estado: a pressão é registrada como resposta hidráulica associada ao deslocamento e relacionada à posição por uma curva experimental. O modelo contínuo é
 \begin{equation}
     \dot{\mathbf{x}}(t) =
     \begin{bmatrix}
@@ -559,19 +564,46 @@ A estimação do estado de velocidade linear $\dot{x}_{\mathrm{LAC}}(k)$, não m
 \end{equation}
 O ganho do observador $L$ é alocado fazendo com que os autovalores da matriz $(\Phi - L C_x)$ convirjam mais rapidamente que a dinâmica de malha fechada do regulador LQI, satisfazendo o princípio da separação \cite{Ogata1997}.
 
+\subsection{Modelo hidromecânico do LAC implementado em Simulink}
+\label{sec:modelo-simulink-lac}
+
+O \textit{script} (Código~\ref{lst:ensaio_integrado_malha_aberta_real_LAC}) configura os comandos de acionamento do motor e das válvulas solenoides, executa a simulação em malha aberta da planta hidromecânica (Figura~\ref{fig:BlocoHidraulicoLAC_OpenLoop}) e armazena os perfis transitórios de deslocamento e pressão. Na avaliação em malha fechada (Figura~\ref{fig:BlocoHidraulicoLAC_closeLoop}), o modelo hidromecânico é integrado ao bloco do regulador LQI e ao observador de Luenberger discreto. 
+
+A arquitetura opera como um controle indireto de pressão: a malha de realimentação atua exclusivamente sobre o posicionamento mecânico do atuador linear, tendo como entrada de erro a diferença entre a referência de deslocamento ($x_{\mathrm{ref}}$) e a posição estimada ($\hat{x}_{\mathrm{LAC}}$). O perfil de pressão de referência exibido nas simulações atua como meta nominal de desempenho, a partir da qual se deriva a trajetória cinemática correspondente pela curva de calibração. A pressão hidráulica desenvolvida na câmara do cáliper é monitorada como variável de resposta da planta física, sem realimentação direta de erro manométrico na lei de controle.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Matlab_LAC/BlocoHidraulicoLAC_OpenLoop}
+    \Caption{\label{fig:BlocoHidraulicoLAC_OpenLoop} Diagrama no Simulink para simulação do modelo hidromecânico do LAC em malha aberta.}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Matlab_LAC/BlocoHidraulicoLAC_closeLoop}
+    \Caption{\label{fig:BlocoHidraulicoLAC_closeLoop} Diagrama no Simulink para simulação do LAC em malha fechada de posição com observador de estados.}
+\end{figure}
+
+A coexistência de duas formulações matemáticas para o atuador linear reflete a separação metodológica entre síntese e validação em controle:
+\begin{enumerate}
+    \item \textbf{Modelo nominal de síntese:} representação linear e de ordem reduzida (segunda ordem para deslocamento e velocidade), empregada na formulação analítica do ganho LQI e na alocação de polos do observador, garantindo baixo custo computacional para execução embarcada em tempo real;
+    \item \textbf{Planta não linear de simulação:} modelo hidromecânico multifísico que engloba as perdas de carga localizadas nos orifícios, a complacência elástica do fluido e da carcaça do cáliper e o chaveamento das válvulas.
+\end{enumerate}
+Essa abordagem permite avaliar computacionalmente a estabilidade e a robustez do regulador projetado quando submetido a não linearidades estáticas e dinâmicas não contempladas no modelo nominal de projeto.
+
 \subsection{Restrição de comunicação USB e migração para execução determinística embarcada}
 \label{sec:restricao-usb-arquitetura}
 
-Durante as fases iniciais de validação experimental, investigou-se a viabilidade de operar a malha de controle em tempo real via enlace USB conectando o ambiente computacional MATLAB/Simulink à bancada física. No entanto, a execução revelou um obstáculo operacional crítico: a latência estocástica e a oscilação de atraso (\textit{jitter}) inerentes à pilha de comunicação USB do sistema operacional inviabilizaram a sustentação de passos de controle determinísticos de $1{,}0\text{ ms}$.
+Durante as fases iniciais de integração experimental, investigou-se a viabilidade de operar o laço de controle digital em tempo real mediante enlace de comunicação serial USB conectando o ambiente computacional MATLAB/Simulink à bancada física. No entanto, a execução prática evidenciou um obstáculo operacional crítico: a latência estocástica e a oscilação de atraso (\textit{jitter}) inerentes à pilha de protocolos USB e ao escalonamento do sistema operacional convencional inviabilizaram a sustentação de passos de amostragem determinísticos no período nominal de $1{,}0\text{ ms}$.
 
-Além do compromisso com a taxa de amostragem, os circuitos integrados de acionamento inteligente (com destaque para o driver NXP MC34SB0800, responsável pelo estágio de potência das válvulas solenoides) exigem envio cíclico estrito de mensagens via barramento SPI (\textit{watchdog} de comunicação). Qualquer atraso esporádico decorrente do empacotamento USB resultava no desarme imediato por segurança do CI de potência, interrompendo a pressurização.
+Adicionalmente ao rigor temporal exigido pela taxa de controle, os circuitos integrados de acionamento de potência — em particular o \textit{driver} inteligente NXP MC34SB0800, responsável pelo acionamento das válvulas solenoides — demandam tráfego periódico estrito de sincronização via barramento SPI (\textit{watchdog} de comunicação). Qualquer atraso esporádico introduzido pelo empacotamento do enlace USB provocava o desarme imediato por segurança do estágio de potência, interrompendo a pressurização do circuito.
 
-Em virtude desse comportamento, estabeleceu-se uma divisão estrita de responsabilidades entre as plataformas:
+Para assegurar o determinismo temporal exigido pela dinâmica hidromecânica e satisfazer os requisitos de supervisão dos circuitos de potência, estabeleceu-se uma arquitetura mecatrônica com segregação formal de responsabilidades:
+
 \begin{enumerate}
-    \item \textbf{Ambiente MATLAB:} utilizado para modelagem, identificação experimental da curva posição--pressão, resolução da equação de Riccati e cálculo dos ganhos do controlador e do observador ($K$ e $L$).
-    \item \textbf{Firmware embarcado no AURIX TC375:} o controle discreto LQI, o observador de Luenberger, a lógica de acionamento das válvulas e os limites operacionais foram implementados em linguagem C e executados no microcontrolador AURIX TC375 \cite{tc37xDatasheet, tc37xEvaluationBoard}, integrado à placa eletrônica desenvolvida neste trabalho.
-    \item \textbf{Segregação de telemetria:} A interface serial USB foi convertida para tráfego assíncrono passivo com taxa reduzida (amostragem de registro a cada $5\text{ ms}$), garantindo que a transmissão de telemetria não interfira no temporizador de interrupção periódica de $1{,}0\text{ ms}$ responsável pelo processamento do laço de controle.
-    \item \textbf{Criação de tabelas/imagens de correspondência e calibração:} As tabelas de correspondência entre deslocamento do atuador e pressão hidráulica, bem como os parâmetros de controle, são enviados a partir do AURIX TC375 para um script python ou matlab que processa os dados, gera as imagens características e tabelas de calibração utilizadas na implementação do firmware embarcado.
+    \item \textbf{Domínio de modelagem e síntese (\textit{Host} / MATLAB):} responsável pela formulação analítica, identificação paramétrica dos modelos, resolução numérica da equação algébrica de Riccati (DARE) e cálculo dos vetores de ganho ótimo do regulador LQI e do observador de Luenberger ($K_d$ e $L_d$);
+    \item \textbf{Domínio determinístico de tempo real (\textit{Target} / AURIX TC375):} execução local, em linguagem C, do laço de controle periódico com interrupção de temporizador estrita de $1{,}0\text{ ms}$ no microcontrolador automotivo AURIX TC375~\cite{tc37xDatasheet, tc37xEvaluationBoard}, processando a estimação de estados, a lei de controle LQI, a máquina de estados das válvulas solenoides e a temporização mínima de chaveamento (\textit{dwell time});
+    \item \textbf{Canal de telemetria assíncrona passiva:} desacoplamento da interface serial USB, configurada para transmissão unidirecional passiva com taxa de subamostragem de $5\text{ ms}$, garantindo que o envio de registros de diagnóstico não concorra temporalmente com as interrupções de controle de $1\text{ ms}$;
+    \item \textbf{Fluxo de pós-processamento e calibração estática:} recepção dos pacotes de telemetria em ambiente computacional dedicado para o processamento dos dados experimentais, geração das curvas características e consolidação da tabela de busca \gls{LUT} de conversão posição--pressão empregada pelo firmware.
 \end{enumerate}
 
 \subsection{Validação experimental na bancada física}
@@ -585,4 +617,5 @@ A avaliação experimental do LQI foi realizada em bancada com o atuador linear 
     \Caption{\label{fig:curva_do_test_na_planta_com_aurix_placa} Resposta temporal do LQI embarcado no AURIX TC375: posição do LAC, pressão hidráulica resultante e comandos das válvulas durante o ensaio em bancada.}
 \end{figure}
 
-A Figura~\ref{fig:curva_do_test_na_planta_com_aurix_placa} documenta a execução do LQI em malha fechada na bancada e a resposta hidráulica associada ao deslocamento do LAC. O ensaio comprova a operação experimental do controlador e permite analisar o seguimento de posição e a pressão produzida; não constitui, isoladamente, evidência de atendimento a requisitos de frenagem veicular.
+A Figura~\ref{fig:curva_do_test_na_planta_com_aurix_placa} documenta a operação em malha fechada do regulador LQI embarcado na plataforma AURIX TC375 e a resposta transitória de pressão resultante na bancada. Os resultados atestam a viabilidade mecatrônica da malha de controle de posição em tempo real, fornecendo os parâmetros operacionais necessários para etapas futuras de validação em veículo instrumentado.
+

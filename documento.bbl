@@ -96,9 +96,9 @@ ISBN 978-3-658-14219-3.}
   Dynamic Systems}. [S.l.]: Ellis-Kagle Press, 1998.
 ISBN 0-9791226-0-0.}
 
-\bibitem[{Honda Automóveis} 2023]{acc-controle-cruzeiro-adaptativo}
-\abntrefinfo{{Honda Automóveis}}{{Honda Automóveis}}{2023}
-{{Honda Automóveis}. \textbf{ACC: o que é e como funciona o Controle de
+\bibitem[{Honda Automóveis}s 2023]{acc-controle-cruzeiro-adaptativo}
+\abntrefinfo{{Honda Automóveis}s}{{Honda Automóveis}S}{2023}
+{{Honda Automóveis}S. \textbf{ACC: o que é e como funciona o Controle de
   Cruzeiro Adaptativo}. 2023.
 Dispon{\'\i}vel em:
   \url{https://www.hondacaiuas.com.br/blog/acc-controle-cruzeiro-adaptativo/}.}
@@ -274,6 +274,13 @@ ISSN 0888-3270.}
   control unit test system. In:  \textbf{Proceedings of the 2023 International
   Conference on Computers, Information Processing and Advanced Education
   (CIPAE)}. [S.l.: s.n.], 2023.}
+
+\bibitem[Zhang 2016]{LihuaLuo2016}
+\abntrefinfo{Zhang}{ZHANG}{2016}
+{ZHANG, L. L. J. C.~F. Integrated adaptive cruise control design considering
+  the optimization of switching between throttle and brake.
+\textbf{2016 IEEE Intelligent Vehicles Symposium (IV) Gothenburg, Sweden, June
+  19-22, 2016}, 2016.}
 
 \bibitem[Zhang \textit{et al.} 2021]{ZhangWang2021}
 \abntrefinfo{Zhang \textit{et al.}}{ZHANG \textit{et al.}}{2021}

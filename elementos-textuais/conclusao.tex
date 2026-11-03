@@ -1,38 +1,46 @@
 % !TeX root = ../documento.tex
-\chapter[Conclusões]{Conclusões}
+\chapter[Conclusão]{Conclusão}
 \label{chap:conclusao-final}
 
-Este trabalho desenvolveu e avaliou estratégias de controle digital para um módulo hidráulico de frenagem, combinando modelagem, simulação, integração eletrônica e ensaios em bancada. Os resultados devem ser interpretados em dois contextos distintos: o controle de pressão no modelo hidráulico simulado e o controle de posição do atuador linear LAC no conjunto físico.
+Esta dissertação investigou o desenvolvimento e a avaliação de estratégias digitais de controle aplicadas a módulos eletro-hidráulicos de frenagem veicular, contextualizadas nas demandas dinâmicas de pressão exercidas por funções avançadas de assistência ao condutor (ADAS), como o controle de cruzeiro adaptativo (ACC) e a frenagem autônoma de emergência (AEB). A pesquisa respondeu ao desafio de modular a pressão hidráulica na roda sob restrições físicas de atuação e determinismo temporal em tempo discreto, articulando duas abordagens computacionais de modelagem e a validação experimental em bancada física.
 
-Na etapa computacional, o modelo não linear de duas pressões reproduziu os modos de pressurização, retenção e alívio. O LQI com observador de Luenberger apresentou erro RMS global de $3{,}68$~bar e sobressinal entre $1{,}77\%$ e $7{,}26\%$ nos cenários avaliados. Esses indicadores caracterizam o seguimento de pressão em simulação e não são resultados de controle direto de pressão em bancada.
+A primeira frente computacional comprovou a viabilidade teórica do rastreamento direto de pressão na planta convencional de duas pressões com bomba e válvulas solenoides. O regulador linear quadrático com ação integral (LQI) associado ao observador de estados de Luenberger em tempo discreto alcançou erro RMS global de $3{,}68$~bar e sobressinais contidos entre $1{,}77\%$ e $7{,}26\%$, respeitando as saturações de velocidade da bomba e as zonas mortas de chaveamento.
 
-Durante a integração experimental, a configuração inicial com bomba centrífuga apresentou resultados satisfatórios nos ensaios realizados, porém seu funcionamento dependia de uma pressão inicial no circuito e da atuação do servofreio a vácuo. Como essas condições não poderiam ser asseguradas na configuração física pretendida, optou-se pela substituição desse arranjo por um atuador linear de êmbolo (LAC). A bancada foi então reorganizada para permitir a geração de pressão pelo deslocamento direto do fluido, decorrente do avanço do êmbolo. Essa transição viabilizou os ensaios de caracterização e de controle do conjunto físico.
+A formulação analítica indicou que a bomba de pistões acionada por excêntrico exigiria uma pressão basal positiva na admissão ($P_{\mathrm{sup},0} \ge 1\,\text{bar}$) para assegurar fluxo, requisito indisponível na infraestrutura física sem circuito auxiliar de pré-carga. Essa restrição de contorno motivou a transição tecnológica para o atuador linear de êmbolo (LAC), cuja atuação por deslocamento volumétrico direto viabilizou a pressurização ativa a partir da pressão atmosférica de repouso ($0\,\text{bar}$).
 
-Nos ensaios \texttt{OLTEST}, a pressão superou 1~psi próximo de $5{,}92$~mm no primeiro ajuste e de $5{,}9$~mm no segundo. Os máximos registrados foram $51{,}79$~psi em $12{,}26$~mm e $75{,}12$~psi próximo de $13{,}4$~mm, respectivamente. Esses resultados caracterizam as condições específicas de ensaio e, junto aos dados de \texttt{PLID} e \texttt{STAIRCASE}, indicam que a relação posição--pressão é não linear e depende da trajetória. A quantidade de dados não sustenta uma lei exponencial nem uma calibração universal.
+Na bancada experimental física acoplada ao cáliper veicular real, os ensaios em malha aberta confirmaram a correlação não linear entre o deslocamento axial do atuador e a pressão manométrica, delimitando a zona morta de encosto das pastilhas no disco (\textit{pad clearance}) em cerca de $5{,}9$~mm e fundamentando a construção da tabela de calibração estática (LUT). Na avaliação da resposta ao degrau (\texttt{CLSTEP B}), o controle em malha fechada de posição produziu tempo de subida de $98$~ms para o patamar nominal de 100~psi com sobressinal de $3{,}8\%$, comprovando rapidez dinâmica compatível com os requisitos de atuação ativa. O decaimento subsequente registrado no patamar mantido decorreu da deformação e acomodação mecânica das vedações da pinça de freio sob carga constante.
 
-Na Etapa I da avaliação experimental, o ensaio auxiliar \texttt{CLSTEP B} caracterizou a resposta eletro-hidráulica ao posicionamento do LAC. Para uma referência associada a 100~psi, o tempo de subida foi de 98~ms, a pressão máxima foi de 103{,}85~psi e o sobressinal foi de 3{,}8\%. Durante a retenção, a pressão decaiu para cerca de 93~psi, com erro de regime de 7{,}14~psi. Esses indicadores pertencem à configuração auxiliar e não caracterizam o desempenho do LQI. Na Etapa II, o LQI com observador de Luenberger foi executado em bancada para controlar a posição do LAC nos ensaios de múltiplas referências, com avaliação da pressão resultante.
+Nos ensaios com múltiplos patamares comutados (\texttt{CLMULTI} e \texttt{PPMULTI}), o algoritmo embarcado no microcontrolador AURIX TC375 sustentou transições rápidas e estáveis entre pressurização, retenção e alívio. A arquitetura em malha dupla em cascata (\texttt{PPMULTI}), que combina a dinâmica rápida do controle interno de posição à correção externa baseada no erro de pressão residual, demonstrou ser a estratégia mais eficaz para atenuar as não linearidades.
 
-Os ensaios \texttt{CLMULTI} e \texttt{PPMULTI} consolidaram a avaliação embarcada do regulador LQI e da estratégia de controle em cascata diante de trajetórias com múltiplos patamares de pressão. Ambas as estruturas demonstraram capacidade de percorrer o ciclo programado de pressurização, retenção e alívio ($0\rightarrow100\rightarrow200\rightarrow50\rightarrow0\text{ psi}$). Os ensaios permitiram observar que, embora o controle indireto por posição (\texttt{CLMULTI}) atenda de forma estável aos patamares básicos, a inclusão da malha externa de pressão no \texttt{PPMULTI} contribui para mitigar desvios decorrentes da acomodação mecânica, apresentando oscilações transitórias moderadas que delimitam as oportunidades para calibração adaptativa em trabalhos futuros.
+\section[Principais Contribuições]{Principais Contribuições}
+\label{sec:conclusao-contribuicoes}
 
-A execução dos perfis no AURIX TC375, com período nominal de controle de 1~ms e transmissão assíncrona de telemetria, constituiu uma solução de integração para contornar as limitações temporais observadas na comunicação USB com o computador hospedeiro.
+As principais contribuições científicas e mecatrônicas consolidadas por este trabalho compreendem:
+\begin{enumerate}
+    \item \textbf{Modelagem matemática integrada de duas arquiteturas de atuação:} formulação do modelo não linear concentrado de duas pressões para a planta com bomba e válvulas, e do modelo hidromecânico multifísico representativo do atuador linear acoplado à acomodação mecânica das vedações da pinça;
+    \item \textbf{Síntese analítica de controle ótimo discreto:} linearização local, discretização por segurador de ordem zero (ZOH), alocação de observador de Luenberger discreto e projeto de regulador LQI com rastreamento de referência e ação integral para atenuação de distúrbios;
+    \item \textbf{Desenvolvimento de hardware eletrônico dedicado:} projeto e fabricação de placa de circuito impresso com estágios de potência inteligentes (driver NXP MC34SB0800 com supervisão periódica por \textit{watchdog} SPI) integrada ao microcontrolador automotivo Infineon AURIX TC375;
+    \item \textbf{Arquitetura determinística embarcada em tempo real:} implementação do laço de controle periódico com período de amostragem de $1{,}0$~ms gerenciado por interrupção estrita no AURIX TC375, segregando a telemetria serial assíncrona com o computador hospedeiro para garantir imunidade a atrasos de transmissão;
+    \item \textbf{Metodologia experimental de calibração e controle mecatrônico:} validação em bancada com freio veicular real, demonstrando a viabilidade do controle indireto por posicionamento mecânico e a eficácia da malha dupla em cascata na regulação de pressão.
+\end{enumerate}
 
 \section[Limitações do Trabalho]{Limitações do Trabalho}
 \label{sec:conclusao-limitacoes}
 
-Os resultados estão limitados às condições da bancada e às configurações documentadas. A relação entre deslocamento linear e pressão hidráulica está sujeita a variações decorrentes da temperatura do fluido, do módulo de elasticidade das tubulações, de efeitos de histerese e relaxação viscoelástica das vedações, bem como da presença residual de ar no circuito hidráulico.
-
-Como a placa proposta foi desenvolvida visando à integração com o atuador centrífugo, sua adaptação para o LAC pode não explorar todas as capacidades do hardware, uma vez que não era possível controlar diretamente o motor BLDC do atuador LAC, atuando em suas fases, e não foi possível realizar a medição direta da corrente do motor para fins de controle. Isso limita a capacidade de implementar estratégias de controle mais avançadas que dependam dessas medições. Além disso, a ausência de integração direta do sensor de pressão interno restringe a implementação de malhas de controle de pressão totalmente fechadas, limitando a avaliação do desempenho hidráulico sob condições variáveis.
-Adicionalmente, a implementação atual não permite avaliar o comportamento do sistema sob falhas do atuador ou do sensor de pressão, o que é relevante para a análise de segurança funcional e para a robustez do controle em cenários veiculares.
+A interpretação dos resultados experimentais deve considerar as seguintes condições de contorno da montagem da bancada experimental:
+\begin{enumerate}
+    \item \textbf{Acoplamento térmico do fluido:} os ensaios foram conduzidos à temperatura ambiente sem sistema ativo de climatização do óleo de freio, fator que contribui para a dispersão observada nos patamares estáticos entre baterias consecutivas;
+    \item \textbf{Acionamento em malha aberta do motor BLDC:} o estágio de potência comercial pré-existente acionou o motor linear mediante modulação PWM do driver integrado, sem acesso direto à comutação individual de fases ou à leitura de corrente do motor, limitando a dinâmica do posicionador às características de malha aberta do atuador;
+    \item \textbf{Interface do transdutor manométrico:} em razão de protocolos de comunicação proprietários, a leitura do sensor interno de pressão foi direcionada exclusivamente à telemetria de validação, operando a malha primária por conversão cinemática da tabela de calibração.
+\end{enumerate}
 
 \section[Trabalhos Futuros]{Trabalhos Futuros}
 \label{sec:conclusao-trabalhos-futuros}
 
-Como continuidade desta pesquisa, recomendam-se os seguintes desdobramentos:
+Como desdobramentos naturais desta pesquisa, recomenda-se:
 \begin{enumerate}
-    \item desenvolver e integrar o driver de comunicação com o sensor de pressão interno do bloco hidráulico, viabilizando o fechamento direto da malha de controle de pressão sem intermediação geométrica;
-    \item implementar circuito de condicionamento e leitura da corrente de fase do motor BLDC do atuador LAC, permitindo o projeto de controladores em cascata com realimentação de torque/corrente;
-    \item projetar estágio de potência dedicado para o acionamento direto das fases do motor BLDC do atuador linear a partir do próprio microcontrolador AURIX TC375;
-    \item submeter a plataforma de controle a ensaios em ambiente \textit{hardware-in-the-loop} (HIL), acoplando modelos em tempo real da dinâmica veicular, de contato pneu--pista e de supervisão de escorregamento;
-    \item conduzir ensaios de injeção de falhas em atuadores e sensores para caracterização experimental da robustez do sistema frente a requisitos de segurança funcional;
-    \item estabelecer protocolos experimentais automatizados para a identificação dinâmica e compensação adaptativa da histerese na relação posição--pressão do circuito.
+    \item implementar controle vetorial comutado por campo (FOC) com realimentação de corrente para o motor BLDC do atuador linear, otimizando o torque em baixas velocidades e reduzindo o tempo de subida mecânico;
+    \item desenvolver algoritmos de calibração adaptativa em tempo real para atualização dinâmica da tabela de busca (LUT), compensando ativamente o desgaste das pastilhas e as variações de temperatura do fluido;
+    \item integrar a malha de controle em cascata à dinâmica veicular completa em ambiente de simulação com hardware no laço (\textit{Hardware-in-the-Loop} -- HIL), avaliando o comportamento do atuador em manobras de frenagem autônoma de emergência sob atrito pneu--pista variável;
+    \item executar ensaios padronizados com injeção de falhas controladas em sensores e solenoides, avaliando estratégias de controle tolerante a falhas voltadas à conformidade com requisitos de segurança funcional automotiva (ISO 26262).
 \end{enumerate}

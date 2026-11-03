@@ -1,52 +1,47 @@
 \babel@toc {brazil}{}\relax 
-\contentsline {figure}{\numberline {1}{\ignorespaces Trajetória da automação dos veículos nas últimas décadas.}}{32}{figure.caption.14}%
+\contentsline {figure}{\numberline {1}{\ignorespaces Trajetória da automação dos veículos nas últimas décadas.}}{31}{figure.caption.14}%
 \contentsline {figure}{\numberline {2}{\ignorespaces Freio a Disco.}}{34}{figure.caption.15}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Freio a Tambor.}}{35}{figure.caption.16}%
-\contentsline {figure}{\numberline {4}{\ignorespaces Sistemas Hidráulicos.}}{36}{figure.caption.17}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Freio a Tambor.}}{34}{figure.caption.16}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Sistemas Hidráulicos.}}{35}{figure.caption.17}%
 \contentsline {figure}{\numberline {5}{\ignorespaces Sistemas Pneumáticos.}}{36}{figure.caption.18}%
 \contentsline {figure}{\numberline {6}{\ignorespaces Controle Eletrônico de Estabilidade (ESC).}}{37}{figure.caption.19}%
 \contentsline {figure}{\numberline {7}{\ignorespaces Demonstração da roda sem (TCS).}}{38}{figure.caption.20}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Controle de Cruzeiro Adaptativo (ACC).}}{39}{figure.caption.21}%
-\contentsline {figure}{\numberline {9}{\ignorespaces Sistema de Freio}}{54}{figure.caption.22}%
-\contentsline {figure}{\numberline {10}{\ignorespaces Princípio do Bloco Hidráulico com Válvulas Solenoides}}{55}{figure.caption.23}%
-\contentsline {figure}{\numberline {11}{\ignorespaces Modelo Hidráulico com Conjunto de Freio Automotivo.}}{55}{figure.caption.24}%
-\contentsline {figure}{\numberline {12}{\ignorespaces Diagrama esquemático do bloco hidráulico integrado com atuador linear (LAC).}}{57}{figure.caption.25}%
-\contentsline {figure}{\numberline {13}{\ignorespaces Bloco hidráulico integrado do módulo de frenagem: matriz de válvulas e conexões hidráulicas dos canais de roda.}}{57}{figure.caption.26}%
-\contentsline {figure}{\numberline {14}{\ignorespaces Conjunto motor elétrico BLDC e mecanismo de acionamento linear do atuador de êmbolo.}}{59}{figure.caption.27}%
-\contentsline {figure}{\numberline {15}{\ignorespaces Diagrama de Sensor Passivo e Sinal Gerado.}}{59}{figure.caption.28}%
-\contentsline {figure}{\numberline {16}{\ignorespaces Diagrama de Sensor Ativo e Sinal Gerado.}}{60}{figure.caption.29}%
-\contentsline {figure}{\numberline {17}{\ignorespaces Sensor de Pressão no Bloco do Sistema de Freio.}}{61}{figure.caption.30}%
-\contentsline {figure}{\numberline {18}{\ignorespaces Diagrama em Bloco da Placa Proposta.}}{62}{figure.caption.31}%
-\contentsline {figure}{\numberline {19}{\ignorespaces Bancada experimental completa para ensaios mecatrônicos do módulo hidráulico de deslocamento linear.}}{65}{figure.caption.32}%
-\contentsline {figure}{\numberline {20}{\ignorespaces Implementação do subsistema hidráulico em um bloco \texttt {MATLAB Function} no Simulink.}}{73}{figure.caption.33}%
-\contentsline {figure}{\numberline {21}{\ignorespaces Esquema da simulação em malha aberta do modelo hidráulico 2P em MATLAB/Simulink, com \textit {script} MATLAB gerando o ensaio.}}{73}{figure.caption.34}%
-\contentsline {figure}{\numberline {22}{\ignorespaces Modelo Simulink integrado para validação do controle digital de pressão (referência, controlador LQI+observador, lógica das válvulas e planta não linear).}}{80}{figure.caption.36}%
-\contentsline {figure}{\numberline {23}{\ignorespaces Implementação do controlador discreto (LQI + observador de Luenberger) em um bloco \texttt {MATLAB Function} no Simulink.}}{80}{figure.caption.37}%
-\contentsline {figure}{\numberline {24}{\ignorespaces Resposta temporal do LQI embarcado no AURIX TC375: posição do LAC, pressão hidráulica resultante e comandos das válvulas durante o ensaio em bancada.}}{87}{figure.caption.38}%
-\contentsline {figure}{\numberline {25}{\ignorespaces Ensaio integrado em malha aberta do modelo hidráulico 2P, com as fases de pressurização, retenção e alívio.}}{89}{figure.caption.39}%
-\contentsline {figure}{\numberline {26}{\ignorespaces Comandos e pressão obtidos na simulação em malha fechada com o controlador LQI e o observador de Luenberger.}}{90}{figure.caption.40}%
-\contentsline {figure}{\numberline {27}{\ignorespaces Seguimento por degraus e erro de acompanhamento na simulação.}}{91}{figure.caption.42}%
-\contentsline {figure}{\numberline {28}{\ignorespaces Métricas de desempenho globais e por degrau.}}{91}{figure.caption.43}%
-\contentsline {figure}{\numberline {29}{\ignorespaces Taxa de variação da pressão e atuação próxima aos limites de comando.}}{92}{figure.caption.44}%
-\contentsline {figure}{\numberline {30}{\ignorespaces Assimetria entre os transientes de pressurização e de alívio.}}{92}{figure.caption.45}%
-\contentsline {figure}{\numberline {31}{\ignorespaces Ondulação em regime permanente no domínio do tempo e da frequência.}}{93}{figure.caption.46}%
-\contentsline {figure}{\numberline {32}{\ignorespaces Sensibilidade das métricas de erro e esforço às variações paramétricas.}}{93}{figure.caption.47}%
-\contentsline {figure}{\numberline {33}{\ignorespaces Compromisso entre erro de seguimento e esforço de atuação para diferentes ponderações do LQI.}}{94}{figure.caption.48}%
-\contentsline {figure}{\numberline {34}{\ignorespaces Variação das métricas com o nível de ruído de medição.}}{95}{figure.caption.49}%
-\contentsline {figure}{\numberline {35}{\ignorespaces Placa eletrônica desenvolvida para a integração com o conjunto de frenagem.}}{95}{figure.caption.50}%
-\contentsline {figure}{\numberline {36}{\ignorespaces Arquitetura funcional de integração entre controle, aquisição e acionamento.}}{96}{figure.caption.51}%
-\contentsline {figure}{\numberline {37}{\ignorespaces Ensaio de integração em malha aberta do bloco hidráulico, com pressão, posição do LAC e comandos das válvulas.}}{97}{figure.caption.52}%
-\contentsline {figure}{\numberline {38}{\ignorespaces Resposta temporal da velocidade do atuador linear para múltiplos comandos de PWM.}}{99}{figure.caption.54}%
-\contentsline {figure}{\numberline {39}{\ignorespaces Ensaio \texttt {PLID}: identificação dos transientes de pressão e da posição do LAC para os níveis de 100, 200 e 300 psi.}}{100}{figure.caption.56}%
-\contentsline {figure}{\numberline {40}{\ignorespaces Curva experimental de posição e pressão obtida no ensaio \texttt {STAIRCASE}.}}{101}{figure.caption.58}%
-\contentsline {figure}{\numberline {41}{\ignorespaces Ensaio CLSTEP B: resposta eletro-hidráulica ao degrau.}}{105}{figure.caption.61}%
-\contentsline {figure}{\numberline {42}{\ignorespaces Ensaio \texttt {CLSTEP A}, com realimentação direta da pressão, utilizado como referência experimental.}}{108}{figure.caption.64}%
-\contentsline {figure}{\numberline {43}{\ignorespaces Ensaio CLSTEP B: posição do LAC e pressão registrada.}}{108}{figure.caption.65}%
-\contentsline {figure}{\numberline {44}{\ignorespaces Ensaio \texttt {CLMULTI} com múltiplos patamares de referência.}}{109}{figure.caption.66}%
-\contentsline {figure}{\numberline {45}{\ignorespaces Ensaio \texttt {PPMULTI}: referência, contribuições das malhas de controle, posição do LAC e pressão medida.}}{110}{figure.caption.67}%
-\contentsline {figure}{\numberline {46}{\ignorespaces Varredura de PWM utilizada para observar a resposta de posição e pressão do atuador linear.}}{111}{figure.caption.69}%
-\contentsline {figure}{\numberline {47}{\ignorespaces Circuito Sensor de Roda Proposto.}}{122}{figure.caption.74}%
-\contentsline {figure}{\numberline {48}{\ignorespaces Simulação do Circuito Sensor de Roda Proposto.}}{123}{figure.caption.75}%
-\contentsline {figure}{\numberline {49}{\ignorespaces Circuito de Controle das Válvulas Solenoides.}}{123}{figure.caption.76}%
-\contentsline {figure}{\numberline {50}{\ignorespaces Circuito de Controle da Bomba de Pressão.}}{124}{figure.caption.77}%
-\contentsline {figure}{\numberline {51}{\ignorespaces Circuito de Leitura do Sensor de Pressão.}}{125}{figure.caption.78}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Controle de Cruzeiro Adaptativo (ACC).}}{38}{figure.caption.21}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Sistema de Freio}}{53}{figure.caption.22}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Princípio do Bloco Hidráulico com Válvulas Solenoides}}{53}{figure.caption.23}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Modelo Hidráulico com Conjunto de Freio Automotivo.}}{54}{figure.caption.24}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Diagrama esquemático do bloco hidráulico integrado com atuador linear (LAC).}}{55}{figure.caption.25}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Bloco hidráulico integrado do módulo de frenagem: matriz de válvulas e conexões hidráulicas dos canais de roda.}}{56}{figure.caption.26}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Motor elétrico de corrente contínua e eixo com came excêntrico para acionamento dos êmbolos da bomba de pistões de ABS/ESC.}}{57}{figure.caption.27}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Conjunto motor elétrico BLDC e mecanismo de acionamento linear do atuador de êmbolo (LAC).}}{57}{figure.caption.28}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Diagrama de Sensor Passivo e Sinal Gerado.}}{58}{figure.caption.29}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Diagrama de Sensor Ativo e Sinal Gerado.}}{59}{figure.caption.30}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Sensor de Pressão no Bloco do Sistema de Freio.}}{60}{figure.caption.31}%
+\contentsline {figure}{\numberline {19}{\ignorespaces Diagrama em Bloco da Placa Proposta.}}{60}{figure.caption.32}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Bancada experimental completa para ensaios mecatrônicos do módulo hidráulico de deslocamento linear.}}{64}{figure.caption.33}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Implementação do subsistema hidráulico em um bloco \texttt {MATLAB Function} no Simulink.}}{72}{figure.caption.34}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Esquema da simulação em malha aberta do modelo hidráulico 2P em MATLAB/Simulink, com \textit {script} MATLAB gerando o ensaio.}}{72}{figure.caption.35}%
+\contentsline {figure}{\numberline {23}{\ignorespaces Modelo Simulink integrado para validação do controle digital de pressão (referência, controlador LQI+observador, lógica das válvulas e planta não linear).}}{79}{figure.caption.37}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Implementação do controlador discreto (LQI + observador de Luenberger) em um bloco \texttt {MATLAB Function} no Simulink.}}{79}{figure.caption.38}%
+\contentsline {figure}{\numberline {25}{\ignorespaces Diagrama no Simulink para simulação do modelo hidromecânico do LAC em malha aberta.}}{85}{figure.caption.39}%
+\contentsline {figure}{\numberline {26}{\ignorespaces Diagrama no Simulink para simulação do LAC em malha fechada de posição com observador de estados.}}{85}{figure.caption.40}%
+\contentsline {figure}{\numberline {27}{\ignorespaces Resposta temporal do LQI embarcado no AURIX TC375: posição do LAC, pressão hidráulica resultante e comandos das válvulas durante o ensaio em bancada.}}{87}{figure.caption.41}%
+\contentsline {figure}{\numberline {28}{\ignorespaces Ensaio integrado em malha aberta do modelo hidráulico 2P, com as fases de pressurização, retenção e alívio.}}{89}{figure.caption.42}%
+\contentsline {figure}{\numberline {29}{\ignorespaces Comandos e pressão obtidos na simulação em malha fechada com o controlador LQI e o observador de Luenberger.}}{90}{figure.caption.43}%
+\contentsline {figure}{\numberline {30}{\ignorespaces Resposta em malha aberta do modelo hidromecânico do LAC: pressão hidráulica, posição do atuador e comandos das válvulas.}}{91}{figure.caption.45}%
+\contentsline {figure}{\numberline {31}{\ignorespaces Simulação do modelo LAC em malha fechada: comparação entre pressão e referência; seguimento de posição; comando \gls {PWM}; e comandos das válvulas.}}{92}{figure.caption.46}%
+\contentsline {figure}{\numberline {32}{\ignorespaces Placa eletrônica desenvolvida para a integração com o conjunto de frenagem.}}{93}{figure.caption.47}%
+\contentsline {figure}{\numberline {33}{\ignorespaces Arquitetura funcional de integração entre controle, aquisição e acionamento.}}{93}{figure.caption.48}%
+\contentsline {figure}{\numberline {34}{\ignorespaces Curvas experimentais de velocidade e posição do atuador linear para múltiplos degraus de PWM.}}{94}{figure.caption.49}%
+\contentsline {figure}{\numberline {35}{\ignorespaces Ensaio de integração em malha aberta do bloco hidráulico, com pressão, posição do LAC e comandos das válvulas.}}{96}{figure.caption.50}%
+\contentsline {figure}{\numberline {36}{\ignorespaces Ensaio experimental \texttt {PLID}: evolução temporal da pressão hidráulica e da posição do LAC para os patamares nominais de 100, 200 e 300~psi.}}{98}{figure.caption.53}%
+\contentsline {figure}{\numberline {37}{\ignorespaces Curva experimental de posição e pressão obtida no ensaio \texttt {STAIRCASE}.}}{99}{figure.caption.55}%
+\contentsline {figure}{\numberline {38}{\ignorespaces Ensaio \texttt {CLSTEP A}: resposta eletro-hidráulica da bancada em regime de malha aberta.}}{103}{figure.caption.59}%
+\contentsline {figure}{\numberline {39}{\ignorespaces Ensaio CLSTEP B: resposta ao degrau sob controle de posição.}}{104}{figure.caption.60}%
+\contentsline {figure}{\numberline {40}{\ignorespaces Ensaio \texttt {CLMULTI} com múltiplos patamares de referência.}}{106}{figure.caption.62}%
+\contentsline {figure}{\numberline {41}{\ignorespaces Ensaio \texttt {PPMULTI}: referência, contribuições das malhas de controle, posição do LAC e pressão medida.}}{107}{figure.caption.63}%
+\contentsline {figure}{\numberline {42}{\ignorespaces Circuito Sensor de Roda Proposto.}}{118}{figure.caption.69}%
+\contentsline {figure}{\numberline {43}{\ignorespaces Simulação do Circuito Sensor de Roda Proposto.}}{119}{figure.caption.70}%
+\contentsline {figure}{\numberline {44}{\ignorespaces Circuito de Controle das Válvulas Solenoides.}}{119}{figure.caption.71}%
+\contentsline {figure}{\numberline {45}{\ignorespaces Circuito de Controle da Bomba de Pressão.}}{120}{figure.caption.72}%
+\contentsline {figure}{\numberline {46}{\ignorespaces Circuito de Leitura do Sensor de Pressão.}}{121}{figure.caption.73}%

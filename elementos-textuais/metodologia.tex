@@ -1,59 +1,44 @@
 % !TeX root = ../documento.tex
 \chapter{Bancada Experimental e Plataforma Eletrônica}
 \label{chap:metodologia}
-Esta pesquisa analisa estratégias de controle digital aplicadas a sistemas de frenagem automotiva, com ênfase em possíveis aplicações de Controle de Cruzeiro Adaptativo (ACC). Para esse fim, foi desenvolvida uma plataforma experimental para aquisição de sinais e acionamento de componentes do sistema de freio.
-% O estudo se concentra na modelagem, simulação e validação do comportamento do sistema em situações de frenagem, utilizando o ambiente Matlab/Simulink para a implementação e avaliação dos algoritmos de controle.
+A metodologia foi organizada em duas frentes computacionais e uma frente experimental. A primeira frente computacional modela uma arquitetura hidráulica convencional de duas pressões, com bomba e válvulas solenoides, e avalia por simulação o rastreamento direto da pressão de roda por um controlador \gls{LQI}. A segunda desenvolve e simula um modelo hidromecânico com \gls{LAC}, no qual o \gls{LQI} regula a posição e a pressão é uma resposta do circuito. Na frente experimental, adotou-se o \gls{LAC} porque os modelos e as simulações da configuração com bomba requeriam uma condição inicial de 1 bar que não poderia ser provida na configuração prevista para a bancada. Os ensaios físicos, portanto, foram realizados com o \gls{LAC}, avaliando o controle de posição e monitorando a pressão resultante.
 
-O estudo combina a modelagem e a simulação do comportamento hidráulico com ensaios experimentais em bancada. O MATLAB/Simulink foi utilizado para representar o sistema e avaliar os algoritmos de controle; o LQI também foi executado no microcontrolador AURIX TC375 durante os ensaios com o atuador linear.
-
-A seleção dos componentes eletrônicos e do microcontrolador — incluindo os circuitos integrados MC34SB0410AE, MC34SB0800AE e o AURIX TC375 — considerou a viabilidade experimental e os requisitos de aquisição e controle digital. Esses componentes dão suporte aos ensaios, mas não constituem o foco central da investigação.
-
-%É importante destacar que o escopo deste trabalho está restrito à validação do sistema em ambiente simulado e controlado, reconhecendo-se limitações inerentes à experimentação laboratorial e à modelagem adotada.
-
-O escopo compreende a validação do modelo hidráulico e do controlador por simulação, bem como a avaliação experimental do LQI em bancada. No conjunto físico, o controlador atua sobre a posição do LAC, e a pressão é registrada para caracterizar a resposta hidráulica. Os resultados estão sujeitos às limitações da bancada e às simplificações do modelo, não devendo ser extrapolados diretamente para aplicações veiculares.
-
-Este capítulo descreve a abordagem metodológica, os componentes da bancada, a plataforma eletrônica e os procedimentos de simulação e ensaio. Também apresenta os critérios empregados para avaliar os resultados, distinguindo as evidências obtidas no modelo computacional daquelas observadas no conjunto físico.
+Este capítulo apresenta os procedimentos computacionais, a plataforma eletrônica, a configuração da bancada e os protocolos de ensaio. As evidências das duas plantas simuladas são distinguidas dos resultados experimentais, que se limitam à configuração física com \gls{LAC}.
 
 % ADD 01/29/2026 (movido para arquivo separado) 
 \section{Procedimento metodológico e métricas de avaliação}
 \label{sec:metodologia-procedimento}
 
-O procedimento metodológico compreendeu: (i) modelagem do subsistema hidráulico; (ii) linearização em torno de um ponto de operação; (iii) projeto do controlador LQI e do observador de Luenberger; (iv) avaliação por simulação em malha aberta e fechada; (v) integração da bancada física e transição da bomba centrífuga inicialmente utilizada para o atuador linear LAC; e (vi) execução do LQI embarcado para controle da posição do atuador, com monitoramento da pressão resultante.
+O procedimento metodológico compreendeu: (i) a formulação e a avaliação em malha aberta do modelo convencional de duas pressões; (ii) a linearização local e o projeto do regulador LQI com observador de Luenberger para rastreamento de pressão na planta simulada; (iii) a formulação e a simulação em malha aberta e fechada do modelo hidromecânico do LAC; (iv) a caracterização da condição inicial de suprimento e a especificação do LAC para a plataforma experimental física; (v) a identificação quase-estática da curva de calibração posição--pressão e avaliação de histerese; e (vi) a execução embarcada do controle de posição do \gls{LAC} no microcontrolador AURIX TC375.
 
-A etapa experimental foi realizada em bancada com um módulo eletro-hidráulico acionado pelo atuador linear de êmbolo (\textit{Linear Actuator Concept} -- LAC). Foram conduzidos ensaios em malha aberta com varredura de PWM e degraus de atuação (\texttt{PWMSWEEP} e \texttt{OLTEST}), ensaios de identificação da relação entre posição e pressão durante a pressurização e a retenção (\texttt{PLID} e \texttt{STAIRCASE}) e ensaios de seguimento de referência. Para organizar a análise, os ensaios de seguimento são apresentados em duas etapas. A Etapa I utiliza o \texttt{CLSTEP B} como ensaio auxiliar de resposta eletro-hidráulica a uma referência em degrau, com uma lei proporcional-integral (PI) de posição e registro dos sinais de estimação. A Etapa II reúne os ensaios de múltiplas referências \texttt{CLMULTI} e \texttt{PPMULTI}, nos quais foi avaliado o LQI com observador de Luenberger. Essa divisão distingue a finalidade de cada implementação e não estabelece uma comparação controlada de desempenho entre elas. Esses procedimentos permitiram caracterizar a resposta do atuador e avaliar, em bancada, a pressão produzida para as posições controladas.
+A campanha experimental com o atuador linear (\gls{LAC}) estruturou-se em duas frentes de ensaio na bancada:
+\begin{enumerate}
+    \item \textbf{Caracterização hidromecânica em malha aberta:} compreende ensaios dinâmicos sob degraus de modulação \gls{PWM} (\texttt{PWMSWEEP}) e acionamento hidráulico direto (\texttt{OLTEST} e \texttt{CLSTEP A}), além da identificação estática da relação posição--pressão (\texttt{PLID} e \texttt{STAIRCASE});
+    \item \textbf{Controle digital em malha fechada:} avalia a resposta transitória ao degrau sob regulação de posição (\texttt{CLSTEP B}) e o rastreamento dinâmico em múltiplos patamares comutados (\texttt{CLMULTI} e \texttt{PPMULTI}), empregando o regulador LQI discreto associado ao observador de Luenberger e a arquitetura em malha dupla.
+\end{enumerate}
 
-Os excertos do firmware associados aos ensaios \texttt{OLTEST}, \texttt{PLID}, \texttt{STAIRCASE}, \texttt{CLSTEP B}, \texttt{CLMULTI} e \texttt{PPMULTI} são apresentados no Apêndice~\ref{ap:codigo-c-firmware} (Códigos~\ref{cod:c-oltest-telemetria}, \ref{cod:c-plid-retencao}, \ref{cod:c-staircase-telemetria}, \ref{cod:c-clstep-pi}, \ref{cod:c-clmulti-lqi}, \ref{cod:c-ppmulti-lqi} e \ref{cod:c-ppmulti-telemetria}). Esses trechos mostram a execução e o registro das variáveis utilizadas nos ensaios; a geração das figuras ocorre no recebimento de dados via serial, e não diretamente no firmware.
+A implementação determinística dessas rotinas no microcontrolador AURIX TC375 encontra-se documentada no Apêndice~\ref{ap:codigo-c-firmware}, que reúne os algoritmos de controle, observação de estados e telemetria serial em tempo real (Códigos~\ref{cod:c-oltest-telemetria} a~\ref{cod:c-ppmulti-telemetria}). As rotinas computacionais em ambiente MATLAB/Simulink responsáveis pela parametrização dos modelos, síntese dos ganhos e integração numérica são detalhadas no Apêndice~\ref{ap:scripts-matlab}.
 
-Para evitar que o texto principal assuma a forma de um “manual de MATLAB”, a descrição do uso de \textit{scripts} é feita de maneira conceitual: no corpo do texto, explicita-se o papel do \textit{script} na organização do ensaio (definição do horizonte de simulação, parametrização do modelo, geração de comandos/referências e registro de sinais); já o detalhe de implementação (funções, variáveis e trechos de código) é apresentado no apêndice de códigos.
+O desempenho das estratégias de controle foi quantificado a partir de métricas temporais clássicas de sistemas dinâmicos:
+\begin{enumerate}
+    \item \textbf{Métricas transitórias:} tempo de subida ($t_r$, definido entre 10\% e 90\% do patamar), sobressinal percentual máximo ($M_p$) e tempo de acomodação ($t_s$, faixa de 2\%);
+    \item \textbf{Métricas de regime e erro acumulado:} erro quadrático médio global e por degrau ($e_{\mathrm{RMS}}$), erro em regime permanente ($e_{\mathrm{SS}}$) e esforço de comando do atuador;
+    \item \textbf{Variáveis de resposta hidráulica:} pressão manométrica resultante no cáliper ($P_w$), correlação cinemática $P_w(x)$ e estabilidade da pressão retida durante os intervalos de sustentação.
+\end{enumerate}
+Os dados experimentais obtidos, bem como a confrontação com os modelos teóricos, são apresentados e discutidos no Capítulo~\ref{chap:resultados-final}.
 
-As métricas de avaliação foram escolhidas para refletir tanto desempenho de seguimento quanto esforço de atuação: tempo de subida e de acomodação da pressão, sobressinal, erro de regime permanente e erro RMS. Complementarmente, registra-se o esforço máximo de controle (por exemplo, máximos de $u_{in}$ e $u_{out}$) para verificar compatibilidade com as saturações físicas impostas no modelo. A apresentação dos resultados (curvas, métricas e discussão) é concentrada no Capítulo~\ref{chap:resultados-final}, a metodologia permaneça claramente separada dos achados.
-% END ADD
-
-\section{Procedimento metodológico e métricas de avaliação}
+\section[Tipo e abordagem da pesquisa]{Tipo e abordagem da pesquisa}
 \label{sec:metodologia-1}
-A pesquisa tem caráter computacional e experimental. A etapa computacional utiliza modelos matemáticos, simulações e algoritmos para avaliar o sistema no MATLAB/Simulink. A etapa experimental compreende ensaios em bancada com o LQI executado no AURIX TC375 e o monitoramento da pressão hidráulica produzida pelo atuador linear.
-
-As escolhas metodológicas foram orientadas pela necessidade de avaliar estratégias de controle digital para sistemas de freio tanto em simulação quanto em bancada. A seleção dos componentes, algoritmos e procedimentos considerou os requisitos de controle e as limitações observadas durante a integração experimental.
+A pesquisa tem caráter computacional e experimental. Na etapa computacional, são avaliadas separadamente a planta convencional de duas pressões, com rastreamento simulado de pressão, e a planta hidromecânica do LAC, com controle simulado de posição e análise da pressão resultante. A etapa experimental compreende ensaios em bancada com o LAC e execução embarcada do controle de posição no AURIX TC375.
 
 
 \section{Aplicação em ADAS}
 \label{sec:metodologia-3}
+As funções ADAS longitudinais, como ACC e AEB, podem gerar demandas de desaceleração que, em uma arquitetura veicular completa, precisam ser convertidas em referências adequadas para o sistema de frenagem. Nesta pesquisa, ACC e AEB constituem o contexto de aplicação, mas não são implementados nem avaliados como sistemas completos. O estudo concentra-se no subsistema de atuação hidráulica e em referências de teste especificadas para avaliar os modelos e controladores \cite{LihuaLuo2016,Linhoff2026}.
 
-Os sistemas ADAS são projetados especialmente para aumentar a segurança e a eficiência dos veículos, utilizando uma combinação de sensores e tecnologias de controle. Esse conjunto de elementos interligados é capaz de monitorar o ambiente ao redor do veículo e tomar decisões em tempo real para auxiliar o motorista em diversas situações de condução. 
-
-A integração do sistema de freio com controle digital em um ambiente controlado, aliado à arquitetura de um veículo equipado com (ADAS), possibilita uma análise mais precisa e eficiente do comportamento do sistema durante a frenagem. Essa abordagem favorece a coleta de dados relevantes para a avaliação da segurança e do desempenho em diferentes cenários.
-
-De acordo com \citeonline{Lentin2022}, um veículo com arquitetura ADAS possui como principais interfaces: câmeras, LIDARs, RADARs, SONARs, \gls{IMU} e receptores \gls{GNSS} para analisar o ambiente e tomar decisões adequadas para atuação. Ele ainda descreve que, no contexto de um veículo com ADAS, o sistema de controle é dedicado à geração de comandos apropriados para o acelerador, freio e direção, a fim de executar um movimento controlado.
-
-\subsection{Integração com ADAS}
+\subsection{Contextualização com Funções ADAS Longitudinais}
 \label{sebsec:metodologia-3-1}
-No contexto deste estudo, a integração do sistema de controle digital de frenagem com sistemas avançados de assistência ao condutor ADAS é analisada a partir de casos de uso específicos, com foco em aplicações de controle longitudinal veicular. Em particular, considera-se a atuação do sistema de frenagem no âmbito do Adaptive Cruise Control (ACC), funcionalidade amplamente presente em veículos modernos e fortemente dependente da modulação precisa da pressão de freio.
-
-Os cenários analisados são inspirados em manobras padronizadas utilizadas por protocolos de avaliação de segurança veicular, como os ensaios propostos pelo EuroNCAP, que envolvem situações de aproximação de um veículo à frente e necessidade de redução controlada da velocidade. Nesses cenários, os sistemas ADAS utilizam informações provenientes de sensores como radar e câmera para estimar a distância relativa e a velocidade dos obstáculos, gerando, a partir de seus algoritmos de decisão, uma referência de desaceleração longitudinal.
-
-Nesse contexto, o sistema de frenagem modelado neste trabalho atua como o estágio final da cadeia de controle, sendo responsável por converter a demanda de desaceleração fornecida pelo módulo ADAS em pressão hidráulica efetiva nos atuadores de freio. O estudo concentra-se, portanto, na dinâmica da geração de pressão por meio da bomba hidráulica, assumindo válvulas em estados discretos (abertas ou fechadas), para isolar e analisar o impacto da atuação da bomba sobre a resposta do sistema.
-
-A adoção desse recorte permite avaliar, em ambiente controlado, o comportamento dinâmico do sistema de frenagem diante de comandos típicos de ADAS, como variações abruptas ou graduais da demanda de frenagem. Dessa forma, contribui-se para a compreensão dos desafios associados à integração entre algoritmos de assistência à condução e sistemas hidráulicos de freio, mantendo o foco nos aspectos fundamentais da modelagem e do controle da pressão.
+Os perfis de referência adotados neste trabalho reproduzem as ordens de grandeza e as taxas de variação de pressão requeridas por funções ADAS longitudinais (como ACC e AEB). O foco metodológico concentra-se no controle de baixo nível da unidade eletro-hidráulica, avaliando a fidelidade e a estabilidade com que a camada mecatrônica executa os comandos de modulação de pressão especificados pelos módulos de supervisão veicular.
 
 \section{Descrição do Sistema de Freio}
 \label{sec:metodologia-4}
@@ -85,9 +70,7 @@ Outra parte a ser destacada desse sistema é a parte hidráulica, responsável p
  
 O bloco hidráulico incorpora múltiplas válvulas solenoides que abrem ou fecham caminhos hidráulicos entre o cilindro mestre/suprimento, o retorno e os canais de roda, como mostra a Figura~\ref{fig:principio-do-modulador-hidraulico-com-valvulas-solenoides}. 
 
-%Ele também conecta os freios à bomba de retorno (6). Válvulas solenoides com duas conexões hidráulicas e duas posições de válvula são usadas (válvulas solenoides 2/2). A válvula de entrada (7), entre o cilindro mestre e o freio, controla a aplicação de pressão, enquanto a válvula de saída (8), entre o freio e a bomba de retorno, controla a liberação de pressão. Há um par de válvulas solenoides para cada freio.
-
-Ele também conecta os freios à bomba de retorno (6). Válvulas solenoides com duas conexões hidráulicas e duas posições de válvula são usadas (válvulas solenoides 2/2). A válvula de entrada (7), entre o cilindro mestre e o freio, controla a vazão de entrada de fluido para o circuito de freio, enquanto a válvula de saída (8), entre o freio e a bomba de retorno, controla a \textbf{vazão de saída} do fluido para o reservatório de baixa pressão. Há um par de válvulas solenoides para cada freio.
+Ele também conecta os freios à bomba de retorno (6). Válvulas solenoides com duas conexões hidráulicas e duas posições de válvula são usadas (válvulas solenoides 2/2). A válvula de entrada (7), entre o cilindro mestre e o freio, controla a vazão de entrada de fluido para o circuito de freio, enquanto a válvula de saída (8), entre o freio e a bomba de retorno, controla a \textbf{vazão de saída} do fluido para o reservatório de baixa pressão(9). Há um par de válvulas solenoides para cada freio.
 
 
 \subsection{Válvulas Solenoide}
@@ -104,7 +87,7 @@ A Figura~\ref{fig:modelo-hidraulico-conjunto-freio} apresenta o modelo hidráuli
     \fonte{ O Autor, adaptado de \cite{Konrad2014}.}
 \end{figure}
 
-O processo de modulação hidráulica em unidades ABS/ESC pode ser descrito, de forma funcional, pelos três modos clássicos de atuação no canal/roda: \textit{aumento de pressão} (pressurização), \textit{retenção} (\textit{hold}) e \textit{redução de pressão} (alívio). Em termos hidráulicos, esses modos decorrem da combinação de estados das válvulas de entrada (que estabelecem ou bloqueiam a comunicação com o suprimento) e de saída (que estabelecem ou bloqueiam a comunicação com o retorno), bem como do acionamento do conjunto motor+bomba.
+O processo de modulação hidráulica em unidades ABS/ESC pode ser descrito, de forma funcional, pelos três modos clássicos de atuação no canal/roda: \textbf{aumento de pressão} (pressurização), \textbf{retenção} (\textit{hold}) e \textbf{redução de pressão} (alívio). Em termos hidráulicos, esses modos decorrem da combinação de estados das válvulas de entrada (que estabelecem ou bloqueiam a comunicação com o suprimento) e de saída (que estabelecem ou bloqueiam a comunicação com o retorno), bem como do acionamento do conjunto motor+bomba.
 
 No \textbf{ABS clássico} (frenagem comandada pelo condutor), a pressão base é gerada no cilindro mestre e a unidade hidráulica atua modulando-a por roda, tipicamente com recirculação para recomposição de pressão. Já em \textbf{frenagem ativa} (ESC/ADAS), a unidade eletro-hidráulica pode assumir o papel de atuador principal de pressão, impondo perfis de pressão por roda a partir de uma referência gerada eletronicamente. Esse é o modo de interesse deste trabalho.
 
@@ -132,33 +115,42 @@ Na arquitetura integrada do módulo atuador linear para deslocamento de fluido, 
     \fonte{O Autor.}
 \end{figure}
 
-
-\subsection{Motor da Bomba de Pressão}
+%==============================================================================
+% TEXTO CORRIGIDO: PRECISÃO CONCEITUAL SOBRE A BOMBA E O LAC
+%==============================================================================
+\subsection{Unidade Eletromecânica de Pressurização: Bomba de Pistões e Atuador Linear}
 \label{sec:metodologia-4-2}
-A função do conjunto motor+bomba é fornecer vazão ao suprimento e permitir a recomposição/geração de pressão hidráulica necessária para a modulação por canal. Em ABS/ESC, esse conjunto pode operar tanto para recirculação (recomposição durante modulação) quanto, em arquiteturas de frenagem ativa, como fonte primária de pressão para impor perfis de pressão por roda.
 
-A bomba utilizada em sistemas ABS ou de controle de estabilidade (ESC/ESP) tipicamente não é do tipo engrenagem, mas sim uma bomba de pistão alternativo acionada por um motor elétrico, normalmente do tipo BLDC (\textit{Brushless Direct Current}). Esse motor aciona um mecanismo excêntrico que movimenta o pistão da bomba, permitindo recircular o fluido e restabelecer a pressão no circuito.
+A função da unidade motriz eletro-hidráulica consiste em fornecer vazão volumétrica ao circuito e estabelecer os patamares de pressão necessários para a modulação de frenagem em cada roda. Em sistemas antibloqueio e de controle de estabilidade convencionais (ABS/ESC), esse conjunto atua tanto na recirculação do fluido drenado durante os ciclos de alívio quanto, em arquiteturas com funções ativas de desaceleração (como ACC e AEB), como fonte de pressurização autônoma sem a intervenção do condutor sobre o pedal.
 
-O elemento responsável por armazenar fluido sob pressão — frequentemente um acumulador hidráulico, que pode ser do tipo pistão ou diafragma — não deve ser confundido com a bomba. Quando o sistema ABS ou ESC/ESP detecta uma potencial perda de tração, ou iminência de travamento da roda, a bomba pode ser acionada para recompor a pressão rapidamente, contribuindo para o desempenho de frenagem e a estabilidade do veículo.
-
-Cabe contrastar essa arquitetura com a solução adotada no módulo físico avaliado na bancada experimental deste trabalho (módulo atuador linear de êmbolo para deslocamento de fluido). Enquanto sistemas ABS/ESC convencionais utilizam bombas de pistões alternativos acionadas por excêntrico para recomposição de pressão por recirculação (conforme considerado no modelo concentrado de duas pressões no Capítulo~\ref{cap:controle}), módulos integrados modernos empregam um atuador linear (\textit{Linear Actuator Concept} -- LAC). Nesse arranjo, um motor elétrico sem escovas aciona um mecanismo de fuso que translada diretamente o pistão primário do cilindro mestre. Desse modo, o volume de fluido deslocado para os canais de freio é proporcional ao deslocamento linear do atuador ($x_{\mathrm{LAC}}$), permitindo tanto a pressurização ativa direta sem auxílio de vácuo quanto o controle de pressão indireto por meio do posicionamento mecânico de alta precisão \cite{xiong2021piston, jonner1996electrohydraulic}.
-
-Em contraste com os motores de corrente contínua com escovas tradicionalmente aplicados em bombas de excêntrico, o módulo atuador linear de êmbolo emprega um motor síncrono de ímãs permanentes sem escovas (\textit{Brushless Direct Current} -- BLDC) de alto desempenho acoplado a um mecanismo de fuso mecânico de esferas e sensor de posição angular integrado. Essa arquitetura mecatrônica foi projetada para suportar pressões operacionais de até 190~bar (aproximadamente 2755~psi) com volume líquido deslocável de 15{,}3~$\text{cm}^3$ (classe M), atuando sobre um êmbolo de diâmetro nominal $\varnothing 19{,}05\text{ mm}$ e monitorada por sensor de pressão piezoelétrico de alta precisão com escala de fundo de até 275~bar. A conversão do movimento rotativo em translação axial direta confere ao conjunto capacidade de resposta de alta dinâmica com elevada densidade de potência e reduzido nível de ruído acústico, eliminando a pulsação hidráulica característica dos êmbolos radiais alternativos.
+Nas unidades eletro-hidráulicas tradicionais de ABS/ESC, a pressurização é realizada por uma bomba de deslocamento positivo de pistões alternativos acionada por um motor elétrico de corrente contínua. Conforme ilustra a Figura~\ref{fig:motor-rotativo-atuador}, o motor aciona um mecanismo de eixo excêntrico que imprime movimento alternado aos êmbolos radiais da bomba, promovendo a sucção e a descarga intermitente do fluido de freio. Para absorver as pulsações hidráulicas decorrentes desse chaveamento mecânico e assegurar reserva volumétrica transitória, o circuito integra acumuladores hidráulicos de pistão ou diafragma, cuja resposta compõe a dinâmica concentrada do modelo de duas pressões formulado no Capítulo~\ref{cap:controle}.
 
 \begin{figure}[htbp]
     \centering
-    \caption{Conjunto motor elétrico BLDC e mecanismo de acionamento linear do atuador de êmbolo.}
-    \label{fig:motor-lac-atuador}
-    \includegraphics[width=0.75\textwidth]{figuras/motor_lac_atuador}
+    \includegraphics[width=0.75\textwidth]{figuras/bomba_centrifuga}
+    \caption{Motor elétrico de corrente contínua e eixo com came excêntrico para acionamento dos êmbolos da bomba de pistões de ABS/ESC.}
+    \label{fig:motor-rotativo-atuador}
     \fonte{O Autor.}
 \end{figure}
+
+Em contraposição à arquitetura rotativa com pistões de excêntrico — cuja dinâmica de pressurização ativa a partir da pressão atmosférica impõe limitações de sucção e transitórios mais lentos —, os módulos integrados modernos de controle de frenagem adotam a tecnologia de deslocamento volumétrico direto baseada no atuador linear de êmbolo \gls{LAC}, solução empregada na plataforma experimental física deste trabalho e apresentada na Figura~\ref{fig:motor-lac-atuador}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figuras/motor_lac_atuador}
+    \caption{Conjunto motor elétrico BLDC e mecanismo de acionamento linear do atuador de êmbolo (LAC).}
+    \label{fig:motor-lac-atuador}
+    \fonte{O Autor.}
+\end{figure}
+
+Nesse arranjo mecatrônico, um motor síncrono de ímãs permanentes sem escovas \gls{BLDC} é acoplado a um mecanismo de fuso de esferas com sensor de posição angular integrado, convertendo a rotação do motor em translação axial direta do êmbolo hidráulico. Desse modo, o volume de fluido admitido ou expelido para o circuito de roda é estritamente proporcional ao deslocamento axial do atuador ($x_{\mathrm{LAC}}$), viabilizando tanto a pressurização ativa direta a partir do repouso quanto o controle indireto de pressão por meio do seguimento cinemático de alta resolução~\cite{xiong2021piston, jonner1996electrohydraulic}.
 
 
 
 \subsection{Sensor da Roda}
 \label{sec:metodologia-4-3}
 
-Os sensores de velocidade da roda são usados para medir a velocidade de rotação das rodas do veículo. Esses sinais são fundamentais para funções como ABS e ESC, nas quais a unidade de controle estima condições de escorregamento e estabilidade e decide intervenções de frenagem. No presente trabalho, entretanto, o foco da avaliação em simulação está no \textbf{regulador de pressão hidráulica} (atuador), enquanto os sensores de roda são tratados principalmente como parte da arquitetura típica do sistema e como motivação para a plataforma eletrônica proposta. Além disso, de acordo com \citeonline{Konrad2014}, sistemas de navegação também podem usar sinais de velocidade da roda para estimar distância percorrida (por exemplo, em túneis). Normalmente encontram-se sensores de velocidade da roda em dois modelos: passivos e ativos.
+Os sensores de velocidade da roda são usados para medir a velocidade de rotação das rodas do veículo. Esses sinais são fundamentais para funções como ABS e ESC, nas quais a unidade de controle estima condições de escorregamento e estabilidade e decide intervenções de frenagem. Nesta investigação, entretanto, o foco da avaliação em simulação está no \textbf{regulador de pressão hidráulica} (atuador), enquanto os sensores de roda são tratados principalmente como parte da arquitetura típica do sistema e como motivação para a plataforma eletrônica proposta. Além disso, de acordo com \citeonline{Konrad2014}, sistemas de navegação também podem usar sinais de velocidade da roda para estimar distância percorrida (por exemplo, em túneis). Normalmente encontram-se sensores de velocidade da roda em dois modelos: passivos e ativos.
 
 \subsubsection{Sensor da Roda Modelo Passivo}
 \label{sec:metodologia-4-3-1}
@@ -176,7 +168,7 @@ Um sensor passivo (indutivo) consiste em um ímã permanente (1) com um pino de 
 \subsubsection{Sensor da Roda Modelo Ativo}
 \label{sec:metodologia-4-3-2}
 
-Os sensores ativos são usados quase que exclusivamente nos modernos sistemas de freio atuais \cite{Konrad2014}. Esses sensores geralmente consistem em um \gls{CI} circuito integrado hermético de silício de plástico que fica na ponta do sensor(1).  Neste modelo a resistência elétrica muda à medida que o campo magnético muda, e, este comportamento é devido a um anel multipolar(2) usado como uma roda de pulso para sensor. Esses sensores reagem às menores alterações no campo magnético e, portanto, permitem maiores lacunas de ar em comparação com sensores passivos de velocidade da roda, como mostra a Figura~\ref{fig:diagrama-de-sensor-ativo-e-sinal-gerado}.
+Os sensores ativos são usados quase que exclusivamente nos modernos sistemas de freio atuais \cite{Konrad2014}. Esses sensores geralmente consistem em um \gls{IC} hermético de silício de plástico que fica na ponta do sensor(1).  Neste modelo a resistência elétrica muda à medida que o campo magnético muda, e, este comportamento é devido a um anel multipolar(2) usado como uma roda de pulso para sensor. Esses sensores reagem às menores alterações no campo magnético e, portanto, permitem maiores lacunas de ar em comparação com sensores passivos de velocidade da roda, como mostra a Figura~\ref{fig:diagrama-de-sensor-ativo-e-sinal-gerado}.
 
 \begin{figure}[htbp]
     \centering
@@ -187,7 +179,7 @@ Os sensores ativos são usados quase que exclusivamente nos modernos sistemas de
 \end{figure}
 
 
-\section{Sensor de Pressão de Óleo}
+\subsubsection{Sensor de Pressão de Óleo}
 \label{sec:metodologia-5}
 
 O sistema de freio do veículo é complexo e pode concentrar múltiplas válvulas no modulador hidráulico (por exemplo, 12 válvulas em arquiteturas ABS/ESC), sendo que parte delas atua sob alta pressão e diferenciais de pressão elevados (superiores a aproximadamente 0{,}1~MPa, isto é, 1~bar) \cite{Konrad2014}.
@@ -238,20 +230,20 @@ A descrição detalhada desses circuitos, acompanhada de seus diagramas esquemá
 \subsection{Microcontrolador}
 \label{sec:metodologia-6-5}
 
-A plataforma experimental utiliza o microcontrolador AURIX TC375, da Infineon Technologies, cuja documentação descreve recursos de processamento e segurança voltados a aplicações automotivas \citeonline{tc37xDatasheet}. A presença desses recursos no componente não demonstra, por si só, conformidade da plataforma desenvolvida com a ISO~26262 nem classificação ASIL. Por isso, abaixo são destacadas as principais características do microcontrolador AURIX TC375 e, como se encaixa em um sistema de freio em termos de segurança, tecnologia e robustez:
+A plataforma experimental utiliza o microcontrolador AURIX TC375, da Infineon Technologies, cuja documentação descreve recursos de processamento e segurança voltados a aplicações automotivas \citeonline{tc37xDatasheet}. A presença desses recursos no componente não demonstra, por si só, conformidade da plataforma desenvolvida com a ISO~26262 nem classificação \gls{ASIL}. Por isso, abaixo são destacadas as principais características do microcontrolador AURIX TC375 e, como se encaixa em um sistema de freio em termos de segurança, tecnologia e robustez:
 
 \begin{itemize}
     \item \textbf{Arquitetura multinúcleo:} baseada em CPUs TriCore de 32 bits que operam em sincronia para redundância e tolerância a falhas.
-     \item \textbf{Recursos de segurança:} o microcontrolador incorpora mecanismos de hardware voltados a aplicações automotivas relacionadas à segurança. A presença desses recursos não certifica a plataforma desenvolvida nem determina uma classificação ASIL; a avaliação de segurança funcional está fora do escopo deste trabalho \cite{tc37xDatasheet}.
-      \item \textbf{Mecanismos de segurança de hardware:} inclui códigos de correção de erros (ECC), unidades de proteção de memória (MPU) e temporizadores \textit{watchdog} para detectar e mitigar falhas.
-       \item \textbf{Desempenho:} altas velocidades de \textit{clock} (até 300 MHz) e aceleradores de cálculos complexos, também possui \gls{DSP} (\textit{Digital Signal Processing}) integrados para processamento de sinal em tempo real.
+    \item \textbf{Recursos de segurança automotiva:} O microcontrolador AURIX TC375 incorpora periféricos dedicados à alta integridade automotiva (arquitetura de núcleos em \textit{lockstep} e supervisão interna de erros), fornecendo uma infraestrutura computacional determinística e confiável para a execução embarcada das malhas de controle digital em tempo real~\cite{tc37xDatasheet}.
+    \item \textbf{Mecanismos de segurança de hardware:} inclui códigos de correção de erros (ECC), unidades de proteção de memória (MPU) e temporizadores \textit{watchdog} para detectar e mitigar falhas.
+    \item \textbf{Desempenho:} altas velocidades de \textit{clock} (até 300 MHz) e aceleradores de cálculos complexos, também possui \gls{DSP} integrados para processamento de sinal em tempo real.
 \end{itemize}
 
 Como descrito, este microcontrolador é muito relevante, mas isso não significa que poderia ser empregado unicamente ele na placa, uma vez que, adicionalmente ao microcontrolador AURIX TC375 \citeonline{tc37xDatasheet}, também foi implementada uma conexão na placa visando conectar o Kit de desenvolvimento do TC375\_LITE \cite{tc37xEvaluationBoard}. 
 
 Além disso, uma característica fundamental da placa proposta, é que ela seja flexível quanto ao microcontrolador usado, por esse motivo, foi adicionada uma conexão compatível com Arduino, permitindo desenvolver essa placa com qualquer kit de desenvolvimento desde que com a mesma estrutura.
 
-Durante o desenvolvimento do projeto, o TC375 é responsável pela aquisição dos sinais fornecidos pelo sensor de roda e pelo sensor de pressão. Adicionalmente, uma vez que o kit de desenvolvimento incorpora um \textit{transceiver CAN} baseado no \gls{TLE9251VSJ}, o sistema é capaz de receber informações por meio da rede \gls{CAN}.
+Durante o desenvolvimento do projeto, o TC375\_LITE é responsável pela aquisição dos sinais fornecidos pelo sensor de roda e pelo sensor de pressão. Adicionalmente, uma vez que o kit de desenvolvimento incorpora um \textit{transceiver CAN} baseado no \gls{TLE9251VSJ}, o sistema é capaz de receber informações por meio da \gls{CAN}.
 
 A partir de todos os detalhes apresentados, é possível notar que o controle é capaz de definir o exato momento para fazer o acionamento das válvulas e do motor de pressão. 
 
@@ -259,19 +251,20 @@ A partir de todos os detalhes apresentados, é possível notar que o controle é
 \subsection{Protocolo de Comunicação CAN}
 \label{sec:metodologia-6-6}
 
- O protocolo \textit{Controller Area Network} (CAN) tem sido amplamente adotado na indústria automotiva e de automação desde sua introdução em 1991 \cite{wiley2022}. Ele proporciona uma comunicação eficiente e confiável entre unidades de controle eletrônico (ECUs), sensores e atuadores, garantindo integridade dos dados e tolerância a falhas. Operando com uma arquitetura multi-mestre, o CAN permite a transmissão de mensagens com base em prioridade, utilizando um sistema de arbitragem que assegura que a mensagem mais importante seja enviada sem colisões. 
+ O protocolo \gls{CAN} tem sido amplamente adotado na indústria automotiva e de automação desde sua introdução em 1991 \cite{wiley2022}. Ele proporciona uma comunicação eficiente e confiável entre unidades de controle eletrônico (ECUs), sensores e atuadores, garantindo integridade dos dados e tolerância a falhas. Operando com uma arquitetura multi-mestre, o CAN permite a transmissão de mensagens com base em prioridade, utilizando um sistema de arbitragem que assegura que a mensagem mais importante seja enviada sem colisões. 
  
  A comunicação ocorre por meio de um barramento diferencial de dois fios (CAN\_H e CAN\_L), reduzindo interferências eletromagnéticas e assegurando a robustez da transmissão.
  
- Além disso, o protocolo inclui diversos mecanismos de detecção e correção de erros, como o Cíclico de Redundância (CRC) e a técnica de bit \textit{stuffing}, que garantem a confiabilidade dos dados.
+ Além disso, o protocolo inclui diversos mecanismos de detecção e correção de erros, como o cíclico de redundância (CRC) e a técnica de inserção de \textit{bit stuffing}, que garantem a confiabilidade dos dados.
  
- Outrossim, avanços como o \textit{Time-Triggered} CAN (TTCAN) e o CAN com Taxa de Dados Flexível (CAN-FD) ampliaram a aplicabilidade do protocolo, possibilitando transmissões mais rápidas e eficientes, atendendo às exigências dos modernos sistemas automotivos conectados e autônomos.
+ Outrossim, avanços como o gatilhado pelo tempo \textit{Time-Triggered} CAN (TTCAN) e o CAN com taxa de dados flexível (CAN-FD) ampliaram a aplicabilidade do protocolo, possibilitando transmissões mais rápidas e eficientes, atendendo às exigências dos modernos sistemas automotivos conectados e autônomos.
 
 \section{Demonstração do Funcionamento}
 \label{sec:metodologia-7}
-Foram realizados testes em simulação para avaliar o comportamento do modelo hidráulico e o desempenho do LQI no MATLAB/Simulink. Também foram executados ensaios em bancada, com o controlador LQI embarcado no AURIX TC375 para controlar a posição do LAC. A pressão foi monitorada como resposta do conjunto físico.
+Foram realizadas simulações no MATLAB/Simulink para avaliar duas representações do sistema. No modelo convencional de duas pressões, o LQI foi projetado para rastrear a pressão de roda; no modelo hidromecânico do LAC, a malha de controle regula a posição do êmbolo e a pressão é analisada como resposta do circuito. As simulações do LAC incluem um ensaio em malha aberta e outro em malha fechada com observador de Luenberger.
 
-A validação experimental compreendeu a caracterização em malha aberta, a identificação da resposta dinâmica do atuador e o mapeamento da relação entre deslocamento e pressão (protocolos \texttt{OLTEST}, \texttt{PLID} e \texttt{STAIRCASE}). Também foram realizados ensaios de controle em malha fechada com o LQI embarcado no AURIX TC375 (\texttt{CLMULTI} e \texttt{PPMULTI}). Nessas estratégias, o LQI controlou a posição do LAC e a pressão medida foi utilizada para avaliar a resposta hidráulica. O modo B do \texttt{CLSTEP}, conforme o excerto do firmware apresentado no Apêndice~\ref{ap:codigo-c-firmware}. Os procedimentos e resultados são detalhados nos capítulos seguintes.
+Na bancada experimental, foram conduzidos ensaios de caracterização eletro-hidráulica em malha aberta (\texttt{PWMSWEEP}, \texttt{OLTEST} e \texttt{CLSTEP A}) e de identificação estática da relação posição--pressão (\texttt{PLID} e \texttt{STAIRCASE}). Para a avaliação em malha fechada, realizou-se inicialmente o ensaio auxiliar em degrau (\texttt{CLSTEP B}) sob controle de posição do atuador linear, seguido pelos ensaios multirreferência (\texttt{CLMULTI} e \texttt{PPMULTI}), nos quais a lei de controle LQI com observador de Luenberger opera em regime de patamares sucessivos e em arquitetura de malha dupla.
+
 
 
 \subsection{Montagem e Arquitetura da Bancada Experimental}
@@ -304,13 +297,13 @@ Os instrumentos e as ferramentas utilizados incluíram o MATLAB/Simulink para mo
 
 \section{Critérios de Validação}
 \label{sec:metodologia-9}
-A avaliação considerou métricas de desempenho — como tempo de subida, sobressinal, erro RMS e erro de regime permanente — e a análise dos limites de atuação. Na simulação, essas métricas foram calculadas a partir dos sinais da planta hidráulica. Nos ensaios de bancada, a posição do LAC e a pressão medida foram analisadas para avaliar a resposta do controle e do circuito físico, conforme apresentado no Capítulo~\ref{chap:resultados-final}.
-
-Quando aplicável, discute-se a coerência de ordens de grandeza (pressão e vazão) em relação a faixas reportadas na literatura. A conformidade com normas e procedimentos de homologação e a comparação quantitativa com \emph{benchmarks} experimentais ficam fora do escopo deste trabalho.
+A avaliação considerou métricas de desempenho — como tempo de subida, sobressinal, erro \gls{RMS} e erro de regime permanente — e a análise dos limites de atuação. Na simulação, essas métricas foram calculadas a partir dos sinais da planta hidráulica. Nos ensaios de bancada, a posição do LAC e a pressão medida foram analisadas para avaliar a resposta do controle e do circuito físico, conforme apresentado no Capítulo~\ref{chap:resultados-final}.
 
 \section{Simulações: Parâmetros, Modelos e Ferramentas}
 \label{sec:metodologia-10}
-As simulações foram conduzidas no MATLAB/Simulink, com modelos formulados por equações diferenciais e representados em espaço de estados. Os parâmetros hidráulicos e as características dos atuadores foram definidos para avaliar a resposta do sistema em diferentes condições operacionais. A execução do LQI no AURIX TC375 foi avaliada separadamente nos ensaios de bancada.
+As simulações foram conduzidas no MATLAB/Simulink em modelos distintos. A planta convencional de duas pressões foi formulada por balanços de vazão e compressibilidade, com bomba e válvulas solenoides; a linearização local dessa planta serviu à síntese do LQI de pressão. Para o LAC, o \textit{script} \ref{lst:matlabFunctionBlocoHidraulicoLAC} representa três nós hidráulicos, o deslocamento e a velocidade do êmbolo e a dinâmica de abertura das válvulas. O \textit{script} \ref{lst:ensaio_integrado_malha_aberta_real_LAC}  aplica os comandos de deslocamento e das válvulas e registra as pressões e a posição. A simulação em malha fechada utiliza o modelo de controle de posição e o observador descritos no \textit{script} \ref{lst:sintese_lqi_luenberger_lac}; a pressão de referência exibida na figura é um sinal de comparação, não a variável realimentada pelo LQI desse modelo.
+
+Os parâmetros e perfis de referência são apresentados nas seções de modelagem e resultados. A execução do controlador no AURIX TC375 foi avaliada separadamente, por meio dos ensaios de bancada.
 
 \section{Desenho Experimental, Amostragem e Análise Estatística}
 \label{sec:metodologia-11}

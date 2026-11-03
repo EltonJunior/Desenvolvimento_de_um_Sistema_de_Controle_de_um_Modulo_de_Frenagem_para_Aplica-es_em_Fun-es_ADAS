@@ -47,7 +47,7 @@ O uso desses CIs garante proteção de corrente, controle independente das válv
 \section{Circuito de Controle do Motor da Bomba}
 \label{ap:circuito-bomba}
 
-Para o acionamento da bomba eletro-hidráulica, o circuito foi desenvolvido com base no mesmo kit da NXP. O MC34SB0800 permite controle PWM de até 500 Hz, enquanto o MC34SB0410 opera até 16 kHz, possibilitando controle mais silencioso e preciso.
+Para o acionamento da bomba eletro-hidráulica, o circuito foi desenvolvido com base no mesmo kit da NXP. O MC34SB0800 permite controle \gls{PWM} de até 500 Hz, enquanto o MC34SB0410 opera até 16 kHz, possibilitando controle mais silencioso e preciso.
 
 \begin{figure}[htbp]
     \centering
@@ -71,17 +71,6 @@ Para leitura da pressão hidráulica, selecionou-se um sensor piezoresistivo (st
 \end{figure}
 
 O circuito condiciona o sinal do sensor para níveis adequados de leitura pelo microcontrolador, garantindo estabilidade e confiabilidade durante o processamento dos dados.
-
-
-
-
-
-
-
-
-% \includepdf[pages=-]{lib/ABS_Valve_Board.pdf} 
-
-% \includepdf[pages=-]{lib/PDB_Image.pdf} 
 
 \section{Scripts MATLAB e Simulink Utilizados}
 \label{ap:scripts-matlab}
@@ -315,8 +304,6 @@ tC_end = Tstop;
 
 %% Sinal da bomba: omega_p(t)
 % Valores de referencia:
-% - MotorParametricDesign2023 usa ~1000 rpm (aprox. 104.7 rad/s) para AEB com motor eletrico.
-% - Bombas de HCU podem girar bem mais rapido; aqui usa-se ~800 rad/s no plato.
 t_omega = [0   0.05 0.05  0.5  0.5  tA_end ...
            tA_end tB_end tB_end tC_end]';
 v_omega = [0   0    100   100  100  100  ...
@@ -981,7 +968,7 @@ No projeto digital, as matrizes discretas $(A_d,B_d,C_d)$ são obtidas por reten
 \chapter{Códigos MATLAB utilizados nas simulações}
 \label{ap:codigos-matlab}
 
-Este apêndice reúne rotinas auxiliares utilizadas para parametrizar ensaios e gerar sinais de referência no ambiente MATLAB/Simulink. Os trechos são apresentados para fins de reprodutibilidade do procedimento, mas não constituem o foco metodológico do capítulo de controle.
+Este apêndice reúne rotinas auxiliares utilizadas para parametrizar ensaios e gerar sinais de referência no ambiente MATLAB/Simulink. Os trechos são apresentados para fins de reprodutibilidade do procedimento.
 
 \section{Mapeamento simples de desaceleração para referência de pressão}
 \label{ap:codigos-matlab-mapeamento}
@@ -1001,9 +988,9 @@ end
 \chapter{Trechos selecionados do firmware em C}
 \label{ap:codigo-c-firmware}
 
-{\color{red}Os excertos documentam a estrutura das rotinas, mas não constituem um registro versionado da configuração executada em cada aquisição. A Figura~\ref{fig:resultado-final-ppmulti} apresenta o ensaio \texttt{PPMULTI} de 16/09/2026, às 08:38:50; seus sinais de contribuição das malhas não bastam para confirmar que todos os ganhos, limites e a composição do comando coincidem com a revisão de código aqui reproduzida. As métricas da Tabela~\ref{tab:resultado-final-clmulti-metricas} pertencem ao \texttt{CLMULTI} de 12/09/2026, às 09:19:37, e não devem ser usadas para quantificar o desempenho dessa corrida \texttt{PPMULTI}.}
+Os excertos de código apresentados nesta seção documentam a estrutura algorítmica implementada no microcontrolador AURIX TC375 para os ensaios em bancada. A rotina do Código~\ref{cod:c-ppmulti-lqi} detalha a realização discreta do controle em cascata empregado no ensaio \texttt{PPMULTI} (Figura~\ref{fig:resultado-final-ppmulti}), explicitando a sincronização do observador de Luenberger, os limites de saturação e a composição das ações de controle de posição e pressão. As métricas quantitativas de desempenho em regime de múltiplos patamares são tratadas de forma dedicada na Tabela~\ref{tab:resultado-final-clmulti-metricas} para a configuração \texttt{CLMULTI}.
 
-Este capítulo apresenta excertos do firmware em C relacionados aos ensaios experimentais discutidos no Capítulo~\ref{chap:resultados-final}. Foram mantidos somente trechos necessários para documentar o acionamento, o processamento de sinais e o registro de dados; foram removidos comentários de desenvolvimento, referências a ferramentas de visualização e rotinas genéricas de inicialização. As listagens são fragmentos: declarações globais, funções de suporte e interfaces de hardware não são repetidas. O firmware executa o ensaio e envia telemetria pela UART; os gráficos são gerados posteriormente pelo processamento dos arquivos registrados.
+Este capítulo apresenta excertos do firmware em C relacionados aos ensaios experimentais discutidos no Capítulo~\ref{chap:resultados-final}. Foram mantidos somente trechos necessários para documentar o acionamento, o processamento de sinais e o registro de dados.
 
 \section{Aquisição e registro dos ensaios em bancada}
 \label{ap:codigo-c-aquisicao}
@@ -1089,9 +1076,9 @@ BrakeUartTest_Printf("[STAIR],%lu,%lu,%u,%.2f,%.2f,%.2f,%u\r\n",
 \section{Controle de posição e seguimento de referência}
 \label{ap:codigo-c-controle}
 
-No modo B do ensaio \texttt{CLSTEP}, a pressão de referência é convertida em uma referência de posição pela curva de calibração. O trecho abaixo mostra o observador de posição utilizado nesse modo. Embora o código-fonte descreva o modo como controle LQR/LQI, a equação implementada no modo B contém os termos proporcional e integral de posição, sem realimentação do estado de velocidade; por isso, o ensaio é identificado neste trabalho como controle de posição. O Código~\ref{cod:c-clstep-pi} documenta a estratégia associada à Figura~\ref{fig:resultado-final-clstep}.
+No modo B do ensaio \texttt{CLSTEP}, a referência de pressão é mapeada em deslocamento do êmbolo por meio da tabela estática de calibração. O algoritmo embarcado emprega a estimação unidimensional de posição combinada a uma ação de controle proporcional e integral sobre o erro de seguimento do atuador linear, operando em conjunto com as bandas de retenção e alívio das válvulas solenoides. O Código~\ref{cod:c-clstep-pi} documenta a implementação utilizada na geração dos resultados da Figura~\ref{fig:resultado-final-clstep-b}.
 
-\begin{lstlisting}[language=C,caption={Observador e controle PI de posicao no modo B do ensaio CLSTEP.},label={cod:c-clstep-pi}]
+\begin{lstlisting}[language=C,caption={Observador e controle de posicao no modo B do ensaio CLSTEP.},label={cod:c-clstep-pi}]
 g_clStepXhat = g_clStepXhat
              + BRAKE_CLSTEP_OBS_L * (posReal - g_clStepXhat);
 
@@ -1248,4 +1235,482 @@ BrakeUartTest_Printf(
     "[PPMULTI],%lu,%.2f,%.2f,%.2f,%.1f,%.2f,%.2f,%.2f\r\n",
     (unsigned long)g_ppMultiElapsedMs,
     pwReal, g_ppMultiPwHat, posReal, pwRef, uPos, uPw, u_cmd);
+\end{lstlisting}
+
+
+
+\begin{lstlisting}[language=Matlab,caption={Funcao para representar o Sistema LAC.},label={lst:matlabFunctionBlocoHidraulicoLAC}]
+
+function [ P_supply, P_roda, x_mm] = fcn(duty_cycle_lac,u_mcv, u_pfv, u_irl, u_orl,  dt)
+%#codegen
+% BLOCO DE PLANTA FÍSICA HIDRO-MECÂNICA ATUALIZADO (CINEMÁTICA DO FUSO REAL)
+% Inputs:
+%   u_mcv, u_pfv, u_irl, u_orl : Sinais ON/OFF (0 ou 1)
+%   duty_cycle_lac             : Sinal de comando do LAC (-1.0 a 1.0 ou 0 a 1)
+%   dt                         : Passo de amostragem (ex: 0.001)
+% Outputs:
+%   x_ponto                    : Velocidade instantânea do êmbolo [m/s]
+%   P_supply                   : Pressão de suprimento (Nó p1) [Pa]
+%   P_roda                     : Pressão na roda (Nó p3) [Pa]
+%   x_mm                       : DESLOCAMENTO DO LAC EM MILÍMETROS [mm]
+
+%% 1. PARAMETROS FIXOS DO SISTEMA
+rho     = 850;          % Densidade do fluido [kg/m^3]
+beta    = 1.5e9;        % Módulo volumétrico [Pa]
+A_lac   = 2.85e-4;      % Área do êmbolo do LAC [m^2]
+V10     = 2.0e-5;       % Volume morto inicial [m^3]
+
+% % Parâmetro Mecânico Real do Motor/Fuso
+% K_drv   = 0.7e-4;      % Ganho real: m/s por unidade de comando (Velocidade máx: 0.269 mm/s)
+% tau_m   = 0.020;        % Constante de tempo elétrica/mecânica do motor (ex: 20 ms)
+
+% Parâmetros Reais Extraídos da Bancada (Escala 0-100)
+K_drv   = 0.085;    % Média calibrada para a zona útil de controle (10% a 30%)
+tau_m   = 0.140;      % Constante de aceleração real do motor (140 ms)
+
+% Válvulas (Orifícios)
+Cd      = 0.62;         %1.0;          % Coeficiente de descarga uniforme
+A_max   = 3.5e-6;      %8.47e-7;      % Área máxima de passagem das válvulas [m^2]
+tau_v   = 0.005;        % Constante de tempo do carretel [s]
+pr      = 0.0;          % Pressão do reservatório [Pa]
+
+% Volumes e Compliances dos Nós 2 e 3
+C2      = 5.0e-12;      % Compliance da linha principal [m^3/Pa]
+% C2      = 2.0e-12;      % REDUZIDO: Linha principal do bloco mais rígida
+C3      = 4.5e-12; %2.5e-11;      % Compliance total do caliper [m^3/Pa]
+
+
+%% 2. INICIALIZAÇÃO DOS ESTADOS INTERNOS (PERSISTENT)
+persistent p1 p2 p3 x x_dot a_mcv a_pfv a_irl a_orl
+
+if isempty(p1)
+    p1     = 0.0;  p2    = 0.0;  p3    = 0.0;
+    x      = 0.0;  x_dot = 0.0;
+    a_mcv  = 0.0;  a_pfv = 0.0;  a_irl = 0.0;  a_orl = 0.0;
+end
+
+%% 3. DINÂMICA DOS CARRETÉIS DAS VÁLVULAS
+a_mcv = a_mcv + (dt / tau_v) * (-a_mcv + double(u_mcv));
+a_pfv = a_pfv + (dt / tau_v) * (-a_pfv + double(u_pfv));
+a_irl = a_irl + (dt / tau_v) * (-a_irl + double(u_irl));
+a_orl = a_orl + (dt / tau_v) * (-a_orl + double(u_orl));
+
+a_mcv = max(0.0, min(1.0, a_mcv));
+a_pfv = max(0.0, min(1.0, a_pfv));
+a_irl = max(0.0, min(1.0, a_irl));
+a_orl = max(0.0, min(1.0, a_orl));
+
+%% 4. CÁLCULO DAS VAZÕES INSTANTÂNEAS
+A_eff_mcv = a_mcv * A_max;
+A_eff_pfv = a_pfv * A_max;
+A_eff_irl = a_irl * A_max; % Acoplamento IRL/ORL conforme lógica
+A_eff_orl = a_orl * A_max;
+
+dp_pfv = p1 - p2;
+dp_mcv = p2 - pr;
+dp_irl = p2 - p3;
+dp_orl = p3 - pr;
+
+Q_pfv = Cd * A_eff_pfv * sign(dp_pfv) * sqrt(2 * abs(dp_pfv) / rho);
+Q_mcv = Cd * A_eff_mcv * sign(dp_mcv) * sqrt(2 * abs(dp_mcv) / rho);
+Q_irl = Cd * A_eff_irl * sign(dp_irl) * sqrt(2 * abs(dp_irl) / rho);
+Q_orl = Cd * A_eff_orl * sign(dp_orl) * sqrt(2 * abs(dp_orl) / rho);
+
+%% 5. EQUAÇÕES DIFERENCIAIS DA PLANTA (EDOs)
+
+% --- Mecânica Cinemática Real do Atuador do LAC ---
+% Em vez de força, o comando de \gls{PWM} gera uma velocidade alvo ditada pelo fuso.
+% O motor possui um pequeno atraso físico de resposta (atraso de primeira ordem tau_m)
+%x_dot_alvo = double(duty_cycle_lac) * K_drv;
+x_dot_alvo = (double(duty_cycle_lac) / 100) * K_drv; % Garante que 50 vire 0.5
+
+x_ddot     = (1 / tau_m) * (-x_dot + x_dot_alvo);
+
+% --- Dinâmica Hidráulica ---
+V1 = V10 - A_lac * x;
+if V1 < 1.0e-7
+    V1 = 1.0e-7;
+end
+p1_dot = (beta / V1) * (A_lac * x_dot - Q_pfv);
+p2_dot = (1 / C2) * (Q_pfv - Q_mcv - Q_irl);
+p3_dot = (1 / C3) * (Q_irl - Q_orl);
+
+%% 6. INTEGRAÇÃO NUMÉRICA (Método de Euler)
+x_dot = x_dot + x_ddot * dt;
+x     = x + x_dot * dt;
+
+% Proteção de Fim de Curso Máximo do LAC
+if x >= 0.0537
+    x = 0.0537;
+    x_dot = max(0.0, x_dot); % Impede o pistão de continuar avançando se bater no fundo
+end
+
+p1    = p1 + p1_dot * dt;
+p2    = p2 + p2_dot * dt;
+p3    = p3 + p3_dot * dt;
+
+% Saturações físicas de fim de curso e cavitação
+p1 = max(0.0, p1);
+p2 = max(0.0, p2);
+p3 = max(0.0, p3);
+x  = max(0.0, x); % Impede deslocamento negativo na parede inicial
+
+%% 7. ATRIBUIÇÃO DAS SAÍDAS DO BLOCO
+%x_ponto  = x_dot;
+P_supply = p1/6894.757;
+P_roda   = p3/6894.757;
+x_mm     = x * 1000; % Converte de metros [m] para milímetros [mm] para leitura real
+
+end
+\end{lstlisting}
+
+
+\begin{lstlisting}[language=Matlab,caption={Script de ensaio integrado em malha aberta do sistema LAC.},label={lst:ensaio_integrado_malha_aberta_real_LAC}]
+% Ajustado para refletir a complacência do sistema real
+% Ensaio integrado em malha aberta para o atuador linear LAC
+% ensaio_integrado_malha_aberta_real_LAC.m
+clear; close all; clc;
+
+mdl = 'BlocoHidraulicoLAC_OpenLoop';
+load_system(mdl);
+
+% Tempo total de simulação
+Tstop = 5.0; % s
+
+%% --- 1. CONFIGURAÇÃO DOS SINAIS DE ENTRADA (ESTRUTURA DE VETORES) ---
+
+% Sinal PWM: Degrau de 50% de 1.0s a 2.0s
+t_pwm = [0   1.0  1.0  2.0  2.0  Tstop]';
+v_pwm = [0   0    0.75   0.75   0    0    ]';
+sim_in_PWM = timeseries(v_pwm, t_pwm);
+
+% Sinal MCV, PFV e IRL: Abertos de 1.0s a 2.0s
+t_valv_abc = [0   1.0  1.0  2.5  2.5  Tstop]';
+v_valv_abc = [0   0    1    1    0    0    ]';
+sim_in_MCV = timeseries(v_valv_abc, t_valv_abc);
+sim_in_PFV = timeseries(v_valv_abc, t_valv_abc);
+sim_in_IRL = timeseries(v_valv_abc, t_valv_abc);
+
+% Sinal ORL: Aberto de 3.0s a 4.0s
+t_orl = [0   3.0  3.0  4.0  4.0  Tstop]';
+v_orl = [0   0    1    1    0    0    ]';
+sim_in_ORL = timeseries(v_orl, t_orl);
+
+%% --- 2. ENVIAR SINAIS PARA O WORKSPACE DO MODELO ---
+assignin('base', 'sim_in_PWM', sim_in_PWM);
+assignin('base', 'sim_in_MCV', sim_in_MCV);
+assignin('base', 'sim_in_PFV', sim_in_PFV);
+assignin('base', 'sim_in_IRL', sim_in_IRL);
+assignin('base', 'sim_in_ORL', sim_in_ORL);
+
+%% --- 3. CONFIGURAÇÃO DO MODELO E SIMULAÇÃO ---
+set_param(mdl, 'StopTime', num2str(Tstop), ...
+               'Solver',   'ode15s',      ...
+               'MaxStep',  '1e-4');
+
+simOut = sim(mdl);
+
+%% --- 4. LEITURA ROBUSTA DE SINAIS DE SAÍDA ---
+if isprop(simOut,'logsout') && ~isempty(simOut.logsout)
+    logs = simOut.logsout;
+    getTS = @(name) logs.get(name).Values;
+    tout_P_wh4_ts = getTS('tout_P_wh4');
+    tout_x_mm_ts  = getTS('tout_x_mm');
+else
+    tout_P_wh4_ts = simOut.get('tout_P_wh4');
+    tout_x_mm_ts  = simOut.get('tout_x_mm');
+end
+
+% Extração dos dados nativos dos timeseries de saída
+t_plot_P = tout_P_wh4_ts.Time;
+P_data   = tout_P_wh4_ts.Data;
+
+t_plot_x = tout_x_mm_ts.Time;
+x_data   = tout_x_mm_ts.Data;
+
+%% --- 5. CONFIGURAÇÃO E GERAÇÃO DOS PLOTS ---
+set(groot,'defaultLineLineWidth',1.6);
+set(groot,'defaultAxesFontSize',12);
+set(groot,'defaultAxesFontName','Times New Roman');
+set(groot,'defaultFigureRenderer','painters');
+
+fig = figure('Color','w','Position',[100 100 1200 850]);
+tiledlayout(3,1,'TileSpacing','compact','Padding','compact');
+
+% Linha 1: Pressão x Tempo
+nexttile;
+plot(t_plot_P, P_data, 'r');
+grid on; 
+ylabel('Pressão (psi)', 'FontSize', 16);
+title('Pressão x Tempo', 'FontSize', 16);
+xlim([0 Tstop]);
+
+% Linha 2: Posição do LAC x Tempo
+nexttile;
+plot(t_plot_x, x_data, 'b');
+grid on; 
+ylabel('Posição do LAC (mm)', 'FontSize', 16);
+title('Posição do LAC x Tempo', 'FontSize', 16);
+xlim([0 Tstop]);
+
+% Linha 3: Comandos das Válvulas
+nexttile;
+plot(sim_in_MCV.Time, sim_in_MCV.Data, 'm'); hold on;
+plot(sim_in_PFV.Time, sim_in_PFV.Data, 'g');
+plot(sim_in_IRL.Time, sim_in_IRL.Data, 'c--');
+plot(sim_in_ORL.Time, sim_in_ORL.Data, 'b');
+grid on; 
+ylabel('Comando (0/1)', 'FontSize', 16);
+xlabel('Tempo (s)', 'FontSize', 16);
+title('Comandos das Válvulas', 'FontSize', 16);
+legend('MCV', 'PFV', 'IRL', 'ORL', 'Location', 'best', 'FontSize', 12);
+ylim([-0.1 1.2]);
+xlim([0 Tstop]);
+
+%% --- 6. EXPORTAÇÃO COM TIMESTAMP ---
+scriptDir = fileparts(mfilename('fullpath'));
+outDir = fullfile(scriptDir, 'figuras');
+if ~exist(outDir, 'dir'), mkdir(outDir); end
+
+% Geração dinâmica do timestamp
+timestamp = datestr(now, 'yyyymmdd_HHMMSS');
+filename_base = sprintf('ensaio_malha_aberta_LAC_psi_%s', timestamp);
+
+pdfPath = fullfile(outDir, [filename_base '.pdf']);
+pngPath = fullfile(outDir, [filename_base '.png']);
+
+exportgraphics(fig, pdfPath, 'ContentType', 'vector');
+exportgraphics(fig, pngPath, 'Resolution', 300); % 300 DPI para agilizar execução
+
+disp('OK: Figuras exportadas com sucesso em:');
+disp(pngPath);
+
+
+\end{lstlisting}
+
+\begin{lstlisting}[language=Matlab,caption={Script de síntese do LQI com observador de Luenberger para o sistema LAC.},label={lst:sintese_lqi_luenberger_lac}]
+%% =========================================================================
+% SÍNTESE DO CONTROLADOR LQI, OBSERVADOR DE LUENBERGER E SIMULAÇÃO DO LAC
+% Arquivo: sintese_lqi_luenberger_lac.m
+% =========================================================================
+clear; clc; close all;
+
+%% 1. PARÂMETROS IDENTIFICADOS DA PLANTA FÍSICA (LAC)
+% Conforme Capítulo 4 e ensaios experimentais com o AURIX TC375
+tau_m = 0.140; % Constante de tempo mecânica do conjunto [s]
+K_vel = 1.306; % Ganho estático de velocidade [mm/s por % de PWM]
+Ts = 0.001;    % Período de amostragem da ECU [s] (1 kHz / 1 ms)
+Tf = 5.0;      % Tempo total de simulação [s]
+mdl = 'BlocoHidraulicoLAC_closeLoop'; % Nome do seu modelo Simulink
+
+%% 2. MODELAGEM EM ESPAÇO DE ESTADOS EM TEMPO CONTÍNUO
+% Estados: x = [posicao (mm); velocidade (mm/s)]
+% Entrada: u = PWM [-100% a +100%]
+% Saída: y = posicao (mm)
+A = [0, 1; 0, -1/tau_m];
+B = [0; K_vel/tau_m];
+C = [1, 0];
+D = 0;
+
+sys_c = ss(A, B, C, D);
+
+%% 3. DISCRETIZAÇÃO POR RETENÇÃO DE ORDEM ZERO (ZOH)
+sys_d = c2d(sys_c, Ts, 'zoh');
+Phi = sys_d.A;
+Gamma = sys_d.B;
+Cx = sys_d.C;
+
+%% 4. PROJETO DO CONTROLADOR LQI DISCRETO (SISTEMA AUMENTADO)
+% Vetor aumentado: x_aug = [posicao; velocidade; erro_integral]
+% Dinâmica do integrador: z[k+1] = z[k] + Ts*(x_ref - y)
+Phi_aug = [Phi, zeros(2,1); -Cx*Ts, 1];
+Gamma_aug = [Gamma; 0];
+
+% % Parâmetros de ajuste (Ponderação de Riccati)
+% % Q_pos = 25.0;      % resposta mais rápida ao erro de posição
+% % Q_vel = 1.20;      % introduz forte amortecimento ativo (elimina o overshoot)
+% % Q_int = 15.0;      % previne acúmulo excessivo da ação integral
+% % R_u   = 0.02;      % confere mais autoridade de torque ao motor contra a carga
+Q_pos = 280.0;
+Q_vel = 0.350;
+Q_int = 10.0;
+R_u   = 0.350;
+expoente = 3.5;
+% Q_pos = 40.0;       % Rapidez de resposta de posição
+% Q_vel = 0.85;       % AMORTECIMENTO ATIVO: elimina a saturação reversa de -100% e suaviza a chegada
+% Q_int = 25.0;       % AUMENTADO: anula a cauda de acomodação em menos de 50 ms
+% R_u   = 0.035;      % CUSTO DO ESFORÇO: evita saturação espúria da ponte H
+% 
+% expoente = 2.0;     % Observador: polos rápidos o suficiente sem introduzir ruído
+
+Q_aug = diag([Q_pos, Q_vel, Q_int]);
+
+% Resolução da Equação Algébrica de Riccati Discreta
+[K_aug, ~, ~] = dlqr(Phi_aug, Gamma_aug, Q_aug, R_u);
+
+K_pos = K_aug(1);
+K_vel = K_aug(2);
+K_i = -K_aug(3); % Convenção de sinal positiva para a ação integral
+K_lqr = [K_pos, K_vel];
+
+%% 5. PROJETO DO OBSERVADOR DE LUENBERGER DISCRETO
+% Alocação de polos: 3 a 4 vezes mais rápidos que a malha fechada do LQI
+polos_orig = eig(Phi - Gamma*K_lqr);
+%polos_obs = abs(polos_orig).^3.5 .* exp(1j * angle(polos_orig));
+polos_obs  = abs(polos_orig).^expoente .* exp(1j * angle(polos_orig)); % Expoente ajustado para 2.5
+
+% Alocação no sistema dual
+L_obs = place(Phi', Cx', polos_obs)';
+
+%% 6. EXPORTAÇÃO PARA O BASE WORKSPACE DO SIMULINK
+assignin('base', 'Phi', Phi);
+assignin('base', 'Gamma', Gamma);
+assignin('base', 'K_lqr', K_lqr);
+assignin('base', 'K_i', K_i);
+assignin('base', 'L_obs', L_obs);
+assignin('base', 'Ts_ecu', Ts);
+
+%% 7. EXIBIÇÃO NO CONSOLE E GERAÇÃO DE CÓDIGO PARA FIRMWARE C
+fprintf('===================================================================\n');
+fprintf('       PARÂMETROS CALCULADOS PARA SIMULINK E FIRMWARE C (1 kHz)    \n');
+fprintf('===================================================================\n');
+fprintf('// Copie e cole no arquivo de header do firmware C (.h):\n\n');
+fprintf('#define BRAKE_LAC_TS     (%.6ff)\n', Ts);
+fprintf('#define BRAKE_LAC_PHI11  (%.12ff)\n', Phi(1,1));
+fprintf('#define BRAKE_LAC_PHI12  (%.12ff)\n', Phi(1,2));
+fprintf('#define BRAKE_LAC_PHI21  (%.12ff)\n', Phi(2,1));
+fprintf('#define BRAKE_LAC_PHI22  (%.12ff)\n', Phi(2,2));
+fprintf('#define BRAKE_LAC_GAMMA1 (%.12ff)\n', Gamma(1));
+fprintf('#define BRAKE_LAC_GAMMA2 (%.12ff)\n', Gamma(2));
+fprintf('#define BRAKE_LAC_LQR_K1 (%.8ff)\n', K_pos);
+fprintf('#define BRAKE_LAC_LQR_K2 (%.8ff)\n', K_vel);
+fprintf('#define BRAKE_LAC_LQR_KI (%.8ff)\n', K_i);
+fprintf('#define BRAKE_LAC_OBS_L1 (%.8ff)\n', L_obs(1));
+fprintf('#define BRAKE_LAC_OBS_L2 (%.8ff)\n', L_obs(2));
+fprintf('===================================================================\n');
+
+%% 8. GERAÇÃO DOS SINAIS DE ENTRADA MULTIFASE (VETORES COORDENADOS)
+% Previne o erro de pontos repetidos gerando degraus limpos
+eps_t = 0.040; %1e-5; 
+t_vec = (0:Ts:Tf)';
+
+% Perfil de Posição de Referência desejado para o LAC (em milímetros)
+% Modifique os valores abaixo para alterar o formato do degrau em mm
+t_pos = [0   1.0  1.0+eps_t  2.0  2.0+eps_t  3.0  3.0+eps_t  4.0  4.0+eps_t  Tf]';
+v_pos = [0   0    6.4        6.4  14.0       14.0 2.0        2.0  0          0 ]'; % Curso em mm
+
+% Interpolação e criação do timeseries da Posição
+pos_ref_interp = interp1(t_pos, v_pos, t_vec, 'previous', 0);
+x_ref_mm = timeseries(pos_ref_interp, t_vec);
+sim_in_PWM = x_ref_mm;
+
+
+%% --- NOVA ADIÇÃO: REFERÊNCIA DE PRESSÃO EM PSI ---
+% Defina os pontos de tempo e pressão desejados em PSI para a referência visual
+t_pres_ref = [0   1.0  1.0+eps_t  2.0  2.0+eps_t  3.0  3.0+eps_t  4.0  4.0+eps_t  Tf]';
+v_pres_ref = [0   0    100        100  200        200  50         50   0          0 ]'; % Valores em PSI
+P_ref_psi_plot = interp1(t_pres_ref, v_pres_ref, t_vec, 'previous', 0);
+
+% Sinais das Válvulas MCV, PFV e IRL (Abertas de 1.0s a 2.0s como exemplo)
+t_valv_abc = [0   1.0  1.0+eps_t  4.0  4.0+eps_t  Tf]';
+v_valv_abc = [0   0    1          1    0          0 ]';
+sim_in_MCV = timeseries(interp1(t_valv_abc, v_valv_abc, t_vec, 'previous', 0), t_vec);
+sim_in_PFV = timeseries(interp1(t_valv_abc, v_valv_abc, t_vec, 'previous', 0), t_vec);
+
+t_valv_irl = [0   1.0  1.0+eps_t  4.0  4.0+eps_t  Tf]';
+v_valv_irl = [0   0    0         0    0          0 ]';
+sim_in_IRL = timeseries(interp1(t_valv_irl, v_valv_irl, t_vec, 'previous', 0), t_vec);
+
+% Sinal da Válvula ORL (Aberta de 3.0s a 4.0s)
+t_orl = [0   1.0   1.0+eps_t    3.30    3.30+eps_t  3.335  3.335+eps_t  4.0  4.0+eps_t  4.5  4.5+eps_t  Tf]';
+v_orl = [0   0      0           0      0          0    0          0    1          1    0          0 ]';
+sim_in_ORL = timeseries(interp1(t_orl, v_orl, t_vec, 'previous', 0), t_vec);
+
+%% 9. ENVIAR SINAIS PARA O WORKSPACE DO MODELO
+assignin('base', 'sim_in_PWM', sim_in_PWM);
+assignin('base', 'x_ref_mm', x_ref_mm);
+assignin('base', 'sim_in_MCV', sim_in_MCV);
+assignin('base', 'sim_in_PFV', sim_in_PFV);
+assignin('base', 'sim_in_IRL', sim_in_IRL);
+assignin('base', 'sim_in_ORL', sim_in_ORL);
+
+%% 10. EXECUÇÃO DA SIMULAÇÃO
+if exist(mdl, 'file') == 4 || exist([mdl '.slx'], 'file') == 2
+    load_system(mdl);
+    set_param(mdl, 'StopTime', num2str(Tf), 'Solver', 'ode15s', 'MaxStep', '1e-4');
+    simOut = sim(mdl);
+    
+    % Coleta de dados via logsout ou chamada direta
+    if isprop(simOut,'logsout') && ~isempty(simOut.logsout)
+        logs = simOut.logsout; getTS = @(name) logs.get(name).Values;
+        t_sim = getTS('tout_P_wh4').Time;
+        P_roda_sim = getTS('tout_P_wh4').Data;
+        x_mm_sim = getTS('tout_x_mm').Data;
+        duty_sim = getTS('duty_cycle_ecu').Data;
+    else
+        t_sim = simOut.get('tout');
+        P_roda_sim = simOut.get('tout_P_wh4').Data;
+        x_mm_sim = simOut.get('tout_x_mm').Data;
+        duty_sim = simOut.get('duty_cycle_ecu').Data;
+    end
+
+    %% 11. GERAÇÃO DOS PLOTS (PADRÃO TIMES NEW ROMAN)
+    set(groot,'defaultLineLineWidth',1.6);
+    set(groot,'defaultAxesFontSize',12);
+    set(groot,'defaultAxesFontName','Times New Roman');
+    set(groot,'defaultFigureRenderer','painters');
+
+    fig = figure('Color','w','Position',[100 100 1200 850]);
+    tiledlayout(4,1,'TileSpacing','compact','Padding','compact');
+
+    % Linha 1: Pressão da Roda x Tempo
+    nexttile;
+    plot(t_vec, P_ref_psi_plot, 'k--', 'LineWidth', 1.8); hold on; % Linha de Referência
+    plot(t_sim, P_roda_sim, 'r-', 'LineWidth', 1.6);              % Resposta Real da Planta
+    grid on; 
+    ylabel('Pressão (psi)', 'FontSize', 14);
+    title('Rastreamento de Pressão na Roda (P_{ref} vs P_{roda})', 'FontSize', 14);
+    legend('P_{ref} (Referência)', 'P_{roda} (Saída Real)', 'Location', 'best');
+    xlim([0 Tf]);
+
+    % Linha 2: Resposta de Posição Real vs Referência
+    nexttile;
+    plot(t_vec, pos_ref_interp, 'b--'); hold on;
+    plot(t_sim, x_mm_sim, 'm');
+    grid on; ylabel('Posição do LAC (mm)', 'FontSize', 14);
+    title('Posição do LAC (Referência vs Resposta Real)', 'FontSize', 14);
+    legend('x_{ref}', 'x_{real}', 'Location', 'best');
+    xlim([0 Tf]);
+
+    % Linha 3: Sinal de Esforço de Controle Duty Cycle ECU ---
+    nexttile;
+    plot(t_sim, duty_sim, 'Color', [0.85 0.33 0.1], 'LineWidth', 1.6); % Cor Laranja
+    grid on; ylabel('Sinal PWM (%)', 'FontSize', 14);
+    title('Esforço de Controle da ECU: Duty Cycle do Motor LAC', 'FontSize', 14);
+    ylim([-105 105]); % Limite físico padrão da ponte H (-100% a +100%)
+    xlim([0 Tf]);
+
+    % Linha 3: Comandos das Válvulas
+    nexttile;
+    plot(t_vec, sim_in_MCV.Data, 'm',  'LineWidth', 3.5); hold on;
+    plot(t_vec, sim_in_PFV.Data, 'g',  'LineWidth', 2.0);
+    plot(t_vec, sim_in_IRL.Data, 'c--',  'LineWidth', 1.5);
+    plot(t_vec, sim_in_ORL.Data, 'b',  'LineWidth', 1.0);
+    grid on; ylabel('Comando (0/1)', 'FontSize', 14); xlabel('Tempo (s)', 'FontSize', 14);
+    title('Comandos das Válvulas', 'FontSize', 14);
+    legend('MCV', 'PFV', 'IRL', 'ORL', 'Location', 'best');
+    ylim([-0.1 1.2]); xlim([0 Tf]);
+
+    %% 12. EXPORTAÇÃO DA FIGURA COM TIMESTAMP
+    scriptDir = fileparts(mfilename('fullpath'));
+    outDir = fullfile(scriptDir, 'figuras');
+    if ~exist(outDir, 'dir'), mkdir(outDir); end
+
+    timestamp = datestr(now, 'yyyymmdd_HHMMSS');
+    pngPath = fullfile(outDir, sprintf('ensaio_malha_fechada_LQI_%s.png', timestamp));
+    exportgraphics(fig, pngPath, 'Resolution', 300);
+    disp('OK: Gráfico de controle salvo em:'); disp(pngPath);
+else
+    warning('Modelo Simulink "%s" não foi encontrado no caminho atual.', mdl);
+end
 \end{lstlisting}

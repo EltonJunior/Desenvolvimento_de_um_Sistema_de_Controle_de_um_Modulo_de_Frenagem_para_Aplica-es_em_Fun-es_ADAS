@@ -11,7 +11,7 @@ Neste capítulo, apresenta-se a modelagem matemática da planta hidráulica util
 \section{Arquitetura e hipótese de modelagem}
 \label{sec:controle-arquitetura}
 
-A arquitetura considerada pode ser descrita como uma cadeia em dois níveis: (i) um gerador de referência de desaceleração longitudinal $a_{\text{des}}(t)$ (por exemplo, um ACC de alto nível), e (ii) um controlador de baixo nível responsável por modular a pressão hidráulica $P(t)$ por meio de sinais PWM aplicados à bomba hidráulica e às válvulas do modulador.
+A arquitetura considerada pode ser descrita como uma cadeia em dois níveis: (i) um gerador de referência de desaceleração longitudinal $a_{\text{des}}(t)$ (por exemplo, um ACC de alto nível), e (ii) um controlador de baixo nível responsável por modular a pressão hidráulica $P(t)$ por meio de sinais \gls{PWM} aplicados à bomba hidráulica e às válvulas do modulador.
 
 Adota-se um modelo concentrado (\textit{lumped parameter}) para o circuito hidráulico associado a uma câmara de volume equivalente $V$, preenchida por fluido compressível com módulo de compressibilidade $\beta$. A variável de estado principal do modelo é a pressão hidráulica $P(t)$ no circuito, sendo governada pelo balanço de vazões e pela compressibilidade do fluido.
 
@@ -30,7 +30,7 @@ onde $Q_{\text{in}}(t)$ representa a vazão equivalente de entrada (associada pr
 \subsection{Vazão de entrada (bomba)}
 \label{subsec:controle-vazao-bomba}
 
-Assumindo uma representação simplificada para a bomba, considera-se que a vazão injetada no circuito é proporcional ao sinal de controle normalizado $u_p(t)$ (associado ao PWM ou comando equivalente), com $0 \le u_p(t) \le 1$:
+Assumindo uma representação simplificada para a bomba, considera-se que a vazão injetada no circuito é proporcional ao sinal de controle normalizado $u_p(t)$ (associado ao \gls{PWM} ou comando equivalente), com $0 \le u_p(t) \le 1$:
 
 \begin{equation}
 Q_{\text{in}}(t) = k_p \, u_p(t),
@@ -172,7 +172,7 @@ u(t) = -Kx(t).
 \label{eq:lqr_law}
 \end{equation}
 
-Na implementação digital, o modelo contínuo é discretizado (por exemplo, via retenção de ordem zero), e o ganho pode ser obtido por \texttt{dlqr} no MATLAB. Os valores iniciais de $Q$ e $R$ são ajustados para equilibrar resposta rápida (maior $Q$) e menor esforço de controle (maior $R$), conforme o comportamento desejado nas simulações.
+Na implementação digital, o modelo contínuo é discretizado mediante retenção de ordem zero \gls{ZOH}, e o vetor de ganhos ótimos é calculado a partir da solução da equação algébrica de Riccati em tempo discreto.
 
 \section{Observador de Luenberger}
 \label{sec:controle-observador}
@@ -199,7 +199,7 @@ Além da pressão $P(t)$, são analisados sinais internos do modelo para verific
 \begin{itemize}
 \item $\dot{P}(t)$, evidenciando diretamente o balanço de vazões;
 \item $Q_{\text{in}}(t)$ (bomba) e $Q_{\text{out}}(t)$ (válvula), relacionando comandos e resposta do sistema;
-\item sinais PWM (ou comandos normalizados) aplicados aos atuadores.
+\item sinais \gls{PWM} (ou comandos normalizados) aplicados aos atuadores.
 \end{itemize}
 
 Esses sinais suportam a interpretação dos resultados e a validação do modelo em torno do comportamento esperado para pressurização e alívio de pressão em sistemas hidráulicos automotivos.
